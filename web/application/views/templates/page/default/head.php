@@ -1,6 +1,6 @@
 <head>
 	<meta charset="utf-8">
-	<title><?php echo WEBSITE_NAME ?> - <?php echo $page_title; ?></title>
+	<title>  <?php echo WEBSITE_NAME;?> - <?php echo $page_title; ?></title>
 	<meta name="description" content="<?php echo $meta_description; ?>" />
 	<meta name="keywords" content="<?php echo $meta_keywords; ?>" />
 
@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	<?php /* CSS: implied media="all" */ ?>
-	<link rel="stylesheet" href="/_/css/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/_/css/style.css'); ?>">
+	<link rel="stylesheet" href="<?php echo $this->config->base_url(); ?>_/css/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'].$this->config->base_url(). '_/css/style.css'); ?>">
 	<?php /* More ideas for your <head> here: h5bp.com/d/head-Tips */ ?>
 	<?php if( $body_id != 'Login' ): ?>
 	<?php /* All JavaScript at the bottom, except this Modernizr build incl. Respond.js

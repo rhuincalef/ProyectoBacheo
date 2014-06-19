@@ -1,0 +1,94 @@
+Tareas Iniciales:
+	Definición de Repositorio.
+	Investigacion de CodeIgniter (manejo de Modelos,y Controlador).
+	Investigacion de CodeIgniter (manejo de Vista y Controlador).
+	Investigación Api GMap3 (Transformacion a JSon adecuado en el servidor).
+	Generar Capa de Abstracción entre Modelo Propio y GMap3.
+
+
+
+Lineamientos Generales.
+
+--> Nombres significativos a funciones y variables.
+--> Al obtener un único componente del Dom, Obtenerlo por ID y no por Clase.
+--> Nombre de las funciones: inifinitivo seguido del sustantivo Ej. CargarModal.
+	-->	Nombres completos, sin Abreviaciones y en Castellano (con licencias).
+	--> Comentario de lo que hace la funcion!.
+
+--> Notacion kamelCase ejemplo: laCasa.
+--> En JS si la variable esta en Jquery, nombre inicia con "$" ejemplo: $nombre = $("#pepe").
+
+--> plurales indican colecciones Ej: baches.
+
+Repositorios.
+	--> comentarios significativos en los commits.
+	--> micro commits probados!.
+
+Nombre de tablas en singular.
+
+Tablas: 
+	Bache
+		id.
+		latitud.
+		longitud.
+		idCriticidad.
+		idCalle.
+		alturaCalle.
+--> Consultar Informacion Tecnica de Interes
+
+	Estado
+		id.
+		idTipoEstado.
+		idBache.
+		idUsuario (responsable del cambio de Estado, puede ser null para estado "Informado").
+		fecha.
+
+	TipoEstado (informado/confirmado/reparando/reparado)
+		id.
+		nombre.
+
+	Calle
+		id.
+		nombre.
+
+	Criticidad
+		id.
+		nombre.
+		descripcion.
+
+	Observacion.
+		id.
+		idBache.
+		nombreObservador.
+		EmailOberservador.
+
+	Multimedia
+		id.
+		idBache.
+		nombre.
+		tipo.
+		ruta.
+
+	Usuario
+		id.
+		nombre.
+		contraseña.
+
+	Grupo
+		id.
+		nombre.
+	
+	GrupoUsuario
+		id.
+		idGrupo.
+		idUsuario.
+
+	Permiso
+		id.
+		nombre.
+
+	PermisoGrupo
+		id.
+		idPermiso.
+		idGrupo.
+

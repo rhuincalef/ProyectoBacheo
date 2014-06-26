@@ -11,11 +11,7 @@ class Welcome extends Frontend_Controller {
 	
 	public function index(){
 		$this->output->enable_profiler(FALSE);
-		// $this->load->view('header');
-		// $this->load->view('mapa');
-		// $this->load->view('footer');
-		$datos['content'] = 'mapa'; //llamada al content de este metodo
-		$this->load->view('layout', $datos); //llamada a la vista general
+		$this->template->build_page("mapa");
 	}
 
 	// --------------------------------------------------------------------

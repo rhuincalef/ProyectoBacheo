@@ -1,6 +1,6 @@
 <head>
 	<meta charset="utf-8">
-	<title>  <?php echo WEBSITE_NAME;?> - <?php echo $page_title; ?></title>
+	<title>  Bacheo Trelew - <?php echo $page_title; ?></title>
 	<meta name="description" content="<?php echo $meta_description; ?>" />
 	<meta name="keywords" content="<?php echo $meta_keywords; ?>" />
 
@@ -8,12 +8,19 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	<?php /* CSS: implied media="all" */ ?>
-	<link rel="stylesheet" href="<?php echo $this->config->base_url(); ?>_/css/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'].$this->config->base_url(). '_/css/style.css'); ?>">
-	<?php /* More ideas for your <head> here: h5bp.com/d/head-Tips */ ?>
-	<?php if( $body_id != 'Login' ): ?>
-	<?php /* All JavaScript at the bottom, except this Modernizr build incl. Respond.js
-			 Respond is a polyfill for min/max-width media queries. Modernizr enables HTML5 elements & feature detects;
-			 for optimal performance, create your own custom Modernizr build: www.modernizr.com/download/ */ ?>
-		<script src="/_/js/libs/modernizr-2.0.6.min.js"></script>
-	<?php endif; ?>
+	<link href="<?php echo $this->config->base_url(); ?>_/css/fontAwesome/font-awesome.css" rel="stylesheet">
+		<link href="<?php echo $this->config->base_url(); ?>_/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo $this->config->base_url(); ?>_/css/header.css" rel="stylesheet">
+	  	<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-2.1.1.min.js"></script>
+		<script src="<?php echo $this->config->base_url(); ?>_/js/libs/bootstrap/bootstrap.min.js"></script>
+	    <script src="<?php echo $this->config->base_url(); ?>_/js/plugins.js"></script>
+	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>
+	<?php /* More ideas for your <head> here: h5bp.com/d/head-Tips */
+	if (is_array($path)){
+		foreach($path as $value){
+			$this->load->view("{$header_directory}/".$value);
+		}
+	}else{$this->load->view("{$header_directory}/".$path);} 
+	?>
+	
 </head>

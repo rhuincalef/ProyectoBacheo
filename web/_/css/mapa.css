@@ -4,3 +4,56 @@
 	margin-top: -5.5%;
 	z-index: 1;
 }
+
+.contenedorCampos{
+	width: 96%;
+	margin-left: 2%;
+	margin-top: 2%;
+
+}
+
+.campoDescripcion{
+	resize: none;
+	margin-bottom: 3%;
+	width: 100%;
+}
+
+.campoIzquierdo{
+	float:left;
+	width: 70%;
+	margin-right: 1%;
+	margin-bottom: 2%;
+}
+
+
+.campoDerecho{
+	width: 28%;
+	margin-bottom: 2%;
+}
+
+.informacionBache{
+	margin-top: 5%;
+}
+
+.tituloFormularioBache{
+	background-color: rgb(0, 93, 179);
+}
+
+.tituloFormularioBache > h4{
+	color: #ffffff;
+}
+
+.campoCalle{
+	width: 64%;
+}
+
+.dropzone{
+	min-height: 100px !important ;
+    padding: 1% 23px 23px !important ;
+}
+.seleccionarCalle{
+	float: left;
+    height: 35px;
+    margin-right: 1%;
+    margin-top: -0.2%;
+}

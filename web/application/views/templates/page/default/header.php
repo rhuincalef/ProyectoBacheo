@@ -19,7 +19,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-map-marker"></i> Baches<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#"><i class="fa fa-plus-circle"> </i> Agregar</a></li>
+                  <li id="opcionAgregar" ><a><i class="fa fa-plus-circle"> </i> Agregar</a></li>
                 </ul>
               </li>
             </ul>

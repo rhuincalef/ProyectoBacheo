@@ -1,0 +1,17 @@
+.jumbotron h1,p{
+	color: #ffffff;
+
+}
+.jumbotron {
+	background-color: rgb(0, 93, 179);
+}
+
+.contenedorJumbotron{
+	padding-right: 7%;
+    padding-left: 7%;
+}
+
+.barraHerramientas{
+	background-color: rgb(0, 93, 179);
+	
+}

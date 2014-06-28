@@ -14,6 +14,7 @@
 	  	<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-2.1.1.min.js"></script>
 		<script src="<?php echo $this->config->base_url(); ?>_/js/libs/bootstrap/bootstrap.min.js"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/plugins.js"></script>
+	    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;libraries=places,drawing"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>
 	<?php /* More ideas for your <head> here: h5bp.com/d/head-Tips */
 	if (is_array($path)){

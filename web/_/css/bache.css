@@ -1,0 +1,26 @@
+.jumbotron h1,p{
+	color: #ffffff;
+
+}
+.jumbotron {
+	background-color: rgb(0, 93, 179);
+}
+
+.contenedorJumbotron{
+	padding-right: 7%;
+    padding-left: 7%;
+}
+
+.contenedorMapa{
+	height: 40%;
+    margin-left: 7%;
+    width: 30%;
+    float: left;
+}
+.especificacionesBache{
+	height: 30%;
+    margin-left: 38%;
+    margin-right: 1%;
+    padding-left: 5%;
+    width: 55%;
+}

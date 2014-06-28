@@ -52,10 +52,5 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </div>
-      
-     <!--  <div class="jumbotron">
-        <h1>Trelew: Lugar de Oportunidades</h1>
-        <p>iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii.</p>
-      </div> -->
 </div>
 </header>

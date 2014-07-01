@@ -11,11 +11,15 @@
 	<link href="<?php echo $this->config->base_url(); ?>_/css/fontAwesome/font-awesome.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/header.css" rel="stylesheet">
+		<link href="<?php echo $this->config->base_url(); ?>_/css/PNotify/pnotify.custom.min.css"rel="stylesheet" type="text/css" />
 	  	<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-2.1.1.min.js"></script>
 		<script src="<?php echo $this->config->base_url(); ?>_/js/libs/bootstrap/bootstrap.min.js"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/plugins.js"></script>
 	    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;libraries=places,drawing"></script>
-	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>
+	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script>
+	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>	    
+		
+	
 	<?php /* More ideas for your <head> here: h5bp.com/d/head-Tips */
 	if (is_array($path)){
 		foreach($path as $value){

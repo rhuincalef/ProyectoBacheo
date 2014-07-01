@@ -5,6 +5,9 @@ $(document).ready(function(){
           mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
+
+    alertar("laPucha","fue un la pucha","error");
+
     var map = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
 
 
@@ -67,5 +70,21 @@ $(document).ready(function(){
 });
 
 function inicializarFormularioBache(){
+  cargarCriticidad();
 	$("#informacionBache").modal("toggle");
+};
+
+function cargarCriticidad(){
+  var opciones = $("#criticidad").find("option");
+  opciones.each(function(indice,elemento){
+    var globo = informar("Informacion","Hola que tal "+indice);
+    $(elemento).hover(function(event){
+      var posicionY = $(event.target).position().top+100;
+      globo.get().css({'top': posicionY });
+      globo.open();
+
+    });
+    $(elemento).mouseout(function(){globo.remove() ;});
+  })
+  
 };

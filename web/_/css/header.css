@@ -23,6 +23,17 @@ html,body{
     height: 45px;
 }
 
+.alerta{
+
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+    padding-left: 1%;
+    width: 99%;
+    margin-bottom: 2%;
+    border-radius: 5% 5% 5% 5%;
+}
+
 .navbar-inverse { 
 	background-color: #ffffff;
 }

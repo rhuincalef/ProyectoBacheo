@@ -15,8 +15,12 @@
                 <option value="1">Mediano</option>
                 <option value="2">Grande</option>
               </select>
-              
-              <button class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
+
+              <!-- <div class="alerta">  
+                <strong>Nota:</strong> Esta descripcion corresponde a un bache mediano
+              </div> -->
+
+              <button type='button' class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
               <input name="calle" type="text" class="form-control campoIzquierdo campoCalle" placeholder="Calle">
               <input name="altura" type="numeric" class="form-control campoDerecho" placeholder="Altura">
               <textarea name="descripcion" placeholder="Descripcion" maxlength="100" class="form-control campoDescripcion"></textarea>

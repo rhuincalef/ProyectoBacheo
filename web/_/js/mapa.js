@@ -1,12 +1,12 @@
 $(document).ready(function(){
-	var mapOptions = {
+/*	var mapOptions = {
           center: new google.maps.LatLng(-43.253432, -65.310137),
           zoom: 16,
           mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
     var map = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
-
+*/
 
 /*ESto capas que no va aca pero todavia estoy laburando con esto. */
 

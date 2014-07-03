@@ -66,11 +66,26 @@ var Bacheo = (function(){
 	    });
 	}
 
-
+	var mapa = function($contenedor){
+		  $contenedor.gmap3("get");
+		  $contenedor.gmap3({
+		     map:{
+		      options:{
+		        mapTypeId: google.maps.MapTypeId.ROADMAP,
+		        mapTypeControl: false,
+		        navigationControl: true,
+		        scrollwheel: true,
+		        streetViewControl: true,
+		        center:[-43.253150,-65.309413],
+		        zoom: 14,
+		      }
+		   }
+		  });
+	}
 
 return{
 	agregarMarcador:guardarBache,
-//	geocoder:geocoder,
+	generarMapa:mapa,
 	marcadores:marcadores,
 	obtenerCalle:obtenerCalle
 }

@@ -5,20 +5,7 @@ $(document).ready(function(){
 
 function inicializar(){
   $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
-  $("#canvasMapa").gmap3("get");
-  $("#canvasMapa").gmap3({
-     map:{
-      options:{
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        mapTypeControl: false,
-        navigationControl: true,
-        scrollwheel: true,
-        streetViewControl: true,
-        center:[-43.253150,-65.309413],
-        zoom: 14,
-      }
-   }
-  });
+  Bacheo.generarMapa($("#canvasMapa"));
   $(".seleccionarCalle").click(bindearEventoClick);
 }
 

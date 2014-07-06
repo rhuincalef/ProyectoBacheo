@@ -9,11 +9,11 @@
 			<label for="longitud">Longitud</label>		
 			<input type="text" id="longitud" name="longitud"><br>
 			<label for="criticidad" >Criticidad</label>		
-			<input type="text" id="criticidad" name="criticidad"><br>
+			<input type="text" id="criticidad" name="nombreCriticidad"><br>
 			<label for="descripcion" >Descripcion</label>		
 			<input type="text" id="descripcion" name="descripcion"><br>
 			<label for="calle">Calle</label>		
-			<input type="text" id="calle" name="calle"><br>
+			<input type="text" id="calle" name="nombreCalle"><br>
 			<label for="alturaCalle">Altura de la calle</label>		
 			<input type="text" id="alturaCalle" name="alturaCalle"><br>
 			<input type="submit" value="Enviar bache"><br>

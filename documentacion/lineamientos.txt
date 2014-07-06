@@ -27,7 +27,7 @@ Repositorios.
 Nombre de tablas en singular.
 
 Tablas: 
-	Bache
+	Bache -->OK
 		id.
 		latitud.
 		longitud.
@@ -36,54 +36,54 @@ Tablas:
 		alturaCalle.
 --> Consultar Informacion Tecnica de Interes
 
-	Estado
-		id.
-		idTipoEstado.
-		idBache.
+	Estado 
+		id.-->OK
+		idTipoEstado. -->OK
+		idBache.-->OK
 		idUsuario (responsable del cambio de Estado, puede ser null para estado "Informado").
 		fecha.
 
-	TipoEstado (informado/confirmado/reparando/reparado)
+	TipoEstado (informado/confirmado/reparando/reparado) -->OK
 		id.
 		nombre.
 
-	Calle
+	Calle -->OK
 		id.
 		nombre.
 
-	Criticidad
+	Criticidad -->OK
 		id.
 		nombre.
 		descripcion.
 
-	Observacion.
+	Observacion. -->OK
 		id.
 		idBache.
 		nombreObservador.
 		EmailOberservador.
 
-	Multimedia
+	Multimedia -->OK
 		id.
 		idBache.
 		nombre.
 		tipo.
 		ruta.
 
-	Usuario
+	Usuario -->OK
 		id.
 		nombre.
 		contraseña.
 
-	Grupo
+	Grupo -->OK
 		id.
 		nombre.
 	
-	GrupoUsuario
+	GrupoUsuario -->OK
 		id.
 		idGrupo.
 		idUsuario.
 
-	Permiso
+	Permiso -->OK
 		id.
 		nombre.
 

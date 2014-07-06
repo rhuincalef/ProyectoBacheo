@@ -207,5 +207,13 @@ class ConsultaJSON {
         return $this->transformarAJSON($query);    
     }
 
+    public function obtenerTiposCriticidades($arreglo){
+        
+
+
+    }
+
+
+
 }
 ?>

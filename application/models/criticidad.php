@@ -2,8 +2,6 @@
 // class Criticidad extends CI_Model {
 class Criticidad extends MY_Model{
  
-		private $nombre;
-		private $descripcion;
 
         public $_table = 'Criticidad';//Este atributo permite denominar la forma en que  se llama la tabla
                                 //realmente en lugar de dejar que adivine automaticamente como se llama.
@@ -12,7 +10,7 @@ class Criticidad extends MY_Model{
         {
             // Call the Model constructor
             parent::__construct();
-            $this->load->database();
+            // $this->load->database();    
         }
 
         function obtenerCriticidad($nivel){
@@ -22,6 +20,22 @@ class Criticidad extends MY_Model{
             $criticidadArray= (array)$criticidadObj;
             return $criticidadArray["id"];
         }
+
+        function obtenerNivelesDeCriticidad(){
+            // echo "Llame a obtenerNiveles de criticidad\n";
+            $resultados=$this->as_array()->get_all();
+            $datosJSON=array();
+            $i=0;
+            foreach ($resultados as $criticidad) {
+                // echo "Cricidad=".$criticidad["nombre"]."\n";
+                $datosJSON[$i]='{"nombre":'.$criticidad["nombre"].', descripcion:'.$criticidad["descripcion"].'}';
+                $i++;
+            }
+            $this->load->library('Services_JSON');
+            $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+            return $json->encode($datosJSON);
+        }
+}
 
 	// function getColCriticidades($valoresJSONizados)
  //    {
@@ -33,7 +47,6 @@ class Criticidad extends MY_Model{
  //    }
 
 
-}
 /* End of file bache.php */
 /* Location: ./application/models/bache.php */
 ?>

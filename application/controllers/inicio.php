@@ -28,6 +28,16 @@ class Inicio extends CI_Controller {
 	public function formBache(){
 		$this->load->view('CargaDeBacheView');	
 	}
+
+	//Metodo de prueba para las criticidades
+	public function getNiveles(){
+		//Se debe realizar conexion en BD. Ver propiedad de config/Autoload.php para eliminar
+		//esta instruccion de carga de los controladores y modelos.
+		$this->load->database();
+		$this->load->model("Criticidad");
+		echo $this->Criticidad->obtenerNivelesDeCriticidad();
+	}
+
 }
 /* End of file bache.php */
 /* Location: ./application/controllers/bache.php */

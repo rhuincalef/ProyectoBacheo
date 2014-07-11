@@ -35,7 +35,7 @@ class Inicio extends CI_Controller {
 		//esta instruccion de carga de los controladores y modelos.
 		$this->load->database();
 		$this->load->model("Criticidad");
-		echo $this->Criticidad->obtenerNivelesDeCriticidad();
+		echo -$this->Criticidad->obtenerNivelesDeCriticidad();
 	}
 
 }

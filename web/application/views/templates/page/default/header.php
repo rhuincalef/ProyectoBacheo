@@ -7,7 +7,7 @@
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
-              <span></span>pan class="icon-bar"></span>
+              <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
@@ -26,14 +26,22 @@
             <ul class="nav navbar-nav navbar-right">
               <li id="opcionInicioSesion" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i> Iniciar Sesión <b class="caret"></b></a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu cuadroSesion">
                   <li> 
-                    <div> 
-                      <form id="inicioSesion" class="navbar-form navbar-left">
-                          <input type="text" class="form-control inicioSesion" placeholder="Usuario"/>
-                          <input type="Password" class="form-control inicioSesion" placeholder="Contraseña"/>
-                          <button type="submit" class="btn btn-primary inicioSesion">Entrar</button>
-                      </form>
+                    <div>
+                      <div class="container">
+                        <form id="inicioSesion" class="form-signin">
+                          <h2 class="form-signin-heading">Inicio de Sesión</h2>
+                          <input type="text" class="form-control inicioSesion" placeholder="Usuario" required autofocus>
+                          <input type="password" class="form-control inicioSesion" placeholder="Password" required>
+                          <!-- <div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="remember-me"> Recordar
+                            </label>
+                          </div> -->
+                          <button class="btn btn-lg btn-primary btn-block inicioSesion" type="submit">Entrar</button>
+                        </form>
+                      </div>
                   </div>
                 </li>
           

@@ -6,7 +6,7 @@ $(document).ready(function(){
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-    alertar("laPucha","fue un la pucha","error");
+    // alertar("laPucha","fue un la pucha","error");
 
     var map = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
 

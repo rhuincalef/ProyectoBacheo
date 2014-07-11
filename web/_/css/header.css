@@ -3,8 +3,19 @@ input.inicioSesion{
 	margin-bottom:3%;
 }	
 
+.container{
+	width: 89.3%;
+}
+
+.cuadroSesion{
+	width: 300px;
+}
+
 button.inicioSesion{
-	float: right;
+	float: left;
+    margin-bottom: 3%;
+    padding-bottom: 3%;
+    width: 50%;
 }
 
 .barra{
@@ -44,7 +55,7 @@ html,body{
 	background-color: #25168A;
 }
 .dropdown-menu { 
-	background-color: #E3E3E3;
+	background-color: #FFFFFF;
 }
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { 
 	background-color: #005DB3;
@@ -95,5 +106,5 @@ html,body{
 	border-bottom-color: #FFFFFF;
 }
 .dropdown-menu .divider{
-	background-color: #428BCA;
+	background-color: #EEE;
 }

@@ -23,6 +23,15 @@
                 </ul>
               </li>
             </ul>
+
+             <form class="navbar-form navbar-left" role="search">
+              <div class="form-group cuadroBusqueda">
+                <input type="text" placeholder="">
+                <i class="fa fa-search"></i>
+              </div>
+            </form>
+
+            
             <ul class="nav navbar-nav navbar-right">
               <li id="opcionInicioSesion" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i> Iniciar Sesión <b class="caret"></b></a>

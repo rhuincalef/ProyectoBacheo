@@ -11,11 +11,11 @@ class Welcome extends Frontend_Controller {
 	
 	public function index(){
 		$this->output->enable_profiler(FALSE);
-		$this->template->build_page("mapa");
+		//$this->template->build_page("mapa");
 
 
 		//$this->template->build_page("bache");
-		//$this->template->build_page("actividadSistema");
+		$this->template->build_page("actividadSistema");
 	}
 
 	// --------------------------------------------------------------------

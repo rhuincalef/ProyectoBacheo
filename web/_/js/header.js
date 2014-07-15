@@ -6,6 +6,28 @@
 			$("#opcionInicioSesion").addClass("hide");
 			$("#opcionSesion").removeClass("hide");
 		});
+
+		$(".cuadroBusqueda").find("input").focus(function(){
+			$(".cuadroBusqueda").animate(
+				{"width": "+=100px"},
+			   	'slow',
+			  	'swing',
+			  	function(){$(".cuadroBusqueda").find("input").css({"width":"90%"})}
+			 );
+		});
+
+		$(".cuadroBusqueda").find("input").blur(function(){	
+			$(".cuadroBusqueda").animate(
+				{"width": "-=100px"},
+			   	'slow',
+			  	'swing'
+			 );
+			$(".cuadroBusqueda").find("input").css({"width":"70%"});
+		});
+
+
+
+
 	});
 
 

@@ -15,7 +15,6 @@ class Inicio extends CI_Controller {
 		$datosBache=array("latitud"=>10101001,"longitud"=>202020202,"nombreCriticidad"=>"alta",
 			"nombreCalle"=>"E.E.U.U","descripcion"=>"Esta bache es un bache horrible","alturaCalle"=>"2100");
 		$idBache['respuestaJSON']=$this->Bache->darAltaBache($datosBache);
-var_dump($idBache);
 		$this->load->view('BacheView',$idBache);	
 	}
 

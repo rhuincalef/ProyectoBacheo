@@ -48,7 +48,7 @@ var Bacheo = (function(){
 		obtenerLatLng(calle,altura,function (posicion){
     	$.post( 
 //             "../web/application/controllers/bache.php/altaBache",
-				"../web/index.php/inicio/AltaBache",
+				"index.php/inicio/AltaBache",
              { titulo: titulo, latitud: posicion.lat(), longitud:posicion.lng(), criticidad: criticidad, descripcion:descripcion, calle:calle, alturaCalle:altura},
 //             { titulo: "unBache", latitud: -43.253150, longitud:-65.309413, criticidad: 2, descripcion:"descripcion del primer bache que creo", calle:"cualquier calle", altura:"444"},
              function(data) {

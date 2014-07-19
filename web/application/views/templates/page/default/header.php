@@ -26,7 +26,7 @@
 
              <form class="navbar-form navbar-left" role="search">
               <div class="form-group cuadroBusqueda">
-                <input type="text" placeholder="">
+                <input id="buscarCalle" type="text" placeholder="">
                 <i class="fa fa-search"></i>
               </div>
             </form>

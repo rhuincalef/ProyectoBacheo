@@ -54,9 +54,9 @@ var Bacheo = (function(){
              { titulo: titulo, latitud: posicion.lat(), longitud:posicion.lng(), criticidad: criticidad, descripcion:descripcion, calle:calle, alturaCalle:altura},
              function(data) {
                 datos.posicion = posicion;
-                var respuestaServidor = parseInt(data);
-                if(respuestaServidor > -1){
-                    datos.id = respuestaServidor;
+                var respuestaServidor = $.parseJSON(data);
+                if(respuestaServidor.estado > -1){
+					datos.id = respuestaServidor.id;
     				cargarMarcador(datos);
 					alertar("Exito!","Bache notificado con exito","success");
     			}else{

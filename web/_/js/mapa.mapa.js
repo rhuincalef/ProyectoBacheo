@@ -124,7 +124,7 @@ function inicializar(){
       postal_code:'9100'
     }
   });
-  //$("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
+  $("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
 }
 
 

@@ -12,8 +12,13 @@ class Inicio extends CI_Controller {
 		/*Incluir los datos del bache en un array asociativo, donde clave es el attributo de la BD
 		y valor es el valor de ese campo. En el caso de los atributos que tienen el mismo nombre en 
 		la BD se antepone el nombre del atributo+nombreTabla*/
-		$datosBache=array("latitud"=>10101001,"longitud"=>202020202,"nombreCriticidad"=>"alta",
-			"nombreCalle"=>"E.E.U.U","descripcion"=>"Esta bache es un bache horrible","alturaCalle"=>"2100");
+/*		$datosBache=array("latitud"=>10101001,"longitud"=>202020202,"nombreCriticidad"=>"alta",
+			"nombreCalle"=>"E.E.U.U","descripcion"=>"Esta bache es un bache horrible","alturaCalle"=>"2100"); */
+
+
+$datosBache=array("latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"nombreCriticidad"=>"alta",
+	"nombreCalle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"alturaCalle"=>$_POST["alturaCalle"]);
+
 		$idBache['respuestaJSON']=$this->Bache->darAltaBache($datosBache);
 		$this->load->view('BacheView',$idBache);	
 	}
@@ -35,9 +40,17 @@ class Inicio extends CI_Controller {
 		//esta instruccion de carga de los controladores y modelos.
 		$this->load->database();
 		$this->load->model("Criticidad");
-		echo -$this->Criticidad->obtenerNivelesDeCriticidad();
+		echo $this->Criticidad->obtenerNivelesDeCriticidad();
 	}
 
+
+	public function getBaches(){
+		$baches = $this->db->get("Bache");
+		foreach ($baches->result() as $row){
+			echo json_encode($row);
+			echo "/";
+		}
+	}
 }
 /* End of file bache.php */
 /* Location: ./application/controllers/bache.php */

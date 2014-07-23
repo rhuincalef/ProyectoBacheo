@@ -117,6 +117,23 @@ var Bacheo = (function(){
 		  });
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
+		  traerBaches();
+	}
+
+	var traerBaches = function() {
+		$.get( "index.php/inicio/getBaches", function( data ) {
+			var bachesTraidos = data.split('/');
+			for (var i = 0 ; i < bachesTraidos.length - 1; i++){
+				var bache = $.parseJSON(bachesTraidos[i]);
+				var dato = {};
+				dato.titulo = '';
+				dato.criticidad = bache.idCriticidad;
+				dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
+				dato.id = parseInt(bache.id);
+				cargarMarcador(dato);
+			};
+			alertar("Carga Completa","se concluyo la carga de los baches","success");
+		});
 	}
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/

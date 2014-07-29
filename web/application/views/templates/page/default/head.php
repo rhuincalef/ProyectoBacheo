@@ -11,7 +11,7 @@
 	<link href="<?php echo $this->config->base_url(); ?>_/css/fontAwesome/font-awesome.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/header.css" rel="stylesheet">
-		<link href="<?php echo $this->config->base_url(); ?>_/css/PNotify/pnotify.custom.min.css"rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->config->base_url(); ?>_/css/PNotify/pnotify.custom.min.css" rel="stylesheet" type="text/css" />
 	  	<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-2.1.1.min.js"></script>
 		<script src="<?php echo $this->config->base_url(); ?>_/js/libs/bootstrap/bootstrap.min.js"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/plugins.js"></script>

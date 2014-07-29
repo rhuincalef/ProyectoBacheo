@@ -93,7 +93,8 @@ function cargarCriticidad(){
 
 function inicializar(){
   $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
-  $("#canvasMapa").gmap3("get");
+  Bacheo.generarMapa($("#canvasMapa"));
+/*  $("#canvasMapa").gmap3("get");
   $("#canvasMapa").gmap3({
      map:{
       options:{
@@ -106,13 +107,24 @@ function inicializar(){
         zoom: 14,
       }
    }
-  });
+  }); */
   $("#seleccionarCalle").click(bindearEventoClick);
 
-  /*$("#geocomplete").geocomplete({
-    map: $("#canvasMapa"),
-    location: "Telew"
-  });*/
+
+  var boundsTrelew = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-43.230650145567985, -65.37500381469727),
+    new google.maps.LatLng(-43.28790660359147, -65.25123596191406)
+  );
+
+  $("#buscarCalle").geocomplete({
+    map: "#canvasMapa",
+    country: 'ar',
+    bounds:boundsTrelew,
+    componentRestrictions:{
+      postal_code:'9100'
+    }
+  });
+  $("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
 }
 
 

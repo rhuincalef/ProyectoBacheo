@@ -39,11 +39,17 @@ class Bache extends MY_Model {
     {
         //Se obtiene la criticidad asociada al bache
         $this->load->model("Criticidad");
-        $idCriticidad=$this->Criticidad->obtenerCriticidad($valores["nombreCriticidad"]);
+        $idCriticidad = $this->Criticidad->obtenerCriticidad($valores["nombreCriticidad"]);
         $this->load->model("Calle");
-        $idCalle=$this->Calle->insertarCalle($valores["nombreCalle"]);
-        $this->insert(array("latitud"=>$valores["latitud"],"longitud"=>$valores["longitud"],"alturaCalle"=>$valores["alturaCalle"],
-            "idCalle"=>$idCalle,"idCriticidad"=>$idCriticidad));
+        $idCalle = $this->Calle->insertarCalle($valores["nombreCalle"]);
+        $datos = array(
+            "latitud"=>floatval($valores["latitud"]),
+            "longitud"=>floatval($valores["longitud"]),
+            "alturaCalle"=>intval($valores["alturaCalle"]),
+            "idCalle"=>intval($idCalle),
+            "idCriticidad"=>intval($idCriticidad)
+            );
+        $this->insert($datos);
         //Se retorna la utlima fila insertada.
         return $this->db->insert_id();
     }

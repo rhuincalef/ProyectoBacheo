@@ -4,6 +4,7 @@ web/application/config/autoresponderlib_config.php
 web/application/logs/log-*.php
 web/application/cache/*
 web/application/cache/!index.html
+web/application/config/*
 
 # Numerous always-ignore extensions
 *.diff

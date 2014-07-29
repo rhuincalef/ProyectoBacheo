@@ -1,5 +1,6 @@
 var Bacheo = (function(){
-	var marcadores=[];
+	var marcadores = [];
+	var cluster;
 	var geocoder = new google.maps.Geocoder();
 
 /* Marcador: Objeto que representa la información básica del bache a mostrar en la páguina principal,
@@ -34,11 +35,13 @@ var Bacheo = (function(){
 		var $mapa = $("#canvasMapa").gmap3("get");
 		var marcador = new Marcador(datos,$mapa);
 		marcadores.push(marcador);
+		cluster.addMarker(marcador.marker,true);
 	}
 
 /* guardarMarcador: Funcion llamada desde "guardarBache", efectua la llamada al servidor para realizar
  * dicha accion, obteniendo las coordenadas reales de la dirección especificada y, de resultar efectiva
- * la carga del nuevo bache en el servidor, realiza la carga del mismo para ser visualizada en el mapa 	*/
+ * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizada en
+ * el mapa 																								*/
 	var guardarMarcador = function(titulo, criticidad, calle, altura, descripcion){
 		var datos={};
 		datos.titulo = titulo;
@@ -47,14 +50,18 @@ var Bacheo = (function(){
 
 		obtenerLatLng(calle,altura,function (posicion){
     	$.post( 
-//             "../web/application/controllers/bache.php/altaBache",
 				"index.php/inicio/AltaBache",
              { titulo: titulo, latitud: posicion.lat(), longitud:posicion.lng(), criticidad: criticidad, descripcion:descripcion, calle:calle, alturaCalle:altura},
-//             { titulo: "unBache", latitud: -43.253150, longitud:-65.309413, criticidad: 2, descripcion:"descripcion del primer bache que creo", calle:"cualquier calle", altura:"444"},
              function(data) {
                 datos.posicion = posicion;
-                datos.id = data;
-				cargarMarcador(datos);
+                var respuestaServidor = $.parseJSON(data);
+                if(respuestaServidor.estado > -1){
+					datos.id = respuestaServidor.id;
+    				cargarMarcador(datos);
+					alertar("Exito!","Bache notificado con exito","success");
+    			}else{
+					alertar("la Pucha!","No fue posible informar el bache","error");
+    			}
              }
 
           );
@@ -80,6 +87,7 @@ var Bacheo = (function(){
 	function obtenerCalle(latlng,calle,altura){
 		geocoder.geocode({'latLng': latlng}, function(results, status) {
 		    if (status == google.maps.GeocoderStatus.OK) {
+		    	console.log(results[0]);
 		    	if (results[1]){
 		         	calle.value = results[0].address_components[1].long_name;
 		         	altura.placeholder= results[0].address_components[0].long_name;              
@@ -107,6 +115,25 @@ var Bacheo = (function(){
 		      }
 		   }
 		  });
+		  var map = $contenedor.gmap3("get");
+		  cluster = new MarkerClusterer(map,marcadores);
+		  traerBaches();
+	}
+
+	var traerBaches = function() {
+		$.get( "index.php/inicio/getBaches", function( data ) {
+			var bachesTraidos = data.split('/');
+			for (var i = 0 ; i < bachesTraidos.length - 1; i++){
+				var bache = $.parseJSON(bachesTraidos[i]);
+				var dato = {};
+				dato.titulo = '';
+				dato.criticidad = bache.idCriticidad;
+				dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
+				dato.id = parseInt(bache.id);
+				cargarMarcador(dato);
+			};
+			alertar("Carga Completa","se concluyo la carga de los baches","success");
+		});
 	}
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/

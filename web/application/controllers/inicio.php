@@ -51,6 +51,16 @@ $datosBache=array("latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"n
 			echo "/";
 		}
 	}
+	// /index.php/inicio/getBache/id/3
+	public function getBache(){
+		$get = $this->uri->uri_to_assoc();
+		$id = $get['id'];
+		$this->load->model("Bache");
+		$bache= $this->Bache->getBache($id);	
+		$this->output->enable_profiler(FALSE);
+		$this->template->build_page("bache",$bache);
+		
+	}
 }
 /* End of file bache.php */
 /* Location: ./application/controllers/bache.php */

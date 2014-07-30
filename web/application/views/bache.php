@@ -1,7 +1,10 @@
+<script>
+	alert(<?php echo $latitud.$longitud; ?>);
+</script>
 <div class="contenedorJumbotron">
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache1234</h1>
+        <h1>#Bache<?php echo $id; ?></h1>
 
 	</div>
 
@@ -21,7 +24,7 @@
 		</tr>
 		<tr>
 			<td> Calle </td>
-			<td> Remedio de escalada 55 </td>
+			<td><?php echo $calle; ?></td>
 		</tr>
 		<tr>
 			<td> Tipo Rotura </td>

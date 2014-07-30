@@ -29,8 +29,23 @@ class Bache extends MY_Model {
         parent::__construct();
         $this->load->database();
     }
-    function getBache(){
+    function getBache($idBache){
         //TODO Completar funcionalidad de ObtenerInformacion de un bache
+        $tupla=$this->with("Calle")->get($idBache);
+        if(count($tupla)==0){
+            echo "Error al encontrar bache y calles asociadas";
+            return NULL;
+        }
+        var_dump($tupla);
+        $datos = array(
+            "id" => $tupla->id,
+            "latitud"=>$tupla->latitud,
+            "longitud"=>$tupla->longitud,
+            "alturaCalle"=>$tupla->alturaCalle,
+            "calle" => $tupla->Calle->nombre
+            );
+        return $datos;
+
 
     }
     /*Enviar un array asociativo de elementos para dar de alta el bache. el metodo

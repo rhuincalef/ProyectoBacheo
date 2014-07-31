@@ -24,16 +24,7 @@ class Criticidad extends MY_Model{
         function obtenerNivelesDeCriticidad(){
             // echo "Llame a obtenerNiveles de criticidad\n";
             $resultados=$this->as_array()->get_all();
-            $datosJSON=array();
-            $i=0;
-            foreach ($resultados as $criticidad) {
-                // echo "Cricidad=".$criticidad["nombre"]."\n";
-                $datosJSON[$i]='{"nombre":'.$criticidad["nombre"].', descripcion:'.$criticidad["descripcion"].'}';
-                $i++;
-            }
-            $this->load->library('Services_JSON');
-            $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
-            return $json->encode($datosJSON);
+            return $resultados;
         }
 }
 

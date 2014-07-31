@@ -1,15 +1,5 @@
 $(document).ready(function(){
-/*	var mapOptions = {
-          center: new google.maps.LatLng(-43.253432, -65.310137),
-          zoom: 16,
-          mapTypeControl: false,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };      */
-
-    // alertar("laPucha","fue un la pucha","error");
-
-//    var map = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
-
+// alertar("laPucha","fue un la pucha","error");
 
 /*ESto capas que no va aca pero todavia estoy laburando con esto. */
 
@@ -35,32 +25,24 @@ $(document).ready(function(){
         // }
         init: function() {
           this.on("addedfile", function(file) {
-
-        // Create the remove button
-        var removeButton = Dropzone.createElement("<button>Remove file</button>");
-
-
-        // Capture the Dropzone instance as closure.
-        var _this = this;
-
-        // Listen to the click event
-        removeButton.addEventListener("click", function(e) {
-          // Make sure the button click doesn't submit the form:
-          e.preventDefault();
-          e.stopPropagation();
-
-          // Remove the file preview.
-          _this.removeFile(file);
-          // If you want to the delete the file on the server as well,
-          // you can do the AJAX request here.
-        });
-
-        // Add the button to the file preview element.
-        file.previewElement.appendChild(removeButton);
-      });
-    }
-
-
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button>Remove file</button>");
+            // Capture the Dropzone instance as closure.
+            var _this = this;
+            // Listen to the click event
+            removeButton.addEventListener("click", function(e) {
+              // Make sure the button click doesn't submit the form:
+              e.preventDefault();
+              e.stopPropagation();
+              // Remove the file preview.
+              _this.removeFile(file);
+              // If you want to the delete the file on the server as well,
+              // you can do the AJAX request here.
+            });
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+          });
+        }
       };
 
 
@@ -71,45 +53,31 @@ $(document).ready(function(){
 });
 
 function inicializarFormularioBache(){
-  cargarCriticidad();
+//  cargarCriticidad();
 	$("#informacionBache").modal("toggle");
 };
 
-function cargarCriticidad(){
-  var opciones = $("#criticidad").find("option");
-  opciones.each(function(indice,elemento){
-    var globo = informar("Informacion","Hola que tal "+indice);
-    $(elemento).hover(function(event){
-      var posicionY = $(event.target).position().top+100;
-      globo.get().css({'top': posicionY });
-      globo.open();
-
-    });
-    $(elemento).mouseout(function(){globo.remove() ;});
-  })
-  
+function cargarCriticidad(niveles){
+  var $opciones = $("#criticidad");
+  $opciones.empty();
+  $(niveles).each(function(indice,elemento){
+    var opcion = new Option(elemento.nombre,elemento.id,true,true);
+    $opciones.append(opcion);
+    var globo = informar("Informacion",elemento.descripcion);
+      $(opcion).hover(function(event){
+        var posicionY = $(event.target).position().top+100;
+        globo.get().css({'top': posicionY });
+        globo.open();
+      });
+    $(opcion).mouseout(function(){globo.remove();});
+  });  
 };
 
 
 function inicializar(){
   $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
   Bacheo.generarMapa($("#canvasMapa"));
-/*  $("#canvasMapa").gmap3("get");
-  $("#canvasMapa").gmap3({
-     map:{
-      options:{
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        mapTypeControl: false,
-        navigationControl: true,
-        scrollwheel: true,
-        streetViewControl: true,
-        center:[-43.253150,-65.309413],
-        zoom: 14,
-      }
-   }
-  }); */
   $("#seleccionarCalle").click(bindearEventoClick);
-
 
   var boundsTrelew = new google.maps.LatLngBounds(
     new google.maps.LatLng(-43.230650145567985, -65.37500381469727),

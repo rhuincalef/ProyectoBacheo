@@ -40,7 +40,12 @@ $datosBache=array("latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"n
 		//esta instruccion de carga de los controladores y modelos.
 		$this->load->database();
 		$this->load->model("Criticidad");
-		echo $this->Criticidad->obtenerNivelesDeCriticidad();
+		$listaNiveles = $this->Criticidad->obtenerNivelesDeCriticidad();
+		foreach ($listaNiveles as $row){
+			$nivel = array('id'=>$row["id"],'nombre' => $row["nombre"], 'descripcion'=>$row["descripcion"]);
+			echo json_encode($nivel);
+			echo "/";
+		}
 	}
 
 

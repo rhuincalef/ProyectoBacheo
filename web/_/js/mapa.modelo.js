@@ -118,6 +118,7 @@ var Bacheo = (function(){
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
 		  traerBaches();
+		  obtenerCriticidad();
 	}
 
 	var traerBaches = function() {
@@ -133,6 +134,17 @@ var Bacheo = (function(){
 				cargarMarcador(dato);
 			};
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
+		});
+	}
+
+	function obtenerCriticidad() {
+		$.get( "index.php/inicio/getNiveles", function(data) {
+			var datos = data.split('/');
+			var $niveles = [];
+			for (var i = 0 ; i < datos.length - 1; i++){
+				$niveles.push($.parseJSON(datos[i]));
+			};
+			cargarCriticidad($niveles);
 		});
 	}
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre

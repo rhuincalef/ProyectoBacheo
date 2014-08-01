@@ -36,7 +36,7 @@ class Bache extends MY_Model {
             echo "Error al encontrar bache y calles asociadas";
             return NULL;
         }
-        var_dump($tupla);
+        
         $datos = array(
             "id" => $tupla->id,
             "latitud"=>$tupla->latitud,

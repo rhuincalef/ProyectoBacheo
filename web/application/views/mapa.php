@@ -11,9 +11,9 @@
           <form id="formularioBache">
               <input name="titulo" type="text" class="form-control campoIzquierdo" placeholder="Titulo">
               <select id="criticidad" class="form-control campoDerecho">
-                <option value="0">Pequeño</option>
-                <option value="1">Mediano</option>
-                <option value="2">Grande</option>
+                <option value="baja">Pequeño</option>
+                <option value="media">Mediano</option>
+                <option value="alta">Grande</option>
               </select>
 
               <!-- <div class="alerta">  
@@ -24,14 +24,15 @@
               <input name="calle" type="text" class="form-control campoIzquierdo campoCalle" placeholder="Calle">
               <input name="altura" type="numeric" class="form-control campoDerecho" placeholder="Altura">
               <textarea name="descripcion" placeholder="Descripcion" maxlength="100" class="form-control campoDescripcion"></textarea>
-            </form> 
-            <form id="my-awesome-dropzone" action="/upload" class="dropzone cargarImagenes">  
-        <div class="dropzone-previews"></div>
-        <div class="fallback"> <!-- this is the fallback if JS isn't working -->
-        <input name="file" type="file" multiple />
-        </div>
+          </form> 
 
-    </form>
+
+          <form id="my-awesome-dropzone" action="/upload" class="dropzone cargarImagenes">  
+              <div class="dropzone-previews"></div>
+              <div class="fallback"> <!-- this is the fallback if JS isn't working -->
+              <input name="file" type="file" multiple />
+              </div>
+          </form>
  
         </div>
 

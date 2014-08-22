@@ -1,11 +1,37 @@
 <?php 
-class Observacion extends CI_Model {
-  private $id;
-  private $idBache;
-  private $nombreObservador;
-  private $emailObservador;
+class Observacion extends MY_Model {
+
+
+//URL DE PRUEBA --> http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/formAsociarObservaciones
+  
+	private $idBache;
+	private $nombreObservador;
+	private $emailObservador;
+
+    public $_table = 'Observacion';//Este atributo permite denominar la forma en que  se llama la tabla
+                                //realmente en lugar de dejar que adivine automaticamente como se llama.
+    public $primary_key = 'id';//Sobreescribiendo el id por defecto.
+
+    public $belongs_to = array( 'Bache' => array('model' => 'Bache', 'primary_key' => 'idBache' ));
+	
+
+	function __construct()
+	{
+		// Call the Model constructor
+		parent::__construct();
+		$this->load->database();
+	}
+
+	function insertarObservacion($valores){
+		$firephp = FirePHP::getInstance(true);        
+		$firephp->log("array de valores es ...");
+		$firephp->log($valores);
+		$this->load->model("Observacion",'observacion');
+        $this->observacion->insert($valores);
+		$firephp->log("valores insertados...");
+	}
 
 }
-/* End of file bache.php */
-/* Location: ./application/models/bache.php */
+/* End of file observacion.php */
+/* Location: ./application/models/observacion.php */
 ?>

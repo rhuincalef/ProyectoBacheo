@@ -1,11 +1,16 @@
 <?php 
-// class Criticidad extends CI_Model {
+
 class Criticidad extends MY_Model{
  
 
         public $_table = 'Criticidad';//Este atributo permite denominar la forma en que  se llama la tabla
                                 //realmente en lugar de dejar que adivine automaticamente como se llama.
         public $primary_key = 'id';//Sobreescribiendo el id por defecto.
+
+        //Muchos baches tienen clave foránea hacia la criticidad. La primary_key se refiere a los baches
+        //que apuntan a las criticidades.
+        public $has_many = array( 'Bache' => array( 'model' => 'Bache','primary_key' => 'idCriticidad' ) );
+
         function __construct()
         {
             // Call the Model constructor
@@ -38,6 +43,5 @@ class Criticidad extends MY_Model{
  //    }
 
 
-/* End of file bache.php */
-/* Location: ./application/models/bache.php */
+/* End of file criticidad.php */
 ?>

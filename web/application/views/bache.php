@@ -1,7 +1,8 @@
 <script>
-	alert(<?php echo $latitud.$longitud; ?>);
+	// alert(<?php echo $latitud.$longitud; ?>);
 </script>
-<div class="contenedorJumbotron">
+
+<div class="contenido">
 
 	<div class="imagenesCarrucel">
 			 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -32,40 +33,51 @@
 
 	</div>
 
+	<!-- Menu de Pestañas -->
+	<ul class="nav nav-tabs tabInfo" role="tablist">
+	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
+	  <li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+	  <div class="tab-pane active" id="especificaciones">
+	  	<div id="canvasMapa" class="contenedorMapa"></div>	
+		<div class="especificacionesBache">
+			<h1>Especificación del Bache</h1>
+			<table class="table table-hover">
+				<tr>
+					<td> Tamaño </td>
+					<td> 2.5 metros </td>
+				</tr>
+				<tr>
+					<td> Criticidad </td>
+					<td> Media </td>
+				</tr>
+				<tr>
+					<td> Dirección </td>
+					<td><?php echo $calle;?> - <?php echo $alturaCalle;?></td>
+				</tr>
+
+				<tr>
+					<td> Tipo Rotura </td>
+					<td> Falta de Mantenimiento </td>
+				</tr>
+				<tr>
+					<td> Estado </td>
+					<td> Reparando </td>
+				</tr>
+				<tr>
+					<td> Fecha Ultimo Estado </td>
+					<td> 10/05/2003</td>
+				</tr>
+			</table>
+
+		</div>
+	  </div>
+	  <div class="tab-pane" id="social"></div>
+	</div>
+	<!--  -->
+
 </div>
-<div id="canvasMapa" class="contenedorMapa"></div>
-<div class="especificacionesBache">
 
-	<h1>Especificación del Bache</h1>
-	<table class="table table-hover">
-		<tr>
-			<td> Tamaño </td>
-			<td> 2.5 metros </td>
-		</tr>
-		<tr>
-			<td> Criticidad </td>
-			<td> Media </td>
-		</tr>
-		<tr>
-			<td> Dirección </td>
-			<td><?php echo $calle;?> - <?php echo $alturaCalle;?></td>
-		</tr>
-
-		<tr>
-			<td> Tipo Rotura </td>
-			<td> Falta de Mantenimiento </td>
-		</tr>
-		<tr>
-			<td> Estado </td>
-			<td> Reparando </td>
-		</tr>
-		<tr>
-			<td> Fecha Ultimo Estado </td>
-			<td> 10/05/2003</td>
-		</tr>
-	</table>
-
-</div>
-
-
-<div class="contenedorMapa" > </div>

@@ -31,6 +31,14 @@ class Observacion extends MY_Model {
 		$firephp->log("valores insertados...");
 	}
 
+	//Esta funcion borra las observaciones asociadas a un bache.
+	function borrarObservaciones($idBache){
+		$firephp = FirePHP::getInstance(true);        
+		$observaciones=$this->delete_by("idBache",$idBache);
+		$firephp->log("Se borraron correctamente las observaciones del bache!");
+	}
+
+
 }
 /* End of file observacion.php */
 /* Location: ./application/models/observacion.php */

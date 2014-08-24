@@ -128,12 +128,12 @@ class Bache extends MY_Model {
         $idBache=$this->db->insert_id();
         $firephp->log("La ultima fila insertada fue:".$idBache);
 
-        //Se carga el modelo de multimedia y se llama a subirImagen.
-        $this->load->model("Multimedia");
-        $this->Multimedia->subirImagen($idBache);
+        $this->load->model("Estado");
+        $this->Estado->asociarEstado($idBache,"informado");
+        $firephp->log("Se asocio el estado informado al bache!");
+
         return $idBache;
     }
-
 
 
     /*Si no se puede dar de baja el bache se retorna NULL*/
@@ -145,19 +145,43 @@ class Bache extends MY_Model {
         //que retorna el get() como un array asociativo.
         // $tupla=$this->with("Calle")->get($idBache);
         // echo "calle relacionada=".$tupla->Calle->nombre;
+
+        $firephp = FirePHP::getInstance(true);
+        $this->load->database();
+        $firephp->log("Dentro de darDeBajaBache()");
         $tupla=$this->with("Calle")->get($idBache);
         if(count($tupla)==0){
-            echo "Error al encontrar bache y calles asociadas";
+            $firephp->log("Error al encontrar bache y calles asociadas");
             return NULL;
         }
+        //Se elimina el estado del bache.
+        $this->load->model("Estado");
+        $this->Estado->borrarEstado($idBache);
+        $firephp->log("Se borro el estado en la BD!");
+
+        //Se borran las imagenes multimedia asociadas a un bache.
+        $this->load->model("Multimedia");
+        $this->Multimedia->borrarArchivos($idBache);
+
+        //Se busca desde la tabla de baches, si existe algun otro bache asociado a la calle.
+        $baches=$this->get_by("id",$idBache);
+        $firephp->log("La cantidad de baches asociados a la calle es: ".count($baches));
+        if(count($baches)==0){
+            //Se borra la calle si no existe ningun bache que depende de ella.
+            $this->load->model("Calle");
+            if($this->Calle->borrarCalle($tupla->Calle->id)==NULL){
+                $firephp->log("Error al borrar la calle");
+                return NULL;
+            }
+        }
+
+        //Se borran las observaciones del bache
+        $this->load->model("Observacion");
+        $this->Observacion->borrarObservaciones($idBache);
+
+        //Se elimina el bache
         $this->delete($tupla->id);
-        // $tupla->Calle->delete($tupla->Calle->id);
-        $this->load->model("Calle");
-        if($this->Calle->borrarCalle($tupla->Calle->id)==NULL){
-            echo "Error al borrar la calle";
-            return NULL;
-        }
-        echo "Se ha dado de baja el bache y su calle asociada, correctamente!";
+        $firephp->log("Se ha borrado el bache de la tabla de Baches!");
         return $idBache;
     }
 

@@ -10,7 +10,6 @@ class Inicio extends CI_Controller {
 	*/
 
 	public $configAltaBache=array(
-                 // 'altaBache' => array(
                                     array(
                                             'field' => 'titulo',
                                             'label' => 'Titulo',
@@ -53,6 +52,15 @@ class Inicio extends CI_Controller {
 	//Formulario de alta de baches.
 	public function formBache(){
 		$this->load->view('CargaDeBacheView');	
+	}
+
+
+	//Metodo del controlador que ataja la subida de imagenes
+	//al servidor.	
+	// http://localhost/gitBaches/ProyectoBacheo/web/
+	public function subirImagen($idBache){
+		$this->load->model("Multimedia");
+		$this->Multimedia->subirImagen($idBache);
 	}
 
 	public function AltaBache(){
@@ -147,15 +155,13 @@ class Inicio extends CI_Controller {
 	// 	return $this->Bache->obtenerInfo($idBache);
 	// }
 
+
+	// http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/BajaBache/
 	public function BajaBache($idBache){
 		$this->load->database();
 		$this->load->model('Bache');		
 		$this->Bache->darDeBajaBache($idBache);
 	}
-
-
-	
-
 
 
 	public function asociarObservacion(){
@@ -168,6 +174,29 @@ class Inicio extends CI_Controller {
 	public function formAsociarObservaciones(){
 		$this->load->view('formAsociarObservacionesView');	
 	}
+
+
+	//Formulario de prueba para la modificacion de estado.
+	//http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/formCambiarEstado
+	public function formCambiarEstado(){
+		$this->load->view("formCambiarEstado");
+	}
+	//Metodo para modificar el estado de un bache, pasando como argumento el id del bache
+	//URL de prueba --> http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/formCambiarEstado
+
+	public function modificarEstado(){
+		$firephp = FirePHP::getInstance(True);
+		$this->load->database();
+		$this->load->model('Estado');
+		//TODO Deshardcodear el idUsuario cuando se da cambia el estado (cuando este listo el manejo de sesions de usuarios).
+		$idUsuario=1;
+		$idBache=$_POST["idBache"];
+		$estado=$_POST["estadoBache"];
+		$firephp->log("idBache=".$idBache.";idUsuario=".$idUsuario.";estado=".$estado);
+		$this->Estado->cambiarEstado($idBache,$idUsuario,$estado);
+		$firephp->log("Se cambio el estado del bache!");
+	}
+
 
 
 

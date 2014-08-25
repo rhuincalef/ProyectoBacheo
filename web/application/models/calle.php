@@ -19,12 +19,12 @@ class Calle extends MY_Model{
 			$firephp->log("La calle insertada en la BD fue:"+ucfirst($nombreCalle));
 	        return $this->db->insert_id();
 		}
-		/*Borra la calle y retorna el id de la calle eliminada*/
+		/*Borra la calle y retorna el id de la calle eliminada. */
+		// Si existe al menos un bache que este asociado a la calle, la calle no se borra. Se retorna 0.
 		function borrarCalle($idCalle){
 			$result=$this->delete($idCalle);
 			return $idCalle;
 		}
-
 }
 /* End of file calle.php */
 /* Location: ./application/models/bache.php */

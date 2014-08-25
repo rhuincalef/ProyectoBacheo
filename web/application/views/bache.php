@@ -1,3 +1,4 @@
+
 <script>
 	// alert(<?php echo $latitud.$longitud; ?>);
 </script>
@@ -6,13 +7,13 @@
 
 	<div class="imagenesCarrucel">
 			 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			  <!-- Indicators -->
+			 
 			  <ol class="carousel-indicators">
 			    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 			  </ol>
 
-			  <!-- Wrapper for slides -->
+			 
 			  <div class="carousel-inner">
 			    <div class="item active">
 			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache1.jpg" width="325px" alt="">
@@ -32,17 +33,18 @@
         <h1>#Bache<?php echo $id; ?></h1>
 
 	</div>
-
-	<!-- Menu de Pestañas -->
+	
 	<ul class="nav nav-tabs tabInfo" role="tablist">
 	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
 	  <li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
 	</ul>
 
-	<!-- Tab panes -->
-	<div class="tab-content">
+
+
+	<div class="tab-content	">
 	  <div class="tab-pane active" id="especificaciones">
-	  	<div id="canvasMapa" class="contenedorMapa"></div>	
+	  	
+	  <div id="canvasMapa" class="contenedorMapa"></div>
 		<div class="especificacionesBache">
 			<h1>Especificación del Bache</h1>
 			<table class="table table-hover">
@@ -52,7 +54,7 @@
 				</tr>
 				<tr>
 					<td> Criticidad </td>
-					<td> Media </td>
+					<td> <?php echo $criticidad;?> </td>
 				</tr>
 				<tr>
 					<td> Dirección </td>
@@ -77,7 +79,8 @@
 	  </div>
 	  <div class="tab-pane" id="social"></div>
 	</div>
-	<!--  -->
 
 </div>
+
+<!-- </div> -->
 

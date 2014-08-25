@@ -17,8 +17,9 @@ CREATE TABLE "Criticidad"
 CREATE TABLE "Bache"
 (
   id serial NOT NULL,
-  latitud bigserial,
-  longitud bigserial,
+  titulo varchar(50) NOT NULL, 
+  latitud double precision,
+  longitud double precision,
   "idCriticidad" serial,
   "idCalle" serial,
   "alturaCalle" integer,

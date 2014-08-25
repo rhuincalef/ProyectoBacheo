@@ -101,7 +101,7 @@ var Bacheo = (function(){
 /* mapa: Funcion que renderiza un mapa GoogleMap en el contenedor especificado, centrandolo en la 
  * ciudad de Trelew 																					*/
 	var mapa = function($contenedor){
-		  $contenedor.gmap3("get");
+//		  $contenedor.gmap3("get");
 		  $contenedor.gmap3({
 		     map:{
 		      options:{

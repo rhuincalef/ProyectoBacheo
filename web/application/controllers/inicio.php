@@ -19,12 +19,12 @@ class Inicio extends CI_Controller {
                                     array(
                                             'field' => 'latitud',
                                             'label' => 'Latitud',
-                                            'rules' => 'required|integer'
+                                            'rules' => 'required'
                                          ),
                                     array(
                                             'field' => 'longitud',
                                             'label' => 'Longitud',
-                                            'rules' => 'required|integer'
+                                            'rules' => 'required'
                                          ),
                                     array(
                                             'field' => 'descripcion',
@@ -37,7 +37,7 @@ class Inicio extends CI_Controller {
                                             'rules' => 'required|xss_clean'
                                          ),
                                     array(
-                                            'field' => 'altura',
+                                            'field' => 'alturaCalle',
                                             'label' => 'Altura',
                                             'rules' => 'required|integer|max_length[4]'
                                          )
@@ -61,6 +61,7 @@ class Inicio extends CI_Controller {
 		//Se cargan las reglas los modulos para la validacion de los formularios.
 		$this->load->database();
 		$this->load->model('Bache');		
+		
 		$firephp->log("Inicio de altaBache()");
 		$firephp->log("Resultado de la validacion: ".$this->sonDatosValidos('altaBache'));
 
@@ -69,7 +70,7 @@ class Inicio extends CI_Controller {
 		$firephp->log("--------------------------------------------------------------------------------");
 		$firephp->log("--------------------------------------------------------------------------------");
 		$datosBache=array( "titulo"=>$_POST["titulo"] ,"latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"criticidad"=>$_POST["criticidad"],
-			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["altura"]);
+			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["alturaCalle"]);
 			
 		$firephp->log("El array de datos es...");
 		$firephp->log($datosBache);
@@ -82,7 +83,7 @@ class Inicio extends CI_Controller {
 		if ($this->sonDatosValidos()==TRUE) {
 			//Descomentar estas lineas para la entrega
 			$datosBache=array( "titulo"=>$_POST["titulo"] ,"latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"criticidad"=>$_POST["criticidad"],
-			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["altura"]);
+			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["alturaCalle"]);
 			
 			$firephp->log("El array de datos es...");
 			$firephp->log($datosBache);

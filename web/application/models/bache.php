@@ -92,7 +92,7 @@ class Bache extends MY_Model {
 
         //Se obtiene la criticidad asociada al bache
         $this->load->model("Criticidad");
-        $idCriticidad = $this->Criticidad->obtenerCriticidad($valores["criticidad"]);
+        $idCriticidad = $valores["criticidad"]; //TODO: verificar qeu existe la criticidad. VIENE UN ID CRITICIDAD.
         $firephp->log("idCriticidad: $idCriticidad");
 
         $this->load->model("Calle");
@@ -122,6 +122,7 @@ class Bache extends MY_Model {
         $firephp->log($datos);
 
         $this->load->model("Bache",'bache');
+        $firephp->log("aNTES DE L INSERT");
         $this->bache->insert($datos);
         $firephp->log("Se insertaron los datos correctamente!");
         //Se retorna la utlima fila insertada.

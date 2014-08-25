@@ -85,7 +85,7 @@ function inicializar(){
   );
 
   $("#buscarCalle").geocomplete({
-    map: "#canvasMapa",
+    map: $("#canvasMapa").gmap3("get"),
     country: 'ar',
     bounds:boundsTrelew,
     componentRestrictions:{

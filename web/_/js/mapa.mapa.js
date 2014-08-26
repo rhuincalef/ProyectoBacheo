@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 /*ESto capas que no va aca pero todavia estoy laburando con esto. */
 
-    Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+    Dropzone.options.imagenesForm = { // The camelized version of the ID of the form element
         // The configuration we've talked about above
         autoProcessQueue: false,
         uploadMultiple: true,
@@ -15,15 +15,16 @@ $(document).ready(function(){
         // init: function() {
         //   var myDropzone = this;
         //  // Here's the change from enyo's tutorial...
-        //     // $("#submit-all").click(function (e) {
+        //     // $("#submit-all").click(function (e)   
         //     //     e.preventDefault();
-        //     //     e.stopPropagation();
+        //     //     e.stopPropagation();  
         //     //     myDropzone.processQueue();
         //     //     }
         //     // );
 
         // }
         init: function() {
+          myDropzone = this;
           this.on("addedfile", function(file) {
             // Create the remove button
             var removeButton = Dropzone.createElement("<button>Remove file</button>");

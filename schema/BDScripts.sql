@@ -141,4 +141,5 @@ CREATE TABLE "Usuario"
   constrasenia character varying,
   CONSTRAINT pk_id_usuario PRIMARY KEY (id)
 );
+  
 INSERT INTO "Criticidad" (nombre, descripcion) VALUES ('alta','asdsadsadasdsadsadsadasda'),('media','asdsadsadasdsadsadsadasda'), ('baja','asdsadsadasdsadsadsadasda');

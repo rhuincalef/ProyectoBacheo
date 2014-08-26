@@ -38,6 +38,14 @@ var Bacheo = (function(){
 		cluster.addMarker(marcador.marker,true);
 	}
 
+
+	function guardarImagenes(idBache) {
+		var direccion = "./index.php/inicio/subirImagen/"+idBache;
+		var $form = $("#imagenesForm");
+		$form.attr("action",direccion);
+		myDropzone.processQueue();
+	}
+
 /* guardarMarcador: Funcion llamada desde "guardarBache", efectua la llamada al servidor para realizar
  * dicha accion, obteniendo las coordenadas reales de la dirección especificada y, de resultar efectiva
  * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizada en
@@ -58,6 +66,7 @@ var Bacheo = (function(){
                 if(respuestaServidor.estado > -1){
 					datos.id = respuestaServidor.id;
     				cargarMarcador(datos);
+    				guardarImagenes(datos.id);
 					alertar("Exito!","Bache notificado con exito","success");
     			}else{
 					alertar("la Pucha!","No fue posible informar el bache","error");

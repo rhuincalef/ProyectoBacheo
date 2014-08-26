@@ -27,7 +27,8 @@
           </form> 
 
 
-          <form id="my-awesome-dropzone" action="/upload" class="dropzone cargarImagenes">  
+          <!-- <form id="my-awesome-dropzone" action="/upload" class="dropzone cargarImagenes">   -->
+          <form id="imagenesForm" action="./index.php/inicio/subirImagen/21" class="dropzone cargarImagenes">  
               <div class="dropzone-previews"></div>
               <div class="fallback"> <!-- this is the fallback if JS isn't working -->
               <input name="file" type="file" multiple />

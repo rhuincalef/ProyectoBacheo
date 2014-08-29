@@ -41,9 +41,10 @@ var Bacheo = (function(){
 
 	function guardarImagenes(idBache) {
 		var direccion = "./index.php/inicio/subirImagen/"+idBache;
-		var $form = $("#imagenesForm");
-		$form.attr("action",direccion);
-		myDropzone.processQueue();
+		// var myDropzone = new Dropzone("#imagenesForm", { url: direccion});
+		Bacheo.myDropzone.options.url = "./index.php/inicio/subirImagen/"+idBache;
+        console.log("Se inicializo el formulario con el script de carga de imagenes.");
+		Bacheo.myDropzone.processQueue();
 	}
 
 /* guardarMarcador: Funcion llamada desde "guardarBache", efectua la llamada al servidor para realizar

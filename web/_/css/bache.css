@@ -40,3 +40,49 @@
     /*margin-top: 2%;*/
     
 }
+.comentarioUsuario{
+    margin-right: 9%;
+    margin-top: 2%;
+}
+.avatar{
+    margin-left: 5%;
+    background:url("../img/avatar.png");
+    background-size:24px 24px; 
+    background-repeat: no-repeat;
+    padding-left: 36px;
+    height: 24px;
+}
+.comentarioIndividual{
+    margin-left: 2%;
+    border-radius: 6px;
+    padding-left: 2%;
+    background-color: rgba(240,240,240,0.5);
+}
+.divComentarios{
+    height: 225px;
+    margin-left: 2%;
+    margin-right: 2%;
+    overflow-y: scroll;
+    width: 90%;
+    
+}
+
+.formularioComentario{
+    margin-left: 2%;
+    display: none;  
+}
+
+.areaComentario{
+    resize: none;
+    margin-top: 1%;
+    width: 41%;
+}
+
+.inputUsuario{
+    width: 29%;
+    float: left;
+}
+
+.botonComentario{
+    margin-left: 2%;
+}

@@ -77,10 +77,23 @@
 
 		</div>
 	  </div>
-	  <div class="tab-pane" id="social"></div>
+	  <div class="tab-pane" id="social">
+
+	  		<div id="observaciones"> 
+	  			<h1>Comentarios</h1>
+	  		</div>
+			<div class="areaParaComentar">
+	          <form id="formularioComentario" class="formularioComentario">
+		          <input name="usuario" type="text" class="form-control inputUsuario" placeholder="Usuario">
+		          <button id="botonEnviarComentario" type="button" class="btn btn-primary botonComentario"> Enviar Comentario!</button>
+		          <textarea name="mensaje" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
+	          </form>
+	      	</div>	  		
+
+	  </div>
 	</div>
 
 </div>
 
+<?php var_dump($imagenes);?>
 <!-- </div> -->
-

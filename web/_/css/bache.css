@@ -86,3 +86,7 @@
 .botonComentario{
     margin-left: 2%;
 }
+
+.oculto {
+    display: none;
+}

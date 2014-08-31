@@ -149,12 +149,12 @@ class Inicio extends CI_Controller {
 	// de las imagenes.
 	//Para fines de prueba la URL es: http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerInfo/2.
 	//para id=2.
-	// public function obtenerInfo($idBache){
-	// 	$firephp = FirePHP::getInstance(true);
-	// 	$firephp->log("El idBache pasado por parámetro es:".$idBache);
-	// 	$this->load->model('Bache');
-	// 	return $this->Bache->obtenerInfo($idBache);
-	// }
+	 public function obtenerInfo($idBache){
+	 	$firephp = FirePHP::getInstance(true);
+	 	$firephp->log("El idBache pasado por parámetro es:".$idBache);
+	 	$this->load->model('Bache');
+	 	return $this->Bache->obtenerInfo($idBache);
+	 }
 
 
 	// http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/BajaBache/

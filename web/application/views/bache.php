@@ -30,7 +30,7 @@
 
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache<?php echo $id; ?></h1>
+        <h1>#Bache <?php echo $id; ?></h1>
 
 	</div>
 	
@@ -93,6 +93,13 @@
 	  </div>
 	</div>
 
+</div>
+
+<div class="oculto">
+	<label id="idBache"><?php echo $id; ?></label>
+	<label id="longBache"><?php echo $longitud; ?></label>
+	<label id="latBache"><?php echo $latitud; ?></label>
+	<label id="imagenesBache"><?php echo $imagenes; ?></label>
 </div>
 
 <?php var_dump($imagenes);?>

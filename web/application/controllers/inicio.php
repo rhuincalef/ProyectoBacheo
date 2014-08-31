@@ -242,6 +242,13 @@ class Inicio extends CI_Controller {
 		return $this->Bache->getBache($idBache);
 	}
 
+	public function obtenerObservaciones($idBache){	
+		$firephp = FirePHP::getInstance(True);
+		$this->load->model("Bache");
+		$firephp->log("El arreglo que se cargará es el siguiente:");
+		return $this->Bache->obtenerObservaciones($idBache);
+	}
+
 }
 /* End of file bache.php */
 ?>

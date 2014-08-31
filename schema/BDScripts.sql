@@ -58,34 +58,6 @@ CREATE TABLE "Estado"
 
 
 
-CREATE TABLE "Grupo"
-(
-  id serial NOT NULL,
-  nombre character varying(50),
-  CONSTRAINT pk_id_grupo PRIMARY KEY (id)
-);
-
-CREATE TABLE "Usuario"
-(
-  id serial NOT NULL,
-  nombre character varying,
-  constrasenia character varying,
-  CONSTRAINT pk_id_usuario PRIMARY KEY (id)
-);
-
-CREATE TABLE "GrupoUsuario"
-(
-  id serial NOT NULL,
-  "idGrupo" serial NOT NULL,
-  "idUsuario" serial NOT NULL,
-  CONSTRAINT "pk_id_grupoUsr" PRIMARY KEY (id),
-  CONSTRAINT fg_id_grupo FOREIGN KEY ("idGrupo")
-      REFERENCES "Grupo" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fg_id_usuario FOREIGN KEY ("idUsuario")
-      REFERENCES "Usuario" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
 
 CREATE TABLE "Multimedia"
 (
@@ -112,34 +84,9 @@ CREATE TABLE "Observacion"
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE "Permiso"
-(
-  id serial NOT NULL,
-  nombre character varying(50),
-  CONSTRAINT pk_id_permiso PRIMARY KEY (id)
-);
 
-CREATE TABLE "PermisoGrupo"
-(
-  id serial NOT NULL,
-  "idPermiso" serial NOT NULL,
-  "idGrupo" serial NOT NULL,
-  CONSTRAINT "pk_id_permisoGrp" PRIMARY KEY (id),
-  CONSTRAINT fg_id_grupo FOREIGN KEY ("idGrupo")
-      REFERENCES "Grupo" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fg_id_permiso FOREIGN KEY ("idPermiso")
-      REFERENCES "Permiso" (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-
-CREATE TABLE "Usuario"
-(
-  id serial NOT NULL,
-  nombre character varying,
-  constrasenia character varying,
-  CONSTRAINT pk_id_usuario PRIMARY KEY (id)
-);
   
 INSERT INTO "Criticidad" (nombre, descripcion) VALUES ('alta','asdsadsadasdsadsadsadasda'),('media','asdsadsadasdsadsadsadasda'), ('baja','asdsadsadasdsadsadsadasda');
+INSERT INTO "TipoEstado" (nombre) VALUES ('reparando'),('confirmado'), ('informado');
+
+

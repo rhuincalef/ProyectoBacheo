@@ -57,9 +57,12 @@
               </ul>
               </li>
               <li id="opcionSesion" class="dropdown hide">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i> Hi, Pablo <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#"><i class="fa fa-cogs"> </i> Actividad del Sistema</a></li>
+                  <?php if ($logueado) {
+                      echo '<li><a href="#"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+                  }?>
                   <li class="divider"></li>
                   <li><a id="cerrarSesion" href="#"><i class="fa fa-lock"> </i> Cerrar Sesión</a></li>
                 </ul>

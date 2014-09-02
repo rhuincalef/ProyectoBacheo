@@ -60,7 +60,7 @@ class Auth extends CI_Controller {
 	public function registrarUsuario()
 	{
 		# code...
-		$this->load->view("RegistrarUsuario");
+		$this->template->build_page("registrarUsuario");
 	}
 
 	public function create_user()

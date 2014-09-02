@@ -13,6 +13,7 @@
  * @link      http://github.com/ollierattue/codeigniter-template
  */
 
+
 class Template {
 
 	var $CI;
@@ -30,7 +31,7 @@ class Template {
 	{
 		// Load CI instance so we can get config values etc
 		$this->CI =& get_instance();
-
+		
 		// Load config		
 		$this->CI->load->config('templatelib_config', TRUE);
 		$this->config = $this->CI->config->item('templatelib_config');
@@ -86,6 +87,8 @@ class Template {
 			
 	function build_page($path = NULL, $data = array())
 	{
+		
+    	// $data['logueado'] = $this->ion_auth->logged_in();
 		$data['path'] = $path;
 		$data['body_id'] = $this->body_id;
 		$data['body_class'] = $this->body_class;

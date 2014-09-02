@@ -8,7 +8,7 @@
 			var $form_inputs = $(this).find("input");
 			// data = {'login_identity':'guille@gmail.com', 'login_password':'1234', 'remember_me':'1', 'login_user':'Submit'};
 			data = {"login_identity":$($form_inputs[0]).val(), "login_password":$($form_inputs[1]).val()}
-			var submit_url = "index.php/auth/login_via_ajax";
+			var submit_url = $(this).attr("action")+"index.php/auth/login_via_ajax";
 			$.ajax(
 			{
 				url: submit_url,
@@ -18,7 +18,7 @@
 				success:function(arguments)
 				{
 					response = $.parseJSON(arguments);
-					debugger;
+					
 					// If the returned login value successul.
 					if (response.status == "OK")
 					{

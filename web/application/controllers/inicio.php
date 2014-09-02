@@ -226,11 +226,15 @@ class Inicio extends CI_Controller {
 	}
 	// /index.php/inicio/getBache/id/3
 	public function getBache(){
+		$this->load->library('ion_auth');
+    	
+
 		$get = $this->uri->uri_to_assoc();
 		$id = $get['id'];
 		$this->load->model("Bache");
 		$bache= $this->Bache->getBache($id);	
 		$this->output->enable_profiler(FALSE);
+		$bache['logueado'] = $this->ion_auth->logged_in();
 		$this->template->build_page("bache",$bache);
 		
 	}

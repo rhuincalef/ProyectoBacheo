@@ -39,7 +39,7 @@
                   <li> 
                     <div>
                       <div class="container">
-                        <form id="inicioSesion" class="form-signin">
+                        <form id="inicioSesion" action="<?php echo $this->config->base_url(); ?>" class="form-signin">
                           <h2 class="form-signin-heading">Inicio de Sesión</h2>
                           <input type="text" class="form-control inicioSesion" placeholder="Usuario" required autofocus>
                           <input type="password" class="form-control inicioSesion" placeholder="Password" required>
@@ -60,8 +60,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#"><i class="fa fa-cogs"> </i> Actividad del Sistema</a></li>
-                  <?php if ($logueado) {
-                      echo '<li><a href="#"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+                  <?php 
+                  if ($logueado) {
+                      echo '<li><a href="'.$this->config->base_url().'/index.php/auth/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
                   }?>
                   <li class="divider"></li>
                   <li><a id="cerrarSesion" href="#"><i class="fa fa-lock"> </i> Cerrar Sesión</a></li>

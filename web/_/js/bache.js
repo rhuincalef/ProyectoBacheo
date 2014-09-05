@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	Bache.init();
+	Bache.redimensionarImg();
     obtenerComentarios();
     $("#botonTwitter").click(function(){
     	comentarTwitter();

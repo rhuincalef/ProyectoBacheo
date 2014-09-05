@@ -42,7 +42,7 @@ Bache = (function () {
 					}
 			};
 			$('body').append('<div><img src="'+urlBase+rutasImagenes[0]+'"></div>');
-			redimensionarImg();
+			//redimensionarImg();
 			// $('.item').each(function (i, e) {
 			// 	// body...
 			// 	$(e).css({'background-color':'gray'});
@@ -51,15 +51,14 @@ Bache = (function () {
 	}
 
 	var redimensionarImg = function() {
-//		alert($img);		325 x 244
+//		325 x 244
 	var $img = $('.item img');
-	// alert($img[]);
 	$img.each(function (i, e) {
+//alert("1");
 		if(e.width > e.height)
 		{
 			var temporal = e.width / e.height;
 			e.width = 325;
-			debugger;
 			// $(e).css({'width':'325px'});
 			e.height = 325 / temporal;
 			temporal = 325 / temporal;
@@ -67,9 +66,12 @@ Bache = (function () {
 			temporal = (244 - e.height) / 2;
 //			$(e).css({'marginTop':temporal+'px', 'marginBottom':temporal+'px'});
 			temporal = temporal+'px';
-			$(e).css({'marginBottom':temporal});
-			$(e).parent().css({"paddingTop":temporal});
-			alert("padding top: "+$(e).parent().css("paddingTop"));
+//			$(e).css({'marginBottom':temporal});
+
+var $divPadre = $(e).parent();
+$divPadre.css({'marginBottom':temporal});
+$divPadre.css({"paddingTop":temporal});	
+
 		}else{
 			var temporal = e.height / e.width;
 			$(e).css({'height':'244px'});
@@ -78,12 +80,12 @@ Bache = (function () {
 			$(e).css({'marginRight':temporal+'px', 'marginLeft':temporal+'px'});
 		}
 	});
-	//alert($img[1].width + ' ' + $img[1].height);
 	}
 	
 	return{
 		init:init,
 		comentarios:comentarios,
-		cargarImagenes:cargarImagenes
+		cargarImagenes:cargarImagenes,
+		redimensionarImg: redimensionarImg
 	}
 }());

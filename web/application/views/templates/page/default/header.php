@@ -43,11 +43,11 @@
                           <h2 class="form-signin-heading">Inicio de Sesión</h2>
                           <input type="text" class="form-control inicioSesion" placeholder="Usuario" required autofocus>
                           <input type="password" class="form-control inicioSesion" placeholder="Password" required>
-                          <!-- <div class="checkbox">
+                          <div class="checkbox">
                             <label>
                               <input type="checkbox" value="remember-me"> Recordar
                             </label>
-                          </div> -->
+                          </div>
                           <button class="btn btn-lg btn-primary btn-block inicioSesion" type="submit">Entrar</button>
                         </form>
                       </div>

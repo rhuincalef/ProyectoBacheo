@@ -76,8 +76,8 @@ function cargarCriticidad(niveles){
     $opciones.append(opcion);
     var globo = informar("Informacion",elemento.descripcion);
       $(opcion).hover(function(event){
-        var posicionY = $(event.target).position().top+100;
-        globo.get().css({'top': posicionY });
+        // var posicionY = $(event.target).position().top+100;
+        // globo.get().css({'top': posicionY });
         globo.open();
       });
     $(opcion).mouseout(function(){globo.remove();});

@@ -1,9 +1,15 @@
 $(document).ready(function(){
 	Bache.init();
     obtenerComentarios();
+    $("#botonTwitter").click(function(){
+    	comentarTwitter();
+    });
 });
 
+function comentarTwitter (argument) {
 
+	window.open("http://twitter.com/share&text=probando algo de tiwtteerr");
+}
 
 function obtenerComentarios() {
 //	comentarios= '[{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';

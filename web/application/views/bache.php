@@ -82,10 +82,19 @@
 	  		<div id="observaciones"> 
 	  			<h1>Comentarios</h1>
 	  		</div>
+	  		<div id="controles"> 
+
+
+</div>
+
 			<div class="areaParaComentar">
+			  <div class="divBotones"> 
+			  		<button id="botonEnviarComentario" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i> Comentar</button>
+		          	<button id="botonTwitter" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-twitter"></i> Twittear</button>
+		      </div>
 	          <form id="formularioComentario" class="formularioComentario">
-		          <input name="usuario" type="text" class="form-control inputUsuario" placeholder="Usuario">
-		          <button id="botonEnviarComentario" type="button" class="btn btn-primary botonComentario"> Enviar Comentario!</button>
+		          <input name="usuario" type="User" class="form-control inputUsuario" placeholder="Usuario">
+		          <input name="email" type="Email" class="form-control inputEmail" placeholder="Email">
 		          <textarea name="mensaje" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
 	          </form>
 	      	</div>	  		
@@ -101,6 +110,4 @@
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>
 </div>
-
-<?php var_dump($imagenes);?>
 <!-- </div> -->

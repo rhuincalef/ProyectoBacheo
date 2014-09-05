@@ -92,15 +92,17 @@
 
 
 	function alertar(titulo,texto,tipo) {
-		// tipo = "error";
-		// tipo = "info";
-       // tipo = "success";  
-		    new PNotify({
-		      title: titulo,
-		      text: texto,
-		      addclass: "stack-bottomright",  
-		      type:tipo
-		    });
+		var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};    	
+		var opts = {
+			title: titulo,
+			text: texto,
+			addclass: "stack-bottomright",
+			type: tipo,
+			stack: stack_bottomright
+		};
+		
+		new PNotify(opts);
+    	
 	}
 
 	function informar(titulo,texto) {

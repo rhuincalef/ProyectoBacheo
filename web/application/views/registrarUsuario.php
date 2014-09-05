@@ -1,5 +1,14 @@
+ <div class="contenedorJumbotron">
+  <div class="jumbotron personalizacionJumbotron">
+          
+        <h1>Registrar Usuarios</h1>
+
+  </div>
+
+</div>
+ 
+
     <div class="container">
-      <h2>Registro</h2>
       <!-- <div class="alert alert-success" role="alert"> -->
       <!-- <div class="alert alert-danger" role="alert"> -->
       <div class="alert hide" role="alert">

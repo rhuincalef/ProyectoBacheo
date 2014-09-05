@@ -40,7 +40,6 @@ class Inicio extends CI_Controller {
                                             'label' => 'Altura',
                                             'rules' => 'required|integer|max_length[4]'
                                          )
-                                    // )
 	);
 
 
@@ -168,7 +167,7 @@ class Inicio extends CI_Controller {
 	public function asociarObservacion(){
 		$this->load->database();
 		$this->load->model('Bache');		
-		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"]);
+		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"]);
 		$this->Bache->asociarObservacion($datosBache);
 	}
 
@@ -242,6 +241,260 @@ class Inicio extends CI_Controller {
 		return $this->Bache->getBache($idBache);
 	}
 
+
+	public function obtenerObservaciones($idBache){
+		$firephp = FirePHP::getInstance(True);
+		$this->load->model("Bache");
+		return $this->Bache->obtenerObservaciones($idBache);	
+	}
+
+
+	// URL DE PRUEBA --->
+	// http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerObservacionesTw/62
+	public function obtenerObservacionesTw($idBache){
+		$firephp = FirePHP::getInstance(True);
+		$this->load->model("Bache");
+		//BACKUP version vieja.
+		// $linkVerBache="http://www.localhost.com/gitBaches/ProyectoBacheo/web/index.php/inicio/verBache/".$idBache;
+		$hashtag="Bache".$idBache;
+		$tweets=$this->Bache->obtenerObservacionesTw($hashtag);	
+		$firephp->log("<p><b> Los tweets retornados fueron: </b></p><br>");
+		$firephp->log($tweets);
+		return $tweets;
+	}
+
+
+	//FORM Utilizado para comentar con la API de Twitter.
+	public function loginConTwitter(){
+		$this->load->view('loginConTwitter');	
+	}
+
+	//Metodo llamado por el formulario de twitter para comentar.
+	public function formComentarConTwitter(){
+		$this->load->view("formComentarConTwitter");
+	}
+
+
+	// Esta funcion sube el comentario a Twitter para un bache determinado.
+	//Es llamado por meido del view "formaComentarConTwitter".
+	public function comentarConTwitter(){
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Dentro de comentarConTwitter()");
+		$this->load->model("Observacion");
+		$json=$this->Observacion->enviarComentarioTwitter();
+		$firephp->log("<p>El json retornado es: ".$json."</p>");
+		$firephp->log("Fin de comentarConTwitter!");
+	}
+
+
+		//BACKUP COMENTARCONTwitter!!
+		// Include config file and twitter PHP Library by Abraham Williams (abraham@abrah.am)
+		//Las librerias para usar include_once() estan en /opt/lamp/php
+		// include_once("configOAuth.php");
+		// include_once("twitteroauth.php");
+
+		// $firephp = FirePHP::getInstance(True);
+		// $firephp->log("Dentro de comentar con Twitter...");
+		// // $datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"]);
+
+		// //Se obtienen de la session los datos del usuario (nombreUsuario,email y la fechaPublicacion)
+		// $hashBache=" #proyectoBacheoTwBache".$_POST["idBache"];
+		// //TODO Cambiar la URL de verBache.
+		// $comentario=$hashBache." en "."http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/verBache/".$_POST["idBache"]." ".$_POST["comentario"];
+
+		// $firephp->log("El hashtag del bache es: ".$hashBache);
+		// $firephp->log("El comentario es: ".$comentario);
+
+		// //Se obtienen los token de acceso desde la session en php, para
+		// //crear la conexion y acceder a los metodos de la API. 
+		// session_start(); 
+		// $firephp->log($_SESSION['oauth_token']);
+		// $firephp->log($_SESSION['oauth_token_secret']);
+
+		// $connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
+  //       $content = $connection->post('statuses/update', array('status' => $comentario));
+
+  //       $firephp->log("El contenido retornado fue:");
+  //       $firephp->log($content);
+  //      	//Se compara el contenido en JSON retonado por la petición a la API.
+  //      	//TODO Preguntar: ¿Sirve el screen_name del usaurio como id unico en lugar del E-mail?
+
+  //      	if($content && isset($content->user) ){
+  //      		return json_encode(array("usuario"=>$_SESSION['name'],"email"=>$content->screen_name,"fecha"=>$content->created_at,"img_perfil"=>$content->profile_image_url_https));
+  //       }
+
+
+
+
+	//URL de Callback --> http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/usuarioValido 
+	public function loginTwitter(){
+
+		$firephp = FirePHP::getInstance(True);
+		// Include config file and twitter PHP Library by Abraham Williams (abraham@abrah.am)
+		//Las librerias para usar include_once() estan en /opt/lamp/php
+		include_once("configOAuth.php");
+		include_once("twitteroauth.php");
+
+		//Se con el metodo TwitterOAuth() se crea un objeto que permite pedir las credenciales del cliente
+		// con la clave del consumidor y la clave secreta del consumidor.
+		$connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET);
+		$firephp->log("'CONSUMER_KEY':$CONSUMER_KEY;'CONSUMER_SECRET':$CONSUMER_SECRET");
+		$firephp->log("Se creo el objeto TwitterOAuth!");
+		$firephp->log($connection);
+
+		//Con getRequestToken() se piden las credenciales temporales utilizadas por el cliente y el servidor(antes de pedir el token de rta)
+		$request_token = $connection->getRequestToken($OAUTH_CALLBACK); //get Request Token
+		$firephp->log("'$request_token':");
+		$firephp->log($request_token);
+		if( $request_token)
+		{
+			$firephp->log("Session iniciada=");
+			$firephp->log(session_start()); 
+			//Si se obtiene un token temporal, se almacena en las variables de session
+			$token = $request_token['oauth_token'];
+			$_SESSION['request_token'] = $token ;
+			$_SESSION['request_token_secret'] = $request_token['oauth_token_secret'];
+			switch ($connection->http_code){
+				case 200:
+					// Si la peticion del token temporal fue exitosa, 
+					// con getAutorizeURL() se redirige hacia la pagina de login de Twitter,.
+					$url = $connection->getAuthorizeURL($token);
+					header('Location: '.$url);
+					break;
+				default:
+					echo "Connection with Twitter FAILED!!";
+					break;
+			}
+		}
+		else //error receiving request token
+		{
+			echo "<b>Error Receiving Request Token</b>";
+		}
+	}
+
+	// Este metodo es llamado luego de que el usuario es redirigido por loginTwitter()
+	// se autentica  y da permisos a la aplicación para que acceda a los datos de su cuenta de Twitter.
+	public function usuarioTWValido(){
+		include_once("configOAuth.php");
+		include_once("twitteroauth.php");
+		
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Session iniciada=");
+		$res=(session_start())?'true':'false';
+		$firephp->log($res); 
+
+		$firephp->log("Session:"); 
+		if(isset($_GET['oauth_token']))
+		{
+		//Una vez obtenida la autorización se crea otro objeto TwitterOAuth con las claves temporales
+	    $connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $_SESSION['request_token'], $_SESSION['request_token_secret']);
+	    // Y se solicita el Token de acceso de larga duración que utilizará el cliente para acceder a los recursos del propietario.
+	    $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+
+		$firephp->log("access_token:");
+		$firephp->log($access_token);
+	    if($access_token)
+	    {
+	    	//Luego de tener el TokenAcceso, se crea otro objeto TwitterOAuth con los tokens temporales (el dl consumidor y el secreto ) y el token
+	    	// de acceso. A partir de este punto se pueden hacer peticiones a twitter en representación del usuario, con GET, POST y DELETE. 
+	    	$connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
+	        $params =array();
+
+	        //Una vez obtenido el token de acceso para el cliente, se utilizan los metodos conn->get/post() con la URL de la API
+	        //y los parametros del metodo de la api en un array asociativo.
+	        
+	        // $params['include_entities']='true';
+	        $params['include_entities']='false';
+	        $content = $connection->get('account/verify_credentials',$params);
+	        if($content && isset($content->screen_name) && isset($content->name))
+	        {
+	        	
+	            $_SESSION['name']=$content->name;
+	            $_SESSION['image']=$content->profile_image_url;
+	            $_SESSION['twitter_id']=$content->screen_name;
+
+	            //Se guardan los tokens de acceso, para crear el objeto de conexion de nuevo, en la $_SESSION[].
+	            $_SESSION['oauth_token']=$access_token['oauth_token'];
+	            $_SESSION['oauth_token_secret']=$access_token['oauth_token_secret'];
+				
+
+	            // A partir de este punto se puede redigir nuevamente al usuario a la pagina donde se le solicitó hacer el login.
+ 				header('Location: http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/formComentarConTwitter'); 
+	        }
+	        else
+	        {
+	            echo "<h4> Login Error </h4>";
+	        }
+	    }
+		else
+		{
+		    echo "<h4> Login Error </h4>";
+		}
+	  }
+
+	}
+
+
+
+
 }
+
+//BACKUP DE usuarioTWValido()
+// public function usuarioTWValido(){
+// 		include_once("configOAuth.php");
+// 		include_once("twitteroauth.php");
+		
+// 		$firephp = FirePHP::getInstance(True);
+// 		$firephp->log("Session iniciada=");
+// 		$res=(session_start())?'true':'false';
+// 		$firephp->log($res); 
+
+// 		$firephp->log("Session:"); 
+// 		if(isset($_GET['oauth_token']))
+// 		{
+// 		//Una vez obtenida la autorización se crea otro objeto TwitterOAuth con las claves temporales
+// 	    $connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $_SESSION['request_token'], $_SESSION['request_token_secret']);
+// 	    // Y se solicita el Token de acceso de larga duración que utilizará el cliente para acceder a los recursos del propietario.
+// 	    $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+
+// 		$firephp->log("access_token:");
+// 		$firephp->log($access_token);
+// 	    if($access_token)
+// 	    {
+// 	    	//Luego de tener el TokenAcceso, se crea otro objeto TwitterOAuth con los tokens temporales (el dl consumidor y el secreto ) y el token
+// 	    	// de acceso. A partir de este punto se pueden hacer peticiones a twitter en representación del usuario, con GET, POST y DELETE. 
+// 	    	$connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
+// 	        $params =array();
+
+// 	        //Una vez obtenido el token de acceso para el cliente, se utilizan los metodos conn->get/post() con la URL de la API
+// 	        //y los parametros del metodo de la api en un array asociativo.
+	        
+// 	        // $params['include_entities']='true';
+// 	        $params['include_entities']='false';
+// 	        $content = $connection->get('account/verify_credentials',$params);
+// 	        if($content && isset($content->screen_name) && isset($content->name))
+// 	        {
+	        	
+// 	            $_SESSION['name']=$content->name;
+// 	            $_SESSION['image']=$content->profile_image_url;
+// 	            $_SESSION['twitter_id']=$content->screen_name;
+				
+// 	            // A partir de este punto se puede redigir nuevamente al usuario a la pagina donde se le solicitó hacer el login.
+// 	            // header('Location: http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/usuarioRegistradoOK'); 
+//  				header('Location: http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/formComentarConTwitter'); 
+// 	        }
+// 	        else
+// 	        {
+// 	            echo "<h4> Login Error </h4>";
+// 	        }
+// 	    }
+// 		else
+// 		{
+// 		    echo "<h4> Login Error </h4>";
+// 		}
+// 	  }	  
+// 	}
+
+
 /* End of file bache.php */
 ?>

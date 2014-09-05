@@ -14,6 +14,8 @@
 			<input type="text" id="idBache" name="idBache"  ><br>
 			<label for="nombreObservador" >Nombre del observador:</label>		
 			<input type="text" id="nombreObservador" name="nombreObservador"><br>
+			<label for="comentario" >Comentario:</label>		
+			<input type="text" id="comentario" name="comentario"><br>
 			<label for="emailObservador">Email:</label>		
 			<input type="text" id="emailObservador" name="emailObservador"><br>
 			<input  id="modaInfoBacheAceptar" type="submit" value="Asociar observación"><br>

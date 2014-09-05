@@ -107,3 +107,8 @@
 .oculto {
     display: none;
 }
+
+.item{
+    height: 244px;
+    background-color: gray;
+}

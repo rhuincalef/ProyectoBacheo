@@ -21,9 +21,24 @@ Bache = (function () {
 	var comentarios = function() {
 		return '[{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
 	}
+
+
+	cargarImagenes = function(urlBase,rutasImagenes) {
+		var $contenedor = $("#carousel");
+		$contenedor.empty();
+		var $indicadores = $("#carousel-indicators");
+		$indicadores.empty();
+		for (var i = 0; rutasImagenes.length > i; i++) {
+				$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'" width="325px"  alt=""></div>');
+				$indicadores.append('<li data-target="#carousel-example-generic" data-slide-to="'+(i)+'"></li>');
+				if(i==0)
+					$($indicadores.children()[0]).addClass("active");
+		};
+	}
 	
 	return{
 		init:init,
-		comentarios:comentarios
+		comentarios:comentarios,
+		cargarImagenes:cargarImagenes
 	}
 }());

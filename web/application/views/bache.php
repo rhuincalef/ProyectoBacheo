@@ -8,13 +8,13 @@
 	<div class="imagenesCarrucel">
 			 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 			 
-			  <ol class="carousel-indicators">
+			  <ol id="carousel-indicators" class="carousel-indicators">
 			    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 			  </ol>
 
 			 
-			  <div class="carousel-inner">
+			  <div id="carousel" class="carousel-inner">
 			    <div class="item active">
 			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache1.jpg" width="325px" alt="">
 			 
@@ -100,7 +100,14 @@
 	<label id="longBache"><?php echo $longitud; ?></label>
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>
+	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
+	
 </div>
 
+<!-- <?php $rutasImgs = array();
+		foreach($imagenes as $img){
+			array_push($rutasImgs, $img);
+	}?>
+echo "<script>Bache.cargarImagenes(". json_encode($rutasImgs)."); </script>";
 <?php var_dump($imagenes);?>
-<!-- </div> -->
+ </div> -->

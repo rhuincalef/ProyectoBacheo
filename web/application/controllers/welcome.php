@@ -10,8 +10,12 @@ class Welcome extends Frontend_Controller {
 	// --------------------------------------------------------------------
 	
 	public function index(){
+		$this->load->library('ion_auth');
 		$this->output->enable_profiler(FALSE);
-		$this->template->build_page("mapa");
+		
+    	$data['logueado'] = $this->ion_auth->logged_in();
+		
+		$this->template->build_page("mapa",$data);
 
 		//$this->template->build_page("bache");
 		//$this->template->build_page("actividadSistema");

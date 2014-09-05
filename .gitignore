@@ -4,7 +4,8 @@ web/application/config/autoresponderlib_config.php
 web/application/logs/log-*.php
 web/application/cache/*
 web/application/cache/!index.html
-web/application/config/*
+#se borro para agregar la configuracion de la libreria ion auth
+# web/application/config/*
 
 # Numerous always-ignore extensions
 *.diff

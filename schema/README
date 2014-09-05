@@ -1,8 +1,5 @@
-All schema files are stored here:
+Ejecutar los siguientes scripts:
 
-The schemas themselves are stored in schema/ e.g. schema/users.sql with a schema for every table in the database
-
-Schema data is then stored in the data directory:
-
-- Any data which is critical to the application running, e.g. countries, should be saved into data/required
-- Any data which is used for testing the application should be saved in data/sample
+	-- ci_sessions.sql
+	-- BDScripts.sql
+	-- ion_auth.postgre.sql

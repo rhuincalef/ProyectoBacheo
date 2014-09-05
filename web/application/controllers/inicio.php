@@ -148,12 +148,12 @@ class Inicio extends CI_Controller {
 	// de las imagenes.
 	//Para fines de prueba la URL es: http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerInfo/2.
 	//para id=2.
-	// public function obtenerInfo($idBache){
-	// 	$firephp = FirePHP::getInstance(true);
-	// 	$firephp->log("El idBache pasado por parámetro es:".$idBache);
-	// 	$this->load->model('Bache');
-	// 	return $this->Bache->obtenerInfo($idBache);
-	// }
+	 public function obtenerInfo($idBache){
+	 	$firephp = FirePHP::getInstance(true);
+	 	$firephp->log("El idBache pasado por parámetro es:".$idBache);
+	 	$this->load->model('Bache');
+	 	return $this->Bache->obtenerInfo($idBache);
+	 }
 
 
 	// http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/BajaBache/
@@ -225,11 +225,15 @@ class Inicio extends CI_Controller {
 	}
 	// /index.php/inicio/getBache/id/3
 	public function getBache(){
+		$this->load->library('ion_auth');
+    	
+
 		$get = $this->uri->uri_to_assoc();
 		$id = $get['id'];
 		$this->load->model("Bache");
 		$bache= $this->Bache->getBache($id);	
 		$this->output->enable_profiler(FALSE);
+		$bache['logueado'] = $this->ion_auth->logged_in();
 		$this->template->build_page("bache",$bache);
 		
 	}
@@ -241,12 +245,6 @@ class Inicio extends CI_Controller {
 		return $this->Bache->getBache($idBache);
 	}
 
-
-	public function obtenerObservaciones($idBache){
-		$firephp = FirePHP::getInstance(True);
-		$this->load->model("Bache");
-		return $this->Bache->obtenerObservaciones($idBache);	
-	}
 
 
 	// URL DE PRUEBA --->
@@ -434,8 +432,16 @@ class Inicio extends CI_Controller {
 
 	}
 
+	public function obtenerObservaciones($idBache){	
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("El arreglo que se cargará es el siguiente:");
+		$this->load->model("Bache");
+		$comentarios = $this->Bache->obtenerObservaciones($idBache);
+		$firephp->log("Se obtuvieron los comentarios!!!!");
+		$firephp->log($comentarios);
+		echo $comentarios;
 
-
+	}
 
 }
 

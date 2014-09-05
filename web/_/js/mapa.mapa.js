@@ -2,15 +2,25 @@ $(document).ready(function(){
 // alertar("laPucha","fue un la pucha","error");
 
 /*ESto capas que no va aca pero todavia estoy laburando con esto. */
-
-    Dropzone.options.imagenesForm = { // The camelized version of the ID of the form element
-        // The configuration we've talked about above
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 5,
-        maxFiles: 5,
-        acceptedFiles: "image/*",
-        dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
+    Bacheo.myDropzone = 4;
+        Dropzone.options.imagenesForm = {
+          paramName: "file", // The name that will be used to transfer the file
+          maxFilesize: 5, // MB
+          maxFiles:8, //Cantidad maxima de archivos para admitir dentro de dropzone
+          autoProcessQueue:false,
+          parallelUploads:8,
+          maxFiles: 5,
+          acceptedFiles: "image/*",
+          dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
+        
+    // Dropzone.options.imagenesForm = { // The camelized version of the ID of the form element
+    //     // The configuration we've talked about above
+    //     autoProcessQueue: false,
+    //     uploadMultiple: true,
+    //     parallelUploads: 5,
+    //     maxFiles: 5,
+    //     acceptedFiles: "image/*",
+    //     dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
         // The setting up of the dropzone
         // init: function() {
         //   var myDropzone = this;
@@ -24,7 +34,7 @@ $(document).ready(function(){
 
         // }
         init: function() {
-          myDropzone = this;
+          Bacheo.myDropzone = this;
           this.on("addedfile", function(file) {
             // Create the remove button
             var removeButton = Dropzone.createElement("<button>Remove file</button>");
@@ -66,8 +76,8 @@ function cargarCriticidad(niveles){
     $opciones.append(opcion);
     var globo = informar("Informacion",elemento.descripcion);
       $(opcion).hover(function(event){
-        var posicionY = $(event.target).position().top+100;
-        globo.get().css({'top': posicionY });
+        // var posicionY = $(event.target).position().top+100;
+        // globo.get().css({'top': posicionY });
         globo.open();
       });
     $(opcion).mouseout(function(){globo.remove();});

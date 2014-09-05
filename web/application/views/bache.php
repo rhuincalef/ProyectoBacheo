@@ -1,27 +1,22 @@
-
-<script>
-	// alert(<?php echo $latitud.$longitud; ?>);
-</script>
-
 <div class="contenido">
 
 	<div class="imagenesCarrucel">
 			 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 			 
-			  <ol class="carousel-indicators">
+			  <ol id="carousel-indicators" class="carousel-indicators">
 			    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			    <!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li> -->
 			  </ol>
 
 			 
-			  <div class="carousel-inner">
+			  <div id="carousel" class="carousel-inner">
 			    <div class="item active">
-			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache1.jpg" width="325px" alt="">
+			      <img src="<?php echo $this->config->base_url(); ?>_/img/img404.jpg" width="325px" alt="">
 			 
 			    </div>
-			    <div class="item">
+			    <!-- <div class="item">
 			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache2.jpg" width="325px"  alt="">
-			    </div>
+			    </div> -->
 			    
 			  </div>
 
@@ -30,7 +25,7 @@
 
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache<?php echo $id; ?></h1>
+        <h1>#Bache <?php echo $id; ?></h1>
 
 	</div>
 	
@@ -77,10 +72,39 @@
 
 		</div>
 	  </div>
-	  <div class="tab-pane" id="social"></div>
+	  <div class="tab-pane" id="social">
+
+	  		<div id="observaciones"> 
+	  			<h1>Comentarios</h1>
+	  		</div>
+	  		<div id="controles"> 
+
+
+</div>
+
+			<div class="areaParaComentar">
+			  <div class="divBotones"> 
+			  		<button id="botonEnviarComentario" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i> Comentar</button>
+		          	<button id="botonTwitter" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-twitter"></i> Twittear</button>
+		      </div>
+	          <form id="formularioComentario" class="formularioComentario">
+		          <input name="usuario" type="User" class="form-control inputUsuario" placeholder="Usuario">
+		          <input name="email" type="Email" class="form-control inputEmail" placeholder="Email">
+		          <textarea name="mensaje" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
+	          </form>
+	      	</div>	  		
+
+	  </div>
 	</div>
 
 </div>
 
-<!-- </div> -->
-
+<div class="oculto">
+	<label id="idBache"><?php echo $id; ?></label>
+	<label id="longBache"><?php echo $longitud; ?></label>
+	<label id="latBache"><?php echo $latitud; ?></label>
+	<label id="imagenesBache"><?php echo $imagenes; ?></label>
+	<label id="base_url"><?php echo $this->config->base_url();?></label>
+	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
+	
+</div>

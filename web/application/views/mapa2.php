@@ -16,7 +16,7 @@
                 autoProcessQueue:false,
                 parallelUploads:8
               };
-              var myDropzone = new Dropzone("#my-awesome-dropzone", { url: "inicio/subirImagen/69"});
+              var myDropzone = new Dropzone("#my-awesome-dropzone", { url: "./index.php/inicio/subirImagen/21"});
 
               console.log("Se inicializo el formulario con el script de carga de imagenes.");
               $( "#modaInfoBacheAceptar").unbind( "click" );

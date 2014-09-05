@@ -33,15 +33,22 @@ class Multimedia extends MY_Model {
         $storeFolder = '../../imgSubidas';
 
         if (!empty($_FILES)) {    
-            $firephp->log('Files --> :'.$path = $_FILES['file']['name']);
-            
+            // $firephp->log('Files --> :'.$path = $_FILES['file']['name']);
+            $firephp->log($_FILES['file']['name']);
             $tempFile = $_FILES['file']['tmp_name'];      
             $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
-            $targetFile =  $targetPath. $_FILES['file']['name'];
-            
+            $name = $_FILES['file']['name'];
+            $targetFile =  $targetPath.$name ;
+            $firephp->log("targetFile -->$targetFile");
+            //$firephp->log($_FILES["file"]);
+            //$firephp->log('asdsadasddasd asdasdsads');
+
+            //move_uploaded_file("/home/pablo/Documentos/ProyectosWeb/ProyectoBacheo/web/application/models/../../imgSubidas/",$targetFile); 
             move_uploaded_file($tempFile,$targetFile);
             $firephp->log("Se almaceno la imagen correctamente!");
-            
+            // $firephp->log("resultado");
+            // $firephp->log($r);
+
             $path = $_FILES['file']['name'];
             $firephp->log('El path es: '.$path);    
             $ext = pathinfo($path, PATHINFO_EXTENSION);

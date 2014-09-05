@@ -60,8 +60,8 @@ class Bache extends MY_Model {
             "alturaCalle"=>$tuplaBacheConCalle->alturaCalle,
             "calle" => $tuplaBacheConCalle->Calle->nombre,
             "criticidad" => $tuplaBacheConCriticidad->nombre,
-            "imagenes"=> $this->obtenerImagenes($idBache),
-            "observaciones"=>$this->obtenerObservaciones($idBache)
+            "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
             );
 
         $firephp->log("Valores asociados obtenidos desde el bache!.");
@@ -229,6 +229,7 @@ class Bache extends MY_Model {
         $tokenacceso_secreto='QKWtvsyIIDSqmieJeOgLhE7M3FKxYLCinSeLgWDWLjV1u';
         $connection = new TwitterOAuth($consumidor, $consumidor_secreto, $tokenacceso, $tokenacceso_secreto);
         //Se establece el nombre de la cuenta que se va a consultar y se solicita que se traigan solo los tweets mas recientes.
+
         $params=array("q"=>"@proyBacheoTw","result_type"=>"recent");
         $tweets= $connection->get('search/tweets',$params);
 
@@ -279,7 +280,8 @@ class Bache extends MY_Model {
         $arreglo=array();
         $arreglo = array_map(function($elemento) {
             return array(
-                'fecha' => "null",
+                //'fecha' => "null",
+                'fecha' => $elemento->fecha,
                 'texto' => $elemento->comentario,
                 'usuario' => $elemento->nombreObservador
             );
@@ -288,9 +290,10 @@ class Bache extends MY_Model {
         $firephp->log("Los elementos del array cambiados son...");   
         $firephp->log($arreglo);
         //Se cargan las observaciones de twitter.
-        $obsTw=$this->obtenerObservacionesTw("Bache".$idBache);
+       $obsTw=$this->obtenerObservacionesTw("Bache".$idBache);
         //Se mezclan arrays de valores de Twitter y de la BD Local.
-        $comentariosFinales=array_merge($arreglo,$obsTw);
+       $comentariosFinales=array_merge($arreglo,$obsTw);
+        // $comentariosFinales=$arreglo;
         $firephp->log("Los comentarios finales unidos son....");
         $firephp->log($comentariosFinales);   
         return json_encode($comentariosFinales);

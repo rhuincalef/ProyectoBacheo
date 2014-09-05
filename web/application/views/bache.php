@@ -25,7 +25,7 @@
 
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache <?php echo $id; ?></h1>
+        <h1>#Bache<?php echo $id; ?></h1>
 
 	</div>
 	
@@ -104,6 +104,7 @@
 	<label id="longBache"><?php echo $longitud; ?></label>
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>
+	<label id="base_url"><?php echo $this->config->base_url();?></label>
 	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
 	
 </div>

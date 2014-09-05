@@ -1,21 +1,19 @@
 $(document).ready(function(){
 	Bache.init();
+
 	Bache.redimensionarImg();
-    obtenerComentarios();
+
+	Bache.comentarios();
+   // obtenerComentarios();
     $("#botonTwitter").click(function(){
-    	comentarTwitter();
+    	Bache.comentarTwitter();
     });
 });
 
-function comentarTwitter (argument) {
-
-	window.open("http://twitter.com/share&text=probando algo de tiwtteerr");
-}
 
 function obtenerComentarios() {
-//	comentarios= '[{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
-	var comentarios = Bache.comentarios();
-	cargarComentarios(JSON.parse(comentarios));
+	//var comentarios = Bache.comentarios();
+	//cargarComentarios(JSON.parse(comentarios));
 }
 
 	
@@ -31,7 +29,7 @@ function cargarComentarios(comentarios) {
 		var $comentario = $('<div/>');
 		$comentario.addClass("comentarioIndividual");
 		$avatar.append(comentarios[i].usuario+" ("+comentarios[i].fecha+") Dice:");
-		$comentario.append(comentarios[i].comentario);
+		$comentario.append(comentarios[i].texto);
 		$comentarioUsuario.append($avatar);
 		$comentarioUsuario.append($comentario);
 		$comentarios.append($comentarioUsuario);

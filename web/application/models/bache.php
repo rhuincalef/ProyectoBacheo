@@ -60,8 +60,8 @@ class Bache extends MY_Model {
             "alturaCalle"=>$tuplaBacheConCalle->alturaCalle,
             "calle" => $tuplaBacheConCalle->Calle->nombre,
             "criticidad" => $tuplaBacheConCriticidad->nombre,
-            "imagenes"=> $this->obtenerImagenes($idBache),
-            "observaciones"=>$this->obtenerObservaciones($idBache)
+            "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
             );
 
         $firephp->log("Valores asociados obtenidos desde el bache!.");
@@ -80,6 +80,9 @@ class Bache extends MY_Model {
         return $resultado;
     }  //Fin buscarCalle()
 
+
+
+    //TODO CONSULTAR Como obtener el nombre y e-mail del usuario que realizó la notificacion del bache!!
 
     /*Enviar un array asociativo de elementos para dar de alta el bache. el metodo
     retorna el id del bache insertado*/
@@ -122,8 +125,10 @@ class Bache extends MY_Model {
         $firephp->log($datos);
 
         $this->load->model("Bache",'bache');
-        $firephp->log("aNTES DE L INSERT");
+        $firephp->log("Antes del INSERT");
         $this->bache->insert($datos);
+
+
         $firephp->log("Se insertaron los datos correctamente!");
         //Se retorna la utlima fila insertada.
         $idBache=$this->db->insert_id();
@@ -198,17 +203,103 @@ class Bache extends MY_Model {
     }
 
 
-    // Este metodo retorna las observaciones asociadas a un arreglo en particular
+    //Se obtienen los tweets que nombran al usuario de @proyBacheoTw y que cuyo hashtag
+    // #proyBacheoTwBache+idBache (con el id de bache correspondiente al que se esta viendo)
+    //concuerde con el que se esta viendo.
+    
+    
+    //Metodo llamado por el formulario de twitter para obtener los comentarios de un bache.
+    //Los comentarios devueltos se tienen que encontrar en formato JSON y ordenados de forma descendente por fecha(ultima fecha recibida).
+    //El formato obtenido de los comentarios de Twitter  tiene que ser como mínimo el siguiente:
+
+    // json=[ {"usuario":"rhuincalef", "texto":"My first comment on a hole in Twitter.", "fecha":"30/08/2014"} ]
+
+    function obtenerObservacionesTw($hashtag){
+        $firephp = FirePHP::getInstance(true);        
+        $firephp->log("Dentro de obtenerObservaciones()");   
+        $firephp->log("Pidiendo comentarios de twitter...");   
+        include_once("configOAuth.php");
+        include_once("twitteroauth.php");
+
+        //Se obtienen los token de acceso desde la session en php, para
+        //crear la conexion y acceder a los metodos de la API. 
+        $consumidor='f0PlhCeJAXhwpIqseeZws3nQo';
+        $consumidor_secreto='qD9blYXFwAwLOHnzd8s3Ij4FszW4xzTVt9TlpjgUxmtzLkG5KF';
+        $tokenacceso='2778950893-UadtYe7ijTwYwsbflQ7e5IsMhD1zpQOiBGu4oQe';
+        $tokenacceso_secreto='QKWtvsyIIDSqmieJeOgLhE7M3FKxYLCinSeLgWDWLjV1u';
+        $connection = new TwitterOAuth($consumidor, $consumidor_secreto, $tokenacceso, $tokenacceso_secreto);
+        //Se establece el nombre de la cuenta que se va a consultar y se solicita que se traigan solo los tweets mas recientes.
+
+        $params=array("q"=>"@proyBacheoTw","result_type"=>"recent");
+        $tweets= $connection->get('search/tweets',$params);
+
+        $comentarios=array();
+        //Se obtiene la fecha, el screen_name del usuario y el texto del comentario.
+        $firephp->log("Antes del for");   
+        for ($i=0; $i < count($tweets->statuses) ; $i++) { 
+            $firephp->log("Dentro del for:$i");   
+            //Se verifica si el link del comentario concuerda con el link del bache, para agregarlo en la respuesta.
+            $firephp->log("linkObservaciones: ".$hashtag);
+            $firephp->log("El arreglo de estados es:...");
+            $firephp->log($tweets->statuses);
+            for ($j=0; $j <count($tweets->statuses[$i]->entities->hashtags) ; $j++) { 
+                //Se buscan todas las urls dentro de un comentario.
+                $firephp->log("Hashtags a comparar....");
+                $firephp->log($tweets->statuses[$i]->entities->hashtags[$j]->text);
+                    if(isset($tweets->statuses[$i]->entities->hashtags[$j]->text)){
+                        if($tweets->statuses[$i]->entities->hashtags[$j]->text == $hashtag){
+                            $firephp->log("Se encontro el hashtag en la pos:$j");   
+                            $comentarios[$i]["fecha"]=$tweets->statuses[$i]->created_at;    
+                            $comentarios[$i]["texto"]=$tweets->statuses[$i]->text; 
+                            $comentarios[$i]["usuario"]=$tweets->statuses[$i]->user->screen_name;
+                        }
+                    }
+            }
+            
+        }//Fin del for de tweets
+        $firephp->log("Los tweets filtrados leidos son...");
+        $firephp->log($tweets);
+
+        $firephp->log("Los comentarios filtrados leidos son...");
+        $firephp->log($comentarios);
+        return $comentarios;
+    }
+
+
+    // Este metodo retorna las observaciones locales y de Twitter, asociadas a un bache particular.
     function obtenerObservaciones($idBache){
         $firephp = FirePHP::getInstance(true);        
         $firephp->log("Dentro de obtenerObservaciones()");   
         $this->load->model("Observacion");
         $obs=$this->Observacion->get_many_by('idBache',$idBache);
         $firephp->log("Observacioens obtenidas...");   
-        $firephp->log($obs);   
-        return $obs;
+        $firephp->log($obs);
+
+
+        //Se convierten las claves de las observaciones buscadas en la BD
+        $arreglo=array();
+        $arreglo = array_map(function($elemento) {
+            return array(
+                //'fecha' => "null",
+                'fecha' => $elemento->fecha,
+                'texto' => $elemento->comentario,
+                'usuario' => $elemento->nombreObservador
+            );
+        }, $obs);
+
+        $firephp->log("Los elementos del array cambiados son...");   
+        $firephp->log($arreglo);
+        //Se cargan las observaciones de twitter.
+       $obsTw=$this->obtenerObservacionesTw("Bache".$idBache);
+        //Se mezclan arrays de valores de Twitter y de la BD Local.
+       $comentariosFinales=array_merge($arreglo,$obsTw);
+        // $comentariosFinales=$arreglo;
+        $firephp->log("Los comentarios finales unidos son....");
+        $firephp->log($comentariosFinales);   
+        return json_encode($comentariosFinales);
     }
 
+    
     //Este metodo obtiene las rutas de las imagenes para un determinado idBache.
     //retorna una arreglo con las rutas relativas al servidor.
     //Si no existe ninguan imagen asociada retorna un array vacio.
@@ -231,6 +322,80 @@ class Bache extends MY_Model {
         $firephp->log($rutasImg);   
         return $rutasImg;
     }
+
+
+    //BACKUP DEL METODO DE OBTENERCOMETNARIOSTw() version vieja donde se busca por la URL de los tweets filtrados.
+    //Se obtienen los tweets que nombran al usuario de proyBacheoTw -->
+    // https://api.twitter.com/1.1/search/tweets.json?q=%40proyBacheoTw
+    // Y luego por medio de las entidades se filtran aquellos comentarios donde la URL del bache concuerde con el idBache enviado!
+    
+    //Metodo llamado por el formulario de twitter para obtener los comentarios de un bache.
+    //Los comentarios devueltos se tienen que encontrar en formato JSON y ordenados de forma descendente por fecha(ultima fecha recibida).
+    //El formato obtenido de los comentarios de Twitter  tiene que ser como mínimo el siguiente:
+
+    // json=[ {"usuario":"rhuincalef", "texto":"My first comment on a hole in Twitter.", "fecha":"30/08/2014"} ]
+    // function obtenerObservacionesTw($linkObservaciones){
+    //     $firephp = FirePHP::getInstance(true);        
+    //     $firephp->log("Dentro de obtenerObservaciones()");   
+    //     $firephp->log("Pidiendo comentarios de twitter...");   
+    //     include_once("configOAuth.php");
+    //     include_once("twitteroauth.php");
+
+    //     //Se obtienen los token de acceso desde la session en php, para
+    //     //crear la conexion y acceder a los metodos de la API. 
+    //     $consumidor='f0PlhCeJAXhwpIqseeZws3nQo';
+    //     $consumidor_secreto='qD9blYXFwAwLOHnzd8s3Ij4FszW4xzTVt9TlpjgUxmtzLkG5KF';
+    //     $tokenacceso='2778950893-UadtYe7ijTwYwsbflQ7e5IsMhD1zpQOiBGu4oQe';
+    //     $tokenacceso_secreto='QKWtvsyIIDSqmieJeOgLhE7M3FKxYLCinSeLgWDWLjV1u';
+    //     $connection = new TwitterOAuth($consumidor, $consumidor_secreto, $tokenacceso, $tokenacceso_secreto);
+    //     //Se crea un arreglo con el nombre de la cuenta que tiene asociados todos los tweets del bache.
+    //     $params=array("q"=>"@proyBacheoTw");
+    //     $tweets= $connection->get('search/tweets',$params);
+
+    //     $comentarios=array();
+    //     //Se obtiene la fecha, el screen_name del usuario y el texto del comentario.
+    //     $firephp->log("Antes del for");   
+    //     for ($i=0; $i < count($tweets->statuses) ; $i++) { 
+    //         $firephp->log("Dentro del for:$i");   
+    //         //Se verifica si el link del comentario concuerda con el link del bache, para agregarlo en la respuesta.
+    //         $firephp->log("linkObservaciones: ".$linkObservaciones);
+    //         $firephp->log("El arreglo de estados es:...");
+    //         $firephp->log($tweets->statuses);
+            
+    //         $posURL=0;
+    //         if (count($tweets->statuses[$i]->entities->urls)>=1) {
+    //             for ($j=0; $j <count($tweets->statuses[$i]->entities->urls) ; $j++) { 
+    //                 //Se buscan todas las urls dentro de un comentario.
+    //                 $firephp->log("URLs a comparar....");
+    //                 $firephp->log($tweets->statuses[$i]->entities->urls[$j]->expanded_url);
+    //                     if($tweets->statuses[$i]->entities->urls[$j]->expanded_url){
+    //                         $posURL=$j;
+    //                         $firephp->log("Se encontro la url en la pos:$posURL");   
+    //                         if($tweets->statuses[$i]->entities->urls[$posURL]->expanded_url == $linkObservaciones){
+    //                             $comentarios[$i]["fecha"]=$tweets->statuses[$i]->created_at;    
+    //                             $comentarios[$i]["texto"]=$tweets->statuses[$i]->text; 
+    //                             $comentarios[$i]["usuario"]=$tweets->statuses[$i]->user->screen_name;
+    //                         }
+    //                     }
+    //             }
+    //         }//Fin del for de urls en el tweet
+    //     }//Fin del for de tweets
+    //     $firephp->log("Los tweets filtrados leidos son...");
+    //     $firephp->log($tweets);
+
+    //     $firephp->log("Los comentarios filtrados leidos son...");
+    //     $firephp->log($comentarios);
+    //     return $comentarios;
+    // }
+
+
+
+
+
+
+
+
+
 
 }
 /* End of file bache.php */

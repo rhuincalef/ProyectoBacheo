@@ -30,7 +30,7 @@
 						$("#opcionInicioSesion").find("input").each(function (i, e) {
 							$(e).val('');
 						});
-						
+						//window.location.reload();
 						// Hide any error message that may be showing.
 						alertar(response.data.login_identity, "Login via Ajax was successful!", "success");
 					}

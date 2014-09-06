@@ -25,7 +25,7 @@
 
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache <?php echo $id; ?></h1>
+        <h1>#Bache<?php echo $id; ?></h1>
 
 	</div>
 	

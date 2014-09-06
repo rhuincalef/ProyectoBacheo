@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	Bache.init();
+
+	Bache.redimensionarImg();
+
 	Bache.comentarios();
    // obtenerComentarios();
     $("#botonTwitter").click(function(){

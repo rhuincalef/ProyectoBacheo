@@ -82,10 +82,10 @@ class Bache extends MY_Model {
 
 
 
-    //TODO CONSULTAR Como obtener el nombre y e-mail del usuario que realizó la notificacion del bache!!
-
     /*Enviar un array asociativo de elementos para dar de alta el bache. el metodo
     retorna el id del bache insertado*/
+    //TODO Hacer que se de de alta el nombre de usuario como "informante del bache", email (en blanco),
+    // y el bache y la descripción del bache como comentario!
     function darAltaBache($valores)
     {
         $firephp = FirePHP::getInstance(true);
@@ -95,7 +95,8 @@ class Bache extends MY_Model {
 
         //Se obtiene la criticidad asociada al bache
         $this->load->model("Criticidad");
-        $idCriticidad = $valores["criticidad"]; //TODO: verificar qeu existe la criticidad. VIENE UN ID CRITICIDAD.
+        $idCriticidad = $this->Criticidad->obtenerCriticidad($valores["criticidad"]);
+        // $idCriticidad = $valores["criticidad"]; //TODO: verificar qeu existe la criticidad. VIENE UN ID CRITICIDAD.
         $firephp->log("idCriticidad: $idCriticidad");
 
         $this->load->model("Calle");
@@ -129,10 +130,23 @@ class Bache extends MY_Model {
         $this->bache->insert($datos);
 
 
+
         $firephp->log("Se insertaron los datos correctamente!");
         //Se retorna la utlima fila insertada.
         $idBache=$this->db->insert_id();
         $firephp->log("La ultima fila insertada fue:".$idBache);
+
+        //Se carga la descripción como primer comentario de un bache en observaciones.
+        $this->load->model("Observacion");
+        $firephp->log("Se cargo la observacion!");
+        $this->Observacion->insertarObservacion(array(
+                "idBache" =>$idBache,
+                "comentario"=>$valores["descripcion"],
+                "nombreObservador" => "Usuario informante",
+                "emailObservador" => "-",
+                "fecha" => date("Y-m-d H:i:s") 
+        ));
+        $firephp->log("Se inserto correctamente el comentario del informador del bache");
 
         $this->load->model("Estado");
         $this->Estado->asociarEstado($idBache,"informado");

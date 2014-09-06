@@ -234,6 +234,9 @@ class Inicio extends CI_Controller {
 		$bache= $this->Bache->getBache($id);	
 		$this->output->enable_profiler(FALSE);
 		$bache['logueado'] = $this->ion_auth->logged_in();
+		if ($bache['logueado']) {
+			$bache['usuario'] = $this->ion_auth->user()->row()->username;
+		}
 		$this->template->build_page("bache",$bache);
 		
 	}

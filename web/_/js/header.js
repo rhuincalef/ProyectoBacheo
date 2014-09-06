@@ -22,17 +22,9 @@
 					// If the returned login value successul.
 					if (response.status == "OK")
 					{
-						// Empty the login form content and replace it will a successful login message.
-						$("#opcionInicioSesion").addClass("hide");
-						$("#opcionSesion").removeClass("hide");
-						$("#opcionSesion .dropdown-toggle").prepend('<a href="">' + response.data.login_identity + '</a>');
-						// To clean the input fields
-						$("#opcionInicioSesion").find("input").each(function (i, e) {
-							$(e).val('');
-						});
-						//window.location.reload();
-						// Hide any error message that may be showing.
+						logearGraficamente(response.data.login_identity);
 						alertar(response.data.login_identity, "Login via Ajax was successful!", "success");
+						window.location.reload();
 					}
 					// Else the login credentials were invalid.
 					else
@@ -44,6 +36,8 @@
 				}
 			});
 		});
+		
+		
 
 		$("#cerrarSesion").click(function (evento) {
 			evento.preventDefault();
@@ -103,6 +97,16 @@
 		
 		new PNotify(opts);
     	
+	}
+
+	function logearGraficamente(usuario) {
+		$("#opcionInicioSesion").addClass("hide");
+		$("#opcionSesion").removeClass("hide");
+		$("#opcionSesion .dropdown-toggle").prepend('<a href="">' + usuario + '</a>');
+		$("#opcionInicioSesion").find("input").each(function (i, e) {
+			$(e).val('');
+		});
+						
 	}
 
 	function informar(titulo,texto) {

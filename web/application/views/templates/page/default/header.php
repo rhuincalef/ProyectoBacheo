@@ -1,6 +1,5 @@
 <header class="navbar-inverse " role="banner">
 <div class="container">
-
       <!-- Static navbar -->
       <div class="navbar navbar-default barra" role="navigation">
         <div class="container-fluid">
@@ -15,7 +14,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="#"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
+              <li><a href="<?php echo $this->config->base_url();?>"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-map-marker"></i> Baches<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -43,11 +42,11 @@
                           <h2 class="form-signin-heading">Inicio de Sesión</h2>
                           <input type="text" class="form-control inicioSesion" placeholder="Usuario" required autofocus>
                           <input type="password" class="form-control inicioSesion" placeholder="Password" required>
-                          <div class="checkbox">
+                          <!-- <div class="checkbox">
                             <label>
                               <input type="checkbox" value="remember-me"> Recordar
                             </label>
-                          </div>
+                          </div> -->
                           <button class="btn btn-lg btn-primary btn-block inicioSesion" type="submit">Entrar</button>
                         </form>
                       </div>
@@ -63,7 +62,11 @@
                   <?php 
                   if ($logueado) {
                       echo '<li><a href="'.$this->config->base_url().'/index.php/auth/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+                      echo '<script type="text/javascript"> logearGraficamente("'.$usuario.'");</script>';
                   }?>
+
+
+
                   <li class="divider"></li>
                   <li><a id="cerrarSesion" href="#"><i class="fa fa-lock"> </i> Cerrar Sesión</a></li>
                 </ul>

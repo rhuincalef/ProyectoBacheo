@@ -12,6 +12,8 @@
  * @license   http://www.opensource.org/licenses/mit-license.php
  * @link      http://github.com/ollierattue/codeigniter-template
  */
+ 
+
 
 
 class Template {
@@ -112,7 +114,7 @@ class Template {
 		$data['template_directory'] = $this->template_directory;
 		$data['template_name'] = $this->template_name;
 		$data['header_directory'] = $this->header_directory;
-		
+	
 		
 		$this->CI->load->vars($data);
 		$this->CI->load->view("{$this->template_directory}/{$this->template_name}/base");

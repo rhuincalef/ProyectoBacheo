@@ -53,7 +53,7 @@ Bache = (function () {
 						$($contenedor.children()[0]).addClass("active");
 					}
 			};
-			$('body').append('<div><img src="'+urlBase+rutasImagenes[0]+'"></div>');
+			//$('body').append('<div><img src="'+urlBase+rutasImagenes[0]+'"></div>');
 			//redimensionarImg();
 			// $('.item').each(function (i, e) {
 			// 	// body...

@@ -36,7 +36,7 @@ class Inicio extends CI_Controller {
                                             'rules' => 'required|xss_clean'
                                          ),
                                     array(
-                                            'field' => 'alturaCalle',
+                                            'field' => 'altura',
                                             'label' => 'Altura',
                                             'rules' => 'required|integer|max_length[4]'
                                          )
@@ -77,7 +77,7 @@ class Inicio extends CI_Controller {
 		$firephp->log("--------------------------------------------------------------------------------");
 		$firephp->log("--------------------------------------------------------------------------------");
 		$datosBache=array( "titulo"=>$_POST["titulo"] ,"latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"criticidad"=>$_POST["criticidad"],
-			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["alturaCalle"]);
+			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["altura"]);
 			
 		$firephp->log("El array de datos es...");
 		$firephp->log($datosBache);
@@ -90,7 +90,7 @@ class Inicio extends CI_Controller {
 		if ($this->sonDatosValidos()==TRUE) {
 			//Descomentar estas lineas para la entrega
 			$datosBache=array( "titulo"=>$_POST["titulo"] ,"latitud"=>$_POST["latitud"],"longitud"=>$_POST["longitud"],"criticidad"=>$_POST["criticidad"],
-			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["alturaCalle"]);
+			"calle"=>$_POST["calle"],"descripcion"=>$_POST["descripcion"],"altura"=>$_POST["altura"]);
 			
 			$firephp->log("El array de datos es...");
 			$firephp->log($datosBache);
@@ -439,9 +439,42 @@ class Inicio extends CI_Controller {
 		$comentarios = $this->Bache->obtenerObservaciones($idBache);
 		$firephp->log("Se obtuvieron los comentarios!!!!");
 		$firephp->log($comentarios);
-		echo $comentarios;
-
+		$comentariosOrdenados=$this->ordenarPorFecha(json_decode($comentarios,TRUE));
+		$firephp->log("Se ordenaron los comentarios...");
+		$firephp->log(json_encode($comentariosOrdenados));
+		echo json_encode($comentariosOrdenados);
+		// echo $comentarios;
 	}
+
+
+	//Este metodo ordena un arreglo de fechas de forma ascendente y
+	// retorna el JSON que será devuelto como respuesta!
+	private function ordenarPorFecha($arregloComentarios){
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Dentro de ordenar por Fecha");
+		$arregloOrd=array();
+
+		for ($i=0; $i < count($arregloComentarios); $i++) { 
+			if($i+1>=count($arregloComentarios)){
+				break;
+			}
+			$firephp->log("Dentro del FOR");
+			//Se crea la fecha2 y se compara con la 1
+			$f1= strtotime($arregloComentarios[$i]["fecha"]);
+			$f2=strtotime($arregloComentarios[$i+1]["fecha"]);
+			if($f1>$f2){					
+				array_push($arregloOrd,$arregloComentarios[$i+1]);
+				array_push($arregloOrd,$arregloComentarios[$i]);
+				$i++;
+			}else{
+				array_push($arregloOrd,$arregloComentarios[$i]);
+			}
+		}//Fin del For
+		$firephp->log("Fin de ordenar por Fecha. ".count($arregloComentarios));
+		return $arregloOrd;
+	}
+		
+
 
 }
 

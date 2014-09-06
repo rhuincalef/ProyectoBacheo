@@ -38,7 +38,9 @@ class Multimedia extends MY_Model {
             $tempFile = $_FILES['file']['tmp_name'];      
             $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
             $name = $_FILES['file']['name'];
-            $targetFile =  $targetPath.$name ;
+            $targetFile =  $targetPath.$name;
+            
+            $firephp->log("tempFile -->$tempFile");
             $firephp->log("targetFile -->$targetFile");
             //$firephp->log($_FILES["file"]);
             //$firephp->log('asdsadasddasd asdasdsads');

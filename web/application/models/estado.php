@@ -60,6 +60,15 @@ class Estado extends MY_Model {
     	$firephp->log("Se borro el estado del bache");
     }
 
+    public function obtenerEstadosBache($idBache){
+        $this->load->database();
+       // var_dump($this->-get_where(array("idBache"=>$idBache)));
+        $this->order_by('fecha');
+        $estados = $this->get_many_by("idBache",$idBache); //$this->db->get_where("Estado",array("idBache"=>$idBache));
+        return $estados;
+                
+    }
+
 
 
 }

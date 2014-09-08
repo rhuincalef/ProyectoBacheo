@@ -35,3 +35,21 @@ function cargarComentarios(comentarios) {
 		$comentarios.append($comentarioUsuario);
 	};	
 }
+
+
+function estadoBache(estado, tiposEstado){
+	var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
+	$("#nombreEstado").text("Estado del Bache: "+tiposEstado[indice].nombre);
+	$("#contenedorControladorEstado").append('	<div id="slider" class="controlEstado"></div>');
+	$( "#slider" ).slider({
+		value:parseInt(indice),
+		min: 0,
+		max: tiposEstado.length-1,
+		step: 1,
+		slide: function( event, ui ) {
+			$("#nombreEstado").empty();
+			$("#nombreEstado").text("Estado del Bache: "+tiposEstado[ui.value].nombre);
+		}
+	});
+
+}

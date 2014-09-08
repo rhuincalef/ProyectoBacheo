@@ -53,6 +53,12 @@ class Bache extends MY_Model {
         $firephp->log("Tupla con la criticidad..");
         $firephp->log($tuplaBacheConCriticidad);
 
+        $this->load->model('Estado');
+        $tuplaBacheConEstado=$this->Estado->obtenerEstadosBache($idBache);
+        
+        $this->load->model('TipoEstado');
+        $tipoEstado = $this->TipoEstado->obtenerTiposEstados();
+
         $datos = array(
             "id" => $tuplaBacheConCalle->id,
             "latitud"=>$tuplaBacheConCalle->latitud,
@@ -60,7 +66,9 @@ class Bache extends MY_Model {
             "alturaCalle"=>$tuplaBacheConCalle->alturaCalle,
             "calle" => $tuplaBacheConCalle->Calle->nombre,
             "criticidad" => $tuplaBacheConCriticidad->nombre,
-            "imagenes"=> $this->obtenerImagenes($idBache)
+            "imagenes"=> $this->obtenerImagenes($idBache),
+            "estado"=> json_encode($tuplaBacheConEstado),
+            "tiposEstado"=> json_encode($tipoEstado)
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             );
 
@@ -231,9 +239,12 @@ class Bache extends MY_Model {
     function obtenerObservacionesTw($hashtag){
         $firephp = FirePHP::getInstance(true);        
         $firephp->log("Dentro de obtenerObservaciones()");   
-        $firephp->log("Pidiendo comentarios de twitter...");   
-        include_once("configOAuth.php");
-        include_once("twitteroauth.php");
+        $firephp->log("Pidiendo comentarios de twitter...");
+        //$this->load->library('configOAuth');
+        $this->load->library('twitteroauth');
+
+        //include("../libraries/configOAuth.php");
+        //("../libraries/twitteroauth.php");
 
         //Se obtienen los token de acceso desde la session en php, para
         //crear la conexion y acceder a los metodos de la API. 

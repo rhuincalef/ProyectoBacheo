@@ -2,11 +2,14 @@ Bache = (function () {
 		this.idBache = 61;
 		var latitud = 0;
 		var longitud = 0;
+
 	var init = function (){
+		this.estado = JSON.parse($("#estadoBache").text());
+		this.tiposEstado = JSON.parse($("#tiposEstadoBache").text());
 		this.idBache = parseFloat($("#idBache").text());
+		this.logueado= parseInt($("#logueado").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
-		//base = $("#baseUrl").text();
 		var otroLat = latitud-0.0025;
 		var latlon = new google.maps.LatLng(latitud, longitud);
 		var latLongCenter = new google.maps.LatLng(otroLat, longitud);
@@ -21,7 +24,13 @@ Bache = (function () {
 			position: latlon,
 			map: mapa,
 			title: "Bache "+ idBache
-	  });
+	  	});
+
+		if (logueado) {estadoBache(this.estado,this.tiposEstado);};
+
+		var indice = parseInt(this.estado[this.estado.length-1].idTipoEstado)-1;
+		$("#campoEstadoBache").text(this.tiposEstado[indice].nombre);
+		$("#campoFechaEstado").text(this.estado[this.estado.length-1].fecha);
 	}
 	
 	function comentarTwitter () {
@@ -29,7 +38,7 @@ Bache = (function () {
 	}
 
 	var comentarios = function() {
-		$.get("http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
+		$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
 			cargarComentarios(JSON.parse(data));
 			//return data;	
 		});
@@ -43,9 +52,7 @@ Bache = (function () {
 			$contenedor.empty();
 			var $indicadores = $("#carousel-indicators");
 			$indicadores.empty();
-//			var $div = $("body").append('<div id="imgOculta" class="oculto">');
 			for (var i = 0; rutasImagenes.length > i; i++){
-					// $contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'" width="325px"  alt=""></div>');
 					$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'"></div>');
 					$indicadores.append('<li data-target="#carousel-example-generic" data-slide-to="'+(i)+'"></li>');
 					if(i==0){
@@ -53,12 +60,11 @@ Bache = (function () {
 						$($contenedor.children()[0]).addClass("active");
 					}
 			};
-			//$('body').append('<div><img src="'+urlBase+rutasImagenes[0]+'"></div>');
-			//redimensionarImg();
-			// $('.item').each(function (i, e) {
-			// 	// body...
-			// 	$(e).css({'background-color':'gray'});
-			// });
+
+			$('.item').each(function (i, e) {
+				// body...
+				$(e).css({'background-color':'gray'});
+			});
 		}
 	}
 

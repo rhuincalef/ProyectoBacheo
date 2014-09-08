@@ -1,3 +1,15 @@
+
+<div class="oculto">
+	<label id="idBache"><?php echo $id; ?></label>
+	<label id="longBache"><?php echo $longitud; ?></label>
+	<label id="latBache"><?php echo $latitud; ?></label>
+	<label id="imagenesBache"><?php echo $imagenes; ?></label>
+	<label id="baseUrlBache"><?php echo $this->config->base_url();?></label>
+	<label id="estadoBache"><?php echo $estado;?></label>
+	<label id="tiposEstadoBache"><?php echo $tiposEstado;?></label>
+	<label id="logueado"><?php echo $logueado?></label>
+</div>
+
 <div class="contenido">
 
 	<div class="imagenesCarrucel">
@@ -31,7 +43,12 @@
 	
 	<ul class="nav nav-tabs tabInfo" role="tablist">
 	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
+	  <?php 
+            if ($logueado) {
+             echo '<li><a href="#estado" role="tab" data-toggle="tab">Estado del Bache</a></li>';
+        }?>
 	  <li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
+	   
 	</ul>
 
 
@@ -62,16 +79,24 @@
 				</tr>
 				<tr>
 					<td> Estado </td>
-					<td> Reparando </td>
+					<td id="campoEstadoBache"></td>
 				</tr>
 				<tr>
 					<td> Fecha Ultimo Estado </td>
-					<td> 10/05/2003</td>
+					<td id="campoFechaEstado"></td>
 				</tr>
 			</table>
 
 		</div>
 	  </div>
+	  <?php 
+          if ($logueado) {
+            echo '<div class="tab-pane" id="estado"> <h1 id="nombreEstado" >Estado del Bache:  </h1> <div id="contenedorControladorEstado" class="especificacionesBache"></div></div>';
+           // echo '<script type="text/javascript">estadoBache(this.estado,this.tiposEstado);</script>'; 
+      
+            //var_dump($tiposEstado);
+        }?>
+
 	  <div class="tab-pane" id="social">
 
 	  		<div id="observaciones"> 
@@ -99,12 +124,4 @@
 
 </div>
 
-<div class="oculto">
-	<label id="idBache"><?php echo $id; ?></label>
-	<label id="longBache"><?php echo $longitud; ?></label>
-	<label id="latBache"><?php echo $latitud; ?></label>
-	<label id="imagenesBache"><?php echo $imagenes; ?></label>
-	<label id="base_url"><?php echo $this->config->base_url();?></label>
 	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
-	
-</div>

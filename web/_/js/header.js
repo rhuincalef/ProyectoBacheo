@@ -42,13 +42,14 @@
 		$("#cerrarSesion").click(function (evento) {
 			evento.preventDefault();
 			$.ajax({
-				url: "index.php/auth/logout",
+				url: $("#inicioSesion").attr("action")+"index.php/auth/logout",
 				type: "POST",
 				success:function () {
 					alertar("titulo","Se ha cerrado la sesion.","success");
 					$("#opcionInicioSesion").removeClass("hide");
 					$("#opcionSesion").addClass("hide");
 					$("#opcionSesion .dropdown-toggle").children("a").remove();
+					window.location.reload();
 				}
 			});
 		});

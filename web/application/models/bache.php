@@ -95,8 +95,8 @@ class Bache extends MY_Model {
 
         //Se obtiene la criticidad asociada al bache
         $this->load->model("Criticidad");
-        $idCriticidad = $this->Criticidad->obtenerCriticidad($valores["criticidad"]);
-        // $idCriticidad = $valores["criticidad"]; //TODO: verificar qeu existe la criticidad. VIENE UN ID CRITICIDAD.
+       // $idCriticidad = $this->Criticidad->obtenerCriticidad($valores["criticidad"]);
+        $idCriticidad = $valores["criticidad"]; //TODO: verificar qeu existe la criticidad. VIENE UN ID CRITICIDAD.
         $firephp->log("idCriticidad: $idCriticidad");
 
         $this->load->model("Calle");

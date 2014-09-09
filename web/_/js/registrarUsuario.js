@@ -1,6 +1,6 @@
 (function($) {
 	$(document).ready(function(){
-		$("#registrarUsuario").on("submit", function (event) {
+		$("#crearUsuario").on("submit", function (event) {
 			event.preventDefault();
 			$(".alert").empty();
 			var $form_inputs = $(this).find("input");
@@ -39,4 +39,4 @@
 	});
 
 
-})(jQuery);
+});

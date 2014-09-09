@@ -125,8 +125,14 @@ var Bacheo = (function(){
 		    if (status == google.maps.GeocoderStatus.OK) {
 		    	console.log(results[0]);
 		    	if (results[1]){
-		         	calle.value = results[0].address_components[1].long_name;
-		         	altura.placeholder= results[0].address_components[0].long_name;              
+		    		if(results[0].address_components.length ==6){
+		    			calle.value = results[0].address_components[1].long_name;
+		    			altura.placeholder= results[0].address_components[0].long_name;              
+		    		}else{
+		    			calle.value = results[0].address_components[0].long_name;
+		    			altura.placeholder = "---";
+		    		}
+		         	
 		        }
 		    } else {
 		        alert("Geocoder failed due to: " + status);

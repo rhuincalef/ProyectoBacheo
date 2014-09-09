@@ -106,8 +106,8 @@ class Auth extends CI_Controller {
 			if ($this->ion_auth->register($username, $password, $email, $additional_data, $group))
 			{
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				$this->data['message'] = $this->ion_auth->errors();
-				echo 'Your account has successfully been created.';
+				// $this->data['message'] = $this->ion_auth->errors();
+				echo json_encode(array('status' => 'OK', 'message' => 'Your account has successfully been created.'));
 			}
 			else{
 				$firephp->log('No se pudo registrar el usuario.');

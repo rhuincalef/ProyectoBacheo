@@ -19,6 +19,11 @@ class TipoEstado extends MY_Model {
 		return $tupla->id;
 	}    
 
+	public function obtenerTiposEstados()
+	{
+		return $this->as_array()->get_all();
+
+	}
 }
 /* End of file bache.php */
 /* Location: ./application/models/bache.php */

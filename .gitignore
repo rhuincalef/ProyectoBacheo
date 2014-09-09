@@ -7,6 +7,7 @@ web/application/cache/!index.html
 #se borro para agregar la configuracion de la libreria ion auth
 # web/application/config/*
 
+
 # Numerous always-ignore extensions
 *.diff
 *.err
@@ -39,6 +40,7 @@ dwsync.xml
 .svn
 publish
 .idea
+web/imgSubidas/*
 
 # build script local files
 build/buildinfo.properties

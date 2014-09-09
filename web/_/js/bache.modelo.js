@@ -1,14 +1,24 @@
 Bache = (function () {
-		this.idBache = 61;
-		this.latitud = 0;
-		this.longitud = 0;
-		this.baseUrl = "";
+		var idBache = 0;
+		var latitud = 0;
+		var longitud = 0;
+		var logueado = 0;
+		var baseUrl = "";
+		var estado = {};
+		var tiposEstado = {};
 
 	var init = function (){
-		this.idBache = parseFloat($("#idBache").text());
-		this.latitud = parseFloat($("#latBache").text());
-		this.longitud = parseFloat($("#longBache").text());
-		this.baseUrl = $("#baseUrl").text();
+		estado = JSON.parse($("#estadoBache").text());
+		tiposEstado = JSON.parse($("#tiposEstadoBache").text());
+		idBache = parseFloat($("#idBache").text());
+		latitud = parseFloat($("#latBache").text());
+		longitud = parseFloat($("#longBache").text());
+		baseUrl = $("#baseUrl").text();
+
+		logueado= parseInt($("#logueado").text());
+		latitud = parseFloat($("#latBache").text());
+		longitud = parseFloat($("#longBache").text());
+
 		var otroLat = latitud-0.0025;
 		var latlon = new google.maps.LatLng(latitud, longitud);
 		var latLongCenter = new google.maps.LatLng(otroLat, longitud);
@@ -23,21 +33,26 @@ Bache = (function () {
 			position: latlon,
 			map: mapa,
 			title: "Bache "+ idBache
-	  });
+	  	});
+
+		if (logueado) {estadoBache(estado,tiposEstado);};
+
+		var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
+		$("#campoEstadoBache").text(tiposEstado[indice].nombre);
+		$("#campoFechaEstado").text(estado[estado.length-1].fecha);
 	}
 	
 	var comentarTwitter = function () {
-		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+this.idBache+"&text=este texto");
+		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+idBache+"&text=este texto");
 	}
 
 	var comentarios = function() {
-		var url = this.baseUrl + "index.php/inicio/obtenerObservaciones/" + this.idBache;
-//		$.get("http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
-	$.get(url, function( data ) {
-			cargarComentarios(JSON.parse(data));
-			//return data;
+		var url = baseUrl + "index.php/inicio/obtenerObservaciones/" + idBache;
+		$.get(url, function( data ) {
+		//$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
+				cargarComentarios(JSON.parse(data));
+			//return '[{"comentario":"una basura este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
 		});
-		//return '[{"comentario":"una basura este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
 	}
 
 
@@ -55,12 +70,11 @@ Bache = (function () {
 						$($contenedor.children()[0]).addClass("active");
 					}
 			};
-			//$('body').append('<div><img src="'+urlBase+rutasImagenes[0]+'"></div>');
-			//redimensionarImg();
-			// $('.item').each(function (i, e) {
-			// 	// body...
-			// 	$(e).css({'background-color':'gray'});
-			// });
+
+			$('.item').each(function (i, e) {
+				// body...
+				$(e).css({'background-color':'gray'});
+			});
 		}
 	}
 

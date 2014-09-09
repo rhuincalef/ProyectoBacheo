@@ -40,6 +40,7 @@ Bache = (function () {
 		var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
 		$("#campoEstadoBache").text(tiposEstado[indice].nombre);
 		$("#campoFechaEstado").text(estado[estado.length-1].fecha);
+
 	}
 	
 	var comentarTwitter = function () {
@@ -71,50 +72,80 @@ Bache = (function () {
 					}
 			};
 
-			$('.item').each(function (i, e) {
-				// body...
-				$(e).css({'background-color':'gray'});
-			});
+			// $('.item').each(function (i, e) {
+			// 	// body...
+			// 	$(e).css({'background-color':'gray'});
+			// });
 		}
 	}
 
 	var redimensionarImg = function() {
-//		325 x 244
-	var $img = $('.item img');
-	$img.each(function (i, e) {
-//alert("1");
-		if(e.width > e.height)
-		{
-			var temporal = e.width / e.height;
-			e.width = 325;
-			// $(e).css({'width':'325px'});
-			e.height = 325 / temporal;
-			temporal = 325 / temporal;
-			// $(e).css({'height':temporal});
-			temporal = (244 - e.height) / 2;
-//			$(e).css({'marginTop':temporal+'px', 'marginBottom':temporal+'px'});
-			temporal = temporal+'px';
-//			$(e).css({'marginBottom':temporal});
+	//		325 x 244
+		var $img = $('.item img');
+		$img.each(function (i, e) {
+	//alert("1");
+			if(e.width > e.height)
+			{
+				var temporal = e.width / e.height;
+				e.width = 325;
+				// $(e).css({'width':'325px'});
+				e.height = 325 / temporal;
+				temporal = 325 / temporal;
+				// $(e).css({'height':temporal});
+				temporal = (244 - e.height) / 2;
+	//			$(e).css({'marginTop':temporal+'px', 'marginBottom':temporal+'px'});
+				temporal = temporal+'px';
+	//			$(e).css({'marginBottom':temporal});
 
-var $divPadre = $(e).parent();
-$divPadre.css({'marginBottom':temporal});
-$divPadre.css({"paddingTop":temporal});	
+	var $divPadre = $(e).parent();
+	//$divPadre.css({'marginBottom':temporal});
+	//$divPadre.css({"paddingTop":temporal});	
 
-		}else{
-			var temporal = e.height / e.width;
-			$(e).css({'height':'244px'});
-			$(e).css({'width': 244/temporal});
-			temporal = (325 - e.width) / 2;
-			$(e).css({'marginRight':temporal+'px', 'marginLeft':temporal+'px'});
-		}
-	});
+			}else{
+				var temporal = e.height / e.width;
+				$(e).css({'height':'244px'});
+				$(e).css({'width': 244/temporal});
+				temporal = (325 - e.width) / 2;
+				$(e).css({'marginRight':temporal+'px', 'marginLeft':temporal+'px'});
+			}
+		});
 	}
 	
+	var cambiarEstado = function(nuevoEstado){
+		alert("HOLA");
+		var datos = {};
+		switch(nuevoEstado){
+			case 1:
+				datos.material = $("#material").val();
+				datos.baldosa = $("#baldosa").val();
+				datos.rotura = $("#rotura").val();
+				datos.ancho = $("#ancho").val();
+				datos.largo = $("#largo").val();
+				datos.profundidad = $("#profundidad").val();
+				datos.criticidad = $("#criticidad").val();
+			break;
+			case 2:
+				datos.fecha = "fecha de inicio de Reparacion";
+			break;
+			case 3:
+				datos.fecha = "fecha de finalizacion de Reparacion";
+			break;
+			default:
+			break;
+		}
+		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache", JSON.parse(datos), function (data) {
+			alert("termino la modificacio...");
+		});
+
+	}
+
+
 	return{
 		init:init,
 		comentarios:comentarios,
 		cargarImagenes:cargarImagenes,
 		redimensionarImg: redimensionarImg,
-		comentarTwitter:comentarTwitter
+		comentarTwitter:comentarTwitter,
+		cambiarEstado:cambiarEstado
 	}
 }());

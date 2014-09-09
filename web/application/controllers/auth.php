@@ -59,8 +59,11 @@ class Auth extends CI_Controller {
 
 	public function registrarUsuario()
 	{
-		# code...
-		$this->template->build_page("registrarUsuario");
+		$data['logueado'] = $this->ion_auth->logged_in();
+		if ($data['logueado']) {
+			$data['usuario'] = $this->ion_auth->user()->row()->username;
+		}
+		$this->template->build_page("registrarUsuario",$data);
 	}
 
 	public function create_user()

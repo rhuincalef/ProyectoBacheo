@@ -108,12 +108,39 @@
     display: none;
 }
 
-.item{
+/*.item{
     height: 244px;
     background-color: gray;
 }
-
+*/
 .controlEstado{
     margin-top: 0%;
+}
+
+.contenedorControles{
+    float:left;
+    width: 45%;
+}
+
+.contenedorPropiedades{
+    margin-top: 7%;
+    width: auto;
+}
+
+#estado > div:nth-child(2){
+    margin-left: 8%;
+}
+
+#contenedorFormulario{
+    padding-top: 10%;
+
+}
+
+#contenedorFormulario form{
     width: 40%;
+    margin: 0 auto;
+}
+
+.selectFormulario{
+    width: 83.4%;
 }

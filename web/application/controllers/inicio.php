@@ -477,7 +477,29 @@ class Inicio extends CI_Controller {
 		return $arregloOrd;
 	}
 		
+	public function cambiarEstadoBache()
+	{
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Dentro de cambiar Estado Bache");
+		$this->load->library('ion_auth');
 
+		if($this->ion_auth->logged_in()){
+			$idUser = $this->ion_auth->user()->row()->id;
+			$idBache = $this->input->post('idBache');
+			$this->load('Estado');
+			$estados = $this->Estado->obtenerEstadosBache($idBache);
+			$firephp->log($estados);
+			// $this->Estado->cambiarEstado($idBache);
+
+			$material = $this->input->post('material');
+			$numeroBaldosa = $this->input->post('numeroBaldosa');
+			$rotura = $this->input->post('rotura');
+			$ancho = $this->input->post('ancho');
+			$largo = $this->input->post('largo');
+			$profundidad = $this->input->post('profundidad');
+			$criticidad = $this->input->post('criticidad');
+		}
+	}
 
 }
 

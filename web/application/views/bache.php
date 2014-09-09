@@ -91,7 +91,11 @@
 	  </div>
 	  <?php 
           if ($logueado) {
-            echo '<div class="tab-pane" id="estado"> <h1 id="nombreEstado" >Estado del Bache:  </h1> <div id="contenedorControladorEstado" class="especificacionesBache"></div></div>';
+            echo '<div class="tab-pane" id="estado"> <div class="contenedorControles">';
+            echo '<h1 id="nombreEstado" >Estado del Bache:  </h1> </div>';
+            echo '<div class="contenedorControles">';
+            echo '<div id="contenedorControladorEstado" class="contenedorPropiedades"></div></div>';
+            echo '<div id="contenedorFormulario" class="oculto"> <form role="form" method="post" action="'.$this->config->base_url().'index.php/inicio/cambiarEstadoBache">   <div id="formularioEspecificacionesTecnicas" class="form-group"> </div>   <button id="registrarEstadoBache"> Confirmar</button></form> </div></div>';
            // echo '<script type="text/javascript">estadoBache(this.estado,this.tiposEstado);</script>'; 
       
             //var_dump($tiposEstado);

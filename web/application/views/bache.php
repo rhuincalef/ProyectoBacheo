@@ -104,7 +104,7 @@
 	<label id="longBache"><?php echo $longitud; ?></label>
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>
-	<label id="base_url"><?php echo $this->config->base_url();?></label>
+	<label id="baseUrl"><?php echo $this->config->base_url();?></label>
 	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
 	
 </div>

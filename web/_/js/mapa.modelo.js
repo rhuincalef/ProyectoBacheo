@@ -7,13 +7,18 @@ var Bacheo = (function(){
  * Es creado cuando desde el servidor se indica que el bache fue agregado de manera correcta, o al
  * obtener los datos del servidor (carga inicial)														*/
 	Marcador = function(datos, mapa){
-		this.id=datos.id;
+		this.id = datos.id;
 		this.criticidad = datos.criticidad;
-		this.marker = new google.maps.Marker({
+		var marcador = new google.maps.Marker({
 			position: datos.posicion,
 			map: mapa,
 			title: datos.titulo
-	  });
+		});
+		marcador.id = this.id;
+		this.marker = marcador;
+		google.maps.event.addListener(marcador,"click", function(){
+			window.open("index.php/inicio/getBache/id/"+marcador.id);
+		});
 		return this;
 	}
 
@@ -46,6 +51,26 @@ var Bacheo = (function(){
 		Bacheo.myDropzone.processQueue();
 	}
 
+
+	function datosValidos (titulo, criticidad, calle, altura, descripcion) {
+		var patron = /(\w+)\s+(\w+)/;
+		if (!patron.exec(titulo)){
+			alertar("Oups!","El parametro del campo 'Titulo' contiene errores","error");
+			return false;
+		};
+		patron =  /^[0-9]$/;
+		if (!patron.exec(criticidad)){
+			alertar("Oups!","El parametro del campo 'Criticidad' contiene errores","error");
+			return false;
+		};
+		patron =  /^(?:\+|-)?\d+$/;
+		if (!patron.exec(altura)){
+			alertar("Oups!","El parametro del campo 'Altura' contiene errores","error");
+			return false;
+		};
+		return true;
+	}
+
 /* guardarMarcador: Funcion llamada desde "guardarBache", efectua la llamada al servidor para realizar
  * dicha accion, obteniendo las coordenadas reales de la dirección especificada y, de resultar efectiva
  * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizada en
@@ -55,7 +80,9 @@ var Bacheo = (function(){
 		datos.titulo = titulo;
 		datos.criticidad = criticidad;
 		datos.descripcion = descripcion;
-
+		if (!datosValidos(titulo, criticidad, calle, altura, descripcion)){
+			return;
+		};
 		obtenerLatLng(calle,altura,function (posicion){
     	$.post( 
 				"index.php/inicio/AltaBache",
@@ -110,20 +137,20 @@ var Bacheo = (function(){
 /* mapa: Funcion que renderiza un mapa GoogleMap en el contenedor especificado, centrandolo en la 
  * ciudad de Trelew 																					*/
 	var mapa = function($contenedor){
-//		  $contenedor.gmap3("get");
 		  $contenedor.gmap3({
-		     map:{
-		      options:{
-		        mapTypeId: google.maps.MapTypeId.ROADMAP,
-		        mapTypeControl: false,
-		        navigationControl: true,
-		        scrollwheel: true,
-		        streetViewControl: true,
-		        center:[-43.253150,-65.309413],
-		        zoom: 14,
-		      }
-		   }
+		    map:{
+		     	options:{
+			        mapTypeId: google.maps.MapTypeId.ROADMAP,
+			        mapTypeControl: false,
+			        navigationControl: true,
+			        scrollwheel: true,
+			        streetViewControl: true,
+			        center:[-43.253150,-65.309413],
+			        zoom: 14,
+			    }
+			}
 		  });
+
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
 		  traerBaches();

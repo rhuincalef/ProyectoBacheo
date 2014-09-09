@@ -1,12 +1,14 @@
 Bache = (function () {
 		this.idBache = 61;
-		var latitud = 0;
-		var longitud = 0;
+		this.latitud = 0;
+		this.longitud = 0;
+		this.baseUrl = "";
+
 	var init = function (){
 		this.idBache = parseFloat($("#idBache").text());
-		latitud = parseFloat($("#latBache").text());
-		longitud = parseFloat($("#longBache").text());
-		//base = $("#baseUrl").text();
+		this.latitud = parseFloat($("#latBache").text());
+		this.longitud = parseFloat($("#longBache").text());
+		this.baseUrl = $("#baseUrl").text();
 		var otroLat = latitud-0.0025;
 		var latlon = new google.maps.LatLng(latitud, longitud);
 		var latLongCenter = new google.maps.LatLng(otroLat, longitud);
@@ -24,16 +26,18 @@ Bache = (function () {
 	  });
 	}
 	
-	function comentarTwitter () {
+	var comentarTwitter = function () {
 		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+this.idBache+"&text=este texto");
 	}
 
 	var comentarios = function() {
-		$.get("http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
+		var url = this.baseUrl + "index.php/inicio/obtenerObservaciones/" + this.idBache;
+//		$.get("http://localhost/gitBaches/ProyectoBacheo/web/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
+	$.get(url, function( data ) {
 			cargarComentarios(JSON.parse(data));
-			//return data;	
+			//return data;
 		});
-		//return '[{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
+		//return '[{"comentario":"una basura este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"},{"comentario":"una cagada este bache", "usuario":"Doe","fecha":"11/12/1980"}]';
 	}
 
 
@@ -43,9 +47,7 @@ Bache = (function () {
 			$contenedor.empty();
 			var $indicadores = $("#carousel-indicators");
 			$indicadores.empty();
-//			var $div = $("body").append('<div id="imgOculta" class="oculto">');
 			for (var i = 0; rutasImagenes.length > i; i++){
-					// $contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'" width="325px"  alt=""></div>');
 					$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'"></div>');
 					$indicadores.append('<li data-target="#carousel-example-generic" data-slide-to="'+(i)+'"></li>');
 					if(i==0){

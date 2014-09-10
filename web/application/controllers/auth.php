@@ -60,15 +60,27 @@ class Auth extends CI_Controller {
 
 	public function registrarUsuario()
 	{
-		$data['logueado'] = $this->ion_auth->logged_in();
-		if ($data['logueado']) {
-			$data['usuario'] = $this->ion_auth->user()->row()->username;
+		// $data['logueado'] = $this->ion_auth->logged_in();
+		// if ($data['logueado']) {
+		// 	$data['usuario'] = $this->ion_auth->user()->row()->username;
+		// }
+		$data['logueado'] = $this->ion_auth->is_admin();
+		if (!$data['logueado']) {
+			//redirect them to the home page because they must be an administrator to view this
+			redirect('/', 'refresh');
+			return;
 		}
+		$data['usuario'] = $this->ion_auth->user()->row()->username;
 		$this->template->build_page("registrarUsuario",$data);
 	}
 
 	public function create_user()
 	{
+		if (!$this->ion_auth->is_admin()) {
+			//redirect them to the home page because they must be an administrator to view this
+			redirect('/', 'refresh');
+			return;
+		}
 		$firephp = FirePHP::getInstance(True);
 
 		// Set validation rules.

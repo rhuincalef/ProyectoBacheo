@@ -37,11 +37,10 @@ Tablas:
 --> Consultar Informacion Tecnica de Interes
 
 	Estado 
-		id.-->OK
-		idTipoEstado. -->OK
-		idBache.-->OK
+		idTipoEstado. -->OK-------------- Pk
+		idBache.-->OK-------------------- Pk
+		fecha. -------------------------- Pk
 		idUsuario (responsable del cambio de Estado, puede ser null para estado "Informado").
-		fecha.
 
 	TipoEstado (informado/confirmado/reparando/reparado) -->OK
 		id.

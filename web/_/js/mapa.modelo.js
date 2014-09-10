@@ -53,7 +53,7 @@ var Bacheo = (function(){
 
 
 	function datosValidos (titulo, criticidad, calle, altura, descripcion) {
-		var patron = /(\w+)\s+(\w+)/;
+		var patron = /(\w+)\s*(\w+)/;
 		if (!patron.exec(titulo)){
 			alertar("Oups!","El parametro del campo 'Titulo' contiene errores","error");
 			return false;

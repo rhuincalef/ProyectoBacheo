@@ -13,7 +13,7 @@ Bache = (function () {
 		idBache = parseFloat($("#idBache").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
-		baseUrl = $("#baseUrl").text();
+		baseUrl = $("#baseUrlBache").text();
 
 		logueado= parseInt($("#logueado").text());
 		latitud = parseFloat($("#latBache").text());
@@ -48,7 +48,8 @@ Bache = (function () {
 	}
 
 	var comentarios = function() {
-		var url = baseUrl + "index.php/inicio/obtenerObservaciones/" + idBache;
+		//var url = "http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/" + idBache;
+		var url = baseUrl+"index.php/inicio/obtenerObservaciones/" + idBache;
 		$.get(url, function( data ) {
 		//$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
 				cargarComentarios(JSON.parse(data));

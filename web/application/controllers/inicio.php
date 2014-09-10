@@ -442,11 +442,12 @@ class Inicio extends CI_Controller {
 		$comentarios = $this->Bache->obtenerObservaciones($idBache);
 		$firephp->log("Se obtuvieron los comentarios!!!!");
 		$firephp->log($comentarios);
-		$comentariosOrdenados=$this->ordenarPorFecha(json_decode($comentarios,TRUE));
+		//$comentariosOrdenados=$this->ordenarPorFecha(json_decode($comentarios,TRUE));
+		$comentariosOrdenados = $comentarios;
 		$firephp->log("Se ordenaron los comentarios...");
 		$firephp->log(json_encode($comentariosOrdenados));
-		echo json_encode($comentariosOrdenados);
-		// echo $comentarios;
+		//echo json_encode($comentariosOrdenados);
+		echo $comentariosOrdenados;
 	}
 
 

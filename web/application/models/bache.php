@@ -240,11 +240,11 @@ class Bache extends MY_Model {
         $firephp = FirePHP::getInstance(true);        
         $firephp->log("Dentro de obtenerObservaciones()");   
         $firephp->log("Pidiendo comentarios de twitter...");
-        //$this->load->library('configOAuth');
-        $this->load->library('twitteroauth');
+        // $this->load->library('configOAuth');
+        //$this->load->library('twitteroauth');
 
-        //include("../libraries/configOAuth.php");
-        //("../libraries/twitteroauth.php");
+        include_once("configOAuth.php");
+        include_once("twitteroauth.php");
 
         //Se obtienen los token de acceso desde la session en php, para
         //crear la conexion y acceder a los metodos de la API. 
@@ -255,9 +255,9 @@ class Bache extends MY_Model {
         $connection = new TwitterOAuth($consumidor, $consumidor_secreto, $tokenacceso, $tokenacceso_secreto);
         //Se establece el nombre de la cuenta que se va a consultar y se solicita que se traigan solo los tweets mas recientes.
 
+        
         $params=array("q"=>"@proyBacheoTw","result_type"=>"recent");
         $tweets= $connection->get('search/tweets',$params);
-
         $comentarios=array();
         //Se obtiene la fecha, el screen_name del usuario y el texto del comentario.
         $firephp->log("Antes del for");   
@@ -315,10 +315,10 @@ class Bache extends MY_Model {
         $firephp->log("Los elementos del array cambiados son...");   
         $firephp->log($arreglo);
         //Se cargan las observaciones de twitter.
-       $obsTw=$this->obtenerObservacionesTw("Bache".$idBache);
+        $obsTw=$this->obtenerObservacionesTw("Bache".$idBache);
         //Se mezclan arrays de valores de Twitter y de la BD Local.
-       $comentariosFinales=array_merge($arreglo,$obsTw);
-        // $comentariosFinales=$arreglo;
+        $comentariosFinales=array_merge($arreglo,$obsTw);
+       // $comentariosFinales=$arreglo;
         $firephp->log("Los comentarios finales unidos son....");
         $firephp->log($comentariosFinales);   
         return json_encode($comentariosFinales);

@@ -16,11 +16,12 @@
 				url: submit_url,
 				type: 'POST',
 				data: form_data,
-				success: function (response) {
-					if (response){
+				success: function (arguments) {
+					response = $.parseJSON(arguments);
+					if (response.status=='OK'){
 						$(".alert").addClass("alert-success");
 						// Empty the login form content and replace it will a successful.
-						$("#registrarUsuario").find("input").each(function (i, e) {
+						$("#crearUsuario").find("input").each(function (i, e) {
 							$(e).val('');
 						});
 					}else{
@@ -29,7 +30,7 @@
 					// Show the message received.
 					// $(".alert").children().text(response);
 					$(".alert").append('<i class="fa fa-warning">  </i>');
-					$(".alert").append(response);
+					$(".alert").append(response.message);
 					// $(".alert p").prepend('<i class="fa fa-warning"></i>');
 					$(".alert").removeClass("hide");
 				}
@@ -39,4 +40,4 @@
 	});
 
 
-});
+})(jQuery);

@@ -12,6 +12,11 @@ $(document).ready(function(){
 		evento.preventDefault();
 		Bache.cambiarEstado();
 	});
+
+	$("#comentarioObservacion").click(function() {
+		evento.preventDefault();
+		Bache.comentar();
+	})
 });
 
 

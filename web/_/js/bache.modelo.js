@@ -37,9 +37,9 @@ Bache = (function () {
 
 		if (logueado) {estadoBache(estado,tiposEstado);};
 
-		var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
-		$("#campoEstadoBache").text(tiposEstado[indice].nombre);
-		$("#campoFechaEstado").text(estado[estado.length-1].fecha);
+	//	var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
+	//	$("#campoEstadoBache").text(tiposEstado[indice].nombre);
+	//	$("#campoFechaEstado").text(estado[estado.length-1].fecha);
 
 	}
 	
@@ -47,6 +47,7 @@ Bache = (function () {
 		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+idBache+"&text=este texto");
 	}
 
+	
 	var comentarios = function() {
 		//var url = "http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/" + idBache;
 		var url = baseUrl+"index.php/inicio/obtenerObservaciones/" + idBache;
@@ -57,7 +58,18 @@ Bache = (function () {
 		});
 	}
 
-
+	var comentar = function() {
+		var datos = {};
+		datos.idBache = idBache;
+		datos.nombreObservador = $("#nombreObservador").val();
+		datos.comentario = $("#comentarioObservador").val();
+		datos.emailObservador = $("#emailObservador").val();
+		$.post(baseUrl+"index.php/inicio/asociarObservacion",{idBache:datos.idBache, nombreObservador: datos.nombreObservador, comentario:datos.comentario, emailObservador: datos.emailObservador}, function (data) {
+			alertar("Exito!","Su comentario ha sido enviado","success")
+			//alert("asdasdasd");
+			//comentarios();
+		},"json");
+	}
 	var cargarImagenes = function(urlBase,rutasImagenes) {
 		if(rutasImagenes.length >0){
 			var $contenedor = $("#carousel");
@@ -143,6 +155,7 @@ Bache = (function () {
 	return{
 		init:init,
 		comentarios:comentarios,
+		comentar:comentar,
 		cargarImagenes:cargarImagenes,
 		redimensionarImg: redimensionarImg,
 		comentarTwitter:comentarTwitter,

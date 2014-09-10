@@ -25,9 +25,9 @@ class Observacion extends MY_Model {
 	function insertarObservacion($valores){
 		$firephp = FirePHP::getInstance(true);        
 		$firephp->log("array de valores es ...");
-		$firephp->log($valores);
-		$this->load->model("Observacion",'observacion');
-        $this->observacion->insert($valores);
+		$firephp->log($valores)	;
+		$this->load->model("Observacion");
+        $this->Observacion->insert($valores);
 		$firephp->log("valores insertados...");
 	}
 

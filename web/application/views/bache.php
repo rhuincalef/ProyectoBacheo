@@ -137,9 +137,10 @@
 		          	<button id="botonTwitter" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-twitter"></i> Twittear</button>
 		      </div>
 	          <form id="formularioComentario" class="formularioComentario">
-		          <input name="usuario" type="User" class="form-control inputUsuario" placeholder="Usuario">
-		          <input name="email" type="Email" class="form-control inputEmail" placeholder="Email">
-		          <textarea name="mensaje" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
+		          <input id="nombreObservador" type="User" class="form-control inputUsuario" placeholder="Usuario">
+		          <input id="emailObservador" type="Email" class="form-control inputEmail" placeholder="Email">
+		          <textarea id="comentarioObservador" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
+		          <button id="enviarObservacion" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i>Enviar Comentario</button>
 	          </form>
 	      	</div>	  		
 

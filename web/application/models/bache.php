@@ -223,6 +223,7 @@ class Bache extends MY_Model {
     function asociarObservacion($valores){
         $firephp = FirePHP::getInstance(true);        
         $this->load->model("Observacion");
+        $firephp->log("Observación agregada desde asociarObservacion().........................");
         $this->Observacion->insertarObservacion($valores);
         $firephp->log("Observación agregada desde asociarObservacion().");
     }

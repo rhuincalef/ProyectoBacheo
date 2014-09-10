@@ -14,6 +14,7 @@ class Auth extends CI_Controller {
 	    /* Se tiene en cuenta para los mensajes de la librería ion-auth*/
 	    $this->lang->load('auth');
 		$this->load->helper('language');
+
 	}
 
 	public function login_via_ajax() {
@@ -27,8 +28,8 @@ class Auth extends CI_Controller {
 	    // $user = $this->ion_auth->user()->row();
 	    if ($this->ion_auth->logged_in())
 		{
-			// redirect('auth/login');
-			echo json_encode(array('status' => 'OK','data' => array('logged_in' => 'Ya se encuentra logeado.')));
+			$username = $this->ion_auth->user()->row()->username;
+			echo json_encode(array('status' => 'OK','data' => array('login_identity' => $username, 'logged_in' => 'Ya se encuentra logeado.')));
 		}
 		else
 		{
@@ -36,7 +37,7 @@ class Auth extends CI_Controller {
 			{
 				//if the login is successful
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				echo json_encode(array('status' => 'OK','data' => array('login_identity' => $identity, 'login_password' => $password)));
+				echo json_encode(array('status' => 'OK','data' => array('login_identity' => $identity)));
 			}
 			else
 			{
@@ -115,13 +116,15 @@ class Auth extends CI_Controller {
 			else{
 				$firephp->log('No se pudo registrar el usuario.');
 				$this->session->flashdata('message');
-				echo $this->ion_auth->errors();
+				echo json_encode(array('status' => 'ERROR', 'message' => $this->ion_auth->errors()));
+				// echo $this->ion_auth->errors();
 			}			
 		}
 		else
 		{
 			$firephp->log('No pasa la validacion.');
-			echo validation_errors();
+			// echo validation_errors();
+			echo json_encode(array('status' => 'ERROR', 'message' => validation_errors()));
 		}
 	}
 }

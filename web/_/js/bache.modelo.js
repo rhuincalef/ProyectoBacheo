@@ -113,29 +113,28 @@ Bache = (function () {
 	}
 	
 	var cambiarEstado = function(nuevoEstado){
-		alert("HOLA");
 		var datos = {};
-		switch(nuevoEstado){
-			case 1:
-				datos.material = $("#material").val();
-				datos.baldosa = $("#baldosa").val();
-				datos.rotura = $("#rotura").val();
-				datos.ancho = $("#ancho").val();
-				datos.largo = $("#largo").val();
-				datos.profundidad = $("#profundidad").val();
-				datos.criticidad = $("#criticidad").val();
-			break;
-			case 2:
-				datos.fecha = "fecha de inicio de Reparacion";
-			break;
-			case 3:
-				datos.fecha = "fecha de finalizacion de Reparacion";
-			break;
-			default:
-			break;
-		}
-		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache", JSON.parse(datos), function (data) {
-			alert("termino la modificacio...");
+		datos.material = $("#material").val();
+		datos.baldosa = $("#numeroBaldosa").val();
+		datos.rotura = $("#tipoRotura").val();
+		datos.ancho = $("#ancho").val();
+		datos.largo = $("#largo").val();
+		datos.profundidad = $("#profundidad").val();
+		datos.criticidad = $("#criticidad").val();
+		datos.fecha = "fecha de finalizacion de Reparacion";
+
+		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
+		 	{	idBache:idBache,
+		 		material:datos.material,
+		 		numeroBaldosa:datos.baldosa,
+		 		rotura:datos.rotura,
+		 		ancho:datos.ancho,
+		 		largo:datos.largo,
+		 		profundidad:datos.profundidad,
+		 		criticidad:datos.criticidad
+		 	},
+		 	function (data) {
+				alert("termino la modificacio...");
 		});
 
 	}

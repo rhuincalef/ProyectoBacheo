@@ -20,9 +20,15 @@ CREATE TABLE "Bache"
   titulo varchar(50) NOT NULL, 
   latitud double precision,
   longitud double precision,
-  "idCriticidad" serial,
-  "idCalle" serial,
+  "idCriticidad" integer,
+  "idCalle" integer,
   "alturaCalle" integer,
+  material character varying(50),
+  "nroBaldosa" integer,
+  rotura character varying(50),
+  ancho double precision,
+  largo double precision,
+  profundidad double precision,
   CONSTRAINT pk_id_bache PRIMARY KEY (id),
   CONSTRAINT fg_id_calle FOREIGN KEY ("idCalle")
       REFERENCES "Calle" (id) MATCH SIMPLE
@@ -88,7 +94,7 @@ CREATE TABLE "Observacion"
 
 
   
-INSERT INTO "Criticidad" (nombre, descripcion) VALUES ('alta','asdsadsadasdsadsadsadasda'),('media','asdsadsadasdsadsadsadasda'), ('baja','asdsadsadasdsadsadsadasda');
-INSERT INTO "TipoEstado" (nombre) VALUES ('reparando'),('confirmado'), ('informado');
+INSERT INTO "Criticidad" (nombre, descripcion) VALUES ('alta','alta'),('media','media'), ('baja','baja');
+INSERT INTO "TipoEstado" (nombre) VALUES ('reparando'),('reparado'),('confirmado'), ('informado');
 
 

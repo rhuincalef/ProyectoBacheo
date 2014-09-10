@@ -13,9 +13,7 @@ class TipoEstado extends MY_Model {
 
     //Esta funcion obtiene el id del estado en base a un nombre pasado por parámetro.
 	public function obtenerTipoEstado($nombreEstado){
-		$firephp = FirePHP::getInstance(True);
 		$tupla=$this->get_by("nombre",$nombreEstado);
-		$firephp->log("La tupla de TipoEstado es :".$tupla->nombre."-".$tupla->id);
 		return $tupla->id;
 	}    
 

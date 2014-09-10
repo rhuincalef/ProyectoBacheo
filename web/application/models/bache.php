@@ -55,9 +55,12 @@ class Bache extends MY_Model {
 
         $this->load->model('Estado');
         $tuplaBacheConEstado=$this->Estado->obtenerEstadosBache($idBache);
-        
+        $firephp->log("Tupla con Estado..");
+
         $this->load->model('TipoEstado');
         $tipoEstado = $this->TipoEstado->obtenerTiposEstados();
+        $firephp->log("Tupla con TipoEstado..");
+
 
         $datos = array(
             "id" => $tuplaBacheConCalle->id,
@@ -347,6 +350,44 @@ class Bache extends MY_Model {
         $firephp->log($rutasImg);   
         return $rutasImg;
     }
+
+
+    function actualizarDatosEstado($idBache,$datos,$idNuevoEstado){
+        $firephp = FirePHP::getInstance(True);
+        $firephp->log("En actualizarDatosEstado");
+        $firephp->log("id: ".$idBache);
+        $firephp->log("datos");
+        $firephp->log($datos);
+        $bache = $this->get($idBache);
+        $firephp->log($bache);
+        $bache->material = $datos["material"];
+        $bache->nroBaldosa = $datos["numeroBaldosa"];
+        $bache->rotura = $datos["rotura"];
+        $bache->profundidad = $datos["profundidad"];
+        $bache->ancho = $datos["ancho"];
+        $bache->largo = $datos["largo"];
+        $bache->idCriticidad = intval($datos["idCriticidad"]);
+        $this->update($idBache,$bache,True);
+
+
+        $firephp->log("El bache actualizado fue...");
+        //$firephp->log($bache);
+        // $this->load->library('ion_auth');
+        // $idUsuario=$this->ion_auth->user()->row()->id;
+        // $dt = new DateTime();
+        // $fecha=$dt->format('Y-m-d');
+
+        // $this->load("Estado");
+        // $estInsertado=$this->Estado->insert(array(
+        //                             "idTipoEstado" =>$idNuevoEstado,
+        //                             "idBache" =>$idBache,
+        //                             "idUsuario" =>$idUsuario,
+        //                             "fecha"=>$fecha));
+        // $firephp->log("El estado insertado es:");
+        // $firephp->log($estInsertado);
+
+    }
+
 
 
     //BACKUP DEL METODO DE OBTENERCOMETNARIOSTw() version vieja donde se busca por la URL de los tweets filtrados.

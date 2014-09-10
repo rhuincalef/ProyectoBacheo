@@ -225,13 +225,16 @@ class Inicio extends CI_Controller {
 	}
 	// /index.php/inicio/getBache/id/3
 	public function getBache(){
+		$firephp = FirePHP::getInstance(True);
 		$this->load->library('ion_auth');
-    	
-
 		$get = $this->uri->uri_to_assoc();
 		$id = $get['id'];
 		$this->load->model("Bache");
-		$bache= $this->Bache->getBache($id);	
+		$bache= $this->Bache->getBache($id);
+
+		$firephp->log("El bache obtenido es getBache()...");
+		$firephp->log($bache);
+
 		$this->output->enable_profiler(FALSE);
 		$bache['logueado'] = $this->ion_auth->logged_in();
 		if ($bache['logueado']) {
@@ -487,11 +490,10 @@ class Inicio extends CI_Controller {
 		if($this->ion_auth->logged_in()){
 			$idUser = $this->ion_auth->user()->row()->id;
 			$idBache = $this->input->post('idBache');
-			$this->load('Estado');
-			$estados = $this->Estado->obtenerEstadosBache($idBache);
-			$firephp->log($estados);
-			// $this->Estado->cambiarEstado($idBache);
-
+			$this->load->model('Estado');
+			$firephp->log("Estado cargado");
+			$idNuevoEstado = $this->Estado->asociarNuevoEstado($idBache);
+$firephp->log("Nuevo Estado Asociado");
 			$material = $this->input->post('material');
 			$numeroBaldosa = $this->input->post('numeroBaldosa');
 			$rotura = $this->input->post('rotura');
@@ -499,6 +501,18 @@ class Inicio extends CI_Controller {
 			$largo = $this->input->post('largo');
 			$profundidad = $this->input->post('profundidad');
 			$criticidad = $this->input->post('criticidad');
+$firephp->log("cargando Array");
+			$datos = array('material' => strval($material),
+							'numeroBaldosa' => intval($numeroBaldosa),
+							'rotura' => strval($rotura),
+							'ancho' => floatval($ancho),
+							'largo' => floatval($largo),
+							'profundidad' => floatval($profundidad),
+							'idCriticidad' => intval($criticidad)+1);
+			$firephp->log("Array Cargado");
+			$this->load->model("Bache");
+			$this->Bache->actualizarDatosEstado($idBache,$datos,$idNuevoEstado);
+			$firephp->log("Se actualizaron los datos del bache correctamente");
 		}
 	}
 

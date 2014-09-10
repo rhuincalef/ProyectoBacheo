@@ -91,11 +91,33 @@
 	  </div>
 	  <?php 
           if ($logueado) {
-            echo '<div class="tab-pane" id="estado"> <div class="contenedorControles">';
-            echo '<h1 id="nombreEstado" >Estado del Bache:  </h1> </div>';
-            echo '<div class="contenedorControles">';
-            echo '<div id="contenedorControladorEstado" class="contenedorPropiedades"></div></div>';
-            echo '<div id="contenedorFormulario" class="oculto"> <form role="form" method="post" action="'.$this->config->base_url().'index.php/inicio/cambiarEstadoBache">   <div id="formularioEspecificacionesTecnicas" class="form-group"> </div>   <button id="registrarEstadoBache"> Confirmar</button></form> </div></div>';
+            echo '<div class="tab-pane" id="estado">';
+            	echo '<div class="contenedorControles">';
+            		echo '<h1 id="nombreEstado" >Estado del Bache:  </h1>';
+            	echo '</div>';
+           		echo '<div class="contenedorControles">';
+            		echo '<div id="contenedorControladorEstado" class="contenedorPropiedades">';
+            		echo '</div>';
+            	echo '</div>';
+            	echo '<div id="contenedorFormulario" class="oculto">';
+            		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/inicio/cambiarEstadoBache">';
+            		echo '<div id="formularioEspecificacionesTecnicas" class="form-group">';
+						echo '<div id="contenedorEstado1" class="oculto">';
+							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"> <option value="0" selected="selected">Pavimento</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
+							echo '<br><input id="numeroBaldosa" class="form-control" type="text" placeholder="Baldosa" name="baldosa"/>';
+							echo '<label class="control-label col-sm-2" for="rotura"> Rotura</label><select class="form-control selectFormulario" type="text" id="tipoRotura" name="tipoRotura"> <option value="0" selected="selected">Esquina</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
+							echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
+							echo '<br><input id="largo" class="form-control" type="text" placeholder="Largo" name="largo"/>';
+							echo '<br><input id="profundidad" class="form-control" type="text" placeholder="Profundidad" name="profundidad"/>';
+							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control selectFormulario" type="text" id="criticidad" name="criticidad"> <option value="0" selected="selected">Baja</option></select>';
+							echo '</div>';
+							echo '<div id="contenedorEstado2" class="oculto">';
+							echo '</div>';
+        				echo '</div>';
+        				echo '<button id="registrarEstadoBache"> Confirmar</button></form>';
+    				echo '</div>';
+				echo '</div>';
+
            // echo '<script type="text/javascript">estadoBache(this.estado,this.tiposEstado);</script>'; 
       
             //var_dump($tiposEstado);
@@ -107,9 +129,7 @@
 	  			<h1>Comentarios</h1>
 	  		</div>
 	  		<div id="controles"> 
-
-
-</div>
+			</div>
 
 			<div class="areaParaComentar">
 			  <div class="divBotones"> 

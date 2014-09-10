@@ -20,21 +20,21 @@ class Estado extends MY_Model {
     public function asociarEstado($idBache,$estado){
     	$firephp = FirePHP::getInstance(True);
     	$this->load->database();
-    	$firephp->log("Dentro de estado->asociarEstado()");
+    	// $firephp->log("Dentro de estado->asociarEstado() con estado: ".$estado);
     	$this->load->model("TipoEstado");
     	$idTipoEstado=$this->TipoEstado->obtenerTipoEstado($estado);
-    	$firephp->log("El idTipoEstado es:".$idTipoEstado);
+    	// $firephp->log("El idTipoEstado es:".$idTipoEstado);
 
     	//Se obtiene la fecha actual en la que se setea la tupla.
     	$fecha=date("d-m-Y", time());
-		$firephp->log("La fecha actual es la siguiente:".$fecha);    	
+		// $firephp->log("La fecha actual es la siguiente:".$fecha);    	
     	$estado= array(
     		"idTipoEstado" => $idTipoEstado,
     		"idBache" => $idBache,
     		"fecha" =>$fecha 
     		);
     	$this->insert($estado);
-		$firephp->log("Se dio de alta correctamente el estado de bache en la BD!"); 
+		// $firephp->log("Se dio de alta correctamente el estado de bache en la BD!"); 
 		return $idBache;
     }
 
@@ -69,6 +69,24 @@ class Estado extends MY_Model {
                 
     }
 
+    public function asociarNuevoEstado($idBache){
+        $firephp = FirePHP::getInstance(True);
+        // $firephp->log($idBache);
+        $this->load->database();
+        $estados = $this->obtenerEstadosBache($idBache);
+        $estadoActual = end($estados);
+        $this->load->model("TipoEstado");
+        $tiposEstados = $this->TipoEstado->get_all();
+        // $firephp->log($tiposEstados);
+        // $firephp->log("obteniendo nuevo estado");
+        $idNuevoEstado = ($estadoActual->idTipoEstado+1)%(count($tiposEstados));
+        if ($idNuevoEstado == 0) {
+            $idNuevoEstado = count($tiposEstados);
+        }
+        $nuevoEstado = $tiposEstados[$idNuevoEstado-1]->nombre;
+        $this->asociarEstado($idBache, $nuevoEstado);
+        return $idNuevoEstado;
+    }
 
 
 }

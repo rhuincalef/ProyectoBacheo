@@ -64,8 +64,10 @@ class Auth extends CI_Controller {
 		// if ($data['logueado']) {
 		// 	$data['usuario'] = $this->ion_auth->user()->row()->username;
 		// }
-		$data['logueado'] = $this->ion_auth->is_admin();
-		if (!$data['logueado']) {
+		$data['logueado'] = $this->ion_auth->logged_in();
+		$data['admin'] = $this->ion_auth->is_admin();
+
+		if (!$data['admin']) {
 			//redirect them to the home page because they must be an administrator to view this
 			redirect('/', 'refresh');
 			return;

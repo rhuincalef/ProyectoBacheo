@@ -40,7 +40,7 @@ class Bache extends MY_Model {
         
         $tuplaBacheConCalle=$this->with("Calle")->get($idBache);
         if(count($tuplaBacheConCalle)==0){
-            echo "Error al encontrar bache y calles asociadas";
+          //  echo "Error al encontrar bache y calles asociadas";
             return NULL;
         }
 

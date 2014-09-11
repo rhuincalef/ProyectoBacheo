@@ -37,10 +37,6 @@ Bache = (function () {
 
 		if (logueado) {estadoBache(estado,tiposEstado);};
 
-	//	var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
-	//	$("#campoEstadoBache").text(tiposEstado[indice].nombre);
-	//	$("#campoFechaEstado").text(estado[estado.length-1].fecha);
-
 	}
 	
 	var comentarTwitter = function () {
@@ -50,7 +46,6 @@ Bache = (function () {
 
 	
 	var comentarios = function() {
-		//var url = "http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/" + idBache;
 		var url = baseUrl+"index.php/inicio/obtenerObservaciones/" + idBache;
 		$.get(url, function( data ) {
 		//$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
@@ -91,10 +86,6 @@ Bache = (function () {
 					}
 			};
 
-			// $('.item').each(function (i, e) {
-			// 	// body...
-			// 	$(e).css({'background-color':'gray'});
-			// });
 		}
 	}
 
@@ -139,7 +130,9 @@ Bache = (function () {
 		datos.largo = $("#largo").val();
 		datos.profundidad = $("#profundidad").val();
 		datos.criticidad = $("#criticidad").val();
-		datos.fecha = "fecha de finalizacion de Reparacion";
+		datos.fecha = $("#fechaFin").val();
+		datos.obstruccion = $("#tipoObstruccion").val();
+		datos.monto = $("#montoEstimado").val();
 
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
 		 	{	idBache:idBache,
@@ -149,7 +142,10 @@ Bache = (function () {
 		 		ancho:datos.ancho,
 		 		largo:datos.largo,
 		 		profundidad:datos.profundidad,
-		 		criticidad:datos.criticidad
+		 		criticidad:datos.criticidad,
+		 		fechaFin:datos.fecha,
+		 		tipoObstruccion:datos.obstruccion,
+		 		montoEstimado:datos.monto
 		 	},
 		 	function (data) {
 				alert("termino la modificacio...");

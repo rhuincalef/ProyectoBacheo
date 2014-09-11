@@ -111,9 +111,17 @@
 							echo '<br><input id="profundidad" class="form-control" type="text" placeholder="Profundidad" name="profundidad"/>';
 							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control selectFormulario" type="text" id="criticidad" name="criticidad"> <option value="0" selected="selected">Baja</option></select>';
 							echo '</div>';
-							echo '<div id="contenedorEstado2" class="oculto">';
-							echo '</div>';
+						echo '</div>';
+						echo '<div id="contenedorEstado2" class="oculto">';
+						echo '<br><input id="montoEstimado" class="form-control" type="numeric" placeholder="Monto Estimado" name="montoEstimado"/>';
+						echo '<br><input id="fechaFin" class="form-control" type="date" placeholder="Fecha de Finalizacion Estimada" name="fechaFin"/>';
+echo '<label class="control-label col-sm-10" for="tipoObstruccion"> Obstruccion de Calle</label><select class="form-control selectFormulario" type="text" id="tipoObstruccion" name="tipoObstruccion"> <option value="0" selected="selected">Parcial</option>';
+echo '<option value="1">Total</option> </select>';
         				echo '</div>';
+        				echo '<div id="contenedorFecha" class="oculto">';
+        				echo '<input type="date"  step="1" min="2013-01-01" max="2013-12-31" value="2013-01-01">';
+        				echo '</div>';
+
         				echo '<button id="registrarEstadoBache"> Confirmar</button></form>';
     				echo '</div>';
 				echo '</div>';

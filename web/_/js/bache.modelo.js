@@ -44,7 +44,8 @@ Bache = (function () {
 	}
 	
 	var comentarTwitter = function () {
-		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+idBache+"&text=este texto");
+		var comentario = $("#comentarioObservador").val();
+		window.open("http://twitter.com/share?via=proyBacheoTw&hashtags=Bache"+idBache+"&text="+comentario);
 	}
 
 	
@@ -63,12 +64,17 @@ Bache = (function () {
 		datos.idBache = idBache;
 		datos.nombreObservador = $("#nombreObservador").val();
 		datos.comentario = $("#comentarioObservador").val();
+		if (datos.comentario==""){
+			alertar("Error","Debe ingresar un comentario","error");
+			return;
+		}
 		datos.emailObservador = $("#emailObservador").val();
 		$.post(baseUrl+"index.php/inicio/asociarObservacion",{idBache:datos.idBache, nombreObservador: datos.nombreObservador, comentario:datos.comentario, emailObservador: datos.emailObservador}, function (data) {
-			alertar("Exito!","Su comentario ha sido enviado","success")
+			$("#formularioComentario")[0].reset();
+			alertar("Exito!","Su comentario ha sido enviado","success");
 			//alert("asdasdasd");
-			//comentarios();
-		},"json");
+			comentarios();
+		});
 	}
 	var cargarImagenes = function(urlBase,rutasImagenes) {
 		if(rutasImagenes.length >0){

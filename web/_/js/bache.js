@@ -13,21 +13,16 @@ $(document).ready(function(){
 		Bache.cambiarEstado();
 	});
 
-	$("#comentarioObservacion").click(function() {
-		evento.preventDefault();
+	$("#enviarObservacion").click(function(){
 		Bache.comentar();
-	})
+	});
+	$("#formularioComentario")[0].reset()
 });
-
-
-function obtenerComentarios() {
-	//var comentarios = Bache.comentarios();
-	//cargarComentarios(JSON.parse(comentarios));
-}
 
 	
 function cargarComentarios(comentarios) {
 	$comentarios = $('<div id="comentarios" class="divComentarios"></div>');
+	$("#observaciones").empty();
 	$("#observaciones").append($comentarios);
 	$comentarios.append("");
 	for (var i = 0; i < comentarios.length; i++) {
@@ -42,7 +37,8 @@ function cargarComentarios(comentarios) {
 		$comentarioUsuario.append($avatar);
 		$comentarioUsuario.append($comentario);
 		$comentarios.append($comentarioUsuario);
-	};	
+	};
+	$("#comentarios").scrollTop(1000);	
 }
 
 

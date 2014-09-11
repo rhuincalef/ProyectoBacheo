@@ -170,7 +170,8 @@ class Inicio extends CI_Controller {
 		$this->load->model('Bache');
 		//$firephp->log($this->input->post("idBache"));
 		//$firephp->log("----------------------------");			
-		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"]);
+		$fecha=date("Y-m-d H:i:s");
+		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"],"fecha"=>$fecha);
 		$this->Bache->asociarObservacion($datosBache);
 		//$this->Bache->asociarObservacion($_POST);
 	}

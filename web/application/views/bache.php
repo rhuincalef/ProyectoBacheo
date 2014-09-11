@@ -133,14 +133,14 @@
 
 			<div class="areaParaComentar">
 			  <div class="divBotones"> 
-			  		<button id="botonEnviarComentario" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i> Comentar</button>
+			  		<button id="enviarObservacion" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i> Comentar</button>
 		          	<button id="botonTwitter" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-twitter"></i> Twittear</button>
 		      </div>
 	          <form id="formularioComentario" class="formularioComentario">
 		          <input id="nombreObservador" type="User" class="form-control inputUsuario" placeholder="Usuario">
 		          <input id="emailObservador" type="Email" class="form-control inputEmail" placeholder="Email">
 		          <textarea id="comentarioObservador" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
-		          <button id="enviarObservacion" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-weixin"></i>Enviar Comentario</button>
+		          
 	          </form>
 	      	</div>	  		
 

@@ -65,6 +65,7 @@ $(document).ready(function(){
 
 function inicializarFormularioBache(){
 //  cargarCriticidad();
+  Bacheo.myDropzone.removeAllFiles();
 	$("#informacionBache").modal("toggle");
 };
 

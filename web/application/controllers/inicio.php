@@ -240,13 +240,77 @@ class Inicio extends CI_Controller {
 	}
 
 
+
+	public function filtrarBachesInformados($bache){
+		$this->load->database();
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Dentro de filtrarBaches!");
+		$firephp->log("BACHE!".$bache->id);
+		$firephp->log($bache);
+		$this->load->model("Estado");
+		$estadosBache=$this->Estado->obtenerEstadosBache($bache->id);
+		$firephp->log("estadosBache");
+		$firephp->log($estadosBache);
+		$estadoFin=end($estadosBache);
+		$firephp->log("EstadoFin");
+		$firephp->log($estadoFin);
+		if ($estadoFin->idTipoEstado==1) {
+			return True;
+		}
+		return False;
+	}
+
+
+	public function bachesConfirmados($bache){
+		$this->load->database();
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Dentro de filtrarBaches!");
+		$firephp->log("BACHE!".$bache->id);
+		$firephp->log($bache);
+		$this->load->model("Estado");
+		$estadosBache=$this->Estado->obtenerEstadosBache($bache->id);
+		$firephp->log("estadosBache");
+		$firephp->log($estadosBache);
+		$estadoFin=end($estadosBache);
+		$firephp->log("EstadoFin");
+		$firephp->log($estadoFin);
+		if ($estadoFin->idTipoEstado==1) {
+			return False;
+		}
+			return True;
+	}
+
+
+
+	public function insertarCampo($a){
+		return array(
+			"idBache" => $a->id,
+			"latitud" => $a->latitud,
+			"longitud" => $a->longitud,
+			"informado"=> ""
+			);
+	}
+
+
 	public function getBaches(){
-		$baches = $this->db->get("Bache");
-		foreach ($baches->result() as $row){
-			echo json_encode($row);
-			echo "/";
+		$firephp = FirePHP::getInstance(True);
+		$this->load->library('ion_auth');
+		$this->load->database();
+		$this->load->model("TipoEstado");
+		$this->load->model("Bache");
+		$baches=$this->Bache->get_all();
+		if ($this->ion_auth->logged_in()) {
+			$bachesConfirmados=array_filter($baches, array($this,"bachesConfirmados"));
+			echo json_encode($bachesConfirmados);
+		}else{
+			$bachesFiltrados=array_filter($baches, array($this,"filtrarBachesInformados"));
+			$bachesConfirmados=array_filter($baches, array($this,"bachesConfirmados"));
+			$bachesFiltrados=array_map(array($this,'insertarCampo'),$bachesFiltrados);
+			echo json_encode(array_merge($bachesFiltrados,$bachesConfirmados));
+
 		}
 	}
+
 	// /index.php/inicio/getBache/id/3
 	public function getBache(){
 		$firephp = FirePHP::getInstance(True);

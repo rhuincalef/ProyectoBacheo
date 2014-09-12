@@ -28,6 +28,9 @@ CREATE TABLE "Bache"
   rotura character varying(50),
   ancho double precision,
   largo double precision,
+  monto doube precision,
+  "tipoObstruccion" integer,
+  "fechaFin" date,
   profundidad double precision,
   CONSTRAINT pk_id_bache PRIMARY KEY (id),
   CONSTRAINT fg_id_calle FOREIGN KEY ("idCalle")

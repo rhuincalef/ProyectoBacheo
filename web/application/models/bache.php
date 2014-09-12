@@ -355,23 +355,34 @@ class Bache extends MY_Model {
 
     function actualizarDatosEstado($idBache,$datos,$idNuevoEstado){
         $firephp = FirePHP::getInstance(True);
-        $firephp->log("En actualizarDatosEstado");
-        $firephp->log("id: ".$idBache);
-        $firephp->log("datos");
-        $firephp->log($datos);
+//        $firephp->log("En actualizarDatosEstado");
+//        $firephp->log("id: ".$idBache);
+//        $firephp->log("datos");
+//        $firephp->log($datos);
         $bache = $this->get($idBache);
-        $firephp->log($bache);
-        $bache->material = $datos["material"];
-        $bache->nroBaldosa = $datos["numeroBaldosa"];
-        $bache->rotura = $datos["rotura"];
-        $bache->profundidad = $datos["profundidad"];
-        $bache->ancho = $datos["ancho"];
-        $bache->largo = $datos["largo"];
-        $bache->idCriticidad = intval($datos["idCriticidad"]);
-        $this->update($idBache,$bache,True);
+//        $firephp->log($bache);
+if ($idNuevoEstado == 1) {
+    $bache->material = $datos["material"];
+    $bache->nroBaldosa = $datos["numeroBaldosa"];
+    $bache->rotura = $datos["rotura"];
+    $bache->profundidad = $datos["profundidad"];
+    $bache->ancho = $datos["ancho"];
+    $bache->largo = $datos["largo"];
+    $bache->idCriticidad = intval($datos["idCriticidad"]);
+    $this->update($idBache,$bache,True);
+}
+if($idNuevoEstado == 2){
+    $bache->monto = $datos->monto;
+    $bache->tipoObstruccion = $datos->tipoObstruccion;
+    $bache->fechaFin = $datos->fechaFinEstimada;
+    $this->update($idBache,$bache,True);
+}
+
+        
 
 
         $firephp->log("El bache actualizado fue...");
+
         //$firephp->log($bache);
         // $this->load->library('ion_auth');
         // $idUsuario=$this->ion_auth->user()->row()->id;

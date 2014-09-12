@@ -486,8 +486,7 @@ class Inicio extends CI_Controller {
 		return $arregloOrd;
 	}
 		
-	public function cambiarEstadoBache()
-	{
+	public function cambiarEstadoBache(){
 		$firephp = FirePHP::getInstance(True);
 		$firephp->log("Dentro de cambiar Estado Bache");
 		$this->load->library('ion_auth');
@@ -506,6 +505,14 @@ $firephp->log("Nuevo Estado Asociado");
 			$largo = $this->input->post('largo');
 			$profundidad = $this->input->post('profundidad');
 			$criticidad = $this->input->post('criticidad');
+
+			$montoEstimado = $this->input->post('montoEstimado');
+			$fechaFinEstimada = $this->input->post('fechaFin');
+			$tipoObstruccion = $this->input->post('tipoObstruccion');
+
+
+
+
 $firephp->log("cargando Array");
 			$datos = array('material' => strval($material),
 							'numeroBaldosa' => intval($numeroBaldosa),
@@ -513,7 +520,10 @@ $firephp->log("cargando Array");
 							'ancho' => floatval($ancho),
 							'largo' => floatval($largo),
 							'profundidad' => floatval($profundidad),
-							'idCriticidad' => intval($criticidad)+1);
+							'idCriticidad' => intval($criticidad)+1,
+							'monto' => floatval($montoEstimado),
+							'fechaFinEstimada' => strtotime($fechaFinEstimada),
+							'tipoObstruccion' => intval($tipoObstruccion));
 			$firephp->log("Array Cargado");
 			$this->load->model("Bache");
 			$this->Bache->actualizarDatosEstado($idBache,$datos,$idNuevoEstado);

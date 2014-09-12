@@ -11,9 +11,9 @@
           <form id="formularioBache">
               <input name="titulo" type="text" class="form-control campoIzquierdo" placeholder="Titulo">
               <select id="criticidad" class="form-control campoDerecho">
-                <option value="baja">Pequeño</option>
+<!--                 <option value="baja">Pequeño</option>
                 <option value="media">Mediano</option>
-                <option value="alta">Grande</option>
+                <option value="alta">Grande</option> -->
               </select>
 
               <!-- <div class="alerta">  

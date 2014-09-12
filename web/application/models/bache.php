@@ -77,6 +77,9 @@ class Bache extends MY_Model {
             "ancho"=> $tuplaBacheConCalle->ancho,
             "largo"=> $tuplaBacheConCalle->largo,
             "profundidad"=> $tuplaBacheConCalle->profundidad,
+            "tipoObstruccion" =>$tuplaBacheConCalle->tipoObstruccion,
+            "monto" => $tuplaBacheConCalle->monto,
+            "fechaFin" => $tuplaBacheConCalle->fechaFin,
             
             
             "imagenes"=> $this->obtenerImagenes($idBache),
@@ -379,9 +382,11 @@ class Bache extends MY_Model {
 //        $firephp->log($datos);
         $bache = $this->get($idBache);
 //        $firephp->log($bache);
-if ($idNuevoEstado == 1) {
+if ($idNuevoEstado == 2) {
     $bache->material = $datos["material"];
-    $bache->nroBaldosa = $datos["numeroBaldosa"];
+    if ($datos["material"] == "Pavimento") {
+        $bache->nroBaldosa = $datos["numeroBaldosa"];
+    }
     $bache->rotura = $datos["rotura"];
     $bache->profundidad = $datos["profundidad"];
     $bache->ancho = $datos["ancho"];
@@ -389,10 +394,10 @@ if ($idNuevoEstado == 1) {
     $bache->idCriticidad = intval($datos["idCriticidad"]);
     $this->update($idBache,$bache,True);
 }
-if($idNuevoEstado == 2){
-    $bache->monto = $datos->monto;
-    $bache->tipoObstruccion = $datos->tipoObstruccion;
-    $bache->fechaFin = $datos->fechaFinEstimada;
+if($idNuevoEstado == 3){
+    $bache->monto = $datos["monto"];
+    $bache->tipoObstruccion = $datos["tipoObstruccion"];
+    $bache->fechaFin = date("Y-m-d",strtotime($datos["fechaFinEstimada"]));
     $this->update($idBache,$bache,True);
 }
 

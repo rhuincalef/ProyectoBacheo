@@ -490,7 +490,7 @@ class Inicio extends CI_Controller {
 	public function obtenerObservaciones($idBache){	
 		$firephp = FirePHP::getInstance(True);
 		$firephp->log("El arreglo que se cargará es el siguiente:");
-		
+
 		$this->load->model("Bache");
 		$comentarios = $this->Bache->obtenerObservaciones($idBache);
 		// $firephp->log("Se obtuvieron los comentarios!!!!");
@@ -576,9 +576,10 @@ $firephp->log("cargando Array");
 							'profundidad' => floatval($profundidad),
 							'idCriticidad' => intval($criticidad)+1,
 							'monto' => floatval($montoEstimado),
-							'fechaFinEstimada' => strtotime($fechaFinEstimada),
-							'tipoObstruccion' => intval($tipoObstruccion));
-			$firephp->log("Array Cargado");
+							'fechaFinEstimada' => $fechaFinEstimada,
+							'tipoObstruccion' => strval($tipoObstruccion));
+			$firephp->log("Array Cargado");//, obstruccion de Inicio");
+			// $firephp->log($tipoObstruccion);
 			$this->load->model("Bache");
 			$this->Bache->actualizarDatosEstado($idBache,$datos,$idNuevoEstado);
 			$firephp->log("Se actualizaron los datos del bache correctamente");

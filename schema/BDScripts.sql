@@ -28,7 +28,7 @@ CREATE TABLE "Bache"
   rotura character varying(50),
   ancho double precision,
   largo double precision,
-  monto doube precision,
+  monto double precision,
   "tipoObstruccion" integer,
   "fechaFin" date,
   profundidad double precision,
@@ -98,6 +98,6 @@ CREATE TABLE "Observacion"
 
   
 INSERT INTO "Criticidad" (nombre, descripcion) VALUES ('alta','alta'),('media','media'), ('baja','baja');
-INSERT INTO "TipoEstado" (nombre) VALUES ('reparando'),('reparado'),('confirmado'), ('informado');
+INSERT INTO "TipoEstado" (nombre) VALUES ('informado'),('confirmado'),('reparando'),('reparado');
 
 

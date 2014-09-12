@@ -35,7 +35,10 @@ Bache = (function () {
 			title: "Bache "+ idBache
 	  	});
 
-		if (logueado) {estadoBache(estado,tiposEstado);};
+		if (logueado) {
+			estadoBache(estado,tiposEstado);
+			obtenerCriticidad();
+		};
 
 	}
 	
@@ -120,18 +123,29 @@ Bache = (function () {
 			}
 		});
 	}
+
+	function obtenerCriticidad() {
+		$.get( baseUrl+"index.php/inicio/getNiveles", function(data) {
+			var datos = data.split('/');
+			var $niveles = [];
+			for (var i = 0 ; i < datos.length - 1; i++){
+				$niveles.push($.parseJSON(datos[i]));
+			};
+			cargarCriticidad($niveles);
+		});
+	}
 	
 	var cambiarEstado = function(nuevoEstado){
 		var datos = {};
-		datos.material = $("#material").val();
+		datos.material = $("#material option:selected").text()
 		datos.baldosa = $("#numeroBaldosa").val();
-		datos.rotura = $("#tipoRotura").val();
+		datos.rotura = $("#tipoRotura option:selected").text()
 		datos.ancho = $("#ancho").val();
 		datos.largo = $("#largo").val();
 		datos.profundidad = $("#profundidad").val();
 		datos.criticidad = $("#criticidad").val();
 		datos.fecha = $("#fechaFin").val();
-		datos.obstruccion = $("#tipoObstruccion").val();
+		datos.obstruccion = $("#tipoObstruccion option:selected").text();
 		datos.monto = $("#montoEstimado").val();
 
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
@@ -148,7 +162,9 @@ Bache = (function () {
 		 		montoEstimado:datos.monto
 		 	},
 		 	function (data) {
-				alert("termino la modificacio...");
+				
+				alertar("Exito!","El bache ha cambiado de estado","success");
+				setTimeout("window.location.reload()",2000);
 		});
 
 	}

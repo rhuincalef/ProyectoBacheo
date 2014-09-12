@@ -76,14 +76,17 @@ class Estado extends MY_Model {
         $estados = $this->obtenerEstadosBache($idBache);
         $estadoActual = end($estados);
         $this->load->model("TipoEstado");
-        $tiposEstados = $this->TipoEstado->get_all();
-        // $firephp->log($tiposEstados);
-        // $firephp->log("obteniendo nuevo estado");
+        $tiposEstados = $this->TipoEstado->obtenerTiposEstados();
+        $firephp->log($tiposEstados);
+        $firephp->log("obteniendo nuevo estado");
+
         $idNuevoEstado = ($estadoActual->idTipoEstado+1)%(count($tiposEstados));
         if ($idNuevoEstado == 0) {
             $idNuevoEstado = count($tiposEstados);
         }
-        $nuevoEstado = $tiposEstados[$idNuevoEstado-1]->nombre;
+        $firephp->log($idNuevoEstado);
+        $nuevoEstado = $tiposEstados[$idNuevoEstado-1]["nombre"];
+        $firephp->log($nuevoEstado);
         $this->asociarEstado($idBache, $nuevoEstado);
         return $idNuevoEstado;
     }

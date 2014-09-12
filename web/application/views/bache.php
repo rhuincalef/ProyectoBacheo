@@ -109,6 +109,16 @@
 					 if (isset($profundidad)) {
 					 	echo"<tr><td> Profundidad </td><td>$profundidad</td></tr>";         
 					 }
+					 if (isset($monto)) {
+					 	echo"<tr><td> Monto Estimado </td><td>$monto</td></tr>";         
+					 }
+					 if (isset($tipoObstruccion)) {
+					 	echo"<tr><td> Estado de la Calle</td><td>$tipoObstruccion</td></tr>";         
+					 }
+
+					 if (isset($fechaFin)) {
+					 	echo"<tr><td> Fecha Estimada de Reparación</td><td>$fechaFin</td></tr>";         
+					 }
 				?>
 				
 
@@ -133,11 +143,11 @@
 						echo '<div id="contenedorEstado1" class="oculto">';
 							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"> <option value="0" selected="selected">Pavimento</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
 							echo '<br><input id="numeroBaldosa" class="form-control" type="text" placeholder="Baldosa" name="baldosa"/>';
-							echo '<label class="control-label col-sm-2" for="rotura"> Rotura</label><select class="form-control selectFormulario" type="text" id="tipoRotura" name="tipoRotura"> <option value="0" selected="selected">Esquina</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
+							echo '<label class="control-label col-sm-2" for="rotura"> Rotura</label><select class="form-control selectFormulario" type="text" id="tipoRotura" name="tipoRotura"> <option value="0" selected="selected">Esquina</option>   <option value="1">Huellon</option>	<option value="2">Fisura Transversal</option></select>';
 							echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
 							echo '<br><input id="largo" class="form-control" type="text" placeholder="Largo" name="largo"/>';
 							echo '<br><input id="profundidad" class="form-control" type="text" placeholder="Profundidad" name="profundidad"/>';
-							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control selectFormulario" type="text" id="criticidad" name="criticidad"> <option value="0" selected="selected">Baja</option></select>';
+							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control selectFormulario" type="text" id="criticidad" name="criticidad"></select>';
 							echo '</div>';
 						echo '</div>';
 						echo '<div id="contenedorEstado2" class="oculto">';

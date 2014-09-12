@@ -52,21 +52,43 @@ function cargarComentarios(comentarios) {
 
 function estadoBache(estado, tiposEstado){
 	var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
+	var valFin = (indice+1) % (tiposEstado.length);
+	if(valFin == 0){
+		valFin = 4;
+		tiposEstado.push(tiposEstado[0]);
+	}
 	$("#nombreEstado").text("Estado del Bache: "+tiposEstado[indice].nombre);
 	$("#contenedorControladorEstado").append('<div id="slider" class="controlEstado"></div>');
 	$( "#slider" ).slider({
 		value:parseInt(indice),
-		min: 0,
-		max: tiposEstado.length-1,
+		min: parseInt(indice),
+		max: valFin,
 		step: 1,
 		slide: function( event, ui ) {
+			var indiceCarga = ui.value;
 			$("#nombreEstado").empty();
-			$("#nombreEstado").text("Estado del Bache: "+tiposEstado[ui.value].nombre);
-			cargarFormularioTecnico(ui.value);
+			$("#nombreEstado").text("Estado del Bache: "+tiposEstado[indiceCarga].nombre);
+			cargarFormularioTecnico(indiceCarga);
 		}
 	});
+	cargarFormularioTecnico(indice);
 }
 
+function cargarCriticidad(niveles){
+  var $opciones = $("#criticidad");
+  $opciones.empty();
+  $(niveles).each(function(indice,elemento){
+    var opcion = new Option(elemento.nombre,elemento.id,true,true);
+    $opciones.append(opcion);
+    var globo = informar("Informacion",elemento.descripcion);
+      $(opcion).hover(function(event){
+        // var posicionY = $(event.target).position().top+100;
+        // globo.get().css({'top': posicionY });
+        globo.open();
+      });
+    $(opcion).mouseout(function(){globo.remove();});
+  });  
+};
 
 function cargarFormularioTecnico (estado) {
 	var $form = $("#formularioEspecificacionesTecnicas");

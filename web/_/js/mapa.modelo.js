@@ -9,10 +9,16 @@ var Bacheo = (function(){
 	Marcador = function(datos, mapa){
 		this.id = datos.id;
 		this.criticidad = datos.criticidad;
+		if (datos.hasOwnProperty("informado")) {
+			var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
+		}else{
+			var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+		}
 		var marcador = new google.maps.Marker({
 			position: datos.posicion,
 			map: mapa,
-			title: datos.titulo
+			title: datos.titulo,
+			icon: icono
 		});
 		marcador.id = this.id;
 		this.marker = marcador;
@@ -168,12 +174,12 @@ var Bacheo = (function(){
 			var bachesTraidos = data.split('/');
 			for (var i = 0 ; i < bachesTraidos.length - 1; i++){
 				var bache = $.parseJSON(bachesTraidos[i]);
-				var dato = {};
-				dato.titulo = '';
-				dato.criticidad = bache.idCriticidad;
-				dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
-				dato.id = parseInt(bache.id);
-				cargarMarcador(dato);
+					var dato = {};
+					dato.titulo = '';
+					dato.criticidad = bache.idCriticidad;
+					dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
+					dato.id = parseInt(bache.id);
+					cargarMarcador(dato);
 			};
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
 		});

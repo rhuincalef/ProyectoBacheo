@@ -19,6 +19,7 @@ class TipoEstado extends MY_Model {
 
 	public function obtenerTiposEstados()
 	{
+		$this->order_by('id');
 		return $this->as_array()->get_all();
 
 	}

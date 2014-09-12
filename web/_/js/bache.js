@@ -16,7 +16,8 @@ $(document).ready(function(){
 	$("#enviarObservacion").click(function(){
 		Bache.comentar();
 	});
-	$("#formularioComentario")[0].reset()
+	$("#formularioComentario")[0].reset();
+	
 
 	setInterval("Bache.comentarios();",30000);
 });

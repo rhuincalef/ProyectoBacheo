@@ -95,6 +95,8 @@ var Bacheo = (function(){
     				cargarMarcador(datos);
     				guardarImagenes(datos.id);
 					alertar("Exito!","Bache notificado con exito","success");
+					$("#formularioBache")[0].reset();
+
     			}else{
 					alertar("la Pucha!","No fue posible informar el bache","error");
     			}

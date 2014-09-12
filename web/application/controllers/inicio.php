@@ -490,6 +490,7 @@ class Inicio extends CI_Controller {
 	public function obtenerObservaciones($idBache){	
 		$firephp = FirePHP::getInstance(True);
 		$firephp->log("El arreglo que se cargará es el siguiente:");
+		
 		$this->load->model("Bache");
 		$comentarios = $this->Bache->obtenerObservaciones($idBache);
 		// $firephp->log("Se obtuvieron los comentarios!!!!");

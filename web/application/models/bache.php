@@ -64,11 +64,21 @@ class Bache extends MY_Model {
 
         $datos = array(
             "id" => $tuplaBacheConCalle->id,
+            "titulo" => $tuplaBacheConCalle->titulo,
             "latitud"=>$tuplaBacheConCalle->latitud,
             "longitud"=>$tuplaBacheConCalle->longitud,
             "alturaCalle"=>$tuplaBacheConCalle->alturaCalle,
             "calle" => $tuplaBacheConCalle->Calle->nombre,
             "criticidad" => $tuplaBacheConCriticidad->nombre,
+            
+            "material" => $tuplaBacheConCalle->material,
+            "nroBaldosa" => $tuplaBacheConCalle->nroBaldosa,
+            "rotura"=> $tuplaBacheConCalle->rotura,
+            "ancho"=> $tuplaBacheConCalle->ancho,
+            "largo"=> $tuplaBacheConCalle->largo,
+            "profundidad"=> $tuplaBacheConCalle->profundidad,
+            
+            
             "imagenes"=> $this->obtenerImagenes($idBache),
             "estado"=> json_encode($tuplaBacheConEstado),
             "tiposEstado"=> json_encode($tipoEstado)
@@ -278,9 +288,14 @@ class Bache extends MY_Model {
                     if(isset($tweets->statuses[$i]->entities->hashtags[$j]->text)){
                         if($tweets->statuses[$i]->entities->hashtags[$j]->text == $hashtag){
                             $firephp->log("Se encontro el hashtag en la pos:$j");   
-                            $comentarios[$i]["fecha"]=$tweets->statuses[$i]->created_at;    
+                           // $comentarios[$i]["fecha"]=$tweets->statuses[$i]->created_at;    
+                            
+                            $dateTime = new DateTime($tweets->statuses[$i]->created_at);
+                            $dateTime->setTimeZone(new DateTimeZone("America/Argentina/Buenos_Aires")); 
+                            $comentarios[$i]["fecha"]= $dateTime->format('Y-m-d H:i:s'); 
                             $comentarios[$i]["texto"]=$tweets->statuses[$i]->text; 
-                            $comentarios[$i]["usuario"]=$tweets->statuses[$i]->user->screen_name;
+                            $comentarios[$i]["screenName"]=$tweets->statuses[$i]->user->screen_name;
+                            $comentarios[$i]["imagenPerfil"]=$tweets->statuses[$i]->user->profile_image_url;
                         }
                     }
             }
@@ -307,11 +322,15 @@ class Bache extends MY_Model {
         //Se convierten las claves de las observaciones buscadas en la BD
         $arreglo=array();
         $arreglo = array_map(function($elemento) {
+            
+            $dateTime = new DateTime($elemento->fecha);
+            $dateTime->setTimeZone(new DateTimeZone("America/Argentina/Buenos_Aires")); 
             return array(
                 //'fecha' => "null",
-                'fecha' => $elemento->fecha,
+                'fecha' => $dateTime->format('Y-m-d H:i:s'),
                 'texto' => $elemento->comentario,
-                'usuario' => $elemento->nombreObservador
+                'usuario' => $elemento->nombreObservador,
+                'email' => $elemento->emailObservador
             );
         }, $obs);
 

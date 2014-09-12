@@ -61,8 +61,8 @@
 			<h1>Especificación del Bache</h1>
 			<table class="table table-hover">
 				<tr>
-					<td> Tamaño </td>
-					<td> 2.5 metros </td>
+					<td> Titulo </td>
+					<td> <?php echo $titulo;?> </td>
 				</tr>
 				<tr>
 					<td> Criticidad </td>
@@ -71,11 +71,6 @@
 				<tr>
 					<td> Dirección </td>
 					<td><?php echo $calle;?> - <?php echo $alturaCalle;?></td>
-				</tr>
-
-				<tr>
-					<td> Tipo Rotura </td>
-					<td> Falta de Mantenimiento </td>
 				</tr>
 				<tr>
 					<td> Estado </td>
@@ -87,6 +82,37 @@
 					<td id="campoFechaEstado"> <?php $fechaEstadoActual = end(json_decode($estado));
 					echo $fechaEstadoActual->fecha;?> </td>
 				</tr>
+
+				<!-- "material" => $tuplaBacheConCalle->material,
+            "nroBaldosa" => $tuplaBacheConCalle->nroBaldosa,
+            "rotura"=> $tuplaBacheConCalle->rotura,
+            "ancho"=> $tuplaBacheConCalle->ancho,
+            "largo"=> $tuplaBacheConCalle->largo,
+            "profundidad"=> $tuplaBacheConCalle->profundidad,
+             -->
+				<?php
+					if (isset($material)) {
+					 	echo"<tr><td> Material de Calle </td><td>$material</td></tr>";         
+					 }
+					 if (isset($nroBaldosa)) {
+					 	echo"<tr><td> Numero de Baldosa </td><td>$nroBaldosa</td></tr>";         
+					 }
+					 if (isset($rotura)) {
+					 	echo"<tr><td> Tipo de Rotura </td><td>$rotura</td></tr>";         
+					 }
+					 if (isset($ancho)) {
+					 	echo"<tr><td> Ancho del Bache </td><td>$ancho</td></tr>";         
+					 }
+					 if (isset($largo)) {
+					 	echo"<tr><td> Largo del Bache </td><td>$largo</td></tr>";         
+					 }
+					 if (isset($profundidad)) {
+					 	echo"<tr><td> Profundidad </td><td>$profundidad</td></tr>";         
+					 }
+				?>
+				
+
+
 			</table>
 
 		</div>

@@ -17,6 +17,8 @@ $(document).ready(function(){
 		Bache.comentar();
 	});
 	$("#formularioComentario")[0].reset()
+
+	setInterval("Bache.comentarios();",30000);
 });
 
 	
@@ -32,7 +34,13 @@ function cargarComentarios(comentarios) {
 		$avatar.addClass("avatar");
 		var $comentario = $('<div/>');
 		$comentario.addClass("comentarioIndividual");
-		$avatar.append(comentarios[i].usuario+" ("+comentarios[i].fecha+") Dice:");
+		if (comentarios[i].hasOwnProperty('screenName')) {
+			$avatar.append('<a href="https://twitter.com/'+comentarios[i].screenName+'" target="_blank">'+comentarios[i].screenName+'</a>('+comentarios[i].fecha+') Dice:');
+			$avatar.css('background-image','url('+comentarios[i].imagenPerfil+')');			
+		}else{
+			$avatar.append(comentarios[i].usuario+" ("+comentarios[i].fecha+") Dice:");
+		}
+		
 		$comentario.append(comentarios[i].texto);
 		$comentarioUsuario.append($avatar);
 		$comentarioUsuario.append($comentario);

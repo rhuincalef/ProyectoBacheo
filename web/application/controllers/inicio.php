@@ -45,6 +45,10 @@ class Inicio extends CI_Controller {
 
 	public function index()
 	{
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log($this->session);
+		echo $this->session->userdata['identity'];
+		echo $this->session->userdata['username'];
 		echo "LLame al controlador de baches";
 	}
 

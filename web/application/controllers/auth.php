@@ -22,6 +22,7 @@ class Auth extends CI_Controller {
 		$identity = $this->input->post('login_identity');
 		$password = $this->input->post('login_password');
 		// $remember = $this->input->post('remember_me');
+		$remember = true;
 		$firephp->log($identity);
 	    $firephp->log($password);
 	    # Usar si es necesario enviar mas info del usuario
@@ -33,7 +34,7 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			if($this->ion_auth->login($identity, $password))
+			if($this->ion_auth->login($identity, $password, $remember))
 			{
 				//if the login is successful
 				$this->session->set_flashdata('message', $this->ion_auth->messages());

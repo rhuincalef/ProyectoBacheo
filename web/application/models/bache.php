@@ -304,7 +304,6 @@ class Bache extends MY_Model {
         $firephp->log("Observacioens obtenidas...");   
         $firephp->log($obs);
 
-
         //Se convierten las claves de las observaciones buscadas en la BD
         $arreglo=array();
         $arreglo = array_map(function($elemento) {

@@ -3,6 +3,13 @@
 //TODO Comentar! Clase de firephp utilizada para la depuración.
 require_once('FirePHP.class.php');
 
+
+	// // An example callback method
+	// class Ordenamiento {
+	//     static function ord1() {
+	//         echo 'Hello World!';
+	//     }
+	// }
 class Inicio extends CI_Controller {
 
 	/*URL de prueba: http://localhost/gitBaches/ProyectoBacheo/index.php/incio/AltaBache 
@@ -443,48 +450,78 @@ class Inicio extends CI_Controller {
 
 	}
 
+
+	//Este metodo ordena un arreglo de fechas de forma ascendente y
+	// retorna el JSON que será devuelto como respuesta!
+	public function cmp($a,$b){
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("timestampA");
+		$firephp->log($a["fecha"]."-".strtotime($a["fecha"]));
+
+		$firephp->log("timestampB");
+		$firephp->log($b["fecha"]."-".strtotime($b["fecha"]));
+
+		$result=0;
+	    if (strtotime($a["fecha"]) == strtotime($b["fecha"])) {
+	        $result=0;
+	    }
+	    // $result=(strtotime($a["fecha"]) < strtotime($b["fecha"])) ?1 : -1;
+		$result=(strtotime($a["fecha"]) < strtotime($b["fecha"])) ?- 1 : 1;
+	    $firephp->log('(strtotime($a["fecha"]) < strtotime($b["fecha"]))='.$result);
+	    return $result;
+	}	
+
 	public function obtenerObservaciones($idBache){	
 		$firephp = FirePHP::getInstance(True);
 		$firephp->log("El arreglo que se cargará es el siguiente:");
 		$this->load->model("Bache");
 		$comentarios = $this->Bache->obtenerObservaciones($idBache);
-		$firephp->log("Se obtuvieron los comentarios!!!!");
-		$firephp->log($comentarios);
-		//$comentariosOrdenados=$this->ordenarPorFecha(json_decode($comentarios,TRUE));
-		$comentariosOrdenados = $comentarios;
-		$firephp->log("Se ordenaron los comentarios...");
-		$firephp->log(json_encode($comentariosOrdenados));
+		// $firephp->log("Se obtuvieron los comentarios!!!!");
+		// $firephp->log(strtotime(json_decode($comentarios)[1]->fecha));
+
+		$arregloComentarios=json_decode($comentarios,True);
+		$firephp->log("Antes de ordenar los comentarios...");
+		$firephp->log($arregloComentarios);
+		// uasort($arregloComentarios, array($this,"cmp"));
+		
+		@usort($arregloComentarios, array($this,"cmp"));
+		$firephp->log($arregloComentarios);
+		// $firephp->log("Se ordenaron los comentarios...");
+		// $firephp->log($arregloComentarios);
 		//echo json_encode($comentariosOrdenados);
-		echo $comentariosOrdenados;
+		echo json_encode($arregloComentarios);
 	}
+
+
 
 
 	//Este metodo ordena un arreglo de fechas de forma ascendente y
 	// retorna el JSON que será devuelto como respuesta!
-	private function ordenarPorFecha($arregloComentarios){
-		$firephp = FirePHP::getInstance(True);
-		$firephp->log("Dentro de ordenar por Fecha");
-		$arregloOrd=array();
+	// private function ordenarPorFecha($arregloComentarios){
+	// 	$firephp = FirePHP::getInstance(True);
+	// 	$firephp->log("Dentro de ordenar por Fecha");
+	// 	$arregloOrd=array();
 
-		for ($i=0; $i < count($arregloComentarios); $i++) { 
-			if($i+1>=count($arregloComentarios)){
-				break;
-			}
-			$firephp->log("Dentro del FOR");
-			//Se crea la fecha2 y se compara con la 1
-			$f1= strtotime($arregloComentarios[$i]["fecha"]);
-			$f2=strtotime($arregloComentarios[$i+1]["fecha"]);
-			if($f1>$f2){					
-				array_push($arregloOrd,$arregloComentarios[$i+1]);
-				array_push($arregloOrd,$arregloComentarios[$i]);
-				$i++;
-			}else{
-				array_push($arregloOrd,$arregloComentarios[$i]);
-			}
-		}//Fin del For
-		$firephp->log("Fin de ordenar por Fecha. ".count($arregloComentarios));
-		return $arregloOrd;
-	}
+	// 	for ($i=0; $i < count($arregloComentarios); $i++) { 
+	// 		if($i+1>=count($arregloComentarios)){
+	// 			break;
+	// 		}
+	// 		$firephp->log("Dentro del FOR");
+	// 		//Se crea la fecha2 y se compara con la 1
+	// 		$f1= strtotime($arregloComentarios[$i]["fecha"]);
+	// 		$f2=strtotime($arregloComentarios[$i+1]["fecha"]);
+	// 		if($f1>$f2){					
+	// 			array_push($arregloOrd,$arregloComentarios[$i+1]);
+	// 			array_push($arregloOrd,$arregloComentarios[$i]);
+	// 			$i++;
+	// 		}else{
+	// 			array_push($arregloOrd,$arregloComentarios[$i]);
+	// 		}
+	// 	}//Fin del For
+	// 	$firephp->log("Fin de ordenar por Fecha. ".count($arregloComentarios));
+	// 	return $arregloOrd;
+	// }
+
 		
 	public function cambiarEstadoBache()
 	{

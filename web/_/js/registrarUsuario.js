@@ -20,12 +20,14 @@
 					response = $.parseJSON(arguments);
 					if (response.status=='OK'){
 						$(".alert").addClass("alert-success");
+						//alertar("Exito!", "Usuario creado correctamente", "success");
 						// Empty the login form content and replace it will a successful.
 						$("#crearUsuario").find("input").each(function (i, e) {
 							$(e).val('');
 						});
 					}else{
 						$(".alert").addClass("alert-danger");
+						//alertar("Error!", "Error al crear el usuario", "error");
 					}
 					// Show the message received.
 					// $(".alert").children().text(response);

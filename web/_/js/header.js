@@ -23,14 +23,14 @@
 					if (response.status == "OK")
 					{
 						logearGraficamente(response.data.login_identity);
-						alertar(response.data.login_identity, "Login via Ajax was successful!", "success");
+						alertar(response.data.login_identity, "Se ha logueado correctamente", "success");
 						window.location.reload();
 					}
 					// Else the login credentials were invalid.
 					else
 					{
 						// Show an error message stating the users login credentials were invalid.
-						alertar("titulo", response.data, "error");
+						alertar("Error!", "Usuario o Password incorrecto", "error");
 					}
 					
 				}
@@ -45,7 +45,7 @@
 				url: $("#inicioSesion").attr("action")+"index.php/auth/logout",
 				type: "POST",
 				success:function () {
-					alertar("titulo","Se ha cerrado la sesion.","success");
+					alertar("Aviso","Se ha cerrado la sesion.","info");
 					$("#opcionInicioSesion").removeClass("hide");
 					$("#opcionSesion").addClass("hide");
 					$("#opcionSesion .dropdown-toggle").children("a").remove();

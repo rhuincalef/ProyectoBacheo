@@ -61,7 +61,9 @@
                   <li><a href="#"><i class="fa fa-cogs"> </i> Actividad del Sistema</a></li>
                   <?php 
                   if ($logueado) {
-                      echo '<li><a href="'.$this->config->base_url().'index.php/auth/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+                      if ($admin) {
+                          echo '<li><a href="'.$this->config->base_url().'index.php/auth/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+                      }
                       echo '<script type="text/javascript"> logearGraficamente("'.$usuario.'");</script>';
                   }?>
 

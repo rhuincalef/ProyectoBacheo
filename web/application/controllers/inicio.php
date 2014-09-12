@@ -45,6 +45,10 @@ class Inicio extends CI_Controller {
 
 	public function index()
 	{
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log($this->session);
+		echo $this->session->userdata['identity'];
+		echo $this->session->userdata['username'];
 		echo "LLame al controlador de baches";
 	}
 
@@ -170,8 +174,16 @@ class Inicio extends CI_Controller {
 		$this->load->model('Bache');
 		//$firephp->log($this->input->post("idBache"));
 		//$firephp->log("----------------------------");			
+		$observador = $_POST["nombreObservador"];
+		if (empty($observador)) {
+			$observador = "Anonimo";
+		}
+		$comentario = $_POST["comentario"];
+		if (empty($comentario)) {
+			return;
+		}
 		$fecha=date("Y-m-d H:i:s");
-		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"],"fecha"=>$fecha);
+		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$observador,"emailObservador"=>$_POST["emailObservador"],"comentario"=>$comentario,"fecha"=>$fecha);
 		$this->Bache->asociarObservacion($datosBache);
 		//$this->Bache->asociarObservacion($_POST);
 	}
@@ -236,7 +248,10 @@ class Inicio extends CI_Controller {
 		$id = $get['id'];
 		$this->load->model("Bache");
 		$bache= $this->Bache->getBache($id);
-
+		if (!isset($bache)) {
+			redirect('/', 'refresh');
+			return;
+		}
 		$firephp->log("El bache obtenido es getBache()...");
 		$firephp->log($bache);
 
@@ -244,6 +259,7 @@ class Inicio extends CI_Controller {
 		$bache['logueado'] = $this->ion_auth->logged_in();
 		if ($bache['logueado']) {
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
+			$bache['admin'] = $this->ion_auth->is_admin(); 
 		}
 		$this->template->build_page("bache",$bache);
 		

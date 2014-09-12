@@ -17,6 +17,7 @@ class Welcome extends Frontend_Controller {
 		$data['logueado'] = $this->ion_auth->logged_in();
 		if ($data['logueado']) {
 			$data['usuario'] = $this->ion_auth->user()->row()->username;
+			$data['admin'] = $this->ion_auth->is_admin(); 
 		}
 
 		$this->template->build_page("mapa",$data);

@@ -52,6 +52,10 @@ class Inicio extends CI_Controller {
 
 	public function index()
 	{
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log($this->session);
+		echo $this->session->userdata['identity'];
+		echo $this->session->userdata['username'];
 		echo "LLame al controlador de baches";
 	}
 
@@ -177,8 +181,16 @@ class Inicio extends CI_Controller {
 		$this->load->model('Bache');
 		//$firephp->log($this->input->post("idBache"));
 		//$firephp->log("----------------------------");			
+		$observador = $_POST["nombreObservador"];
+		if (empty($observador)) {
+			$observador = "Anonimo";
+		}
+		$comentario = $_POST["comentario"];
+		if (empty($comentario)) {
+			return;
+		}
 		$fecha=date("Y-m-d H:i:s");
-		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$_POST["nombreObservador"],"emailObservador"=>$_POST["emailObservador"],"comentario"=>$_POST["comentario"],"fecha"=>$fecha);
+		$datosBache=array( "idBache"=>$_POST["idBache"] ,"nombreObservador"=>$observador,"emailObservador"=>$_POST["emailObservador"],"comentario"=>$comentario,"fecha"=>$fecha);
 		$this->Bache->asociarObservacion($datosBache);
 		//$this->Bache->asociarObservacion($_POST);
 	}
@@ -243,7 +255,10 @@ class Inicio extends CI_Controller {
 		$id = $get['id'];
 		$this->load->model("Bache");
 		$bache= $this->Bache->getBache($id);
-
+		if (!isset($bache)) {
+			redirect('/', 'refresh');
+			return;
+		}
 		$firephp->log("El bache obtenido es getBache()...");
 		$firephp->log($bache);
 
@@ -251,6 +266,7 @@ class Inicio extends CI_Controller {
 		$bache['logueado'] = $this->ion_auth->logged_in();
 		if ($bache['logueado']) {
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
+			$bache['admin'] = $this->ion_auth->is_admin(); 
 		}
 		$this->template->build_page("bache",$bache);
 		
@@ -523,8 +539,7 @@ class Inicio extends CI_Controller {
 	// }
 
 		
-	public function cambiarEstadoBache()
-	{
+	public function cambiarEstadoBache(){
 		$firephp = FirePHP::getInstance(True);
 		$firephp->log("Dentro de cambiar Estado Bache");
 		$this->load->library('ion_auth');
@@ -543,6 +558,14 @@ $firephp->log("Nuevo Estado Asociado");
 			$largo = $this->input->post('largo');
 			$profundidad = $this->input->post('profundidad');
 			$criticidad = $this->input->post('criticidad');
+
+			$montoEstimado = $this->input->post('montoEstimado');
+			$fechaFinEstimada = $this->input->post('fechaFin');
+			$tipoObstruccion = $this->input->post('tipoObstruccion');
+
+
+
+
 $firephp->log("cargando Array");
 			$datos = array('material' => strval($material),
 							'numeroBaldosa' => intval($numeroBaldosa),
@@ -550,7 +573,10 @@ $firephp->log("cargando Array");
 							'ancho' => floatval($ancho),
 							'largo' => floatval($largo),
 							'profundidad' => floatval($profundidad),
-							'idCriticidad' => intval($criticidad)+1);
+							'idCriticidad' => intval($criticidad)+1,
+							'monto' => floatval($montoEstimado),
+							'fechaFinEstimada' => strtotime($fechaFinEstimada),
+							'tipoObstruccion' => intval($tipoObstruccion));
 			$firephp->log("Array Cargado");
 			$this->load->model("Bache");
 			$this->Bache->actualizarDatosEstado($idBache,$datos,$idNuevoEstado);

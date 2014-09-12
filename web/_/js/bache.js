@@ -1,10 +1,10 @@
 $(document).ready(function(){
 	Bache.init();
+	$( "#fechaFin").datepicker();
 
 	Bache.redimensionarImg();
 
 	Bache.comentarios();
-   // obtenerComentarios();
     $("#botonTwitter").click(function(){
     	Bache.comentarTwitter();
     });
@@ -70,19 +70,16 @@ function cargarFormularioTecnico (estado) {
 	 	case 1:
 	 		$("#contenedorEstado2").hide();
 	 		$("#contenedorEstado1").show();
-	 		$("#contenedorFecha").hide();
 	 		$("#contenedorFormulario").show();
 	 		break;
 	 	case 2:
 	 		$("#contenedorEstado1").hide();
 	 		$("#contenedorEstado2").show();
-	 		$("#contenedorFecha").show();
 	 		$("#contenedorFormulario").show();
 	 		break;
 	 	case 3:
 	 		$("#contenedorEstado1").hide();
 	 		$("#contenedorEstado2").hide();
-	 		$("#contenedorFecha").hide();
 	 		$("#contenedorFormulario").show();
 	 	default:
 	 		break;

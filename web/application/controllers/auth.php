@@ -22,6 +22,7 @@ class Auth extends CI_Controller {
 		$identity = $this->input->post('login_identity');
 		$password = $this->input->post('login_password');
 		// $remember = $this->input->post('remember_me');
+		$remember = true;
 		$firephp->log($identity);
 	    $firephp->log($password);
 	    # Usar si es necesario enviar mas info del usuario
@@ -33,7 +34,7 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			if($this->ion_auth->login($identity, $password))
+			if($this->ion_auth->login($identity, $password, $remember))
 			{
 				//if the login is successful
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -64,8 +65,10 @@ class Auth extends CI_Controller {
 		// if ($data['logueado']) {
 		// 	$data['usuario'] = $this->ion_auth->user()->row()->username;
 		// }
-		$data['logueado'] = $this->ion_auth->is_admin();
-		if (!$data['logueado']) {
+		$data['logueado'] = $this->ion_auth->logged_in();
+		$data['admin'] = $this->ion_auth->is_admin();
+
+		if (!$data['admin']) {
 			//redirect them to the home page because they must be an administrator to view this
 			redirect('/', 'refresh');
 			return;

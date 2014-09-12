@@ -28,6 +28,9 @@ CREATE TABLE "Bache"
   rotura character varying(50),
   ancho double precision,
   largo double precision,
+  monto doube precision,
+  "tipoObstruccion" integer,
+  "fechaFin" date,
   profundidad double precision,
   CONSTRAINT pk_id_bache PRIMARY KEY (id),
   CONSTRAINT fg_id_calle FOREIGN KEY ("idCalle")
@@ -84,7 +87,7 @@ CREATE TABLE "Observacion"
   "idBache" serial NOT NULL,
   "nombreObservador" character varying,
   "emailObservador" character varying,
-  comentario character varying(50),
+  comentario character varying(200),
   fecha timestamp with time zone,
   CONSTRAINT pk_id_observacion PRIMARY KEY (id),
   CONSTRAINT fg_id_bache FOREIGN KEY ("idBache")

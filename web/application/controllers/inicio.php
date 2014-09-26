@@ -284,10 +284,10 @@ class Inicio extends CI_Controller {
 
 	public function insertarCampo($a){
 		return array(
-			"idBache" => $a->id,
+			"id" => $a->id,
 			"latitud" => $a->latitud,
 			"longitud" => $a->longitud,
-			"informado"=> ""
+			"informado"=> "informado"
 			);
 	}
 
@@ -299,15 +299,24 @@ class Inicio extends CI_Controller {
 		$this->load->model("TipoEstado");
 		$this->load->model("Bache");
 		$baches=$this->Bache->get_all();
-		if ($this->ion_auth->logged_in()) {
+		if (!$this->ion_auth->logged_in()) {
+			$firephp->log("asdasdasdasdasdasdsa");
+			$firephp->log($baches);
 			$bachesConfirmados=array_filter($baches, array($this,"bachesConfirmados"));
-			echo json_encode($bachesConfirmados);
+			$firephp->log("ENTRE POR ACA");
+			$firephp->log($bachesConfirmados);
+			$bachesTotal = $bachesConfirmados;
 		}else{
+			$firephp->log("asdasdasdasdasdasdsa");
 			$bachesFiltrados=array_filter($baches, array($this,"filtrarBachesInformados"));
 			$bachesConfirmados=array_filter($baches, array($this,"bachesConfirmados"));
 			$bachesFiltrados=array_map(array($this,'insertarCampo'),$bachesFiltrados);
-			echo json_encode(array_merge($bachesFiltrados,$bachesConfirmados));
+			$bachesTotal = array_merge($bachesFiltrados,$bachesConfirmados);
 
+		}
+		foreach ($bachesTotal as $bache) {
+				echo json_encode($bache);
+				echo "/";
 		}
 	}
 

@@ -1,4 +1,20 @@
 /* Desktops and laptops ----------- */
+
+/*@media only screen and (min-width : 800px) {*/
+/*	.contenedorMapa{
+		width:100%; 
+		height:100%;
+		margin-top: -7.5%;
+		z-index: 1;
+	}*/
+
+.contenedorMapa{
+		width:100%; 
+		height:100%;
+		margin-top: -7.5%;
+		z-index: 1;
+	}
+
 @media only screen and (min-width : 1224px) {
 
 	.contenedorMapa{
@@ -19,6 +35,9 @@
 		z-index: 1;
 	}
 }
+
+
+
 
 @media only screen and (min-width : 320px) and (max-width : 480px) {
 /* Styles */

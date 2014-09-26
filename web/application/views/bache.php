@@ -74,8 +74,12 @@
 				</tr>
 				<tr>
 					<td> Estado </td>
-					<td id="campoEstadoBache"> <?php $estadoActual = end(json_decode($tiposEstado));
-					echo $estadoActual->nombre;?> </td>
+					<td id="campoEstadoBache"> <?php $estadoActual = end(json_decode($estado));
+					
+					$conjuntoTiposEstados = json_decode($tiposEstado,True); 
+					echo $conjuntoTiposEstados[($estadoActual->idTipoEstado)-1]["nombre"];
+					//echo $conjuntoTiposEstados[$estadoActual->idTipoEstado]
+					?> </td>
 				</tr>
 				<tr>
 					<td> Fecha Ultimo Estado </td>

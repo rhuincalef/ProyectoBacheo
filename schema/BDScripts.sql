@@ -20,7 +20,7 @@ CREATE TABLE "users" (
     "remember_code" varchar(40),
     "created_on" int NOT NULL,
     "last_login" int,
-    "active" int4,
+    "active" int,
     "first_name" varchar(50),
     "last_name" varchar(50),
     "company" varchar(100),
@@ -72,12 +72,12 @@ CREATE TABLE "login_attempts" (
   CONSTRAINT "check_id" CHECK(id >= 0)
 );
 
-DROP TABLE IF EXISTS "Criticidad";
-CREATE TABLE "Criticidad"
+DROP TABLE IF EXISTS "CriticidadModelo";
+CREATE TABLE "CriticidadModelo"
 (
   id serial NOT NULL,
-  nombreInformal character varying(50),
-  nombreFormal character varying(50),
+  "nombreInformal" character varying(50),
+  "nombreFormal" character varying(50),
   descripcion character varying,
   CONSTRAINT pk_id_criticidad PRIMARY KEY (id)
 );
@@ -163,7 +163,7 @@ CREATE TABLE "Bache"
       REFERENCES "Direccion" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fg_id_criticidad FOREIGN KEY ("idCriticidad")
-      REFERENCES "Criticidad" (id) MATCH SIMPLE
+      REFERENCES "CriticidadModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fg_id_material FOREIGN KEY ("idMaterial")
       REFERENCES "Material" (id) MATCH SIMPLE

@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "publico";
 $route['404_override'] = 'error/error_404';
 
 

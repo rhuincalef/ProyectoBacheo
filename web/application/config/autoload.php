@@ -37,6 +37,8 @@
 |
 */
 
+
+
 $autoload['packages'] = array();
 
 
@@ -52,7 +54,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'form_validation', 'session', 'links_library', 'SimpleLoginSecure', 'autoresponder', 'template', 'ion_auth');
+$autoload['libraries'] = array('database', 'form_validation', 'session', 'links_library', 'autoresponder', 'template', 'ion_auth', 'utiles', 'excepciones/MY_BdExcepcion');
 
 
 /*
@@ -109,7 +111,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('CriticidadModelo',"Criticidad");
 
 
 /* End of file autoload.php */

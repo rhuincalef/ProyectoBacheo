@@ -958,6 +958,9 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$result = $this->query($sql);
 		$this->_reset_select();
+		if (empty($result->result())) {
+			throw new MY_BdExcepcion('Sin resultados');
+        }
 		return $result;
 	}
 
@@ -1025,6 +1028,10 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$result = $this->query($sql);
 		$this->_reset_select();
+		
+		if (empty($result->result())) {
+			throw new MY_BdExcepcion('Sin resultados');
+        }
 		return $result;
 	}
 

@@ -194,13 +194,16 @@ var Bacheo = (function(){
 	}
 
 	function obtenerCriticidad() {
-		$.get( "index.php/inicio/getNiveles", function(data) {
-			var datos = data.split('/');
-			var $niveles = [];
-			for (var i = 0 ; i < datos.length - 1; i++){
-				$niveles.push($.parseJSON(datos[i]));
-			};
-			cargarCriticidad($niveles);
+		$.get( "index.php/publico/getNiveles", function(data) {
+//			var datos = data.split('/');
+alert(data);
+			var datos = JSON.parse(data);
+alert(datos);
+//			var $niveles = [];
+			// for (var i = 0 ; i < datos.length - 1; i++){
+			// 	$niveles.push(datos[i]);
+			// };
+			cargarCriticidad(datos);
 		});
 	}
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre

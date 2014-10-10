@@ -73,7 +73,7 @@ function cargarCriticidad(niveles){
   var $opciones = $("#criticidad");
   $opciones.empty();
   $(niveles).each(function(indice,elemento){
-    var opcion = new Option(elemento.nombreFormal,elemento.id,true,true);
+    var opcion = new Option(elemento.nombre,elemento.id,true,true);
     $opciones.append(opcion);
     var globo = informar("Informacion",elemento.descripcion);
       $(opcion).hover(function(event){

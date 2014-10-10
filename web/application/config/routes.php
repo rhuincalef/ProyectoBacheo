@@ -40,7 +40,21 @@
 
 $route['default_controller'] = "publico";
 $route['404_override'] = 'error/error_404';
+$route['getNiveles'] = 'publico/getNiveles';
+//$route['getNivelesFormal'] = 'privado/getNiveles';
+//$route['getNivelesInformal'] = 'invitado/getNiveles';
+// $CI = &get_instance();
+// if ($CI->ion_auth->logged_in()){
+// 	$route['getNiveles'] = 'privado/getNiveles';
+// }else{
+// 	$route['getNiveles'] = 'invitado/getNiveles';
+// }
+
+
+
 
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
+
+?>

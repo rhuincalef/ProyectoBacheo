@@ -196,9 +196,7 @@ var Bacheo = (function(){
 	function obtenerCriticidad() {
 		$.get( "index.php/publico/getNiveles", function(data) {
 //			var datos = data.split('/');
-alert(data);
 			var datos = JSON.parse(data);
-alert(datos);
 //			var $niveles = [];
 			// for (var i = 0 ; i < datos.length - 1; i++){
 			// 	$niveles.push(datos[i]);

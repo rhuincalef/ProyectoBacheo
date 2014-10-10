@@ -164,19 +164,19 @@
  */
 	$URI =& load_class('URI', 'core');
 
-/*
- * ------------------------------------------------------
- *  Instantiate the routing class and set the routing
- * ------------------------------------------------------
- */
-	$RTR =& load_class('Router', 'core');
-	$RTR->_set_routing();
+// /*
+//  * ------------------------------------------------------
+//  *  Instantiate the routing class and set the routing
+//  * ------------------------------------------------------
+//  */
+// 	$RTR =& load_class('Router', 'core');
+// 	$RTR->_set_routing();
 
-	// Set any routing overrides that may exist in the main index file
-	if (isset($routing))
-	{
-		$RTR->_set_overrides($routing);
-	}
+// 	// Set any routing overrides that may exist in the main index file
+// 	if (isset($routing))
+// 	{
+// 		$RTR->_set_overrides($routing);
+// 	}
 
 /*
  * ------------------------------------------------------
@@ -232,6 +232,33 @@
 	{
 		return CI_Controller::get_instance();
 	}
+
+	/*
+ * ------------------------------------------------------
+ *  Cargando Route
+ * ------------------------------------------------------
+ */
+
+/*
+ * ------------------------------------------------------
+ *  Instantiate the routing class and set the routing
+ * ------------------------------------------------------
+ */
+	$RTR =& load_class('Router', 'core');
+	$RTR->_set_routing();
+
+	// Set any routing overrides that may exist in the main index file
+	if (isset($routing))
+	{
+		$RTR->_set_overrides($routing);
+	}
+
+	/*
+ * ------------------------------------------------------
+ *  Fin Carga Route
+ * ------------------------------------------------------
+ */
+
 
 
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
@@ -289,6 +316,7 @@
 			show_404("{$class}/{$method}");
 		}
 	}
+
 
 /*
  * ------------------------------------------------------

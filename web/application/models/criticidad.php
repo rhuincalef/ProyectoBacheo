@@ -1,4 +1,4 @@
-<?php 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		class Criticidad{
 			
 			var $id;
@@ -13,6 +13,10 @@
 			function __construct(){			
 				
 			}
+
+
+			
+
 
 			private function inicializar($datos){
 				$this->id = $datos->id;		
@@ -58,6 +62,13 @@
 			}
 
 
+			public function toJsonInFormal() {
+        		return ['id'=> $this->id,'nombre' => $this->nombreInformal,'descripcion' => $this->descripcion];
+    		}
+
+    		public function toJsonFormal() {
+        		return ['id'=> $this->id,'nombre' => $this->nombreFormal,'descripcion' => $this->descripcion];
+    		}
 
 
 		}	

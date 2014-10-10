@@ -82,16 +82,16 @@ CREATE TABLE "CriticidadModelo"
   CONSTRAINT pk_id_criticidad PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS "Calle";
-CREATE TABLE "Calle"
+DROP TABLE IF EXISTS "CalleModelo";
+CREATE TABLE "CalleModelo"
 (
   id serial NOT NULL,
   nombre character varying,
   CONSTRAINT pk_id_calle PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS "Direccion";
-CREATE TABLE "Direccion"
+DROP TABLE IF EXISTS "DireccionModelo";
+CREATE TABLE "DireccionModelo"
 (
   id serial NOT NULL,
   "idCallePrincipal" integer NOT NULL,
@@ -102,10 +102,10 @@ CREATE TABLE "Direccion"
 --  CONSTRAINT pk_id_direccion PRIMARY KEY ("idCallePrincipal","altura"),
   CONSTRAINT pk_id_direccion PRIMARY KEY (id),
   CONSTRAINT fg_id_calle_secundaria_a FOREIGN KEY ("idCalleSecundariaA")
-      REFERENCES "Calle" (id) MATCH SIMPLE
+      REFERENCES "CalleModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fg_id_calle_secundaria_b FOREIGN KEY ("idCalleSecundariaB")
-      REFERENCES "Calle" (id) MATCH SIMPLE
+      REFERENCES "CalleModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -145,8 +145,12 @@ CREATE TABLE "Material"
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-DROP TABLE IF EXISTS "Bache";
-CREATE TABLE "Bache"
+
+CREATE TYPE "TipoObstruccion" AS ENUM ('parcial', 'total');
+
+
+DROP TABLE IF EXISTS "BacheModelo";
+CREATE TABLE "BacheModelo"
 (
   id serial NOT NULL,
   latitud double precision,
@@ -160,7 +164,7 @@ CREATE TABLE "Bache"
   "tipoObstruccion" TipoObstruccion,
   CONSTRAINT pk_id_bache PRIMARY KEY (id),
   CONSTRAINT fg_direccion FOREIGN KEY ("idDireccion")
-      REFERENCES "Direccion" (id) MATCH SIMPLE
+      REFERENCES "DireccionModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fg_id_criticidad FOREIGN KEY ("idCriticidad")
       REFERENCES "CriticidadModelo" (id) MATCH SIMPLE
@@ -192,7 +196,7 @@ CREATE TABLE "Estado"
   "fechaFinReparacion" timestamp,
   CONSTRAINT pk_id_estado PRIMARY KEY (id),
   CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "Bache" (id) MATCH SIMPLE
+  REFERENCES "BacheModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_id_tipo_estado FOREIGN KEY ("idTipoEstado")
   REFERENCES "TipoEstado" (id) MATCH SIMPLE
@@ -213,7 +217,7 @@ CREATE TABLE "Observacion"
   "emailObservador"  character varying NOT NULL,
   CONSTRAINT pk_id_observacion PRIMARY KEY ("idBache",fecha),
   CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "Bache" (id) MATCH SIMPLE
+  REFERENCES "BacheModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -225,6 +229,6 @@ CREATE TABLE "Multimedia"
   "tipo" character varying NOT NULL,
   CONSTRAINT pk_id_multimedia PRIMARY KEY ("idBache","nombre"),
   CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "Bache" (id) MATCH SIMPLE
+  REFERENCES "BacheModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );

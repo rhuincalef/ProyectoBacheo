@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-		class Bache{
+		class Falla{
 			
 			var $id;
 			var $latitud;
@@ -35,11 +35,10 @@
 			{
 
 				$CI = &get_instance();
-				
-				$bache = new Bache();
-				$datos = $CI->BacheModelo->get($id);
-				$bache->inicializar($datos);		
-				return $bache;
+				$falla = new Falla();
+				$datos = $CI->FallaModelo->get($id[0]);
+				$falla->inicializar($datos);		
+				return $falla;
 
 			}
 

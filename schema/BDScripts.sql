@@ -149,8 +149,8 @@ CREATE TABLE "Material"
 CREATE TYPE "TipoObstruccion" AS ENUM ('parcial', 'total');
 
 
-DROP TABLE IF EXISTS "BacheModelo";
-CREATE TABLE "BacheModelo"
+DROP TABLE IF EXISTS "FallaModelo";
+CREATE TABLE "FallaModelo"
 (
   id serial NOT NULL,
   latitud double precision,
@@ -162,7 +162,7 @@ CREATE TABLE "BacheModelo"
   largo double precision,
   profundidad double precision,
   "tipoObstruccion" TipoObstruccion,
-  CONSTRAINT pk_id_bache PRIMARY KEY (id),
+  CONSTRAINT pk_id_Falla PRIMARY KEY (id),
   CONSTRAINT fg_direccion FOREIGN KEY ("idDireccion")
       REFERENCES "DireccionModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -188,15 +188,15 @@ DROP TABLE IF EXISTS "Estado";
 CREATE TABLE "Estado"
 (
   id serial NOT NULL,
-  "idBache" integer,
+  "idFalla" integer,
   fecha timestamp,
   "idUsuario" integer,
   "idTipoEstado" integer,
   monto double precision,
   "fechaFinReparacion" timestamp,
   CONSTRAINT pk_id_estado PRIMARY KEY (id),
-  CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "BacheModelo" (id) MATCH SIMPLE
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_id_tipo_estado FOREIGN KEY ("idTipoEstado")
   REFERENCES "TipoEstado" (id) MATCH SIMPLE
@@ -207,28 +207,28 @@ CREATE TABLE "Estado"
 
 );
 
-DROP TABLE IF EXISTS "Observacion";
-CREATE TABLE "Observacion"
+DROP TABLE IF EXISTS "ObservacionModelo";
+CREATE TABLE "ObservacionModelo"
 (
-  "idBache" integer,
-  fecha timestamp,
+  "idFalla" integer,
+  fecha timestamp NOT NULL,
   comentario character varying NOT NULL, 
   "nombreObservador" character varying NOT NULL,
   "emailObservador"  character varying NOT NULL,
-  CONSTRAINT pk_id_observacion PRIMARY KEY ("idBache",fecha),
-  CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "BacheModelo" (id) MATCH SIMPLE
+  CONSTRAINT pk_id_observacion PRIMARY KEY ("idFalla",fecha),
+  CONSTRAINT fk_id_Falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-DROP TABLE IF EXISTS "Multimedia";
-CREATE TABLE "Multimedia"
+DROP TABLE IF EXISTS "MultimediaModelo";
+CREATE TABLE "MultimediaModelo"
 (
-  "idBache" integer,
+  "idFalla" integer,
   "nombre" character varying NOT NULL,
   "tipo" character varying NOT NULL,
-  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idBache","nombre"),
-  CONSTRAINT fk_id_bache FOREIGN KEY ("idBache")
-  REFERENCES "BacheModelo" (id) MATCH SIMPLE
+  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombre"),
+  CONSTRAINT fk_id_Falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );

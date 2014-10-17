@@ -54,7 +54,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'form_validation', 'session', 'links_library', 'autoresponder', 'template', 'ion_auth', 'utiles', 'excepciones/MY_BdExcepcion');
+$autoload['libraries'] = array('excepciones/MY_BdExcepcion','database', 'form_validation', 'session', 'links_library', 'autoresponder', 'template', 'ion_auth', 'utiles');
 
 
 /*
@@ -111,7 +111,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Bache","BacheModelo");
+$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo");
 
 
 /* End of file autoload.php */

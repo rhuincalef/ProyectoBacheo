@@ -39,16 +39,14 @@
 */
 
 $route['default_controller'] = "publico";
+
 $route['404_override'] = 'error/error_404';
 $route['getNiveles'] = 'publico/getNiveles';
-//$route['getNivelesFormal'] = 'privado/getNiveles';
-//$route['getNivelesInformal'] = 'invitado/getNiveles';
-// $CI = &get_instance();
-// if ($CI->ion_auth->logged_in()){
-// 	$route['getNiveles'] = 'privado/getNiveles';
-// }else{
-// 	$route['getNiveles'] = 'invitado/getNiveles';
-// }
+// $route['getObservaciones/(:num)'] = "publico/getObservaciones/$1";
+// $route['getMultimedia/(:num)'] = "publico/getMultimedia/$1";
+// $route['getFalla/(:num)'] = "publico/getFalla/$1";
+$route['get(Falla|Observaciones|Multimedia)/(\d+)'] = 'publico/get$1/$2';
+$route['get[^(Falla|Observaciones|Multimedia)]'] = 'error/error_404';
 
 
 

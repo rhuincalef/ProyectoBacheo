@@ -9,7 +9,9 @@
 			public function get($id)
 			{
 				$query = $this->db->get_where('CalleModelo', array('id' => $id));
-        		
+        		if (empty($query->result())) {
+					throw new MY_BdExcepcion('Sin resultados');
+  				}
         		return $query->result()[0];
 			}
 		}

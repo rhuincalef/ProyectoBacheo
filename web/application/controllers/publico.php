@@ -9,14 +9,24 @@ class Publico extends Frontend_Controller {
 	}	
 
 	public function _remap($method){
+		$args = array_slice($this->uri->rsegment_array(),2);
+		
+
+		if($method == "index"){
+			return $this->index();
+		}
+
+
 		if(!$this->ion_auth->logged_in()){
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
-			$invitado->$method();
+			call_user_func_array(array(&$invitado,$method),$args);
+			//$invitado->$method($params);
 		}else{
 			require_once(APPPATH."controllers/privado.php");
 		    $privado = new Privado();
-		    $privado->$method();
+		    call_user_func_array(array(&$privado,$method),$args);
+		    //$privado->$method($params);
 		}
 	}
 

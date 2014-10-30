@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		class Multimedia{
 			
-			var $idFalla;
+			var $falla;
 			var $nombre;
 			var $tipo;			
 			
@@ -11,7 +11,7 @@
 
 
 			private function inicializar($datos){
-				$this->idFalla = $datos->idFalla;
+				$this->falla = Falla::getInstacia($datos->idFalla);;
 				$this->nombre = $datos->nombre;
 				$this->tipo = $datos->tipo;
 			}

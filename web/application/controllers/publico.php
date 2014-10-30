@@ -10,23 +10,18 @@ class Publico extends Frontend_Controller {
 
 	public function _remap($method){
 		$args = array_slice($this->uri->rsegment_array(),2);
-		
-
-		if($method == "index"){
-			return $this->index();
+		if (method_exists($this, $method)){
+			return call_user_func_array(array(&$this,$method),$args);
 		}
-
 
 		if(!$this->ion_auth->logged_in()){
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
 			call_user_func_array(array(&$invitado,$method),$args);
-			//$invitado->$method($params);
 		}else{
 			require_once(APPPATH."controllers/privado.php");
 		    $privado = new Privado();
 		    call_user_func_array(array(&$privado,$method),$args);
-		    //$privado->$method($params);
 		}
 	}
 
@@ -44,6 +39,77 @@ class Publico extends Frontend_Controller {
 
 		$this->template->build_page("mapa",$data);
 	}
+
+
+
+
+	public function getFalla($id){
+		$this->utiles->debugger($id);
+		try {
+			$falla = Falla::getInstancia($id);
+			echo json_encode($falla);			
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+
+	}
+
+	public function getObservaciones($idFalla){
+		try{
+			$observaciones = Observacion::getAll($idFalla);
+			echo json_encode($observaciones);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
+
+	public function getMultimedia($idFalla){
+		try{ 
+			$multimedias = Multimedia::getAll($idFalla);
+			$this->utiles->debugger($multimedias);
+			echo json_encode($multimedias);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+		
+	}
+
+	public function getTiposEstado(){
+		try{
+			$tipos = TipoEstado::getTiposEstado();
+			echo json_encode($tipos);	
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
+
+	public function getEstados($idFalla){
+		try {
+			$estados = Estado::getAll($idFalla);
+			echo json_encode($estados);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
+
+	public function getEstado($idFalla){
+		try {
+			$estado = Estado::getEstadoActual($idFalla);
+			echo json_encode($estado);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
+
+	public function getTiposRotura(){
+		try {
+			$tipos = TipoRotura::getTiposRotura();
+			echo json_encode($tipos);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
+
 
 
 }

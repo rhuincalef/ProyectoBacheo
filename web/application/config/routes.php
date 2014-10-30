@@ -39,14 +39,10 @@
 */
 
 $route['default_controller'] = "publico";
-
 $route['404_override'] = 'error/error_404';
-$route['getNiveles'] = 'publico/getNiveles';
-// $route['getObservaciones/(:num)'] = "publico/getObservaciones/$1";
-// $route['getMultimedia/(:num)'] = "publico/getMultimedia/$1";
-// $route['getFalla/(:num)'] = "publico/getFalla/$1";
-$route['get(Falla|Observaciones|Multimedia)/(\d+)'] = 'publico/get$1/$2';
-$route['get[^(Falla|Observaciones|Multimedia)]'] = 'error/error_404';
+$route['get(TiposEstado|Niveles|TiposRotura)'] = 'publico/get$1';
+$route['get(Falla|Observaciones|Multimedia|Estado|Estados)/(\d+)'] = 'publico/get$1/$2';
+$route['get[^(Falla|Observaciones|Multimedia|Estado|Estados)]'] = 'error/error_404';
 
 
 

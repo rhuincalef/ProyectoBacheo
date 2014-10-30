@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		class Observacion{
 			
-			var $idFalla;
+			var $falla;
 			var $comentario;
 			var $nombreObservador;
 			var $emailObservador;
@@ -14,7 +14,7 @@
 
 
 			private function inicializar($datos){
-				$this->idFalla = $datos->idFalla;
+				$this->falla = Falla::getInstacia($datos->idFalla);
 				$this->comentario = $datos->comentario;
 				$this->nombreObservador = $datos->nombreObservador;
 				$this->emailObservador = $datos->emailObservador;

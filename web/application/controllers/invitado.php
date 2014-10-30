@@ -20,40 +20,6 @@ class Invitado extends CI_Controller {
 		
 	}
 
-	public function getFalla($id){
-		$this->utiles->debugger($id);
-		try {
-			$falla = Falla::getInstancia($id);
-			echo json_encode($falla);			
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-
-	}
-
-	public function getObservaciones($idFalla){
-		try{
-			$observaciones = Observacion::getAll($idFalla);
-			echo json_encode($observaciones);
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-		
-	}
-
-	public function getMultimedia($idFalla){
-		try{ 
-			$multimedias = Multimedia::getAll($idFalla);
-			$this->utiles->debugger($multimedias);
-			echo json_encode($multimedias);
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-		
-	}
-
-
-
 	// --------------------------------------------------------------------
 }
 

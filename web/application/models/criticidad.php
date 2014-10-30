@@ -6,16 +6,9 @@
 			var $nombreInformal;
 			var $descripcion;
 			
-
-
-			
-			
 			function __construct(){			
 				
 			}
-
-
-			
 
 
 			private function inicializar($datos){
@@ -29,16 +22,9 @@
 			{
 
 				$CI = &get_instance();
-				
 				$criticidad = new Criticidad();
-				try {
-					$datos = $CI->CriticidadModelo->get($id);
-					$criticidad->inicializar($datos);		
-				}	
-				catch (MY_BdExcepcion $e) {
-    				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
-    			}
-				
+				$datos = $CI->CriticidadModelo->get($id);
+				$criticidad->inicializar($datos);		
 				return $criticidad;
 
 			}

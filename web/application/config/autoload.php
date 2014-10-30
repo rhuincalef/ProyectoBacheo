@@ -111,7 +111,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo");
+$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo","TipoEstado","TipoEstadoModelo","Estado","EstadoModelo","TipoRotura","TipoRoturaModelo");
 
 
 /* End of file autoload.php */

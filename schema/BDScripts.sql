@@ -111,8 +111,9 @@ CREATE TABLE "DireccionModelo"
 
 
 
-DROP TABLE IF EXISTS "TipoRotura";
-CREATE TABLE "TipoRotura"
+
+DROP TABLE IF EXISTS "TipoRoturaModelo";
+CREATE TABLE "TipoRoturaModelo"
 (
   id serial NOT NULL,
   nombre character varying,
@@ -120,8 +121,8 @@ CREATE TABLE "TipoRotura"
 );
 
 
-DROP TABLE IF EXISTS "TipoMaterial";
-CREATE TABLE "TipoMaterial"
+DROP TABLE IF EXISTS "TipoMaterialModelo";
+CREATE TABLE "TipoMaterialModelo"
 (
   id serial NOT NULL,
   nombre character varying,
@@ -129,8 +130,8 @@ CREATE TABLE "TipoMaterial"
 );
 
 
-DROP TABLE IF EXISTS "Material";
-CREATE TABLE "Material"
+DROP TABLE IF EXISTS "MaterialModelo";
+CREATE TABLE "MaterialModelo"
 (
   id serial NOT NULL,
   "idTipoMaterial" integer,
@@ -138,13 +139,12 @@ CREATE TABLE "Material"
   "numeroBaldosa" integer,
   CONSTRAINT pk_id_material PRIMARY KEY (id),
   CONSTRAINT "fk_id_tipo_material" FOREIGN KEY ("idTipoMaterial")
-  REFERENCES "TipoMaterial" (id) MATCH SIMPLE
+  REFERENCES "TipoMaterialModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT "fk_id_tipo_rotura" FOREIGN KEY ("idTipoRotura")
-  REFERENCES "TipoRotura" (id) MATCH SIMPLE
+  REFERENCES "TipoRoturaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-
 
 CREATE TYPE "TipoObstruccion" AS ENUM ('parcial', 'total');
 
@@ -170,13 +170,13 @@ CREATE TABLE "FallaModelo"
       REFERENCES "CriticidadModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fg_id_material FOREIGN KEY ("idMaterial")
-      REFERENCES "Material" (id) MATCH SIMPLE
+      REFERENCES "MaterialModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 
-DROP TABLE IF EXISTS "TipoEstado";
-CREATE TABLE "TipoEstado"
+DROP TABLE IF EXISTS "TipoEstadoModelo";
+CREATE TABLE "TipoEstadoModelo"
 (
   id serial NOT NULL,
   nombre character varying,
@@ -184,8 +184,8 @@ CREATE TABLE "TipoEstado"
 );
 
 
-DROP TABLE IF EXISTS "Estado";
-CREATE TABLE "Estado"
+DROP TABLE IF EXISTS "EstadoModelo";
+CREATE TABLE "EstadoModelo"
 (
   id serial NOT NULL,
   "idFalla" integer,
@@ -199,7 +199,7 @@ CREATE TABLE "Estado"
   REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_id_tipo_estado FOREIGN KEY ("idTipoEstado")
-  REFERENCES "TipoEstado" (id) MATCH SIMPLE
+  REFERENCES "TipoEstadoModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION ,
   CONSTRAINT fk_id_usuario FOREIGN KEY ("idUsuario")
   REFERENCES users (id) MATCH SIMPLE

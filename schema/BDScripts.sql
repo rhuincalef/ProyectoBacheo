@@ -72,13 +72,16 @@ CREATE TABLE "login_attempts" (
   CONSTRAINT "check_id" CHECK(id >= 0)
 );
 
+-- ACA EMPIEZA
+
+
 DROP TABLE IF EXISTS "CriticidadModelo";
 CREATE TABLE "CriticidadModelo"
 (
   id serial NOT NULL,
-  "nombreInformal" character varying(50),
-  "nombreFormal" character varying(50),
+  nombre character varying(50),
   descripcion character varying,
+  ponderacion double precision,
   CONSTRAINT pk_id_criticidad PRIMARY KEY (id)
 );
 
@@ -95,7 +98,7 @@ CREATE TABLE "DireccionModelo"
 (
   id serial NOT NULL,
   "idCallePrincipal" integer NOT NULL,
-  "altura" integer NOT NULL,
+  altura integer NOT NULL,
   "idCalleSecundariaA" integer,
   "idCalleSecundariaB" integer,
 
@@ -112,12 +115,36 @@ CREATE TABLE "DireccionModelo"
 
 
 
-DROP TABLE IF EXISTS "TipoRoturaModelo";
-CREATE TABLE "TipoRoturaModelo"
+-- DROP TABLE IF EXISTS "TipoRoturaModelo";
+-- CREATE TABLE "TipoRoturaModelo"
+-- (
+--   id serial NOT NULL,
+--   nombre character varying,
+--   CONSTRAINT pk_tipo_rotura PRIMARY KEY (id)
+-- );
+
+
+DROP TABLE IF EXISTS "TipoFallaModelo";
+CREATE TABLE "TipoFallaModelo"
 (
   id serial NOT NULL,
   nombre character varying,
-  CONSTRAINT pk_tipo_rotura PRIMARY KEY (id)
+  influencia int NOT NULL,
+  CONSTRAINT pk_tipo_falla PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS "TipoFallaCriticidadModelo";
+CREATE TABLE "TipoFallaCriticidadModelo"
+(
+  "idTipoFalla" integer NOT NULL,
+  "idCriticidad" integer NOT NULL,
+  CONSTRAINT pk_id_tipo_falla_criticidad PRIMARY KEY ("idTipoFalla","idCriticidad"),
+  CONSTRAINT fk_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+  REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_criticidad FOREIGN KEY ("idCriticidad")
+  REFERENCES "CriticidadModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 
@@ -129,24 +156,48 @@ CREATE TABLE "TipoMaterialModelo"
   CONSTRAINT pk_id_tipo_material PRIMARY KEY (id)
 );
 
-
-DROP TABLE IF EXISTS "MaterialModelo";
-CREATE TABLE "MaterialModelo"
+DROP TABLE IF EXISTS "TipoReparacionModelo";
+CREATE TABLE "TipoReparacionModelo"
 (
   id serial NOT NULL,
-  "idTipoMaterial" integer,
-  "idTipoRotura" integer,
-  "numeroBaldosa" integer,
-  CONSTRAINT pk_id_material PRIMARY KEY (id),
-  CONSTRAINT "fk_id_tipo_material" FOREIGN KEY ("idTipoMaterial")
-  REFERENCES "TipoMaterialModelo" (id) MATCH SIMPLE
+  nombre character varying,
+  descripcion character varying,
+  costo double precision,
+  CONSTRAINT pk_id_tipo_reparacion PRIMARY KEY (id)
+);
+
+
+DROP TABLE IF EXISTS "TipoFallaTipoReparacionModelo";
+CREATE TABLE "TipoFallaTipoReparacionModelo"
+(
+  "idTipoFalla" integer NOT NULL,
+  "idTipoReparacion" integer NOT NULL,
+  CONSTRAINT pk_id_tipo_falla_tipo_reparacion PRIMARY KEY ("idTipoFalla","idTipoReparacion"),
+  CONSTRAINT fk_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+  REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fk_id_tipo_rotura" FOREIGN KEY ("idTipoRotura")
-  REFERENCES "TipoRoturaModelo" (id) MATCH SIMPLE
+  CONSTRAINT fk_id_tipo_reparacion FOREIGN KEY ("idTipoReparacion")
+  REFERENCES "TipoReparacionModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TYPE "TipoObstruccion" AS ENUM ('parcial', 'total');
+-- DROP TABLE IF EXISTS "MaterialModelo";
+-- CREATE TABLE "MaterialModelo"
+-- (
+--   id serial NOT NULL,
+--   "idTipoMaterial" integer,
+--   "idTipoRotura" integer,
+--   "numeroBaldosa" integer,
+--   CONSTRAINT pk_id_material PRIMARY KEY (id),
+--   CONSTRAINT "fk_id_tipo_material" FOREIGN KEY ("idTipoMaterial")
+--   REFERENCES "TipoMaterialModelo" (id) MATCH SIMPLE
+--   ON UPDATE NO ACTION ON DELETE NO ACTION,
+--   CONSTRAINT "fk_id_tipo_rotura" FOREIGN KEY ("idTipoRotura")
+--   REFERENCES "TipoRoturaModelo" (id) MATCH SIMPLE
+--   ON UPDATE NO ACTION ON DELETE NO ACTION
+-- );
+
+-- CREATE TYPE "TipoObstruccion" AS ENUM ('parcial', 'total');
 
 
 DROP TABLE IF EXISTS "FallaModelo";
@@ -157,11 +208,10 @@ CREATE TABLE "FallaModelo"
   longitud double precision,
   "idCriticidad" integer,
   "idDireccion" integer,
-  "idMaterial" integer,
-  ancho double precision,
-  largo double precision,
-  profundidad double precision,
-  "tipoObstruccion" TipoObstruccion,
+  "idTipoMaterial" integer,
+  "idTipoFalla" integer,
+  "idTipoReparacion" integer,
+  "areaAfectada" integer,
   CONSTRAINT pk_id_Falla PRIMARY KEY (id),
   CONSTRAINT fg_direccion FOREIGN KEY ("idDireccion")
       REFERENCES "DireccionModelo" (id) MATCH SIMPLE
@@ -169,8 +219,14 @@ CREATE TABLE "FallaModelo"
   CONSTRAINT fg_id_criticidad FOREIGN KEY ("idCriticidad")
       REFERENCES "CriticidadModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fg_id_material FOREIGN KEY ("idMaterial")
-      REFERENCES "MaterialModelo" (id) MATCH SIMPLE
+  CONSTRAINT fg_id_tipo_material FOREIGN KEY ("idTipoMaterial")
+      REFERENCES "TipoMaterialModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fg_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+      REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fg_id_tipo_reparacion FOREIGN KEY ("idTipoReparacion")
+      REFERENCES "TipoReparacionModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -189,11 +245,11 @@ CREATE TABLE "EstadoModelo"
 (
   id serial NOT NULL,
   "idFalla" integer,
-  fecha timestamp,
   "idUsuario" integer,
   "idTipoEstado" integer,
   monto double precision,
-  "fechaFinReparacion" timestamp,
+  "fechaFinReparacionReal" timestamp,
+  "fechaFinReparacionEstimada" timestamp,
   CONSTRAINT pk_id_estado PRIMARY KEY (id),
   CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
   REFERENCES "FallaModelo" (id) MATCH SIMPLE
@@ -207,16 +263,36 @@ CREATE TABLE "EstadoModelo"
 
 );
 
+
+DROP TABLE IF EXISTS "FallaEstadoModelo";
+CREATE TABLE "FallaEstadoModelo"
+(
+  "idFalla" integer NOT NULL,
+  "idEstado" integer NOT NULL,
+  fecha timestamp NOT NULL,
+  CONSTRAINT pk_id_falla_estado PRIMARY KEY ("idFalla","idEstado",fecha),
+  
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_estado FOREIGN KEY ("idEstado")
+  REFERENCES "EstadoModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+
+
+
 DROP TABLE IF EXISTS "ObservacionModelo";
 CREATE TABLE "ObservacionModelo"
 (
-  "idFalla" integer,
+  "idFalla" integer NOT NULL,
   fecha timestamp NOT NULL,
   comentario character varying NOT NULL, 
   "nombreObservador" character varying NOT NULL,
   "emailObservador"  character varying NOT NULL,
   CONSTRAINT pk_id_observacion PRIMARY KEY ("idFalla",fecha),
-  CONSTRAINT fk_id_Falla FOREIGN KEY ("idFalla")
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
   REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -224,11 +300,82 @@ CREATE TABLE "ObservacionModelo"
 DROP TABLE IF EXISTS "MultimediaModelo";
 CREATE TABLE "MultimediaModelo"
 (
-  "idFalla" integer,
-  "nombre" character varying NOT NULL,
-  "tipo" character varying NOT NULL,
-  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombre"),
-  CONSTRAINT fk_id_Falla FOREIGN KEY ("idFalla")
+  "idFalla" integer NOT NULL,
+  "nombreArchivo" character varying NOT NULL,
+  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
   REFERENCES "FallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+DROP TABLE IF EXISTS "TipoAtributoModelo";
+CREATE TABLE "TipoAtributoModelo"
+(
+  id serial NOT NULL,
+  "idFalla" integer NOT NULL,
+  "nombre" character varying NOT NULL,
+  "unidadMedida" character varying NOT NULL,
+  CONSTRAINT pk_id_tipo_atributo PRIMARY KEY ("id"),
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+DROP TABLE IF EXISTS "FallaTipoAtributoModelo";
+CREATE TABLE "FallaTipoAtributoModelo"
+(
+  "idFalla" integer NOT NULL,
+  "idTipoAtributo" integer NOT NULL,
+  valor character varying NOT NULL,
+  CONSTRAINT pk_id_falla_tipo_atributo PRIMARY KEY ("idFalla","idTipoAtributo"),
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_tipo_atributo FOREIGN KEY ("idTipoAtributo")
+  REFERENCES "TipoAtributoModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+DROP TABLE IF EXISTS "TipoMaterialTipoFallaModelo";
+CREATE TABLE "TipoMaterialTipoFallaModelo"
+(
+  "idTipoMaterial" integer NOT NULL,
+  "idTipoFalla" integer NOT NULL,
+  CONSTRAINT pk_id_tipo_material_tipo_falla PRIMARY KEY ("idTipoMaterial","idTipoFalla"),
+  CONSTRAINT fk_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+  REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fg_id_tipo_material FOREIGN KEY ("idTipoMaterial")
+  REFERENCES "TipoMaterialModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+DROP TABLE IF EXISTS "NivelServicioModelo";
+CREATE TABLE "NivelServicioModelo"
+(
+  id serial NOT NULL,
+  "estadoCalle" character varying NOT NULL,
+  "tipoMantenimiento" character varying NOT NULL,
+  valor integer NOT NULL,
+  CONSTRAINT pk_id_nivel_servicio PRIMARY KEY ("id")
+);
+
+DROP TABLE IF EXISTS "ConformaNivelServicioModelo";
+CREATE TABLE "ConformaNivelServicioModelo"
+(
+  "idFalla" integer NOT NULL,
+  "idCalle" integer NOT NULL,
+  "idNivelServicio" integer NOT NULL,
+  CONSTRAINT pk_id_conforma_nivel_servicio PRIMARY KEY ("idFalla","idCalle","idNivelServicio"),
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_calle FOREIGN KEY ("idCalle")
+  REFERENCES "CalleModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_nivel_servicio FOREIGN KEY ("idNivelServicio")
+  REFERENCES "NivelServicioModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+

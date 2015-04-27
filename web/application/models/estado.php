@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		class Estado{
-			
-			var $falla;
-			var $fecha;			
+			var $id;
+			var $falla;			
 			var $usuario;
 			var $tipoEstado;
 			var $monto;
-			var $fechaFinReparacion;
+			var $fechaFinReparacionReal;
+			var $fechaFinReparacionEstimada;
 			
 			function __construct(){			
 				
@@ -14,12 +14,15 @@
 
 
 			private function inicializar($datos){
+				$this->id = $datos->id;
 				$this->falla = Falla::getInstancia($datos->idFalla);;
-				$this->fecha = $datos->fecha;
 				$this->usuario = $datos->idUsuario;
 				$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
 				$this->monto = $datos->monto;
-				$this->fechaFinReparacion = $datos->fechaFinReparacion;
+				$this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
+				$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
+				
+
 			}
 
 			static public function getInstancia($datos){

@@ -1,0 +1,46 @@
+.jumbotron h1,p{
+	color: #ffffff;
+
+}
+.jumbotron {
+	background-color: rgb(0, 93, 179);
+}
+
+.contenido{
+	padding-left: 6.5%;
+    padding-right: 6.5%;
+    padding-top: 2%;
+}
+
+.oculto{
+	display: none;
+}
+
+.seleccionMultiple{
+	border: 1px;
+	border-style: solid;
+	border-color: gray;
+	border-radius: 6px;
+	width: 50%;
+	height: 50px;
+	background-color: white;
+}
+
+.contenedorABM{
+	float:left;
+	width: 49%;
+	background-color: rgba(33,33,33,.5);
+}
+
+.datosAsociados{
+	margin-left: 2%;
+	background-color: rgba(33,33,33,.5);
+}
+
+.datosAsociados .opcion{
+
+}
+
+.list-group-item p{
+	color:rgba(33,33,33,.8);
+}

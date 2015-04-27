@@ -17,6 +17,10 @@ class Privado extends CI_Controller {
 		}		
 	}
 
+	public function creacionTipoFalla(){
+		$this->template->build_page("gestorFallas");
+	}
+
 	// --------------------------------------------------------------------
 }
 

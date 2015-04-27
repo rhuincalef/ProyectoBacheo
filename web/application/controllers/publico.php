@@ -110,6 +110,51 @@ class Publico extends Frontend_Controller {
 		}
 	}
 
+	public function getTiposMaterial(){
+		try {
+			$tipos = TipoMaterial::getTiposMaterial();
+			echo json_encode($tipos);
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
 
+	public function getMaterial($idMaterial){
+		$this->utiles->debugger($idMaterial);
+		try {
+			$material = Material::getInstancia($idMaterial);
+			echo json_encode($material);			
+		} catch (MY_BdExcepcion $e) {
+			echo "Ha ocurrido un error";
+		}
+	}
 
+	public function login_via_ajax() {
+		$firephp = FirePHP::getInstance(True);
+		$identity = $this->input->post('login_identity');
+		$password = $this->input->post('login_password');
+		// $remember = $this->input->post('remember_me');
+		$firephp->log($identity);
+	    $firephp->log($password);
+	    # Usar si es necesario enviar mas info del usuario
+	    // $user = $this->ion_auth->user()->row();
+	    if ($this->ion_auth->logged_in())
+		{
+			// redirect('auth/login');
+			echo json_encode(array('status' => 'OK','data' => array('logged_in' => 'Ya se encuentra logeado.')));
+		}
+		else
+		{
+			if($this->ion_auth->login($identity, $password))
+				echo json_encode(array('status' => 'OK','data' => array('login_identity' => $identity, 'login_password' => $password)));
+			else
+				echo json_encode(array('status' => 'error_log(message)','data' => 'User invalid!'));
+		}
+	}
+
+	public function logout()
+	{
+		$this->ion_auth->logout();
+	}
+	
 }

@@ -2,8 +2,8 @@
 		class Multimedia{
 			
 			var $falla;
-			var $nombre;
-			var $tipo;			
+			var $nombreArchivo;
+	
 			
 			function __construct(){			
 				
@@ -12,8 +12,7 @@
 
 			private function inicializar($datos){
 				$this->falla = Falla::getInstacia($datos->idFalla);;
-				$this->nombre = $datos->nombre;
-				$this->tipo = $datos->tipo;
+				$this->nombreArchivo = $datos->nombreArchivo;
 			}
 
 			static public function getInstacia($datos){

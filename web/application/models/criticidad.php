@@ -2,8 +2,7 @@
 		class Criticidad{
 			
 			var $id;
-			var $nombreFormal;
-			var $nombreInformal;
+			var $nombre;
 			var $descripcion;
 			
 			function __construct(){			
@@ -13,8 +12,7 @@
 
 			private function inicializar($datos){
 				$this->id = $datos->id;		
-				$this->nombreInformal = $datos->nombreInformal;
-				$this->nombreFormal = $datos->nombreFormal;
+				$this->nombre = $datos->nombre;
 				$this->descripcion = $datos->descripcion;
 			}
 
@@ -48,12 +46,9 @@
 			}
 
 
-			public function toJsonInFormal() {
-        		return ['id'=> $this->id,'nombre' => $this->nombreInformal,'descripcion' => $this->descripcion];
-    		}
-
-    		public function toJsonFormal() {
-        		return ['id'=> $this->id,'nombre' => $this->nombreFormal,'descripcion' => $this->descripcion];
+			
+    		public function toJson() {
+        		return ['id'=> $this->id,'nombre' => $this->nombre,'descripcion' => $this->descripcion];
     		}
 
 

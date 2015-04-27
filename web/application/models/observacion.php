@@ -2,10 +2,10 @@
 		class Observacion{
 			
 			var $falla;
+			var $fecha;
 			var $comentario;
 			var $nombreObservador;
 			var $emailObservador;
-			var $fecha;
 			
 			
 			function __construct(){			

@@ -29,12 +29,16 @@
 .contenedorABM{
 	float:left;
 	width: 49%;
-	background-color: rgba(33,33,33,.5);
+
 }
 
 .datosAsociados{
 	margin-left: 2%;
-	background-color: rgba(33,33,33,.5);
+	padding: 10px;
+	border-radius: 6px;
+	border-style: solid;
+	border-color: #ddd;
+	border-width: .3px;
 }
 
 .datosAsociados .opcion{
@@ -44,3 +48,38 @@
 .list-group-item p{
 	color:rgba(33,33,33,.8);
 }
+
+.opcion input{
+
+}
+
+
+.inputLi{
+ 	margin-top: -3px;
+ 	width: 50%;
+
+}
+
+.rowTextArea{
+	overflow-y: auto;
+}
+
+.rowTextArea textarea{
+	resize: none;
+}
+
+
+
+.ancho100{
+	width: 100%;
+}
+
+.capitalizado{
+	text-transform:capitalize;
+}
+
+.tabuladoDerecha{
+	float: right;
+	
+}
+

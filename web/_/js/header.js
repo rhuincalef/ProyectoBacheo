@@ -64,7 +64,9 @@
 				{"width": "+=100px"},
 			   	'slow',
 			  	'swing',
-			  	function(){$(".cuadroBusqueda").find("input").css({"width":"90%"})}
+			  	function(){
+			  		$(".cuadroBusqueda").find("input").css({"width":"90%"});
+			  	}
 			 );
 		});
 

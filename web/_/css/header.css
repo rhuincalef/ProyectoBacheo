@@ -120,7 +120,8 @@ html,body{
 
 .cuadroBusqueda > i {
 	float: right;
-	margin-top: 2%;
+	position: relative;
+	top: 25%;
 }
 
 .cuadroBusqueda > input {

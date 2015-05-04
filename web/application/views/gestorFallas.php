@@ -32,6 +32,11 @@
 			    <h4 class="list-group-item-heading">Reparaciones</h4>
 			    <p class="list-group-item-text">algo de reparaciones</p>
 			</a>
+
+			<a id="agregarTipoReparacion" class="list-group-item">
+			    <button id="crearTipoFalla" class="btn btn-primary ancho100" type="button">Crear Tipo Falla</button>
+			</a>
+
 		</div>
 
 	</div>

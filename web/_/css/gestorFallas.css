@@ -70,16 +70,24 @@
 
 
 
-.ancho100{
-	width: 100%;
-}
 
-.capitalizado{
-	text-transform:capitalize;
-}
 
-.tabuladoDerecha{
-	float: right;
+.datosTipoFalla{
+	overflow: auto;
+}
 	
+
+.datosTipoFalla h4:last-child{
+	margin-top: 20px;
 }
 
+
+
+.contenidoLista{
+	width: 45%;
+	float: left;
+}
+
+.contenedorLista{
+	overflow: auto;
+}

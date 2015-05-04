@@ -13,6 +13,9 @@ $(document).ready(function(){
 	};
 
 	$("#crearYAgregarMaterial").click(Material.crearYAgregarMaterial); //MATERIALES
+	$("#crearYAgregarAtributo").click(Atributo.crearYAgregarAtributo); //ATRIBUTOS
+	$("#crearYAgregarCriticidad").click(Criticidad.crearYAgregarCriticidad); //CRITICIDADES
+	$("#crearYAgregarReparaciones").click(Reparacion.crearYAgregarReparacion); //CRITICIDADES
 });
 
 function cargarOpciones(opcion){

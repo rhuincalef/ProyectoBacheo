@@ -8,7 +8,7 @@
 	<div class="contenedorABM">
 
 		<div id="secciones" class="list-group">
-			<a id="nombreTipoFalla" class="list-group-item disabled">
+			<a id="nombreTipoFalla" class="list-group-item disabled datosTipoFalla">
 			    <h4 class="list-group-item-heading">Nombre Tipo Falla:
 			    	<input name="nombreTipoFalla" type="text" placeholder="Ej:Bache" class="list-group-item-text tabuladoDerecha inputLi"/>
 			    </h4>
@@ -115,7 +115,7 @@
 					</li>
 					<li class="list-group-item">
 						Ponderación:
-						<input id="ponderacionCriticidadNuevo" name="ponderacionFalla" class="tabuladoDerecha inputLi" type="number" placeholder="Ej:12.3"/>
+						<input id="ponderacionCriticidadNueva" name="ponderacionFalla" class="tabuladoDerecha inputLi" type="number" placeholder="Ej:12.3"/>
 					</li>
 					<li class="list-group-item">
 						<button id="crearYAgregarCriticidad" type="button" class="btn btn-primary ancho100">Crear y Agregar</button>
@@ -131,45 +131,49 @@
 			<h4>Reparaciones</h4>
 			<div>
 				<h5>Reparaciones Seleccionadas</h5>
-				<ul id="listaReparacionesSeleccionadas" class="list-group">
+				
+				<div id="listaReparacionesSeleccionadas" class="list-group">
+					<a id="sinReparaciones" class="list-group-item capitalizado"> No Hay Reparaciones Seleccionadas! </a>
+				</div>
+				<!-- <ul id="listaReparacionesSeleccionadas" class="list-group">
 					<li id="sinReparaciones" class="list-group-item">No Hay Reparaciones Seleccionadas!</li>
-				</ul>
+				</ul> -->
 			</div>
 			<div>
 				<h5>Reparaciones Existentes</h5>
 				<div class="list-group">
 					<a class="list-group-item capitalizado">
-						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>
-						<h4 class="list-group-item-heading">M1</h4>
-			    		<p class="list-group-item-text">Descripcion: ssss sssssss ssssssssss sssssssss ssssss sssssss sss sssss sssss sssss sssss sssss sssssss ssssss sse ssssss ssssss ssssssssss ssssssssssssssssss ssssssssssssssssssssss ss s sssssssss ssssssss ssssssssss ssssssssss sssssssssssss sssssss sssssssssss ssssss sssssssss sssssss sssssss sssssssssss sssssssss ssss sssss sssssss <br> Costo: $123.23 </p>
+						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Reparacion.agregarReparacionExistente(this)"></span>
+						<h4 name="nombre" class="list-group-item-heading">M1</h4>
+			    		Descripcion:<p name="descripcion" class="list-group-item-text sangria">ssss sssssss ssssssssss sssssssss ssssss sssssss sss sssss sssss sssss sssss sssss sssssss ssssss sse ssssss ssssss ssssssssss ssssssssssssssssss ssssssssssssssssssssss ss s sssssssss ssssssss ssssssssss ssssssssss sssssssssssss sssssss sssssssssss ssssss sssssssss sssssss sssssss sssssssssss sssssssss ssss sssss sssssss </p>
+			    		<br>
+			    		Costo:<p name="costo" class="sangria"> $123.23 </p>
 						
 					</a>
 					<a class="list-group-item capitalizado">
-						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>
-						<h4 class="list-group-item-heading">M1</h4>
-			    		<p class="list-group-item-text">Descripcion: asdsadasdsdasdsad; <br> Costo: $123.23 </p>
+						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Reparacion.agregarReparacionExistente(this)"></span>
+						<h4 name="nombre" class="list-group-item-heading">M3</h4>
+			    		Descripcion:<p name="descripcion" class="list-group-item-text sangria">ssss sssssss ssssssssss sssssssss ssssss sssssss sss sssss sssss sssss sssss sssss sssssss ssssss sse ssssss ssssss ssssssssss ssssssssssssssssss ssssssssssssssssssssss ss s sssssssss ssssssss ssssssssss ssssssssss sssssssssssss sssssss sssssssssss ssssss sssssssss sssssss sssssss sssssssssss sssssssss ssss sssss sssssss </p>
+			    		<br>
+			    		Costo:<p name="costo" class="sangria"> $123.23 </p>
 						
 					</a>
-					<a class="list-group-item capitalizado">
-						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>
-						<h4 class="list-group-item-heading">M1</h4>
-			    		<p class="list-group-item-text">Descripcion: asdsadasdsdasdsad; <br> Costo: $123.23 </p>
-					</a>
+					
 				</div>
 			</div>
 			<div>
 				<h5>Nuevas Reperaciones</h5>
 				<ul class="list-group">
 					<li class="list-group-item">
-						Nombre Reparacion:<input id="nombreReparacionNuevo" class="tabuladoDerecha inputLi" name="reparacion" type="text" placeholder="Ej:Sellado de Juntas"/>
+						Nombre Reparacion:<input id="nombreReparacionNueva" class="tabuladoDerecha inputLi" name="reparacion" type="text" placeholder="Ej:Sellado de Juntas"/>
 					</li>
 					
 					<li class="list-group-item">
-						Costo de Reparacion por Unidad:<input id="costoReparacionNuevo" class="tabuladoDerecha inputLi" name="reparacion" type="text" placeholder="Ej:$578.25"/>
+						Costo de Reparacion por Unidad:<input id="costoReparacionNueva" class="tabuladoDerecha inputLi" name="reparacion" type="number" placeholder="Ej:578.25"/>
 					</li>
 
 					<li class="list-group-item rowTextArea">
-						Decripción Reparacion:<textarea id="descripcionReparacionNuevo" class="tabuladoDerecha inputLi" name="reparacion" type="text" placeholder="Ej:Descripcion Procedimental" row="10" col="50"></textarea>
+						Decripción Reparacion:<textarea id="descripcionReparacionNueva" class="tabuladoDerecha inputLi" name="reparacion" type="text" placeholder="Ej:Descripcion Procedimental" row="10" col="50"></textarea>
 					</li>
 
 

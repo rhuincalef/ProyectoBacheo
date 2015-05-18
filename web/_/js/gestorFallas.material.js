@@ -66,6 +66,7 @@ var Material = (function(){
 	}
 
 	return{
+		inicializar:inicializar,
 		agregarMaterial:agregarMaterial,
 		crearYAgregarMaterial:crearYAgregarMaterial,
 		agregarMaterialExistente:agregarMaterialExistente,

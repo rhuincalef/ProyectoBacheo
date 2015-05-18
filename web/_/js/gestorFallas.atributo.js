@@ -9,12 +9,12 @@ var Atributo = (function(){
 			alertar("Error!", "El nombre no puede estar vacio ni ser repetido", "error");
 			return false;
 		}
-		if(ponderacion.length == 0){
+		if(unidad.length == 0){
 			alertar("Error!", "El valor de Unidad no puede estar vacio", "error");
 			return false;
 		}
 		var $li = $('<li class="list-group-item capitalizado contenedorLista"></li>');
-		var atributoCompleto = $("<div class='contenidoLista'>"+atributo+"</div><div class='contenidoAtributo'>"+unidad+"</div>");
+		var atributoCompleto = $("<div class='contenidoLista'>"+atributo+"</div><div class='contenidoLista'>"+unidad+"</div>");
 		$li.append(atributoCompleto);
 		$li.append('<span class="glyphicon glyphicon-remove tabuladoDerecha" aria-hidden="true" onclick="Atributo.eliminarAtributo(this);"></span>');
 		$("#listaAtributosSeleccionados").append($li);

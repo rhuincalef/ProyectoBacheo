@@ -12,25 +12,25 @@
 			    <h4 class="list-group-item-heading">Nombre Tipo Falla:
 			    	<input name="nombreTipoFalla" type="text" placeholder="Ej:Bache" class="list-group-item-text tabuladoDerecha inputLi"/>
 			    </h4>
-			    <h4 class="list-group-item-heading">Influencía Tipo Falla:
+			    <h4 class="list-group-item-heading">Influencia Tipo Falla:
 			    	<input name="influenciaTipoFalla" type="number" placeholder="Ej:10" class="list-group-item-text tabuladoDerecha inputLi"/>
 			    </h4>
 		  	</a>	
 			<a id="material" class="list-group-item active">
 			    <h4 class="list-group-item-heading">Material</h4>
-			    <p class="list-group-item-text">algo de materiales</p>
+			    <p class="list-group-item-text">Materiales en los que se presenta la falla.</p>
 			</a>
 			<a id="agregarAtributo" class="list-group-item">
 			    <h4 class="list-group-item-heading">Atributos</h4>
-			    <p class="list-group-item-text">algo de atributos</p>
+			    <p class="list-group-item-text">Atributos a relevar de la falla.</p>
 			</a>
 			<a id="agregarTipoCriticidad" class="list-group-item">
 			    <h4 class="list-group-item-heading">Criticidad</h4>
-			    <p class="list-group-item-text">algo de Criticidades</p>
+			    <p class="list-group-item-text">Criticidades posibles en la falla. </p>
 			</a>
 			<a id="agregarTipoReparacion" class="list-group-item">
 			    <h4 class="list-group-item-heading">Reparaciones</h4>
-			    <p class="list-group-item-text">algo de reparaciones</p>
+			    <p class="list-group-item-text">Reparaciones permitidas para esta falla.</p>
 			</a>
 
 			<a id="agregarTipoReparacion" class="list-group-item">
@@ -53,10 +53,9 @@
 			</div>
 			<div>
 				<h5>Materiales Existentes</h5>
-				<ul class="list-group">
-					<li class="list-group-item capitalizado">M1 <span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span></li>
-					<li class="list-group-item capitalizado">M2 <span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span></li>
-					<li class="list-group-item capitalizado">M3 <span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span></li>
+				<ul id="listaMaterialesExistentes" class="list-group">
+					<li id="sinMaterialesExistentes" class="list-group-item capitalizado"> No Hay Materiales Para Seleccionar! </li>
+				
 				</ul>
 			</div>
 			<div>

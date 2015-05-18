@@ -3,6 +3,29 @@ var Material = (function(){
 	
 	var materiales = [];
 
+	function inicializar(){
+		$.get( "/getAll/tipoMaterial", function( data ) {
+			var respuesta = JSON.parse(data);
+			if(respuesta.codigo == CODIGO_EXITO){
+				$("#sinMaterialesExistentes").addClass("oculto");
+				var materiales = respuesta.valor;
+				materiales.map(function(material){
+					cargarMaterial(material);
+				});
+			}
+
+			
+		});
+
+	}
+
+	function cargarMaterial(material){
+		material = material.toLowerCase();
+		var $li = $('<li class="list-group-item capitalizado"></li>');
+		$li.append(material);
+		$li.append(material + '<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>');
+		$("#listaMaterialesExistentes").append($li);
+	}
 	
 
 	function agregarMaterial(material){

@@ -4,7 +4,7 @@ var Material = (function(){
 	var materiales = [];
 
 	function inicializar(){
-		$.get( "/getAll/tipoMaterial", function( data ) {
+		$.get( "/proyectoBacheo/getAll/tipoMaterial", function( data ) {
 			var respuesta = JSON.parse(data);
 			if(respuesta.codigo == CODIGO_EXITO){
 				$("#sinMaterialesExistentes").addClass("oculto");

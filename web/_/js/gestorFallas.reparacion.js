@@ -2,29 +2,34 @@ var Reparacion = (function(){
 
 	
 	var reparaciones = [];
+	var reparacionesExistentes = [];
 
 	function inicializar(){
-		// $.get( "/getAll/tipoMaterial", function( data ) {
-		// 	var respuesta = JSON.parse(data);
-		// 	if(respuesta.codigo == CODIGO_EXITO){
-		// 		$("#sinMaterialesExistentes").addClass("oculto");
-		// 		var materiales = respuesta.valor;
-		// 		materiales.map(function(material){
-		// 			cargarMaterial(material);
-		// 		});
-		// 	}
+		$.get( "/proyectoBacheo/getAll/TipoReparacion", function( data ) {
+			var respuesta = JSON.parse(data);
+			if(respuesta.codigo == CODIGO_EXITO){
+				$("#sinReparacionesExistentes").addClass("oculto");
+				var reparaciones = JSON.parse(respuesta.valor);
+				reparaciones.map(function(reparacion){
+					reparacionesExistentes.push(reparacion);
+					cargarReparacion(reparacion);
+				});
+			}
 
 			
-		// });
+		});
 
 	}
 
-	function cargarFalla(material){
-		material = material.toLowerCase();
-		var $li = $('<li class="list-group-item capitalizado"></li>');
-		$li.append(material);
-		$li.append(material + '<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>');
-		$("#listaMaterialesExistentes").append($li);
+	function cargarReparacion(reparacion){
+		reparacion.nombre = reparacion.nombre.toLowerCase();
+		var $a = $('<a class="list-group-item capitalizado"></a>');
+		$a.append('<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Reparacion.agregarReparacionExistente(this)"></span>');
+		$a.append('<h4 name="nombre" class="list-group-item-heading">'+reparacion.nombre+'</h4>');
+		$a.append('Descripcion:<p name="descripcion" class="list-group-item-text sangria">'+reparacion.descripcion+'</p>');
+		$a.append('<br>');
+		$a.append('Costo:<p name="costo" class="sangria"> $'+reparacion.costo+' </p>');
+		$("#listaReparacionesExistentes").append($a);
 	}
 
 	function agregarReparacion(reparacion,costo,descripcion){
@@ -73,6 +78,7 @@ var Reparacion = (function(){
 	}
 
 	return{
+		inicializar:inicializar,
 		agregarReparacion:agregarReparacion,
 		crearYAgregarReparacion:crearYAgregarReparacion,
 		agregarReparacionExistente:agregarReparacionExistente,

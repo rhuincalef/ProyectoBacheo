@@ -11,6 +11,8 @@ $(document).ready(function(){
 		}($(listaOpciones[i])));
 
 	};
+	Material.inicializar();
+	Reparacion.inicializar();
 
 	$("#crearYAgregarMaterial").click(Material.crearYAgregarMaterial); //MATERIALES
 	$("#crearYAgregarAtributo").click(Atributo.crearYAgregarAtributo); //ATRIBUTOS

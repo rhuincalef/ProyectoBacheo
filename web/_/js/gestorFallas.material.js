@@ -2,34 +2,33 @@ var Material = (function(){
 
 	
 	var materiales = [];
+	var materialesExistentes = [];
 
 	function inicializar(){
-		$.get( "/proyectoBacheo/getAll/tipoMaterial", function( data ) {
+		$.get( "/proyectoBacheo/getAll/TipoMaterial", function( data ) {
 			var respuesta = JSON.parse(data);
 			if(respuesta.codigo == CODIGO_EXITO){
 				$("#sinMaterialesExistentes").addClass("oculto");
-				var materiales = respuesta.valor;
+				var materiales = JSON.parse(respuesta.valor);
 				materiales.map(function(material){
-					cargarMaterial(material);
+					materialesExistentes.push(material);
+					cargarMaterial(material.nombre);
 				});
 			}
-
-			
 		});
 
 	}
 
 	function cargarMaterial(material){
-		material = material.toLowerCase();
+		var material = material.toLowerCase();
 		var $li = $('<li class="list-group-item capitalizado"></li>');
-		$li.append(material);
 		$li.append(material + '<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Material.agregarMaterialExistente(this)"></span>');
 		$("#listaMaterialesExistentes").append($li);
 	}
 	
 
 	function agregarMaterial(material){
-		material = material.toLowerCase();
+		var material = material.toLowerCase();
 		if ((materiales.filter(function(mat){return mat == material}).length != 0)  || (material.length == 0) ){
 			alertar("Error!", "El nombre no puede estar vacio ni ser repetido", "error");
 			return false;

@@ -349,19 +349,29 @@ class Publico extends Frontend_Controller
 	public function getAll()
 	{
 		// Si es una petición POST por ajax.
-		if ($this->input->is_ajax_request())
-		{
-			$class = $this->input->post('clase');
-		}
-		else // Si es una petición GET.
-		{
-			$arguments = func_get_args();
-			$class = $arguments[0];
-		}
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		// if ($this->input->is_ajax_request())
+		// {
+		// 	$class = $this->input->post('clase');
+		// }
+		// else // Si es una petición GET.
+		// {
+		// 	$arguments = func_get_args();
+		// 	$class = $arguments[0];
+		// }
 		try {
 			// $object = call_user_func(array($class, 'get'), $id);
 			$objectArray = $class::{'getAll'}();
-			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$objectArray));
+			$codigo = 400;
+			$mensaje = "No hay elementos para mostrar";
+			if(count($objectArray) != 0){
+				$codigo = 200;
+				$mensaje = "Elementos Cargados";
+
+			}
+
+			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($objectArray)));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
 			

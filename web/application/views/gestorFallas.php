@@ -145,23 +145,18 @@
 			</div>
 			<div>
 				<h5>Reparaciones Existentes</h5>
-				<div class="list-group">
-					<a class="list-group-item capitalizado">
-						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Reparacion.agregarReparacionExistente(this)"></span>
-						<h4 name="nombre" class="list-group-item-heading">M1</h4>
-			    		Descripcion:<p name="descripcion" class="list-group-item-text sangria">ssss sssssss ssssssssss sssssssss ssssss sssssss sss sssss sssss sssss sssss sssss sssssss ssssss sse ssssss ssssss ssssssssss ssssssssssssssssss ssssssssssssssssssssss ss s sssssssss ssssssss ssssssssss ssssssssss sssssssssssss sssssss sssssssssss ssssss sssssssss sssssss sssssss sssssssssss sssssssss ssss sssss sssssss </p>
-			    		<br>
-			    		Costo:<p name="costo" class="sangria"> $123.23 </p>
-						
+				<div id="listaReparacionesExistentes" class="list-group">
+					<a id="sinReparacionesExistentes" class="list-group-item capitalizado">
+						Sin Reparaciones Existentes!
 					</a>
-					<a class="list-group-item capitalizado">
+					<!-- <a class="list-group-item capitalizado">
 						<span class="glyphicon glyphicon-plus tabuladoDerecha" aria-hidden="true" onclick="Reparacion.agregarReparacionExistente(this)"></span>
 						<h4 name="nombre" class="list-group-item-heading">M3</h4>
 			    		Descripcion:<p name="descripcion" class="list-group-item-text sangria">ssss sssssss ssssssssss sssssssss ssssss sssssss sss sssss sssss sssss sssss sssss sssssss ssssss sse ssssss ssssss ssssssssss ssssssssssssssssss ssssssssssssssssssssss ss s sssssssss ssssssss ssssssssss ssssssssss sssssssssssss sssssss sssssssssss ssssss sssssssss sssssss sssssss sssssssssss sssssssss ssss sssss sssssss </p>
 			    		<br>
 			    		Costo:<p name="costo" class="sangria"> $123.23 </p>
 						
-					</a>
+					</a> -->
 					
 				</div>
 			</div>

@@ -1,25 +1,27 @@
 <?php 
-		class TipoMaterialModelo extends CI_Model{
+		class TipoMaterialModelo extends MY_Model{
 			
-			function __construct(){			
+			function __construct(){
 				parent::__construct();
+				$this->table_name = get_class($this);
 			}
 
-
-			public function get($id)
+			public function getTipoDeMaterialPorNombre($nombre)
 			{
-				
-				$query = $this->db->get_where('TipoMaterialModelo', array('id' => $id));
+				// $query = $this->db->get_where('TipoMaterialModelo', array('nombre' => $nombre));
+				$query = $this->db->like('LOWER(nombre)', strtolower($nombre))->get($this->table_name);
         		if (empty($query->result())) {
 					throw new MY_BdExcepcion('Sin resultados');
   				}
         		return $query->result()[0];
 			}
 
-			public function getTiposMaterial(){
-				$query = $this->db->get('TipoMaterialModelo');
-				return $query->result();
+			public function save($material)
+			{
+				$this->db->insert($this->table_name, array('nombre' => $material->nombre));
+				$this->db->insert_id();
 			}
+
 		}	
 
 	

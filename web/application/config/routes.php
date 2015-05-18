@@ -40,14 +40,26 @@
 
 $route['default_controller'] = "publico";
 $route['404_override'] = 'error/error_404';
-$route['get(TiposEstado|Niveles|TiposRotura|TiposMaterial)'] = 'publico/get$1';
-$route['get(Falla|Observaciones|Multimedia|Estado|Estados|Material)/(\d+)'] = 'publico/get$1/$2';
-$route['get[^(Falla|Observaciones|Multimedia|Estado|Estados|Material)]'] = 'error/error_404';
+$route['get(TiposEstado|Niveles|TiposRotura|TiposDeMateriales)'] = 'publico/get$1';
+$route['get(Falla|Observaciones|Multimedia|Estado|Estados)/(\d+)'] = 'publico/get$1/$2';
+
+$route['get[^(Falla|Observaciones|Multimedia|Estado|Estados)]'] = 'error/error_404';
 $route['login'] = 'publico/login_via_ajax';
 $route['logout'] = 'publico/logout';
 $route['creacionTipoFalla'] = 'privado/creacionTipoFalla';
 
+$route['get(TiposDeMateriales)'] = 'privado/get$1';
+// $route['get(TipoDeMaterial|TipoDeReparacion)/(\d+)'] = 'privado/get$1/$2';
+$route['get(TipoMaterial|TipoDeReparacion)/(\d+)'] = 'publico/get$1/$2';
 
+/*{3,6}     Between 3 and 6 of characters, tener en cuenta*/
+$route['crearTipoAtributo/(\d+)/([\w]+)/([\w]+)'] = 'publico/crearTipoAtributo/$1/$2/$3';
+$route['getCriticidades'] = 'publico/getCriticidades';
+
+// Restringir a los necesarios
+$route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$2';
+$route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
+$route['crear/(TipoReparacion|Criticidad|TipoMaterial)/(:any)'] = 'publico/crear/$1/$2';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

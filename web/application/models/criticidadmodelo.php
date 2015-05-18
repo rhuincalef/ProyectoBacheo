@@ -1,27 +1,25 @@
 <?php 
-		class CriticidadModelo extends CI_Model{
-			
-			function __construct(){			
-				parent::__construct();
-			}
-
-
-			public function get($id)
-			{
-				
-				$query = $this->db->get_where('CriticidadModelo', array('id' => $id));
-        		if (empty($query->result())) {
-					throw new MY_BdExcepcion('Sin resultados');
-  				}
-        		return $query->result()[0];
-			}
-
-			public function getCriticidades(){
-				$query = $this->db->get('CriticidadModelo');
-				return $query->result();
-			}
-		}	
-
+class CriticidadModelo extends MY_Model{
 	
+	// public $table_name;
+	public $datos_tabla;
 
- ?>
+	function __construct()
+	{
+		parent::__construct();
+		// $table_name heredad de MY_Model class
+		$this->table_name = get_class($this);
+	}
+
+	public function save($criticidad)
+	{
+		$this->db->insert($this->table_name, array('nombre' => $criticidad->nombre, 'descripcion' => $criticidad->descripcion, 'ponderacion' => $criticidad->ponderacion));
+		$id = $this->db->insert_id();
+		if (empty($id))
+		{
+			throw new MY_BdExcepcion('Sin resultados');
+		}
+		return $id;
+	}
+}
+?>

@@ -65,7 +65,7 @@
 			   	'slow',
 			  	'swing',
 			  	function(){
-			  		$(".cuadroBusqueda").find("input").css({"width":"90%"});
+			  		$(".cuadroBusqueda").find("input").css({"width":"80%"});
 			  	}
 			 );
 		});
@@ -76,7 +76,7 @@
 			   	'slow',
 			  	'swing'
 			 );
-			$(".cuadroBusqueda").find("input").css({"width":"70%"});
+			$(".cuadroBusqueda").find("input").css({"width":"60%"});
 		});
 
 

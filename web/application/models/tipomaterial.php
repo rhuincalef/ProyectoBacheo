@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-		class TipoMaterial{
+		class TipoMaterial
+		{
 			
 			var $id;
 			var $nombre;
@@ -67,7 +68,29 @@
 			public function save()
 			{
 				$CI = &get_instance();
-				$CI->TipoMaterialModelo->save($this->nombre);
+				return $CI->TipoMaterialModelo->save($this);
+			}
+
+			static public function crear($datos)
+			{
+				$CI = &get_instance();
+				$CI->utiles->debugger($datos);
+				$tipoMaterial = new TipoMaterial();
+				$tipoMaterial->nombre = $datos->nombre;
+				$tipoMaterial->id = $tipoMaterial->save();
+				$CI->utiles->debugger($tipoMaterial);
+				return $tipoMaterial;
+			}
+
+			public function asociar($idTipoFalla)
+			{
+				$CI = &get_instance();
+				$CI->TipoMaterialModelo->asociar($this->id, $idTipoFalla);
+			}
+
+			static public function datosCrearValidos($datos)
+			{
+				return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre));
 			}
 
 		}

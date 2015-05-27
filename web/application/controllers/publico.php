@@ -12,7 +12,6 @@ class Publico extends Frontend_Controller
 	public function _remap($method)
 	{
 		$args = array_slice($this->uri->rsegment_array(),2);
-		$this->utiles->debugger($args);
 		if (method_exists($this, $method))
 		{
 			return call_user_func_array(array(&$this,$method),$args);
@@ -45,17 +44,6 @@ class Publico extends Frontend_Controller
 		}
 
 		$this->template->build_page("mapa",$data);
-	}
-
-	public function getFalla($id){
-		$this->utiles->debugger($id);
-		try {
-			$falla = Falla::getInstancia($id);
-			echo json_encode($falla);			
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-
 	}
 
 	public function getObservaciones($idFalla){
@@ -108,15 +96,6 @@ class Publico extends Frontend_Controller
 	public function getTiposRotura(){
 		try {
 			$tipos = TipoRotura::getTiposRotura();
-			echo json_encode($tipos);
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-	}
-
-	public function getTiposMaterial(){
-		try {
-			$tipos = TipoMaterial::getTiposMaterial();
 			echo json_encode($tipos);
 		} catch (MY_BdExcepcion $e) {
 			echo "Ha ocurrido un error";
@@ -200,112 +179,77 @@ class Publico extends Frontend_Controller
 		}
 	}
 
-	/*
-	 * crearTipoMaterial
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @param	double
-	 */
-	public function crearCriticidad($nombre, $descripcion, $ponderacion)
-	{
-		try {
-			// Se Busca si el tipo de criticidad existe.
-			$criticidad = Criticidad::getCriticidadPorNombre($nombre);
-			echo json_encode(array('codigo' => 400, 'mensaje' => "El tipo de Criticidad ingresado ya se encuentra cargado", 'valor' => ''));
-		} catch (Exception $e) {
-			$criticidad = new Criticidad();
-			$criticidad->nombre = $nombre;
-			$criticidad->descripcion = $descripcion;
-			$criticidad->ponderacion = (float)$ponderacion;
-			$id = $criticidad->save();
-			$this->utiles->debugger(gettype($id));
-			echo json_encode(array('codigo' => 200, 'mensaje' => "El tipo de Criticidad ha sido ingresada correctamente", 'valor' => $id));
-
-		}
-	}
-
-	public function crearTipoAtributo($idFalla, $nombre, $unidadMedida)
-	{
-		$this->utiles->debugger($idFalla);
-		// Buscar para evitar
-		// ERROR: insert or update on table "TipoAtributoModelo" violates foreign key constraint "fk_id_falla" DETAIL: Key (idFalla)=(1) is not present in table "FallaModelo".
-		$tipoAtributo = TipoAtributo::crearTipoAtributo($idFalla, $nombre, $unidadMedida);
-		echo json_encode(array('codigo' => 200, 'mensaje' => "", 'valor' => json_encode($tipoAtributo)));
-	}
-
 	public function getCriticidades()
 	{
 		$criti = Criticidad::getCriticidades();
 		echo json_encode((array_map(function($obj){ return $obj; }, $criti)));
 	}
 
+	/*
+	$.post('crear/TipoFalla', 
+       {"clase": "TipoFalla", 
+        "datos": JSON.stringify({"general": {"nombre": "Bache", "influencia": 2},
+                  "materiales": [{"nombre": "Adoquines"}],
+                  "atributos": [{"nombre": "ancho", "unidadMedida": "cm"}],
+                                 "criticidades": [{"nombre": "alto", "descripcion": "una descripcion", "ponderacion": 1}],
+                  "reparaciones": [{"nombre": "sellado de juntas", "costo": 54.2, "descripcion": "una descripcion"}]
+                 })
+       })
+      $.post('crear/TipoMaterial', 
+       {"clase":"TipoMaterial",
+        "datos":JSON.stringify({"nombre":"Adoquines"})
+       });
+       $.post('crear/TipoReparacion', 
+       {"clase": "TipoReparacion", 
+        "datos": JSON.stringify({"nombre": "sellado de juntas", "costo": 23.2, "descripcion": "una descripcion"})
+       })
+	*/
 	public function crear()
 	{
 		// Si es una petición POST por ajax.
-		if ($this->input->is_ajax_request())
+		$this->load->library('validation');
+		$this->utiles->debugger(func_get_args());
+		$datos = array('clase' => $this->input->post('clase'), 'datos' => json_decode($this->input->post('datos')));
+		$data = array('clase' => $datos['clase']);
+		// $this->validation->set_post();
+		$this->validation->set_data($data);
+
+		// $this->validation->required(array('clase'), 'Fields are required')
+		$this->validation->required(array('clase'), 'Fields are required')
+				->regexp('clase', '(TipoFalla|TipoMaterial|TipoReparacion)');
+		if ($this->validation->is_valid())
 		{
-			$class = $this->input->post('clase');
-			$datos = $this->input->post('datos');
+			$this->utiles->debugger('datos validos');
 		}
-		else // Si es una petición GET.
+		else
 		{
-			$arguments = func_get_args();
-			$class = $arguments[0];
-			$datos = array_slice($arguments, 1);
+			$this->utiles->debugger('datos invalidos: '.$this->validation->get_error_field());
+			echo json_encode(array('codigo' => 200, 'mensaje' => "datos invalidos", 'valor' => ''));
+			return;
 		}
-		try {
-			// Se Busca si el tipo de criticidad existe.
-			// $criticidad = Criticidad::getCriticidadPorNombre($nombre);
-			$object = $class::{'get'.$class.'PorNombre'}($datos[0]);
-			echo json_encode(array('codigo' => 400, 'mensaje' => "$class ingresado ya se encuentra cargado", 'valor' => ''));
-		} catch (Exception $e) {
-			$this->utiles->debugger('Exception');
-			$object = new $class();
-			// $criticidad = new Criticidad();
-			// $criticidad->nombre = $nombre;
-			// $criticidad->descripcion = $descripcion;
-			// $criticidad->ponderacion = (float)$ponderacion;
-			// $id = $criticidad->save();
-			// $this->utiles->debugger(gettype($id));
-			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $id));
-
+		$class = $datos['clase'];
+		// Validando datos. Se puede mejorar con form_validation.
+		if (!$class::{"datosCrearValidos"}($datos)) {
+			// Si los datos son invalidos
+			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+			return;
 		}
-	}
-
-	public function crear1($arguments)
-	{
-		$args = array_slice($this->uri->rsegment_array(),2);
-		foreach ($args as $key => $value) {
-			$this->utiles->debugger($value);
+		$this->utiles->debugger('datos validos');
+		// // Comienza la transaccion
+		// $this->db->trans_begin();
+		$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
+		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
+		// Por ahora siempre deshacemos
+		// $this->db->trans_rollback();
+		if ($this->db->trans_status() === FALSE)
+		{
+			// TODO: Falta dar aviso del error
+		    $CI->db->trans_rollback();
 		}
-
-		$algo = func_get_args();
-		$this->utiles->debugger("Argumentos:");
-		$this->utiles->debugger($algo);
-		// Obtenemos los argumentos variables del objeto
-		$arguments = array_slice($args, 1);
-		$this->utiles->debugger($arguments);
-		// Identificamos el tipo de objeto.
-		$class = $args[0];
-		$this->utiles->debugger($class);
-		$object = new $class($arguments);
-		$this->utiles->debugger(get_object_vars($object));
-		$num = 0;
-		$object->nombre = 'uno';
-		// Inicializamos cada una de la propiedades del objeto.
-		// foreach (get_object_vars($object) as $key => $value) {
-		// 	if ($key != 'id') {
-		// 		$this->utiles->debugger($object->{$key});
-		// 		$object->{$key} = $arguments[$num];
-		// 		$num = $num + 1;
-		// 	}
-		// }
-		$this->utiles->debugger($object);
-		// Guardamos.
-		$id = $object->save();
-		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $id));
+		else
+		{
+		    $CI->db->trans_commit();
+		}
 	}
 
 	/*
@@ -318,17 +262,9 @@ class Publico extends Frontend_Controller
 	public function get()
 	{
 		// Si es una petición POST por ajax.
-		if ($this->input->is_ajax_request())
-		{
-			$class = $this->input->post('clase');
-			$id = $this->input->post('id');
-		}
-		else // Si es una petición GET.
-		{
-			$arguments = func_get_args();
-			$class = $arguments[0];
-			$id = $arguments[1];
-		}
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		$id = $arguments[1];
 		try {
 			// $object = call_user_func(array($class, 'get'), $id);
 			$object = $class::{'getInstancia'}($id);
@@ -351,15 +287,6 @@ class Publico extends Frontend_Controller
 		// Si es una petición POST por ajax.
 		$arguments = func_get_args();
 		$class = $arguments[0];
-		// if ($this->input->is_ajax_request())
-		// {
-		// 	$class = $this->input->post('clase');
-		// }
-		// else // Si es una petición GET.
-		// {
-		// 	$arguments = func_get_args();
-		// 	$class = $arguments[0];
-		// }
 		try {
 			// $object = call_user_func(array($class, 'get'), $id);
 			$objectArray = $class::{'getAll'}();

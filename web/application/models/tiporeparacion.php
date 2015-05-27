@@ -78,5 +78,28 @@
 
 		}
 
+		static public function crear($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger($datos);
+			$tipoReparacion = new TipoReparacion();
+			$tipoReparacion->nombre = $datos->nombre;
+			$tipoReparacion->costo = $datos->costo;
+			$tipoReparacion->descripcion = $datos->descripcion;
+			$tipoReparacion->id = $tipoReparacion->save();
+			$CI->utiles->debugger($tipoReparacion);
+			return $tipoReparacion;
+		}
+
+		public function asociar($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$CI->TipoReparacionModelo->asociar($this->id, $idTipoFalla);
+		}
+
+		static public function datosCrearValidos($datos)
+		{
+			return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre) && isset($datos['datos']->costo) && isset($datos['datos']->descripcion));
+		}
 	}
  ?>

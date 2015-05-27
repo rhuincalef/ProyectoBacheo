@@ -38,5 +38,13 @@
 				return $this->db->insert_id();
 			}
 
+			public function asociar($idTipoReparacion, $idTipoFalla)
+			{
+				$CI = &get_instance();
+				$CI->utiles->debugger($idTipoReparacion);
+				$CI->utiles->debugger($idTipoFalla);
+				$this->db->insert('TipoFallaTipoReparacionModelo', array('idTipoReparacion' => $idTipoReparacion, 'idTipoFalla' => $idTipoFalla));
+			}
+
 		}
  ?>

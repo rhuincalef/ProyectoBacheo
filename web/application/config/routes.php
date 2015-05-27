@@ -59,7 +59,7 @@ $route['getCriticidades'] = 'publico/getCriticidades';
 // Restringir a los necesarios
 $route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$2';
 $route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
-$route['crear/(TipoReparacion|Criticidad|TipoMaterial)/(:any)'] = 'publico/crear/$1/$2';
+$route['crear/(TipoReparacion|TipoFalla|TipoMaterial)'] = 'publico/crear/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

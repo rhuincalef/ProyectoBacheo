@@ -1,21 +1,11 @@
 <?php 
-	class TipoFallaModelo extends CI_Model
+	class TipoFallaModelo extends MY_Model
 	{		
 		
 		function __construct()
 		{
 			parent::__construct();
 			$this->table_name = get_class($this);
-		}
-
-		public function get($id)
-		{
-			$query = $this->db->get_where('TipoFallaModelo', array('id' => $id));
-    		if (empty($query->result()))
-    		{
-				throw new MY_BdExcepcion('Sin resultados');
-				}
-    		return $query->result()[0];
 		}
 
 		public function getTiposFalla()

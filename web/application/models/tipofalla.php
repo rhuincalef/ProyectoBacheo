@@ -1,21 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-		class TipoFalla{
+		class TipoFalla
+		{
 			
 			var $id;
 			var $nombre;
 			var $influencia;
 			// Agregadas
-			var $materiales;
+			var $material;
 			var $atributos;
 			var $criticidades;
 			var $reparaciones;
 			
-			function __construct(){			
+			function __construct()
+			{
 				
 			}
 
 
-			private function inicializar($datos){
+			private function inicializar($datos)
+			{
 				$this->id = $datos->id;		
 				$this->nombre = $datos->nombre;
 				
@@ -23,17 +26,16 @@
 
 			static public function getInstancia($id)
 			{
-
 				$CI = &get_instance();
 				$tipoFalla = new TipoFalla();
 				$datos = $CI->TipoFallaModelo->get($id);
-				$tipoFalla->inicializar($datos);		
+				$tipoFalla->inicializar($datos);
 				return $tipoFalla;
-
 			}
 
 
-			static public function getTiposFalla(){
+			static public function getTiposFalla()
+			{
 				$CI = &get_instance();
 				$tiposRotura= array();
 				try {
@@ -65,7 +67,11 @@
 				$tipoFalla->influencia = $datos->general->influencia;
 				$tipoFalla->id = $tipoFalla->save();
 				$CI->utiles->debugger($tipoFalla);
-				$tipoFalla->materiales = $tipoFalla->cargar('TipoMaterial', $datos->materiales);
+				// $tipoFalla->material = $tipoFalla->cargar('TipoMaterial', $datos->material);
+				if ($datos->material->id != "")
+					$tipoFalla->material = TipoMaterial::getInstancia($datos->material->id);
+				else
+					$tipoFalla->material = TipoMaterial::crear($datos->material);
 				$datos->atributos = array_map(function($atributo) use ($tipoFalla)
 				{
 					$atributo->falla = $tipoFalla->id;
@@ -86,7 +92,7 @@
 				return array_map(function($object) use ($tipo)
 				{
 					if (isset($object->id))
-						$nuevo = call_user_func(array($tipo, 'getInstancia'), $object);
+						$nuevo = call_user_func(array($tipo, 'getInstancia'), $object->id);
 					else
 						$nuevo = call_user_func(array($tipo, 'crear'), $object);
 					return $nuevo;
@@ -99,10 +105,11 @@
 				$CI = &get_instance();
 				$CI->utiles->debugger($this);
 				$idTipoFalla = $this->id;
-				array_map(function($object) use (&$idTipoFalla)
-				{
-					$object->asociar($idTipoFalla);
-				}, $this->materiales);
+				// array_map(function($object) use (&$idTipoFalla)
+				// {
+				// 	$object->asociar($idTipoFalla);
+				// }, $this->materiales);
+				$this->material->asociar($idTipoFalla);
 				array_map(function($criticidad) use (&$idTipoFalla)
 				{
 					$criticidad->asociar($idTipoFalla);
@@ -113,17 +120,33 @@
 				}, $this->reparaciones);
 			}
 
+			public function getMaterial()
+			{
+				return $this->material;
+			}
+
 			static public function datosCrearValidos($datos)
 			{
-				if (isset($datos['clase']) && isset($datos['datos'])) 
-				{
-					if (isset($datos['datos']->general) && isset($datos['datos']->materiales) && isset($datos['datos']->atributos) && isset($datos['datos']->criticidades) && isset($datos['datos']->reparaciones)) {
-						if (isset($datos['datos']->general->nombre) && isset($datos['datos']->general->influencia)) {
-							return TRUE;
-						}
-					}
-				}
-				return FALSE;
+				$datos_validar_tipo_falla = array(
+						'datos' => array('general' => array('nombre' => '', 'influencia' => ''),
+										'material' => array('nombre' => ''),
+										'atributos' => array('nombre' => '', 'unidadMedida' => ''),
+										'criticidades' => array('nombre' => '', 'descripcion' => '', 'ponderacion' => ''),
+										'reparaciones' => array('nombre' => '', 'costo' => '', 'descripcion' => '')
+										)
+						);
+				$CI = &get_instance();
+				return $CI->validarRequeridos($datos_validar_tipo_falla, $datos);
+				// return $CI->compararValores($datos, $datos_validar_tipo_falla);
+				// if (isset($datos['clase']) && isset($datos['datos'])) 
+				// {
+				// 	if (isset($datos['datos']->general) && isset($datos['datos']->materiales) && isset($datos['datos']->atributos) && isset($datos['datos']->criticidades) && isset($datos['datos']->reparaciones)) {
+				// 		if (isset($datos['datos']->general->nombre) && isset($datos['datos']->general->influencia)) {
+				// 			return TRUE;
+				// 		}
+				// 	}
+				// }
+				// return FALSE;
 			}
 		}
  ?>

@@ -1,19 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-		class Estado{
+		class Estado
+		{
 			var $id;
-			var $falla;			
+			var $falla;
 			var $usuario;
 			var $tipoEstado;
 			var $monto;
 			var $fechaFinReparacionReal;
 			var $fechaFinReparacionEstimada;
 			
-			function __construct(){			
+			function __construct()
+			{
 				
 			}
 
-
-			private function inicializar($datos){
+			private function inicializar($datos)
+			{
 				$this->id = $datos->id;
 				$this->falla = Falla::getInstancia($datos->idFalla);;
 				$this->usuario = $datos->idUsuario;
@@ -21,17 +23,17 @@
 				$this->monto = $datos->monto;
 				$this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
 				$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
-				
-
 			}
 
-			static public function getInstancia($datos){
+			static public function getInstancia($datos)
+			{
 				$estado = new Estado();
 				$estado->inicializar($datos);
 				return $estado;
 			}
 
-			static public function getAll($idFalla){
+			static public function getAll($idFalla)
+			{
 				$CI = &get_instance();
 				$estados = array();
 				$datos = $CI->EstadoModelo->getEstados($idFalla[0]);
@@ -39,13 +41,13 @@
 				return $estados;
 			}
 
-			static public function getEstadoActual($idFalla){
+			static public function getEstadoActual($idFalla)
+			{
 				$CI = &get_instance();
 				$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
 				$estado = Estado::getInstancia($datos);
 				return $estado;
 			}
 
-		}	
-
+		}
 ?>

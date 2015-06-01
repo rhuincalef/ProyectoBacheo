@@ -18,6 +18,10 @@ $(document).ready(function(){
 	$("#crearYAgregarAtributo").click(Atributo.crearYAgregarAtributo); //ATRIBUTOS
 	$("#crearYAgregarCriticidad").click(Criticidad.crearYAgregarCriticidad); //CRITICIDADES
 	$("#crearYAgregarReparaciones").click(Reparacion.crearYAgregarReparacion); //CRITICIDADES
+	$("#crearTipoFalla").click(function(){
+		crearFalla();
+	}); //CRITICIDADES
+
 });
 
 function cargarOpciones(opcion){
@@ -29,3 +33,44 @@ function cargarOpciones(opcion){
 	$("#"+seleccionado).addClass("active");
 	$("#contenido"+opcion).removeClass("oculto");
 }
+
+function crearFalla(){
+	var tipoFalla = new ObjetoTipoFalla();
+	tipoFalla.inicializar();
+
+	$.post('crear/TipoFalla', 
+	{"clase": "TipoFalla", 
+	"datos": JSON.stringify({
+			"general": {"nombre": tipoFalla.nombre, "influencia": tipoFalla.influencia},
+	        "material": tipoFalla.material,
+	        "atributos": tipoFalla.atributos,
+	        "criticidades": tipoFalla.criticidades,
+	        "reparaciones": tipoFalla.reparaciones
+		}),
+	}).done(function(respuesta){
+		var rta = JSON.parse(respuesta);
+		if(rta.codigo == 200)
+			alertar("Hecho!", rta.mensaje, "success");
+		else
+			alertar("Error!", rta.mensaje, "error");
+	});
+
+};
+
+
+var ObjetoTipoFalla = function(){
+	this.nombre ="";
+	this.material = "";
+	this.atributos = [];
+	this.criticidades = [];
+	this.reparaciones = [];
+
+	this.inicializar = function(){
+		this.nombre = $($("#nombreTipoFalla").find("[name|=nombreTipoFalla]")[0]).val();
+		this.influencia = $($("#nombreTipoFalla").find("[name|=influenciaTipoFalla]")[0]).val();
+		this.material = Material.material;
+		this.atributos = Atributo.atributos;
+		this.criticidades = Criticidad.criticidades;
+		this.reparaciones = Reparacion.reparaciones;
+	};
+};

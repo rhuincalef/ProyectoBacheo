@@ -49,6 +49,7 @@
 				<h5>Materiales Seleccionados</h5>
 				<ul id="listaMaterialesSeleccionados" class="list-group">
 					<li id="sinMateriales" class="list-group-item">No Hay Materiales Seleccionados!</li>
+					<li id="materialAgregado" class="list-group-item oculto"></li>
 				</ul>
 			</div>
 			<div>
@@ -115,11 +116,15 @@
 				<ul class="list-group">
 					<li class="list-group-item">
 						Nombre Criticidad:					
-						<input id="nombreCriticidadNueva" name="criticidad" class="tabuladoDerecha inputLi" type="text" placeholder="Ej:Bajo"/>
+						<input id="nombreCriticidadNueva" name="nombreCriticidad" class="tabuladoDerecha inputLi" type="text" placeholder="Ej:Bajo"/>
+					</li>
+					<li class="list-group-item">
+						Descripcion:					
+						<input id="descripcionCriticidadNueva" name="descripcionCriticidad" class="tabuladoDerecha inputLi" type="text" placeholder="Ej:menor a 5 cm"/>
 					</li>
 					<li class="list-group-item">
 						Ponderación:
-						<input id="ponderacionCriticidadNueva" name="ponderacionFalla" class="tabuladoDerecha inputLi" type="number" placeholder="Ej:12.3"/>
+						<input id="ponderacionCriticidadNueva" name="ponderacionCriticidad" class="tabuladoDerecha inputLi" type="number" placeholder="Ej:12.3"/>
 					</li>
 					<li class="list-group-item">
 						<button id="crearYAgregarCriticidad" type="button" class="btn btn-primary ancho100">Crear y Agregar</button>

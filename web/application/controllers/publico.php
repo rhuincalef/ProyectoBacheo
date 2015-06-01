@@ -7,7 +7,7 @@ class Publico extends Frontend_Controller
 	{
 		parent::__construct();
 		$this->output->enable_profiler(FALSE);
-	}	
+	}
 
 	public function _remap($method)
 	{
@@ -30,8 +30,6 @@ class Publico extends Frontend_Controller
 	}
 
 	// --------------------------------------------------------------------
-	
-
 
 	public function index()
 	{
@@ -42,11 +40,11 @@ class Publico extends Frontend_Controller
 			$data['usuario'] = $this->ion_auth->user()->row()->username;
 			$data['admin'] = $this->ion_auth->is_admin(); 
 		}
-
 		$this->template->build_page("mapa",$data);
 	}
 
-	public function getObservaciones($idFalla){
+	public function getObservaciones($idFalla)
+	{
 		try{
 			$observaciones = Observacion::getAll($idFalla);
 			echo json_encode($observaciones);
@@ -189,7 +187,7 @@ class Publico extends Frontend_Controller
 	$.post('crear/TipoFalla', 
        {"clase": "TipoFalla", 
         "datos": JSON.stringify({"general": {"nombre": "Bache", "influencia": 2},
-                  "materiales": [{"nombre": "Adoquines"}],
+                  "material": {"nombre": "Adoquines"},
                   "atributos": [{"nombre": "ancho", "unidadMedida": "cm"}],
                                  "criticidades": [{"nombre": "alto", "descripcion": "una descripcion", "ponderacion": 1}],
                   "reparaciones": [{"nombre": "sellado de juntas", "costo": 54.2, "descripcion": "una descripcion"}]
@@ -208,15 +206,13 @@ class Publico extends Frontend_Controller
 	{
 		// Si es una petición POST por ajax.
 		$this->load->library('validation');
-		$this->utiles->debugger(func_get_args());
+		// $this->utiles->debugger(func_get_args());
 		$datos = array('clase' => $this->input->post('clase'), 'datos' => json_decode($this->input->post('datos')));
 		$data = array('clase' => $datos['clase']);
 		// $this->validation->set_post();
 		$this->validation->set_data($data);
-
-		// $this->validation->required(array('clase'), 'Fields are required')
 		$this->validation->required(array('clase'), 'Fields are required')
-				->regexp('clase', '(TipoFalla|TipoMaterial|TipoReparacion)');
+				->regexp('clase', '(TipoFalla|TipoMaterial|TipoReparacion|Falla)');
 		if ($this->validation->is_valid())
 		{
 			$this->utiles->debugger('datos validos');
@@ -228,28 +224,64 @@ class Publico extends Frontend_Controller
 			return;
 		}
 		$class = $datos['clase'];
-		// Validando datos. Se puede mejorar con form_validation.
-		if (!$class::{"datosCrearValidos"}($datos)) {
-			// Si los datos son invalidos
+		// Validando datos.
+		if ($class::{"datosCrearValidos"}($datos['datos']))
+		{
+			// Si los datos no son invalidos
 			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
 			return;
 		}
 		$this->utiles->debugger('datos validos');
 		// // Comienza la transaccion
-		// $this->db->trans_begin();
+		$this->db->trans_begin();
 		$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
 		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
 		// Por ahora siempre deshacemos
-		// $this->db->trans_rollback();
+		$this->db->trans_rollback();
 		if ($this->db->trans_status() === FALSE)
 		{
 			// TODO: Falta dar aviso del error
-		    $CI->db->trans_rollback();
+		    $this->db->trans_rollback();
 		}
 		else
 		{
-		    $CI->db->trans_commit();
+		    $this->db->trans_commit();
 		}
+	}
+
+	public function validarRequeridos($valores, $datos)
+	{
+		$sinError = TRUE;
+		// $this->utiles->debugger($valores);
+		if (is_array($valores)) {
+			foreach ($valores as $key => $value)
+			{
+				// $this->utiles->debugger(var_export($sinError, 1));
+				if(isset($datos->$key) && property_exists($datos, $key))
+				{
+					// $this->utiles->debugger("existe $key");
+					if (is_array($value))
+					{
+							$sinError = $this->validarRequeridos($value, $datos->$key);
+							continue;
+					}
+				}elseif (is_array($datos))
+				{
+					// $this->utiles->debugger("Es un array");
+					foreach ($datos as $clave => $value)
+					{
+						// $this->utiles->debugger("existe $key");
+						// $this->utiles->debugger($value);
+						if (!isset($value->$key))
+						{
+							return FALSE;
+						}
+					}
+				}else
+					return FALSE;
+			}
+		}
+		return $sinError;
 	}
 
 	/*
@@ -292,12 +324,11 @@ class Publico extends Frontend_Controller
 			$objectArray = $class::{'getAll'}();
 			$codigo = 400;
 			$mensaje = "No hay elementos para mostrar";
-			if(count($objectArray) != 0){
+			if(count($objectArray) != 0)
+			{
 				$codigo = 200;
 				$mensaje = "Elementos Cargados";
-
 			}
-
 			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($objectArray)));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));

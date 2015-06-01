@@ -99,7 +99,10 @@
 
 		static public function datosCrearValidos($datos)
 		{
-			return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre) && isset($datos['datos']->costo) && isset($datos['datos']->descripcion));
+			$datos_validar_tipo_reparacion = array('datos' => array('nombre' => '', 'costo' => '', 'descripcion' => ''));
+			$CI = &get_instance();
+			return $CI->validarRequeridos($datos_validar_tipo_material, $datos);
+			// return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre) && isset($datos['datos']->costo) && isset($datos['datos']->descripcion));
 		}
 	}
  ?>

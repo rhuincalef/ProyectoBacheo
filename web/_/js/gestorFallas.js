@@ -22,7 +22,53 @@ $(document).ready(function(){
 		crearFalla();
 	}); //CRITICIDADES
 
+/*	var target = document.getElementById("drop-target");
+	target.addEventListener("dragover", function(e){e.preventDefault();}, true);
+	target.addEventListener("drop", function(e){
+		e.preventDefault(); 
+		loadImage(e.dataTransfer.files[0]);
+	}, true); */
+
+/*	var $contenedorImagen = $("#handlerImagen");
+	$contenedorImagen.on("ondragover",function(e){
+		e.preventDefault();
+	});
+	$contenedorImagen.on("ondrop",function(e){
+		e.preventDefault();
+		cargarImagen(e.dataTransfer.files[0]);
+	},true);*/
+
+	var target = document.getElementById("handlerImagen");
+	target.addEventListener("dragover", function(e){e.preventDefault();}, true);
+	target.addEventListener("drop", function(e){
+		e.preventDefault(); 
+//		loadImage(e.dataTransfer.files[0]);
+		cargarImagen(e.dataTransfer.files[0]);
+	}, true);
 });
+
+function cargarImagen(imagen){
+	$("#handlerImagen").addClass("oculto");
+	//	Prevent any non-image file type from being read.
+	if(!imagen.type.match(/image.*/)){
+		console.log("El Elemento seleccionado no es una imagen!: ", src.type);
+		return;
+	}
+	//	Create our FileReader and run the results through the render function.
+	var reader = new FileReader();
+	reader.onload = function(e){
+		//render(e.target.result);
+		$("#imagenEjemplo").attr("src",e.target.result);
+		$("#contenedorImagenEjemplo").removeClass("oculto");
+	};
+	reader.readAsDataURL(imagen);
+}
+
+function activarCargaImagen(){
+	$("#contenedorImagenEjemplo").addClass("oculto");
+	$("#imagenEjemplo").attr("src","");
+	$("#handlerImagen").removeClass("oculto");
+}
 
 function cargarOpciones(opcion){
 	anteriorSeleccionado = seleccionado;

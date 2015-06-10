@@ -79,6 +79,23 @@ function cargarOpciones(opcion){
 	$("#contenido"+opcion).removeClass("oculto");
 }
 
+
+function obtenerCoordenadas(){
+	var coord = imagenCroop.tellSelect();
+	var altoImg = $("#imagenEjemplo").height();
+	var anchoImg = $("#imagenEjemplo").width();
+	var x = (coord.x / anchoImg);
+	var y = (coord.y / altoImg);
+	var ancho = (coord.w / anchoImg);
+	var alto = (coord.h / altoImg);
+	return{
+		x:x,
+		y:y,
+		ancho:ancho,
+		alto:alto
+	}
+}
+
 function crearFalla(){
 	var tipoFalla = new ObjetoTipoFalla();
 	tipoFalla.inicializar();
@@ -102,7 +119,6 @@ function crearFalla(){
 
 };
 
-
 var ObjetoTipoFalla = function(){
 	this.nombre ="";
 	this.material = "";
@@ -117,5 +133,9 @@ var ObjetoTipoFalla = function(){
 		this.atributos = Atributo.atributos;
 		this.criticidades = Criticidad.criticidades;
 		this.reparaciones = Reparacion.reparaciones;
+		if(imagenCroop != null){
+			this.imagenEjemplo = $("#imagenEjemplo").attr("src");
+			this.coordenadasImagen = obtenerCoordenadas();
+		}
 	};
 };

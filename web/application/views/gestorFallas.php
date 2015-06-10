@@ -195,14 +195,15 @@
 		<div class="oculto opcion" id="contenidoagregarImagen">
 			<h4>Imagen</h4>
 			<div>
-				<h5>Nueva Imagen</h5>
+				<h5>Foto Demostrativa</h5>
 				<div>
 					<div id="handlerImagen" class="divDropeable">
-						Coloque su imagen aqui
+						Arrastre su imagen aqui
 					</div>
 					<div id="contenedorImagenEjemplo" class="oculto">
-					<span class="glyphicon glyphicon-remove tabuladoDerecha" aria-hidden="true" onclick="activarCargaImagen();"></span>
 						<img id="imagenEjemplo" class="imagenEjemplo">
+<!-- 					<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="activarCargaImagen();"></span> -->
+						<button id="crearYAgregarReparaciones" type="button" class="btn btn-primary ancho100"><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="activarCargaImagen();"></span></button>
 					</div>
 
 				</div>

@@ -22,30 +22,19 @@ $(document).ready(function(){
 		crearFalla();
 	}); //CRITICIDADES
 
-/*	var target = document.getElementById("drop-target");
-	target.addEventListener("dragover", function(e){e.preventDefault();}, true);
-	target.addEventListener("drop", function(e){
-		e.preventDefault(); 
-		loadImage(e.dataTransfer.files[0]);
-	}, true); */
+	activarDropImagen();
+});
 
-/*	var $contenedorImagen = $("#handlerImagen");
-	$contenedorImagen.on("ondragover",function(e){
-		e.preventDefault();
-	});
-	$contenedorImagen.on("ondrop",function(e){
-		e.preventDefault();
-		cargarImagen(e.dataTransfer.files[0]);
-	},true);*/
 
+
+function activarDropImagen(){
 	var target = document.getElementById("handlerImagen");
 	target.addEventListener("dragover", function(e){e.preventDefault();}, true);
 	target.addEventListener("drop", function(e){
 		e.preventDefault(); 
-//		loadImage(e.dataTransfer.files[0]);
 		cargarImagen(e.dataTransfer.files[0]);
 	}, true);
-});
+}
 
 function cargarImagen(imagen){
 	$("#handlerImagen").addClass("oculto");
@@ -60,6 +49,12 @@ function cargarImagen(imagen){
 		//render(e.target.result);
 		$("#imagenEjemplo").attr("src",e.target.result);
 		$("#contenedorImagenEjemplo").removeClass("oculto");
+		$('#imagenEjemplo').Jcrop({
+            bgColor:     'black',
+            bgOpacity:   .4,
+            setSelect:   [ 100, 100, 250, 250 ],
+            aspectRatio: 1
+        });
 	};
 	reader.readAsDataURL(imagen);
 }
@@ -68,6 +63,7 @@ function activarCargaImagen(){
 	$("#contenedorImagenEjemplo").addClass("oculto");
 	$("#imagenEjemplo").attr("src","");
 	$("#handlerImagen").removeClass("oculto");
+	$('#imagenEjemplo').Jcrop().destroy();
 }
 
 function cargarOpciones(opcion){

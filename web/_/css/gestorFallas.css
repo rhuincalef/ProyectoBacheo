@@ -107,15 +107,26 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 
 .divDropeable{
 	width: 100%;
+	min-height: 200px;
 	border-style: dashed;
 	border-width: 3px;
 	border-color:rgba(33,33,33,.2);
 	padding: 20px;
 	color:rgba(33,33,33,.2);
 	font-size: 30px;
+	vertical-align: middle;
+	text-align: center;
 }
 
 .imagenEjemplo{
 	width: 100%;
 	height: auto;
+}
+
+#contenedorImagenEjemplo button{
+	margin: 10px auto;
+}
+
+#contenedorImagenEjemplo span:hover{
+	color:rgba(255,0,0,1);
 }

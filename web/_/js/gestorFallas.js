@@ -1,5 +1,6 @@
 var seleccionado = "material";
 var anteriorSeleccionado = "material";
+var imagenCroop = null;
 
 $(document).ready(function(){
 	var listaOpciones = $("#secciones").find(".list-group-item");
@@ -49,21 +50,23 @@ function cargarImagen(imagen){
 		//render(e.target.result);
 		$("#imagenEjemplo").attr("src",e.target.result);
 		$("#contenedorImagenEjemplo").removeClass("oculto");
-		$('#imagenEjemplo').Jcrop({
+        imagenCroop = jQuery.Jcrop($('#imagenEjemplo')[0],{
             bgColor:     'black',
             bgOpacity:   .4,
-            setSelect:   [ 100, 100, 250, 250 ],
+            setSelect:   [ 200, 200, 300, 300 ],
             aspectRatio: 1
         });
+
 	};
 	reader.readAsDataURL(imagen);
 }
 
 function activarCargaImagen(){
+	imagenCroop.destroy();
+	imagenCroop = null;
 	$("#contenedorImagenEjemplo").addClass("oculto");
 	$("#imagenEjemplo").attr("src","");
 	$("#handlerImagen").removeClass("oculto");
-	$('#imagenEjemplo').Jcrop().destroy();
 }
 
 function cargarOpciones(opcion){

@@ -5,4 +5,5 @@
 <script src="<?php echo $this->config->base_url(); ?>_/js/gestorFallas.atributo.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/gestorFallas.criticidad.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/gestorFallas.reparacion.js"></script>
+<script src="<?php echo $this->config->base_url(); ?>_/js/gestorFallas.imagen.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/gestorFallas.js"></script>

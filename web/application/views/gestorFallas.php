@@ -203,7 +203,7 @@
 					<div id="contenedorImagenEjemplo" class="oculto">
 						<img id="imagenEjemplo" class="imagenEjemplo">
 <!-- 					<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="activarCargaImagen();"></span> -->
-						<button id="eliminarImagen" type="button" class="btn btn-danger ancho100" onclick="activarCargaImagen();"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>   Eliminar Imagen</button>
+						<button id="eliminarImagen" type="button" class="btn btn-danger ancho100"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>   Eliminar Imagen</button>
 					</div>
 
 				</div>

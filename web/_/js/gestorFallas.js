@@ -1,6 +1,6 @@
 var seleccionado = "material";
 var anteriorSeleccionado = "material";
-var imagenCroop = null;
+//var imagenCroop = null;
 
 $(document).ready(function(){
 	var listaOpciones = $("#secciones").find(".list-group-item");
@@ -23,51 +23,10 @@ $(document).ready(function(){
 		crearFalla();
 	}); //CRITICIDADES
 
-	activarDropImagen();
+//	activarDropImagen();
+	ImagenCroop.inicializar("handlerImagen","contenedorImagenEjemplo","imagenEjemplo","eliminarImagen");
+	//imagenCroop.activarDropImagen();
 });
-
-
-
-function activarDropImagen(){
-	var target = document.getElementById("handlerImagen");
-	target.addEventListener("dragover", function(e){e.preventDefault();}, true);
-	target.addEventListener("drop", function(e){
-		e.preventDefault(); 
-		cargarImagen(e.dataTransfer.files[0]);
-	}, true);
-}
-
-function cargarImagen(imagen){
-	$("#handlerImagen").addClass("oculto");
-	//	Prevent any non-image file type from being read.
-	if(!imagen.type.match(/image.*/)){
-		console.log("El Elemento seleccionado no es una imagen!: ", src.type);
-		return;
-	}
-	//	Create our FileReader and run the results through the render function.
-	var reader = new FileReader();
-	reader.onload = function(e){
-		//render(e.target.result);
-		$("#imagenEjemplo").attr("src",e.target.result);
-		$("#contenedorImagenEjemplo").removeClass("oculto");
-        imagenCroop = jQuery.Jcrop($('#imagenEjemplo')[0],{
-            bgColor:     'black',
-            bgOpacity:   .4,
-            setSelect:   [ 200, 200, 300, 300 ],
-            aspectRatio: 1
-        });
-
-	};
-	reader.readAsDataURL(imagen);
-}
-
-function activarCargaImagen(){
-	imagenCroop.destroy();
-	imagenCroop = null;
-	$("#contenedorImagenEjemplo").addClass("oculto");
-	$("#imagenEjemplo").attr("src","");
-	$("#handlerImagen").removeClass("oculto");
-}
 
 function cargarOpciones(opcion){
 	anteriorSeleccionado = seleccionado;
@@ -80,21 +39,6 @@ function cargarOpciones(opcion){
 }
 
 
-function obtenerCoordenadas(){
-	var coord = imagenCroop.tellSelect();
-	var altoImg = $("#imagenEjemplo").height();
-	var anchoImg = $("#imagenEjemplo").width();
-	var x = (coord.x / anchoImg);
-	var y = (coord.y / altoImg);
-	var ancho = (coord.w / anchoImg);
-	var alto = (coord.h / altoImg);
-	return{
-		x:x,
-		y:y,
-		ancho:ancho,
-		alto:alto
-	}
-}
 
 function crearFalla(){
 	var tipoFalla = new ObjetoTipoFalla();
@@ -133,9 +77,14 @@ var ObjetoTipoFalla = function(){
 		this.atributos = Atributo.atributos;
 		this.criticidades = Criticidad.criticidades;
 		this.reparaciones = Reparacion.reparaciones;
-		if(imagenCroop != null){
+/*		if(imagenCroop != null){
 			this.imagenEjemplo = $("#imagenEjemplo").attr("src");
 			this.coordenadasImagen = obtenerCoordenadas();
 		}
+	};*/
+		if(imagenCroop.hayImagen){
+			this.imagenEjemplo = imagenCroop.obtenerImagen();
+			this.coordenadasImagen = imagenCroop.obtenerCoordenadas();
+		}
 	};
-};
+}

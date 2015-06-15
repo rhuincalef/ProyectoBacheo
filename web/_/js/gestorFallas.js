@@ -1,5 +1,6 @@
 var seleccionado = "material";
 var anteriorSeleccionado = "material";
+//var imagenCroop = null;
 
 $(document).ready(function(){
 	var listaOpciones = $("#secciones").find(".list-group-item");
@@ -22,6 +23,9 @@ $(document).ready(function(){
 		crearFalla();
 	}); //CRITICIDADES
 
+//	activarDropImagen();
+	ImagenCroop.inicializar("handlerImagen","contenedorImagenEjemplo","imagenEjemplo","eliminarImagen");
+	//imagenCroop.activarDropImagen();
 });
 
 function cargarOpciones(opcion){
@@ -33,6 +37,8 @@ function cargarOpciones(opcion){
 	$("#"+seleccionado).addClass("active");
 	$("#contenido"+opcion).removeClass("oculto");
 }
+
+
 
 function crearFalla(){
 	var tipoFalla = new ObjetoTipoFalla();
@@ -57,7 +63,6 @@ function crearFalla(){
 
 };
 
-
 var ObjetoTipoFalla = function(){
 	this.nombre ="";
 	this.material = "";
@@ -72,5 +77,14 @@ var ObjetoTipoFalla = function(){
 		this.atributos = Atributo.atributos;
 		this.criticidades = Criticidad.criticidades;
 		this.reparaciones = Reparacion.reparaciones;
+/*		if(imagenCroop != null){
+			this.imagenEjemplo = $("#imagenEjemplo").attr("src");
+			this.coordenadasImagen = obtenerCoordenadas();
+		}
+	};*/
+		if(imagenCroop.hayImagen){
+			this.imagenEjemplo = imagenCroop.obtenerImagen();
+			this.coordenadasImagen = imagenCroop.obtenerCoordenadas();
+		}
 	};
-};
+}

@@ -32,8 +32,11 @@
 			    <h4 class="list-group-item-heading">Reparaciones</h4>
 			    <p class="list-group-item-text">Reparaciones permitidas para esta falla.</p>
 			</a>
-
-			<a id="agregarTipoReparacion" class="list-group-item">
+			<a id="agregarImagen" class="list-group-item">
+			    <h4 class="list-group-item-heading">Imagen</h4>
+			    <p class="list-group-item-text">Coloque una imagen que permita reconocer la falla.</p>
+			</a>
+			<a class="list-group-item">
 			    <button id="crearTipoFalla" class="btn btn-primary ancho100" type="button">Crear Tipo Falla</button>
 			</a>
 
@@ -187,6 +190,27 @@
 				</ul>
 			</div>
 			
+		</div>
+
+		<div class="oculto opcion" id="contenidoagregarImagen">
+			<h4>Imagen</h4>
+			<div>
+				<h5>Foto Demostrativa</h5>
+				<div>
+					<div id="handlerImagen" class="divDropeable">
+						Arrastre su imagen aqui
+					</div>
+					<div id="contenedorImagenEjemplo" class="oculto">
+						<img id="imagenEjemplo" class="imagenEjemplo">
+<!-- 					<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="activarCargaImagen();"></span> -->
+						<button id="eliminarImagen" type="button" class="btn btn-danger ancho100"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>   Eliminar Imagen</button>
+					</div>
+
+				</div>
+			</div>
+				
+				
+
 		</div>
 
 	</div>

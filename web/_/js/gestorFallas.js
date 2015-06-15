@@ -82,9 +82,9 @@ var ObjetoTipoFalla = function(){
 			this.coordenadasImagen = obtenerCoordenadas();
 		}
 	};*/
-		if(imagenCroop.hayImagen){
-			this.imagenEjemplo = imagenCroop.obtenerImagen();
-			this.coordenadasImagen = imagenCroop.obtenerCoordenadas();
+		if(ImagenCroop.hayImagen){
+			this.imagenEjemplo = ImagenCroop.obtenerImagen();
+			this.coordenadasImagen = ImagenCroop.obtenerCoordenadas();
 		}
 	};
 }

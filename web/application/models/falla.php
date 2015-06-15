@@ -11,6 +11,7 @@
 		var $tipoReparacion;
 		var $influencia;
 		var $factorArea;
+		var $estados;
 		
 		function __construct()
 		{
@@ -40,9 +41,9 @@
 
 		public function save()
 		{
-			return 1;
-			// $CI = &get_instance();
-			// return $CI->FallaModelo->save($this);
+			// return 1;
+			$CI = &get_instance();
+			return $CI->FallaModelo->save($this);
 		}
 
 		/*
@@ -51,9 +52,10 @@
 		"datos": JSON.stringify(
 		  { "falla": {"latitud": 12.2, "longitud": 54.2, "influencia":2, "factorArea": .2},
 		   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
-		   "tipoFalla": {"id": 1},
-		   "criticidad": {"id": 1},
+		   "tipoFalla": {"id": 88},
+		   "criticidad": {"id": 71},
 		   "multimedias": {},
+       	   "reparacion": {"id": 42},
 		   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
 		  })
 		})
@@ -61,7 +63,6 @@
 		static public function crear($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger($datos);
 			$falla = new Falla();
 			$falla->latitud = $datos->falla->latitud;
 			$falla->longitud = $datos->falla->longitud;
@@ -69,11 +70,12 @@
 			$falla->factorArea = $datos->falla->factorArea;
 			// TipoFalla viene con id. getInstancia
 			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
-			// TipoMaterial viene con id. getInstancia
+			// TipoMaterial se obtiene a traves del Tipo de Falla
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+			// TipoReparacion se obtiene a traves del Tipo de Falla
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			// Criticidad viene con id. getInstancia
 			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
-			$falla->id = $falla->save();
 			$falla->observaciones = array();
 			$observacion = new Observacion($datos->observacion);
 			$observacion->falla = $falla->id;
@@ -81,7 +83,9 @@
 			array_push($falla->observaciones, $observacion);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			// $falla->cargar('Multimedia', $datos->multimedias);
+			$falla->id = $falla->save();
 			$falla->crearEstado();
+			$CI->utiles->debugger($falla);
 			return $falla;
 		}
 
@@ -98,12 +102,10 @@
 
 		public function crearEstado()
 		{
-			$CI = &get_instance();
 			/* Crear estado Informado */
-			$estado = new Estado();
-			$estado->tipoEstado = TipoEstado::getTipoEstado('Informado');
-			$estado->falla = $this->id;
-			$CI->utiles->debugger($estado);
+			$this->estado = new Informado();
+			$this->estado->falla = $this;
+			$this->estado->save();
 		}
 
 		static public function datosCrearValidos($datos)

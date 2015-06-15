@@ -46,7 +46,7 @@ $route['get(Falla|Observaciones|Multimedia|Estado|Estados)/(\d+)'] = 'publico/ge
 $route['get[^(Falla|Observaciones|Multimedia|Estado|Estados)]'] = 'error/error_404';
 $route['login'] = 'publico/login_via_ajax';
 $route['logout'] = 'publico/logout';
-$route['creacionTipoFalla'] = 'privado/creacionTipoFalla';
+$route['creacionTipoFalla'] = 'publico/creacionTipoFalla';
 
 $route['get(TiposDeMateriales)'] = 'privado/get$1';
 // $route['get(TipoDeMaterial|TipoDeReparacion)/(\d+)'] = 'privado/get$1/$2';

@@ -36,8 +36,8 @@
 		{
 			$CI = &get_instance();
 			$estados = array();
-			$datos = $CI->EstadoModelo->getEstados($idFalla[0]);
-			$estados = array_map(function($obj){ return Estado::getInstancia($obj); },$datos);
+			$datos = $CI->EstadoModelo->getEstados($idFalla);
+			$estados = array_map(function($obj){ return Estado::getInstancia($obj); }, $datos);
 			return $estados;
 		}
 
@@ -49,41 +49,37 @@
 			return $estado;
 		}
 
+		public function save()
+		{
+			$CI = &get_instance();
+			$CI->EstadoModelo->save($this);
+		}
+
 	}
 
-	/*
+	
 	class Informado extends Estado
 	{
 
-		static public function crear($datos)
+		public function __construct()
 		{
-			$informado = new Informado();
-			$informado->tipoEstado = TipoEstado::getTipoEstado('Informado');
-			$informado->setUsuario();
-			$informado->id = $informado->save();
-		}
-
-		public function inicializar($value='')
-		{
-			# code...
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
+			$this->setUsuario();
 		}
 
 		public function setUsuario()
 		{
-			$this->usuario = $this->ion_auth->user()->row()->id;
-		}
-
-		public function cambiarEstado($falla)
-		{
-			$confirmado = Confirmado::crear($datos);
-			$falla->estado = $confirmado;
-		}
-
-		public function save()
-		{
+			// Se obtiene el usuario a traves de la libreria ion_auth
 			$CI = &get_instance();
-			return $CI->EstadoModelo->save($this);
+			$this->usuario = $CI->ion_auth->user()->row()->id;
 		}
+
+		// public function cambiarEstado($falla)
+		// {
+		// 	$confirmado = Confirmado::crear($datos);
+		// 	$falla->estado = $confirmado;
+		// }
 	}
-	*/
+	
 ?>

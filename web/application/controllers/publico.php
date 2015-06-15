@@ -165,12 +165,12 @@ class Publico extends Frontend_Controller
 		}
 		$class = $datos['clase'];
 		// Validando datos.
-		if ($class::{"datosCrearValidos"}($datos['datos']))
-		{
-			// Si los datos no son validos
-			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
-			return;
-		}
+		// if ($class::{"datosCrearValidos"}($datos['datos']))
+		// {
+		// 	// Si los datos no son validos
+		// 	echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+		// 	return;
+		// }
 		// Comienza la transaccion
 		$this->db->trans_begin();
 		$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));

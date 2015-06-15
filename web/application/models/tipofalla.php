@@ -30,6 +30,8 @@
 			$tipoFalla = new TipoFalla();
 			$datos = $CI->TipoFallaModelo->get($id);
 			$tipoFalla->inicializar($datos);
+			$idMaterial = $CI->TipoFallaModelo->getMaterial($id);
+			$tipoFalla->material = TipoMaterial::getInstancia($idMaterial);
 			return $tipoFalla;
 		}
 
@@ -67,7 +69,6 @@
 			$tipoFalla->influencia = $datos->general->influencia;
 			$tipoFalla->id = $tipoFalla->save();
 			$CI->utiles->debugger($tipoFalla);
-			// $tipoFalla->material = $tipoFalla->cargar('TipoMaterial', $datos->material);
 			if ($datos->material->id != "")
 				$tipoFalla->material = TipoMaterial::getInstancia($datos->material->id);
 			else
@@ -101,14 +102,9 @@
 
 		public function asociar()
 		{
-			// $CI->TipoFallaModelo->asociar($this);
 			$CI = &get_instance();
 			$CI->utiles->debugger($this);
 			$idTipoFalla = $this->id;
-			// array_map(function($object) use (&$idTipoFalla)
-			// {
-			// 	$object->asociar($idTipoFalla);
-			// }, $this->materiales);
 			$this->material->asociar($idTipoFalla);
 			array_map(function($criticidad) use (&$idTipoFalla)
 			{
@@ -134,6 +130,7 @@
 					'criticidades' => array('nombre' => array('string', '\w'), 'descripcion' => array('string', '\w'), 'ponderacion' => array('integer', '\w')),
 					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'))
 					);
+			$CI = &get_instance();
 			foreach ($datos_validar_tipo_falla as $clave => $valor)
 			{
 				$CI->utiles->debugger($datos->$clave);

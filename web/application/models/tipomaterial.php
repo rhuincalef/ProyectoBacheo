@@ -74,11 +74,9 @@
 		static public function crear($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger($datos);
 			$tipoMaterial = new TipoMaterial();
 			$tipoMaterial->nombre = $datos->nombre;
 			$tipoMaterial->id = $tipoMaterial->save();
-			$CI->utiles->debugger($tipoMaterial);
 			return $tipoMaterial;
 		}
 
@@ -90,10 +88,15 @@
 
 		static public function datosCrearValidos($datos)
 		{
-			$datos_validar_tipo_material = array('datos' => array('nombre' => ''));
-			$CI = &get_instance();
-			return $CI->validarRequeridos($datos_validar_tipo_material, $datos);
-			// return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre));
+			$datos_validar_tipo_material = array('nombre' => array('string', '\w'));
+			foreach ($datos_validar_tipo_material as $key => $value)
+			{
+				if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], $datos->$key)))
+				{
+					return FALSE;
+				}
+			}
+			return TRUE;
 		}
 
 	}

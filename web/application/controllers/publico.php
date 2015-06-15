@@ -91,15 +91,6 @@ class Publico extends Frontend_Controller
 		}
 	}
 
-	public function getTiposRotura(){
-		try {
-			$tipos = TipoRotura::getTiposRotura();
-			echo json_encode($tipos);
-		} catch (MY_BdExcepcion $e) {
-			echo "Ha ocurrido un error";
-		}
-	}
-
 	public function login_via_ajax()
 	{
 		$identity = $this->input->post('login_identity');
@@ -125,56 +116,6 @@ class Publico extends Frontend_Controller
 	{
 		$this->ion_auth->logout();
 		$this->session->set_flashdata('message', $this->ion_auth->messages());
-	}
-
-	/*
-	 * crearTipoMaterial
-	 *
-	 * @access	public
-	 * @param	numeric
-	 * @param	string
-	 */
-	public function crearTipoMaterial($nombre)
-	{
-		try {
-			// Se Busca si el tipo de material existe.
-			$tipoMaterial = TipoMaterial::getTipoDeMaterialPorNombre($nombre);
-			echo "El tipo de Material ingresado ya se encuentra cargado";
-		} catch (MY_BdExcepcion $e) {
-			$tipoMaterial = new TipoMaterial();
-			$tipoMaterial->nombre = $nombre;
-			$tipoMaterial->save();
-			echo "El tipo de Material ha sido ingresado correctamente";
-		}
-
-	}
-
-	/*
-	 * crearTipoMaterial
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @param	double
-	 */
-	public function crearTipoReparacion($nombre, $descripcion, $costo)
-	{
-		try {
-			// Se Busca si el tipo de reparacion existe.
-			$tipoReparacion = TipoReparacion::getTipoDeReparacionPorNombre($nombre);
-			// $this->utiles->debugger(get_class_methods('TipoReparacion'));
-			// $tipoReparacion = call_user_func(array('TipoReparacion', 'get'.'TipoDeReparacion'.'PorNombre'), $nombre);
-			// $this->utiles->debugger($tipoReparacion);
-			echo json_encode(array('codigo' => 400, 'mensaje' => "El tipo de reparacion ya se encontraba cargado", 'valor' => ''));
-		} catch (Exception $e) {
-			$tipoReparacion = new TipoReparacion();
-			$tipoReparacion->nombre = $nombre;
-			$tipoReparacion->descripcion = $descripcion;
-			$tipoReparacion->costo = (float)$costo;
-			$id= $tipoReparacion->save();
-			echo json_encode(array('codigo' => 200, 'mensaje' => "El tipo de Reparacion ha sido ingresada correctamente", 'valor' => $id ));
-
-		}
 	}
 
 	public function getCriticidades()
@@ -204,7 +145,6 @@ class Publico extends Frontend_Controller
 	*/
 	public function crear()
 	{
-		// Si es una petición POST por ajax.
 		$this->load->library('validation');
 		// $this->utiles->debugger(func_get_args());
 		$datos = array('clase' => $this->input->post('clase'), 'datos' => json_decode($this->input->post('datos')));
@@ -227,12 +167,11 @@ class Publico extends Frontend_Controller
 		// Validando datos.
 		if ($class::{"datosCrearValidos"}($datos['datos']))
 		{
-			// Si los datos no son invalidos
+			// Si los datos no son validos
 			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
 			return;
 		}
-		$this->utiles->debugger('datos validos');
-		// // Comienza la transaccion
+		// Comienza la transaccion
 		$this->db->trans_begin();
 		$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
 		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
@@ -247,41 +186,6 @@ class Publico extends Frontend_Controller
 		{
 		    $this->db->trans_commit();
 		}
-	}
-
-	public function validarRequeridos($valores, $datos)
-	{
-		$sinError = TRUE;
-		// $this->utiles->debugger($valores);
-		if (is_array($valores)) {
-			foreach ($valores as $key => $value)
-			{
-				// $this->utiles->debugger(var_export($sinError, 1));
-				if(isset($datos->$key) && property_exists($datos, $key))
-				{
-					// $this->utiles->debugger("existe $key");
-					if (is_array($value))
-					{
-							$sinError = $this->validarRequeridos($value, $datos->$key);
-							continue;
-					}
-				}elseif (is_array($datos))
-				{
-					// $this->utiles->debugger("Es un array");
-					foreach ($datos as $clave => $value)
-					{
-						// $this->utiles->debugger("existe $key");
-						// $this->utiles->debugger($value);
-						if (!isset($value->$key))
-						{
-							return FALSE;
-						}
-					}
-				}else
-					return FALSE;
-			}
-		}
-		return $sinError;
 	}
 
 	/*

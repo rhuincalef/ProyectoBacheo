@@ -99,10 +99,15 @@
 
 		static public function datosCrearValidos($datos)
 		{
-			$datos_validar_tipo_reparacion = array('datos' => array('nombre' => '', 'costo' => '', 'descripcion' => ''));
-			$CI = &get_instance();
-			return $CI->validarRequeridos($datos_validar_tipo_material, $datos);
-			// return isset($datos['clase']) && (isset($datos['datos']) && isset($datos['datos']->nombre) && isset($datos['datos']->costo) && isset($datos['datos']->descripcion));
+			$datos_validar_tipo_reparacion = array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'));
+			foreach ($datos_validar_tipo_reparacion as $key => $value)
+			{
+				if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], var_export($datos->$key, 1))))
+				{
+					return FALSE;
+				}
+			}
+			return TRUE;
 		}
 	}
  ?>

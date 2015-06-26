@@ -51,7 +51,8 @@ function crearFalla(){
 	        "material": tipoFalla.material,
 	        "atributos": tipoFalla.atributos,
 	        "criticidades": tipoFalla.criticidades,
-	        "reparaciones": tipoFalla.reparaciones
+	        "reparaciones": tipoFalla.reparaciones,
+	        "multimedia": {'coordenadas': tipoFalla.coordenadasImagen, 'imagen': tipoFalla.imagenEjemplo}
 		}),
 	}).done(function(respuesta){
 		var rta = JSON.parse(respuesta);

@@ -26,7 +26,7 @@
 
 			public function save($tipoAtributo)
 			{
-				$this->db->insert($this->table_name, array('nombre' => $tipoAtributo->nombre, 'unidadMedida' => $tipoAtributo->unidadMedida, 'idFalla' => $tipoAtributo->falla));
+				$this->db->insert($this->table_name, array('nombre' => $tipoAtributo->nombre, 'unidadMedida' => $tipoAtributo->unidadMedida, 'idTipoFalla' => $tipoAtributo->falla));
 				return $this->db->insert_id();
 			}
 		}

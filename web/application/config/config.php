@@ -368,6 +368,9 @@ $config['proxy_ips'] = '';
 |
 */
 
+$config['upload_path'] = './_/img/Multimedias';
+
+
 function __autoload($class)
 {
  	if (strpos($class, 'CI_') !== 0)

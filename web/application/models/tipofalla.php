@@ -10,6 +10,7 @@
 		var $atributos;
 		var $criticidades;
 		var $reparaciones;
+		var $multimedia;
 		
 		function __construct()
 		{
@@ -20,8 +21,7 @@
 		private function inicializar($datos)
 		{
 			$this->id = $datos->id;		
-			$this->nombre = $datos->nombre;
-			
+			$this->nombre = $datos->nombre;	
 		}
 
 		static public function getInstancia($id)
@@ -67,7 +67,10 @@
 			$tipoFalla = new TipoFalla();
 			$tipoFalla->nombre = $datos->general->nombre;
 			$tipoFalla->influencia = $datos->general->influencia;
+			// 
+			$tipoFalla->agregarMultimedia($datos->multimedia);
 			$tipoFalla->id = $tipoFalla->save();
+			// 
 			$CI->utiles->debugger($tipoFalla);
 			if ($datos->material->id != "")
 				$tipoFalla->material = TipoMaterial::getInstancia($datos->material->id);
@@ -84,6 +87,7 @@
 			$tipoFalla->criticidades = $tipoFalla->cargar('Criticidad', $datos->criticidades);
 			$tipoFalla->reparaciones = $tipoFalla->cargar('TipoReparacion', $datos->reparaciones);
 			$tipoFalla->asociar();
+			
 			
 			return $tipoFalla;
 		}
@@ -121,6 +125,64 @@
 			return $this->material;
 		}
 
+		public function agregarMultimedia($datos)
+		{
+			/* 
+			Tener en cuenta....
+			sudo chown -R www-data:www-data web/
+			sudo chmod -R 777 web/
+
+			Idea.... 
+			Multimedia sabe como recortar imagen
+			Configurar un directorio y jerarquia para guardar los objetos multimedia
+			$multimedia = new ImagenMultimedia();
+			$multimedia->falla = $tipoFalla;
+			$multimedia->setNombreArchivo($tipoFalla->nombre);
+			$multimedia->save();
+			$this->multimedia = $multimedia;
+			$this->multimedia->recortar($datos);
+			$CI->utiles->debugger($multimedia);
+
+			*/
+			
+			$CI = &get_instance();
+			$this->multimedia = new ImagenMultimedia($datos);
+			$this->multimedia->setNombreArchivo($this->nombre);
+			$this->multimedia->save();
+			$CI->utiles->debugger($this->multimedia);
+			// $CI->utiles->debugger($datos);
+			// $jpeg_quality = 90;
+			// $x = $datos->coordenadas->x;
+			// $y = $datos->coordenadas->y;
+			// $alto = $datos->coordenadas->alto;
+			// $ancho = $datos->coordenadas->ancho;
+			// $CI->utiles->debugger('coordenadas');
+			// $CI->utiles->debugger('alto: '.$datos->coordenadas->alto);
+			// $CI->utiles->debugger('ancho: '.$datos->coordenadas->ancho);
+			// $CI->utiles->debugger('x: '.$x);
+			// $CI->utiles->debugger('y: '.$y);
+
+			// $src = $datos->imagen;
+			// $ini_x_size = getimagesize($src)[0];
+			// $ini_y_size = getimagesize($src)[1];
+			// $targ_w = intval($ini_x_size * $ancho);
+			// $targ_h = intval($ini_y_size * $alto);
+			// $x = $ini_x_size * $x;
+			// $y = $ini_y_size * $y;
+			// $CI->utiles->debugger('targ_w: '.$targ_w);
+			// $CI->utiles->debugger('targ_h: '.$targ_h);
+			// $to_crop_array = array('x' => $x, 'y' => $y, 'width' => $targ_w, 'height' => $targ_h);
+			// $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+			// $img_r = imagecreatefromjpeg($src);
+
+			// $directorio = $CI->config->item('upload_path').'/tipoFalla';
+			// mkdir($directorio,0777);
+			// $dst = $directorio.'/'.$this->nombre.'.jpeg';
+			// $dst_r = imagecrop($img_r, $to_crop_array);
+			// // $CI->utiles->debugger($dst_r);
+			// imagejpeg($dst_r, $dst, $jpeg_quality);
+		}
+
 		static public function datosCrearValidos($datos)
 		{
 			$datos_validar_tipo_falla = array(
@@ -128,15 +190,14 @@
 					'material' => array('nombre' => array('string', '\w')),
 					'atributos' => array('nombre' => array('string', '\w'), 'unidadMedida' => array('string', '\w')),
 					'criticidades' => array('nombre' => array('string', '\w'), 'descripcion' => array('string', '\w'), 'ponderacion' => array('integer', '\w')),
-					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'))
+					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
+					'multimedia' => array('coordenadas', 'imagen')
 					);
 			$CI = &get_instance();
 			foreach ($datos_validar_tipo_falla as $clave => $valor)
 			{
-				$CI->utiles->debugger($datos->$clave);
 				if (!is_array($datos->$clave)) {
 					foreach ($valor as $key => $value) {
-						$CI->utiles->debugger($datos->$clave->$key);
 						if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key) || (gettype($datos->$clave->$key) != $value[0]))
 						{
 							return FALSE;

@@ -130,7 +130,11 @@ CREATE TABLE "TipoFallaModelo"
   id serial NOT NULL,
   nombre character varying,
   influencia int NOT NULL,
-  CONSTRAINT pk_tipo_falla PRIMARY KEY (id)
+  "idMultimedia" integer NOT NULL,
+  CONSTRAINT pk_tipo_falla PRIMARY KEY (id),
+  CONSTRAINT fk_id_multimedia FOREIGN KEY ("idMultimedia")
+      REFERENCES "MultimediaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 DROP TABLE IF EXISTS "TipoFallaCriticidadModelo";
@@ -300,24 +304,43 @@ CREATE TABLE "ObservacionModelo"
 DROP TABLE IF EXISTS "MultimediaModelo";
 CREATE TABLE "MultimediaModelo"
 (
-  "idFalla" integer NOT NULL,
+--  "idFalla" integer NOT NULL,
+  id serial NOT NULL,
   "nombreArchivo" character varying NOT NULL,
-  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
+  CONSTRAINT pk_id_multimedia PRIMARY KEY (id)
+/*  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
   CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
   REFERENCES "FallaModelo" (id) MATCH SIMPLE
-  ON UPDATE NO ACTION ON DELETE NO ACTION
+  ON UPDATE NO ACTION ON DELETE NO ACTION*/
+);
+
+-- Table: "FallaMultimediaModelo"
+
+DROP TABLE IF EXISTS "FallaMultimediaModelo";
+
+CREATE TABLE "FallaMultimediaModelo"
+(
+  "idFalla" integer NOT NULL,
+  "idMultimedia" integer NOT NULL,
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+      REFERENCES "FallaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_multimedia FOREIGN KEY ("idMultimedia")
+      REFERENCES "MultimediaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 DROP TABLE IF EXISTS "TipoAtributoModelo";
 CREATE TABLE "TipoAtributoModelo"
 (
   id serial NOT NULL,
-  "idFalla" integer NOT NULL,
+--  "idFalla" integer NOT NULL,
+  "idTipoFalla" integer NOT NULL,
   "nombre" character varying NOT NULL,
   "unidadMedida" character varying NOT NULL,
   CONSTRAINT pk_id_tipo_atributo PRIMARY KEY ("id"),
-  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
-  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  CONSTRAINT fk_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+  REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 

@@ -21,6 +21,58 @@ class Privado extends CI_Controller {
 		$this->template->build_page("gestorFallas");
 	}
 
+		/*
+		$.post('crear/TipoFalla', 
+	       {"clase": "TipoFalla", 
+	        "datos": JSON.stringify({"general": {"nombre": "Bache", "influencia": 2},
+	                  "material": {"nombre": "Adoquines"},
+	                  "atributos": [{"nombre": "ancho", "unidadMedida": "cm"}],
+	                                 "criticidades": [{"nombre": "alto", "descripcion": "una descripcion", "ponderacion": 1}],
+	                  "reparaciones": [{"nombre": "sellado de juntas", "costo": 54.2, "descripcion": "una descripcion"}]
+	                 })
+	       })
+	      $.post('crear/TipoMaterial', 
+	       {"clase":"TipoMaterial",
+	        "datos":JSON.stringify({"nombre":"Adoquines"})
+	       });
+	       $.post('crear/TipoReparacion', 
+	       {"clase": "TipoReparacion", 
+	        "datos": JSON.stringify({"nombre": "sellado de juntas", "costo": 23.2, "descripcion": "una descripcion"})
+	       })
+		*/
+		public function crear()
+		{
+			$this->load->library('validation');
+			// $this->utiles->debugger(func_get_args());
+			$datos = array('clase' => $this->input->post('clase'), 'datos' => json_decode($this->input->post('datos')));
+			$data = array('clase' => $datos['clase']);
+			$this->validation->required(array('clase'), 'Fields are required')
+					->regexp('clase', '(TipoFalla|TipoMaterial|TipoReparacion|Falla)');
+			$class = $datos['clase'];
+			$this->utiles->debugger($datos['datos']);
+			// Validando datos.
+			if ($class::{"datosCrearValidos"}($datos['datos']))
+			{
+				// Si los datos no son validos
+				echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+				return;
+			}
+			// Comienza la transaccion
+			$this->db->trans_begin();
+			$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
+			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
+			// Por ahora siempre deshacemos
+			$this->db->trans_rollback();
+			if ($this->db->trans_status() === FALSE)
+			{
+				// TODO: Falta dar aviso del error
+			    $this->db->trans_rollback();
+			}
+			else
+			{
+			    $this->db->trans_commit();
+			}
+		}
 	// --------------------------------------------------------------------
 }
 

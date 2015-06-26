@@ -125,7 +125,7 @@
 					),
 				'tipoFalla' => array('id' => array('integer', '\w')),
 				'criticidad' => array('id' => array('integer', '\w')),
-				// 'multimedias' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
+				'multimedias' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
 				'direccion' => array(
 					'altura' => array('integer', '\w'),
 					'callePrincipal' => array('string', '\w'),

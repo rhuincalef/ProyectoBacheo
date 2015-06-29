@@ -39,6 +39,7 @@
 			$CI = &get_instance();
 			$this->id = $CI->MultimediaModelo->save($this);
 			$this->accion();
+			$CI->MultimediaModelo->update($this);
 			return $this->id;
 		}
 
@@ -112,6 +113,7 @@
 			// Path configurado config.php (upload_path)
 			$nombreArchivo = $directorio.'/'.$this->nombreArchivo.'.jpeg';
 			imagejpeg($imagen_destino_r, $nombreArchivo, $this->calidad);
+			$this->nombreArchivo = $nombreArchivo;
 		}
 
 		public function setNombreArchivo($nombre)

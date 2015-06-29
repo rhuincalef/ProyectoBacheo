@@ -131,6 +131,7 @@
 			Tener en cuenta....
 			sudo chown -R www-data:www-data web/
 			sudo chmod -R 777 web/
+			sudo apt-get install php5-gd && sudo service apache2 restart
 
 			Idea.... 
 			Multimedia sabe como recortar imagen
@@ -150,37 +151,6 @@
 			$this->multimedia->setNombreArchivo($this->nombre);
 			$this->multimedia->save();
 			$CI->utiles->debugger($this->multimedia);
-			// $CI->utiles->debugger($datos);
-			// $jpeg_quality = 90;
-			// $x = $datos->coordenadas->x;
-			// $y = $datos->coordenadas->y;
-			// $alto = $datos->coordenadas->alto;
-			// $ancho = $datos->coordenadas->ancho;
-			// $CI->utiles->debugger('coordenadas');
-			// $CI->utiles->debugger('alto: '.$datos->coordenadas->alto);
-			// $CI->utiles->debugger('ancho: '.$datos->coordenadas->ancho);
-			// $CI->utiles->debugger('x: '.$x);
-			// $CI->utiles->debugger('y: '.$y);
-
-			// $src = $datos->imagen;
-			// $ini_x_size = getimagesize($src)[0];
-			// $ini_y_size = getimagesize($src)[1];
-			// $targ_w = intval($ini_x_size * $ancho);
-			// $targ_h = intval($ini_y_size * $alto);
-			// $x = $ini_x_size * $x;
-			// $y = $ini_y_size * $y;
-			// $CI->utiles->debugger('targ_w: '.$targ_w);
-			// $CI->utiles->debugger('targ_h: '.$targ_h);
-			// $to_crop_array = array('x' => $x, 'y' => $y, 'width' => $targ_w, 'height' => $targ_h);
-			// $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-			// $img_r = imagecreatefromjpeg($src);
-
-			// $directorio = $CI->config->item('upload_path').'/tipoFalla';
-			// mkdir($directorio,0777);
-			// $dst = $directorio.'/'.$this->nombre.'.jpeg';
-			// $dst_r = imagecrop($img_r, $to_crop_array);
-			// // $CI->utiles->debugger($dst_r);
-			// imagejpeg($dst_r, $dst, $jpeg_quality);
 		}
 
 		static public function datosCrearValidos($datos)

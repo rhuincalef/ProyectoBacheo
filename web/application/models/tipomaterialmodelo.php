@@ -32,5 +32,15 @@
 				$CI->utiles->debugger($idTipoFalla);
 				$this->db->insert('TipoMaterialTipoFallaModelo', array('idTipoMaterial' => $idTipoMaterial, 'idTipoFalla' => $idTipoFalla));
 			}
+
+			public function isUnique($nombre)
+			{
+				$query = $this->CI->db->get_where($this->table_name, array('nombre' => $nombre), 1, 0);
+		        if ($query->num_rows() === 0) {
+		            return TRUE;
+		        }
+
+		        return FALSE;
+			}
 		}
  ?>

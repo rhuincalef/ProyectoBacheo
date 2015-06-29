@@ -42,6 +42,7 @@ class Privado extends CI_Controller {
 		*/
 		public function crear()
 		{
+			$this->utiles->debugger('AAAAAAAAAAAAAAAAAAAAAAAAAA');
 			$this->load->library('validation');
 			// $this->utiles->debugger(func_get_args());
 			$datos = array('clase' => $this->input->post('clase'), 'datos' => json_decode($this->input->post('datos')));
@@ -51,6 +52,8 @@ class Privado extends CI_Controller {
 			$class = $datos['clase'];
 			$this->utiles->debugger($datos['datos']);
 			// Validando datos.
+			$valor = $class::{"datosCrearValidos"}($datos['datos']) ? 'true' : 'false';;
+			$this->utiles->debugger($valor);
 			if ($class::{"datosCrearValidos"}($datos['datos']))
 			{
 				// Si los datos no son validos
@@ -62,7 +65,7 @@ class Privado extends CI_Controller {
 			$object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
 			// Por ahora siempre deshacemos
-			$this->db->trans_rollback();
+			// $this->db->trans_rollback();
 			if ($this->db->trans_status() === FALSE)
 			{
 				// TODO: Falta dar aviso del error

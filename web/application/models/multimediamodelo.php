@@ -20,12 +20,14 @@
 
 		public function save($multimedia)
 		{
-			$this->db->insert($this->table_name,
-							array(
-								// 'idFalla' => $multimedia->falla->id,
-								'nombreArchivo' => $multimedia->nombreArchivo)
-				);
+			$this->db->insert($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo));
 			return $this->db->insert_id();
+		}
+
+		public function update($multimedia)
+		{
+			$this->db->where('id', $multimedia->id);
+			$this->db->update($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo)); 
 		}
 
 	}

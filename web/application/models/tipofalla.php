@@ -10,6 +10,7 @@
 		var $atributos;
 		var $criticidades;
 		var $reparaciones;
+		var $multimedia;
 		
 		function __construct()
 		{
@@ -20,8 +21,7 @@
 		private function inicializar($datos)
 		{
 			$this->id = $datos->id;		
-			$this->nombre = $datos->nombre;
-			
+			$this->nombre = $datos->nombre;	
 		}
 
 		static public function getInstancia($id)
@@ -67,7 +67,10 @@
 			$tipoFalla = new TipoFalla();
 			$tipoFalla->nombre = $datos->general->nombre;
 			$tipoFalla->influencia = $datos->general->influencia;
+			// 
+			$tipoFalla->agregarMultimedia($datos->multimedia);
 			$tipoFalla->id = $tipoFalla->save();
+			// 
 			$CI->utiles->debugger($tipoFalla);
 			if ($datos->material->id != "")
 				$tipoFalla->material = TipoMaterial::getInstancia($datos->material->id);
@@ -84,6 +87,7 @@
 			$tipoFalla->criticidades = $tipoFalla->cargar('Criticidad', $datos->criticidades);
 			$tipoFalla->reparaciones = $tipoFalla->cargar('TipoReparacion', $datos->reparaciones);
 			$tipoFalla->asociar();
+			
 			
 			return $tipoFalla;
 		}
@@ -121,6 +125,34 @@
 			return $this->material;
 		}
 
+		public function agregarMultimedia($datos)
+		{
+			/* 
+			Tener en cuenta....
+			sudo chown -R www-data:www-data web/
+			sudo chmod -R 777 web/
+			sudo apt-get install php5-gd && sudo service apache2 restart
+
+			Idea.... 
+			Multimedia sabe como recortar imagen
+			Configurar un directorio y jerarquia para guardar los objetos multimedia
+			$multimedia = new ImagenMultimedia();
+			$multimedia->falla = $tipoFalla;
+			$multimedia->setNombreArchivo($tipoFalla->nombre);
+			$multimedia->save();
+			$this->multimedia = $multimedia;
+			$this->multimedia->recortar($datos);
+			$CI->utiles->debugger($multimedia);
+
+			*/
+			
+			$CI = &get_instance();
+			$this->multimedia = new ImagenMultimedia($datos);
+			$this->multimedia->setNombreArchivo($this->nombre);
+			$this->multimedia->save();
+			$CI->utiles->debugger($this->multimedia);
+		}
+
 		static public function datosCrearValidos($datos)
 		{
 			$datos_validar_tipo_falla = array(
@@ -128,15 +160,14 @@
 					'material' => array('nombre' => array('string', '\w')),
 					'atributos' => array('nombre' => array('string', '\w'), 'unidadMedida' => array('string', '\w')),
 					'criticidades' => array('nombre' => array('string', '\w'), 'descripcion' => array('string', '\w'), 'ponderacion' => array('integer', '\w')),
-					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'))
+					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
+					'multimedia' => array('coordenadas', 'imagen')
 					);
 			$CI = &get_instance();
 			foreach ($datos_validar_tipo_falla as $clave => $valor)
 			{
-				$CI->utiles->debugger($datos->$clave);
 				if (!is_array($datos->$clave)) {
 					foreach ($valor as $key => $value) {
-						$CI->utiles->debugger($datos->$clave->$key);
 						if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key) || (gettype($datos->$clave->$key) != $value[0]))
 						{
 							return FALSE;

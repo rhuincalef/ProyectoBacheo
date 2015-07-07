@@ -52,7 +52,7 @@ function crearFalla(){
 	        "atributos": tipoFalla.atributos,
 	        "criticidades": tipoFalla.criticidades,
 	        "reparaciones": tipoFalla.reparaciones,
-	        "multimedia": {'coordenadas': tipoFalla.coordenadasImagen, 'imagen': tipoFalla.imagenEjemplo}
+	        "multimedia": {"coordenadas": tipoFalla.coordenadasImagen, "imagen": tipoFalla.imagenEjemplo}
 		}),
 	}).done(function(respuesta){
 		var rta = JSON.parse(respuesta);
@@ -74,6 +74,7 @@ var ObjetoTipoFalla = function(){
 	this.inicializar = function(){
 		this.nombre = $($("#nombreTipoFalla").find("[name|=nombreTipoFalla]")[0]).val();
 		this.influencia = $($("#nombreTipoFalla").find("[name|=influenciaTipoFalla]")[0]).val();
+		// this.influencia = parseInt(this.influencia);
 		this.material = Material.material;
 		this.atributos = Atributo.atributos;
 		this.criticidades = Criticidad.criticidades;

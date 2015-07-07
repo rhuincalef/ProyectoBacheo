@@ -42,7 +42,7 @@
 		$("#cerrarSesion").click(function (evento) {
 			evento.preventDefault();
 			$.ajax({
-				url: $("#inicioSesion").attr("action")+"index.php/auth/logout",
+				url: $("#inicioSesion").attr("action")+"auth/logout",
 				type: "POST",
 				success:function () {
 					alertar("Aviso","Se ha cerrado la sesion.","info");

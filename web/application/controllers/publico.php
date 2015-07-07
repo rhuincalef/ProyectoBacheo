@@ -140,9 +140,9 @@ class Publico extends Frontend_Controller
 		try {
 			// $object = call_user_func(array($class, 'get'), $id);
 			$object = $class::{'getInstancia'}($id);
-			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$object));	
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$object));
 		} catch (MY_BdExcepcion $e) {
-			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));	
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
 			
 		}
 	}
@@ -175,5 +175,54 @@ class Publico extends Frontend_Controller
 			
 		}
 	}
+
+	public function crearFallaAnonima()
+	{
+		$datos = new stdClass;
+		$datos->clase = $this->input->post('clase');
+		$datos->clase = 'FallaAnonima';
+		$datos->datos = json_decode($this->input->post('datos'));
+		$class = $datos->clase;
+		$this->utiles->debugger($datos);
+		if (!Falla::{"validarDatos"}($datos))
+		{
+			// Si los datos no son validos
+			$this->utiles->debugger("Datos Invalidos");
+			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+			return;
+		}
+		$this->utiles->debugger("Datos Validos");
+		$this->db->trans_begin();
+		Falla::crearFallaAnonima($datos->datos);
+		// Por ahora siempre deshacemos
+		$this->db->trans_rollback();
+		if ($this->db->trans_status() === FALSE)
+		{
+			// TODO: Falta dar aviso del error
+		    $this->db->trans_rollback();
+		}
+		else
+		{
+		    $this->db->trans_commit();
+		}
+		return;
+	}
+
+	// public function getLazyTiposFalla()
+	// {
+	// 	// Si es una petición POST por ajax.
+	// 	$arguments = func_get_args();
+	// 	// $class = $arguments[0];
+	// 	// $id = $arguments[1];
+	// 	$class = "TipoFalla";
+	// 	$tipoMaterial = $arguments[0];
+	// 	try {
+	// 		$tiposFalla = $class::{'getAllLazy'}($tipoMaterial);
+	// 		echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$tiposFalla));
+	// 	} catch (MY_BdExcepcion $e) {
+	// 		echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+			
+	// 	}
+	// }
 
 }

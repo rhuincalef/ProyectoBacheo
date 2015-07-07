@@ -1,0 +1,30 @@
+Falla
+	- Crear
+		* ¿¿¿Se puede crear una falla sin pasar por el estado Informado???
+		
+		* controllers/publico/crearFallaAnonima
+			Para usuario anonimo (estado = Informado)
+			Parámetros:
+				> falla: {"latitud": double, "longitud": double}
+				> observacion: {"comentario": string, "nombreObservador": string, "emailObservador": string}
+				> tipoFalla: {"id": integer}
+				> direccion: {"altura": integer, "callePrincipal": string, "calleSecundariaA": string, "calleSecundariaB": string}
+				> multimedias: peticiones ajax con los archivos
+			Obligatorios -> falla, observacion, tipoFalla, direccion
+			Opcionales -> multimedias
+
+		* controllers/privado/crear/Falla
+			¿¿¿Para usuario registrado, la falla pasa del estado Informado a Confirmado
+			solamente o también puede pasar directamente a estado = Confirmado???
+			Parámetros:
+				> falla: {"latitud": double, "longitud": double, "influencia": integer, "factorArea": double}
+				> observacion: {"comentario": string, "nombreObservador": string, "emailObservador": string}
+				> tipoFalla: {"id": integer}
+				> criticidad: {"id": integer}
+				> reparacion: {"id": integer}
+				> direccion: {"altura": integer, "callePrincipal": string, "calleSecundariaA": string, "calleSecundariaB": string}
+				> multimedias: peticiones ajax con los archivos
+			Obligatorios -> falla, observacion, tipoFalla, criticidad, reparacion, direccion
+			Opcionales -> multimedias
+
+	- Get de los datos planos (directamente con id's no objetos posta)

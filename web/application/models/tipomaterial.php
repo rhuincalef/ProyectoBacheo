@@ -86,17 +86,20 @@
 			$CI->TipoMaterialModelo->asociar($this->id, $idTipoFalla);
 		}
 
-		static public function datosCrearValidos($datos)
+		static public function validarDatos($datos)
 		{
-			$datos_validar_tipo_material = array('nombre' => array('string', '\w'));
-			foreach ($datos_validar_tipo_material as $key => $value)
-			{
-				if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], $datos->$key)))
-				{
-					return FALSE;
-				}
-			}
-			return TRUE;
+			// $datos_validar_tipo_material = array('nombre' => array('string', '\w'));
+			// foreach ($datos_validar_tipo_material as $key => $value)
+			// {
+			// 	if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], $datos->$key)))
+			// 	{
+			// 		return FALSE;
+			// 	}
+			// }
+			// return TRUE;
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			$noTerminalMaterial = new AndExpression(array($terminal1), "datos");
+			return $noTerminalMaterial->interpret($datos);
 		}
 
 	}

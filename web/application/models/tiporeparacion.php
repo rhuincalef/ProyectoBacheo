@@ -97,17 +97,24 @@
 			$CI->TipoReparacionModelo->asociar($this->id, $idTipoFalla);
 		}
 
-		static public function datosCrearValidos($datos)
+		static public function validarDatos($datos)
 		{
-			$datos_validar_tipo_reparacion = array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'));
-			foreach ($datos_validar_tipo_reparacion as $key => $value)
-			{
-				if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], var_export($datos->$key, 1))))
-				{
-					return FALSE;
-				}
-			}
-			return TRUE;
+			// $datos_validar_tipo_reparacion = array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'));
+			// foreach ($datos_validar_tipo_reparacion as $key => $value)
+			// {
+			// 	if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], var_export($datos->$key, 1))))
+			// 	{
+			// 		return FALSE;
+			// 	}
+			// }
+			// return TRUE;
+			// Creando arbol para TipoReparacion
+			$terminal1 = new StringTerminalExpression("nombre", '([a-zA-Z]+)', "true");
+			$terminal2 = new NumericTerminalExpression("costo", "double", "true");
+			$terminal3 = new StringTerminalExpression("descripcion", "([a-zA-Z]+)", "true");
+
+			$noTerminalTipoReparacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "datos");
+			return $noTerminalTipoReparacion->interpret($datos);
 		}
 	}
  ?>

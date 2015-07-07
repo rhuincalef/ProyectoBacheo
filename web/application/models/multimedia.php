@@ -43,13 +43,13 @@
 			return $this->id;
 		}
 
-		// private function accion()
-		// {
+		protected function accion()
+		{
 			
-		// 	Utilizado para realizar alguna accion con el objeto multimedia.
-		// 	Por ejemplo, recortarla.
+	/*		Utilizado para realizar alguna accion con el objeto multimedia.
+			Por ejemplo, recortarla.*/
 			
-		// }
+		}
 	}
 
 	/**

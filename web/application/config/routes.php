@@ -55,12 +55,14 @@ $route['get(TipoMaterial|TipoDeReparacion)/(\d+)'] = 'publico/get$1/$2';
 /*{3,6}     Between 3 and 6 of characters, tener en cuenta*/
 $route['crearTipoAtributo/(\d+)/([\w]+)/([\w]+)'] = 'publico/crearTipoAtributo/$1/$2/$3';
 $route['getCriticidades'] = 'publico/getCriticidades';
+$route['getLazyTiposFalla/(\d+)'] = 'publico/getLazyTiposFalla/$1';
 
 // Restringir a los necesarios
 $route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$2';
 $route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
 $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';
 
+$route['crearFallaAnonima'] = 'publico/crearFallaAnonima';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 

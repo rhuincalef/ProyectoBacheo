@@ -32,5 +32,14 @@
 			}
 			return $query->result()[0]->idTipoMaterial;
 		}
+
+		public function getTiposFallaMaterial($idTipoMaterial)
+		{
+			$CI = &get_instance();
+			$query = $this->db->get_where('TipoMaterialTipoFallaModelo', array('idTipoMaterial' => $idTipoMaterial));
+			$CI->utiles->debugger($query->result());
+			return $query->result();
+		}
+
 	}
  ?>

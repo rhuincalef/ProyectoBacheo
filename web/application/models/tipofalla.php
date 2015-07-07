@@ -35,6 +35,10 @@
 			return $tipoFalla;
 		}
 
+		static public function get($id)
+		{
+			# code...
+		}
 
 		static public function getTiposFalla()
 		{
@@ -153,6 +157,7 @@
 			$CI->utiles->debugger($this->multimedia);
 		}
 
+		// deprecated
 		static public function datosCrearValidos($datos)
 		{
 			$datos_validar_tipo_falla = array(
@@ -161,14 +166,14 @@
 					'atributos' => array('nombre' => array('string', '\w'), 'unidadMedida' => array('string', '\w')),
 					'criticidades' => array('nombre' => array('string', '\w'), 'descripcion' => array('string', '\w'), 'ponderacion' => array('integer', '\w')),
 					'reparaciones' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
-					'multimedia' => array('coordenadas', 'imagen')
+					// 'multimedia' => array('coordenadas', 'imagen')
 					);
 			$CI = &get_instance();
 			foreach ($datos_validar_tipo_falla as $clave => $valor)
 			{
 				if (!is_array($datos->$clave)) {
 					foreach ($valor as $key => $value) {
-						if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key) || (gettype($datos->$clave->$key) != $value[0]))
+						if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key))
 						{
 							return FALSE;
 						}
@@ -178,7 +183,7 @@
 					{
 						foreach ($valor as $key => $value)
 						{
-							if (!property_exists($v, $key) || !isset($v->$key) || (gettype($v->$key) != $value[0]))
+							if (!property_exists($v, $key) || !isset($v->$key))
 							{
 								return FALSE;
 							}
@@ -187,6 +192,55 @@
 				}
 			}
 			return TRUE;
+		}
+
+		public function validarDatos($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("validarDatos");
+			// $CI->utiles->debugger($datos);
+			// Creando arbol para TipoFalla
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			// $terminal2 = new NumericTerminalExpression("influencia", "integer", "true");
+			// TODO: hablar sobre como tratar esto?????
+			$terminal2 = new StringTerminalExpression("influencia", "", "true");
+			$noTerminal1 = new AndExpression(array($terminal1, $terminal2), "general");
+
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			$noTerminal2 = new AndExpression(array($terminal1), "material");
+
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			$terminal2 = new StringTerminalExpression("unidadMedida", "", "true");
+			$noTerminal3 = new AndExpression(array($terminal1, $terminal2), "atributos");
+
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			// $terminal2 = new NumericTerminalExpression("ponderacion", "double", "true");
+			$terminal2 = new StringTerminalExpression("ponderacion", "", "true");
+			$terminal3 = new StringTerminalExpression("descripcion", "", "true");
+			$noTerminal4 = new AndExpression(array($terminal1, $terminal2, $terminal3), "criticidades");
+
+			$terminal1 = new StringTerminalExpression("nombre", "", "true");
+			// $terminal2 = new NumericTerminalExpression("costo", "double", "true");
+			$terminal2 = new StringTerminalExpression("costo", "", "true");
+			$terminal3 = new StringTerminalExpression("descripcion", "", "true");
+			$noTerminal5 = new AndExpression(array($terminal1, $terminal2, $terminal3), "reparaciones");
+
+			$terminal1 = new NumericTerminalExpression("x", "double", "true");
+			$terminal2 = new NumericTerminalExpression("y", "double", "true");
+			$terminal3 = new NumericTerminalExpression("ancho", "double", "true");
+			$terminal4 = new NumericTerminalExpression("alto", "double", "true");
+			$noTerminal6 = new AndExpression(array($terminal1, $terminal2, $terminal3, $terminal4), "coordenadas");
+			$terminal1 = new StringTerminalExpression("imagen", "", "true");
+			$noTerminal7 = new AndExpression(array($terminal1, $noTerminal6), "multimedia");
+			
+			$validator = new AndExpression(array($noTerminal1, $noTerminal2, $noTerminal3, $noTerminal4, $noTerminal5, $noTerminal7), "datos");
+			return $validator->interpret($datos);
+		}
+
+		static public function getAllLazy($tipoMaterial)
+		{
+			$CI = &get_instance();
+			return $CI->TipoFallaModelo->getTiposFallaMaterial($tipoMaterial);
 		}
 
 	}

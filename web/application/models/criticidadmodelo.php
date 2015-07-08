@@ -21,5 +21,13 @@ class CriticidadModelo extends MY_Model{
 		}
 		return $id;
 	}
+
+	public function asociar($idCriticidad, $idTipoFalla)
+	{
+		$CI = &get_instance();
+		$CI->utiles->debugger($idCriticidad);
+		$CI->utiles->debugger($idTipoFalla);
+		$this->db->insert('TipoFallaCriticidadModelo', array('idCriticidad' => $idCriticidad, 'idTipoFalla' => $idTipoFalla));
+	}
 }
 ?>

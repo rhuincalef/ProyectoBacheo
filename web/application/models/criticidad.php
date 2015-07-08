@@ -85,5 +85,23 @@
 			return $CI->CriticidadModelo->save($this);
 		}
 
+		static public function crear($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger($datos);
+			$criticidad = new Criticidad();
+			$criticidad->nombre = $datos->nombre;
+			$criticidad->descripcion = $datos->descripcion;
+			$criticidad->ponderacion = $datos->ponderacion;
+			$criticidad->id = $criticidad->save();
+			$CI->utiles->debugger($criticidad);
+			return $criticidad;
+		}
+
+		public function asociar($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$CI->CriticidadModelo->asociar($this->id, $idTipoFalla);
+		}
 	}
  ?>

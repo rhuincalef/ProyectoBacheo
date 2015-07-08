@@ -1,11 +1,11 @@
 var Reparacion = (function(){
 
-	
 	var reparaciones = [];
 	var reparacionesExistentes = [];
 
 	function inicializar(){
-		$.get( "/proyectoBacheo/getAll/TipoReparacion", function( data ) {
+//		$.get( "/proyectoBacheo/getAll/TipoReparacion", function( data ) {
+		$.get( "getAll/TipoReparacion", function( data ) {
 			var respuesta = JSON.parse(data);
 			if(respuesta.codigo == CODIGO_EXITO){
 				$("#sinReparacionesExistentes").addClass("oculto");
@@ -28,7 +28,7 @@ var Reparacion = (function(){
 		$a.append('<h4 name="nombre" class="list-group-item-heading">'+reparacion.nombre+'</h4>');
 		$a.append('Descripcion:<p name="descripcion" class="list-group-item-text sangria">'+reparacion.descripcion+'</p>');
 		$a.append('<br>');
-		$a.append('Costo:<p name="costo" class="sangria"> $'+reparacion.costo+' </p>');
+		$a.append('Costo:<p name="costo" class="sangria"> '+reparacion.costo+' </p>');
 		$("#listaReparacionesExistentes").append($a);
 	}
 
@@ -79,6 +79,7 @@ var Reparacion = (function(){
 
 	return{
 		inicializar:inicializar,
+		reparaciones:reparaciones,
 		agregarReparacion:agregarReparacion,
 		crearYAgregarReparacion:crearYAgregarReparacion,
 		agregarReparacionExistente:agregarReparacionExistente,

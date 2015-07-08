@@ -3,7 +3,7 @@ var Criticidad = (function(){
 	var criticidades = [];
 	
 
-	function agregarCriticidad(criticidad,ponderacion){
+	function agregarCriticidad(criticidad,descripcion,ponderacion){
 		criticidad = criticidad.toLowerCase();
 		if ((criticidades.filter(function(atr){return atr.nombre == criticidad}).length != 0) || (criticidad.length == 0)){
 			alertar("Error!", "El nombre no puede estar vacio ni ser repetido", "error");
@@ -19,14 +19,15 @@ var Criticidad = (function(){
 		$li.append('<span class="glyphicon glyphicon-remove tabuladoDerecha" aria-hidden="true" onclick="Criticidad.eliminarCriticidad(this);"></span>');
 		$("#listaCriticidadesSeleccionadas").append($li);
 		$("#sinCriticidades").addClass("oculto");
-		var objetoCriticidad={"nombre":criticidad,"ponderacion":ponderacion};
+		var objetoCriticidad={"nombre":criticidad,"descripcion":descripcion,"ponderacion":ponderacion};
 		criticidades.push(objetoCriticidad);
 		return true;
 	}
 
 	function crearYAgregarCriticidad(){
-		if(agregarCriticidad($("#nombreCriticidadNueva").val(),$("#ponderacionCriticidadNueva").val())){
+		if(agregarCriticidad($("#nombreCriticidadNueva").val(),$("#descripcionCriticidadNueva").val(),$("#ponderacionCriticidadNueva").val())){
 			$("#nombreCriticidadNueva").val("");
+			$("#descripcionCriticidadNueva").val("");
 			$("#ponderacionCriticidadNueva").val("");
 		}
 	}
@@ -43,6 +44,7 @@ var Criticidad = (function(){
 	}
 
 	return{
+		criticidades:criticidades,
 		agregarCriticidad:agregarCriticidad,
 		crearYAgregarCriticidad:crearYAgregarCriticidad,
 		eliminarCriticidad:eliminarCriticidad

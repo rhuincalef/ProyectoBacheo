@@ -19,7 +19,7 @@ var Atributo = (function(){
 		$li.append('<span class="glyphicon glyphicon-remove tabuladoDerecha" aria-hidden="true" onclick="Atributo.eliminarAtributo(this);"></span>');
 		$("#listaAtributosSeleccionados").append($li);
 		$("#sinAtributos").addClass("oculto");
-		var objAtributo = {"nombre":atributo,"unidad":unidad};
+		var objAtributo = {"nombre":atributo,"unidadMedida":unidad};
 		atributos.push(objAtributo);
 		return true;
 	}

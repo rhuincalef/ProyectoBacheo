@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS "ci_sessions";
 CREATE TABLE ci_sessions (
   session_id varchar(40) DEFAULT '0' NOT NULL,
   ip_address varchar(16) DEFAULT '0' NOT NULL,
@@ -7,6 +8,7 @@ CREATE TABLE ci_sessions (
   PRIMARY KEY (session_id)
 );
 
+DROP TABLE IF EXISTS "users";
 CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "ip_address" varchar(15),
@@ -30,7 +32,7 @@ CREATE TABLE "users" (
   CONSTRAINT "check_active" CHECK(active >= 0)
 );
 
-
+DROP TABLE IF EXISTS "groups";
 CREATE TABLE "groups" (
     "id" SERIAL NOT NULL,
     "name" varchar(20) NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE "groups" (
   CONSTRAINT "check_id" CHECK(id >= 0)
 );
 
-
+DROP TABLE IF EXISTS "users_groups";
 CREATE TABLE "users_groups" (
     "id" SERIAL NOT NULL,
     "user_id" integer NOT NULL,
@@ -63,6 +65,7 @@ INSERT INTO users_groups (user_id, group_id) VALUES
     (1,1),
     (1,2);
 
+DROP TABLE IF EXISTS "login_attempts";
 CREATE TABLE "login_attempts" (
     "id" SERIAL NOT NULL,
     "ip_address" varchar(15),
@@ -124,13 +127,30 @@ CREATE TABLE "DireccionModelo"
 -- );
 
 
+DROP TABLE IF EXISTS "MultimediaModelo";
+CREATE TABLE "MultimediaModelo"
+(
+--  "idFalla" integer NOT NULL,
+  id serial NOT NULL,
+  "nombreArchivo" character varying NOT NULL,
+  CONSTRAINT pk_id_multimedia PRIMARY KEY (id)
+/*  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
+  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
+  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION*/
+);
+
 DROP TABLE IF EXISTS "TipoFallaModelo";
 CREATE TABLE "TipoFallaModelo"
 (
   id serial NOT NULL,
   nombre character varying,
   influencia int NOT NULL,
-  CONSTRAINT pk_tipo_falla PRIMARY KEY (id)
+  "idMultimedia" integer NOT NULL,
+  CONSTRAINT pk_tipo_falla PRIMARY KEY (id),
+  CONSTRAINT fk_id_multimedia FOREIGN KEY ("idMultimedia")
+      REFERENCES "MultimediaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 DROP TABLE IF EXISTS "TipoFallaCriticidadModelo";
@@ -153,7 +173,8 @@ CREATE TABLE "TipoMaterialModelo"
 (
   id serial NOT NULL,
   nombre character varying,
-  CONSTRAINT pk_id_tipo_material PRIMARY KEY (id)
+  CONSTRAINT pk_id_tipo_material PRIMARY KEY (id),
+  CONSTRAINT uc_nombre UNIQUE (nombre)
 );
 
 DROP TABLE IF EXISTS "TipoReparacionModelo";
@@ -297,27 +318,33 @@ CREATE TABLE "ObservacionModelo"
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-DROP TABLE IF EXISTS "MultimediaModelo";
-CREATE TABLE "MultimediaModelo"
+-- Table: "FallaMultimediaModelo"
+
+DROP TABLE IF EXISTS "FallaMultimediaModelo";
+
+CREATE TABLE "FallaMultimediaModelo"
 (
   "idFalla" integer NOT NULL,
-  "nombreArchivo" character varying NOT NULL,
-  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
+  "idMultimedia" integer NOT NULL,
   CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
-  REFERENCES "FallaModelo" (id) MATCH SIMPLE
-  ON UPDATE NO ACTION ON DELETE NO ACTION
+      REFERENCES "FallaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_id_multimedia FOREIGN KEY ("idMultimedia")
+      REFERENCES "MultimediaModelo" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 DROP TABLE IF EXISTS "TipoAtributoModelo";
 CREATE TABLE "TipoAtributoModelo"
 (
   id serial NOT NULL,
-  "idFalla" integer NOT NULL,
+--  "idFalla" integer NOT NULL,
+  "idTipoFalla" integer NOT NULL,
   "nombre" character varying NOT NULL,
   "unidadMedida" character varying NOT NULL,
   CONSTRAINT pk_id_tipo_atributo PRIMARY KEY ("id"),
-  CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
-  REFERENCES "FallaModelo" (id) MATCH SIMPLE
+  CONSTRAINT fk_id_tipo_falla FOREIGN KEY ("idTipoFalla")
+  REFERENCES "TipoFallaModelo" (id) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 

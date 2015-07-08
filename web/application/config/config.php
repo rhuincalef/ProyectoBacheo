@@ -70,6 +70,7 @@ $config['url_suffix'] = '';
 |
 */
 $config['language']	= 'english';
+// $config['language']	= 'spanish';
 
 /*
 |--------------------------------------------------------------------------
@@ -366,6 +367,9 @@ $config['proxy_ips'] = '';
 | for base controllers and some third-party libraries.
 |
 */
+
+$config['upload_path'] = './_/img/Multimedias';
+
 
 function __autoload($class)
 {

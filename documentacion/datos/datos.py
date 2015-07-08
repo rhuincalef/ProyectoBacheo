@@ -5,8 +5,7 @@ import freenect
 import cPickle
 
 def main(args=sys.argv):
-	print(args[1])
-	depth, timestamp = freenect.sync_get_depth()
+	depth, timestamp = freenect.sync_get_depth(format=freenect.DEPTH_MM)
 
 	with open(args[1], 'w') as f:
 		cPickle.dump({'depth': depth, 'timestamp': timestamp}, f)

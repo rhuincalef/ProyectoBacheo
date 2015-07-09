@@ -63,6 +63,8 @@ $route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
 $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';
 
 $route['crearFallaAnonima'] = 'publico/crearFallaAnonima';
+$route['getTiposFalla/(\d+)'] = 'publico/getTiposFalla/$1';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 

@@ -13,6 +13,22 @@ Falla
 			Obligatorios -> falla, observacion, tipoFalla, direccion
 			Opcionales -> multimedias
 
+		Samuel tené en cuenta lo siguiente
+		Una posible secuencia para que un usuario anónimo pueda crear falla es:
+			- Solicitar al server los tipos de materiales -> url: getAll/TipoMaterial
+			- Solicitar los tipos de falla asociadas al tipo de material seleccionado -> url: getTiposFalla/idMaterial
+			- Final, en POST para dar de alta una falla
+					$.post('crearFallaAnonima', 
+					{"clase": "Falla",
+					"datos": JSON.stringify(
+					  { "falla": {"latitud": 12.2, "longitud": 54.2},
+					   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+				       "tipoFalla": {"id": 1},
+					   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+					  })
+					})
+
+		--------------------------------------------------------------------------------------------------------
 		* controllers/privado/crear/Falla
 			¿¿¿Para usuario registrado, la falla pasa del estado Informado a Confirmado
 			solamente o también puede pasar directamente a estado = Confirmado???

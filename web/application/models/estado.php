@@ -52,7 +52,7 @@
 		public function save()
 		{
 			$CI = &get_instance();
-			$CI->EstadoModelo->save($this);
+			return $CI->EstadoModelo->save($this);
 		}
 
 	}
@@ -65,7 +65,7 @@
 		{
 			parent::__construct();
 			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
-			$this->setUsuario();
+			// $this->setUsuario();
 		}
 
 		public function setUsuario()

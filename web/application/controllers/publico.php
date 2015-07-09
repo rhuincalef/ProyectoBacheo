@@ -176,6 +176,18 @@ class Publico extends Frontend_Controller
 		}
 	}
 
+	/*
+	$.post('crearFallaAnonima', 
+	{"clase": "Falla",
+	"datos": JSON.stringify(
+	  { "falla": {"latitud": 12.2, "longitud": 54.2},
+	   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+       "tipoFalla": {"id": 1},
+	   "multimedias": {},
+	   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+	  })
+	})
+	*/
 	public function crearFallaAnonima()
 	{
 		$datos = new stdClass;
@@ -208,21 +220,27 @@ class Publico extends Frontend_Controller
 		return;
 	}
 
-	// public function getLazyTiposFalla()
-	// {
-	// 	// Si es una petición POST por ajax.
-	// 	$arguments = func_get_args();
-	// 	// $class = $arguments[0];
-	// 	// $id = $arguments[1];
-	// 	$class = "TipoFalla";
-	// 	$tipoMaterial = $arguments[0];
-	// 	try {
-	// 		$tiposFalla = $class::{'getAllLazy'}($tipoMaterial);
-	// 		echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$tiposFalla));
-	// 	} catch (MY_BdExcepcion $e) {
-	// 		echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+	/*
+	Establecer en el archivo routes.php las clases accesibles.
+	Clases accesibles: TipoFalla
+	Devuelve los Tipos de Falla que de un material dado.
+	*/
+	public function getTiposFalla()
+	{
+		// Si es una petición POST por ajax.
+		$arguments = func_get_args();
+		// $class = $arguments[0];
+		// $id = $arguments[1];
+		$idMaterial = $arguments[0];
+		try {
+			// $object = call_user_func(array($class, 'get'), $id);
+			// $object = $class::{'getyAll'}($id);
+			$tiposFalla = TipoFalla::{'getTiposFallaPorMaterial'}($idMaterial);
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
 			
-	// 	}
-	// }
+		}
+	}
 
 }

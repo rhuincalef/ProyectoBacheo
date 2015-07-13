@@ -35,12 +35,14 @@ class Publico extends Frontend_Controller
 	{
 		
 		$data['logueado'] = $this->ion_auth->logged_in();
-		if ($data['logueado'])
-		{
+		if ($data['logueado']){
 			$data['usuario'] = $this->ion_auth->user()->row()->username;
-			$data['admin'] = $this->ion_auth->is_admin(); 
+			$data['admin'] = $this->ion_auth->is_admin();
+			$privado = new Privado();
+			$privado->index($data);
+		}else{
+			$this->template->build_page("mapa",$data);
 		}
-		$this->template->build_page("mapa",$data);
 	}
 
 	public function getObservaciones($idFalla)

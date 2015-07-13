@@ -10,6 +10,13 @@ class Privado extends CI_Controller {
 
 	// --------------------------------------------------------------------
 	
+	public function index($data){
+		if ($this->ion_auth->logged_in()){
+			$this->template->build_page("mapaRegistrado",$data);
+		}		
+	}
+
+
 	public function getNiveles(){
 		if ($this->ion_auth->logged_in()){
 			$criti = Criticidad::getCriticidades();

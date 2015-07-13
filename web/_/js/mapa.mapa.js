@@ -88,7 +88,8 @@ function cargarCriticidad(niveles){
 
 function inicializar(){
   $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
-  Bacheo.generarMapa($("#canvasMapa"));
+  Bacheo.init($("#canvasMapa"));
+  //Bacheo.generarMapa($("#canvasMapa"));
   $("#seleccionarCalle").click(bindearEventoClick);
 
   var boundsTrelew = new google.maps.LatLngBounds(

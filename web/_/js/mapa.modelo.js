@@ -1,4 +1,24 @@
+var Material = function(datos, mapa){
+		this.id = datos.id;
+		this.nombre = datos.nombre;
+		console.log(datos);
+		var _this = this;
+		$.get( "index.php/publico/getTiposFallas/"+_this.id, function(data) {
+			var datos = JSON.parse(data);
+			$(datos).each(function(indice,elemento){
+    			criticidades.push({"id":elemento.id,"nombre":elemento.nombre});
+    		});
+			cargarCriticidad(datos);
+		});
+
+		return this;
+	}
+
+
 var Bacheo = (function(){
+	var materiales = [];
+	var criticidades = [];
+	var criticidadImagen = [];
 	var marcadores = [];
 	var cluster;
 	var geocoder = new google.maps.Geocoder();
@@ -29,7 +49,7 @@ var Bacheo = (function(){
 			window.open("index.php/inicio/getBache/id/"+marcador.id);
 		});
 		return this;
-	}
+	};
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
@@ -171,7 +191,7 @@ var Bacheo = (function(){
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
 		  traerBaches();
-		  obtenerCriticidad();
+//		  obtenerCriticidad();
 	}
 
 	var traerBaches = function() {
@@ -193,17 +213,29 @@ var Bacheo = (function(){
 		});
 	}
 
-	function obtenerCriticidad() {
+	function obtenerCriticidad(){
 		$.get( "index.php/publico/getNiveles", function(data) {
-//			var datos = data.split('/');
 			var datos = JSON.parse(data);
-//			var $niveles = [];
-			// for (var i = 0 ; i < datos.length - 1; i++){
-			// 	$niveles.push(datos[i]);
-			// };
+			$(datos).each(function(indice,elemento){
+    			criticidades.push({"id":elemento.id,"nombre":elemento.nombre});
+    		});
 			cargarCriticidad(datos);
 		});
 	}
+
+	function obtenerMateriales() {
+		$.get( "index.php/publico/getAll/TipoMaterial", function(data) {
+			var datos = JSON.parse(data);
+			$(datos).each(function(indice,elemento){
+    			materiales.push(new Material({"id":elemento.id,"nombre":elemento.nombre}));
+    		});
+		});
+	}
+
+	var inicializar = function($contenedor){
+		mapa($contenedor);
+		obtenerCriticidad();
+	};
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/
 return{
@@ -211,8 +243,9 @@ return{
 	generarMapa:mapa,
 	marcadores:marcadores,
 	obtenerCalle:obtenerCalle,
-	prueba: guardarMarcador
+	prueba: guardarMarcador,
+	init:inicializar
 }
 
 
-}())
+}());

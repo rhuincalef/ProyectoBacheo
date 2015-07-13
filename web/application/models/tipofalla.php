@@ -20,8 +20,10 @@
 
 		private function inicializar($datos)
 		{
-			$this->id = $datos->id;		
-			$this->nombre = $datos->nombre;	
+			$this->id = $datos->id;
+			$this->nombre = $datos->nombre;
+			$this->influencia = $datos->influencia;
+			$this->idMultimedia = $datos->idMultimedia;
 		}
 
 		static public function getInstancia($id)
@@ -35,9 +37,15 @@
 			return $tipoFalla;
 		}
 
+		// Utilizarlo en caso de ser necesario ahorrar costo.
 		static public function get($id)
 		{
-			# code...
+			$CI = &get_instance();
+			$datos = $CI->TipoFallaModelo->get($id);
+			$tipoFalla = new TipoFalla();
+			$tipoFalla->inicializar($datos);
+			$tipoFalla->material = $CI->TipoFallaModelo->getMaterial($id);
+			return $tipoFalla;
 		}
 
 		static public function getTiposFalla()
@@ -237,10 +245,17 @@
 			return $validator->interpret($datos);
 		}
 
-		static public function getAllLazy($tipoMaterial)
+		static public function getTiposFallaPorMaterial($idMaterial)
 		{
 			$CI = &get_instance();
-			return $CI->TipoFallaModelo->getTiposFallaMaterial($tipoMaterial);
+			$arrayTiposFallaId =  $CI->TipoFallaModelo->getTiposFallaMaterial($idMaterial);
+			$arrayTiposFalla = array();
+			foreach ($arrayTiposFallaId as $key => $value) {
+				// $CI->utiles->debugger($value->idTipoMaterial);
+				array_push($arrayTiposFalla, self::get($value->idTipoMaterial));
+			}
+			// $CI->utiles->debugger($arrayTiposFallaId);
+			return $arrayTiposFalla;
 		}
 
 	}

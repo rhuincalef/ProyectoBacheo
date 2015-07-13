@@ -105,7 +105,8 @@
 			/* Crear estado Informado */
 			$this->estado = new Informado();
 			$this->estado->falla = $this;
-			$this->estado->save();
+			$this->estado->setUsuario();
+			$this->estado->id = $this->estado->save();
 		}
 
 		static public function datosCrearValidos($datos)
@@ -188,7 +189,7 @@
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("validarDatosFallaAnonima");
-			// Creando arbol para FallaAnonima
+			// Creando arbol para validar los datos de FallaAnonima
 			$terminal1 = new NumericTerminalExpression("latitud", "double", "true");
 			$terminal2 = new NumericTerminalExpression("longitud", "double", "true");
 			$noTerminalFalla = new AndExpression(array($terminal1, $terminal2), "falla");
@@ -198,13 +199,16 @@
 			$terminal3 = new StringTerminalExpression("emailObservador", "", "true");
 			$noTerminalObservacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "observacion");
 
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$noTerminaTipolFalla = new AndExpression(array($terminal1), "tipoFalla");
+
 			$terminal1 = new NumericTerminalExpression("altura", "integer", "true");
 			$terminal2 = new StringTerminalExpression("callePrincipal", "", "true");
 			$terminal3 = new StringTerminalExpression("calleSecundariaA", "", "true");
 			$terminal4 = new StringTerminalExpression("calleSecundariaB", "", "true");
 			$noTerminalDireccion = new AndExpression(array($terminal1, $terminal2, $terminal3, $terminal4), "direccion");
 
-			$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion), "datos");
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion, $noTerminaTipolFalla), "datos");
 			return $validator->interpret($datos);
 		}
 
@@ -219,22 +223,48 @@
 			# code...
 		}
 
-		/*
-		$.post('crearFallaAnonima', 
-		{"clase": "Falla",
-		"datos": JSON.stringify(
-		  { "falla": {"latitud": 12.2, "longitud": 54.2},
-		   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
-		   "multimedias": {},
-		   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
-		  })
-		})
-		*/
 		public function crearFallaAnonima($datos)
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("crearFallaAnonima");
 			$CI->utiles->debugger($datos);
+			/*
+			Primera parte muy parecida a crear
+			No se tienen en cuenta
+				$falla->influencia = $datos->falla->influencia;
+				$falla->factorArea = $datos->falla->factorArea;
+			No se carga el tipo de reparacion, la criticidad
+			Se crea en el estado Informado
+			saveAnonimo()
+			asociar FallaEstadoModelo
+			*/
+			$falla = new Falla();
+			$falla->latitud = $datos->falla->latitud;
+			$falla->longitud = $datos->falla->longitud;
+			$CI->utiles->debugger($datos->tipoFalla->id);
+			// TipoFalla viene con id. getInstancia
+			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			// TipoMaterial se obtiene a traves del Tipo de Falla
+			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+			$falla->direccion = $falla->insertarDireccion($datos->direccion);
+			$falla->id = $falla->saveAnonimo();
+			$falla->estado = new Informado();
+			$falla->estado->falla = $falla;
+			$falla->estado->id = $falla->estado->save();
+			$falla->asociarEstado();
+			$CI->utiles->debugger($falla);
+		}
+
+		public function saveAnonimo()
+		{
+			$CI = &get_instance();
+			return $CI->FallaModelo->saveAnonimo($this);
+		}
+
+		public function asociarEstado()
+		{
+			$CI = &get_instance();
+			return $CI->FallaModelo->asociarEstado($this);
 		}
 
 	}

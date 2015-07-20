@@ -20,21 +20,24 @@
 
 		private function inicializar($datos)
 		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("inicializar");
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
-			$this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			// $this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
 			$this->direccion = Direccion::getInstancia($datos->idDireccion);
-			$this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
-			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
-			$this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
+			// $this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
+			// $this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
+			// $this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
 		}
 
 		static public function getInstancia($id)
 		{
 			$CI = &get_instance();
+			$CI->utiles->debugger("getInstancia");
 			$falla = new Falla();
-			$datos = $CI->FallaModelo->get($id[0]);
+			$datos = $CI->FallaModelo->get($id);
 			$falla->inicializar($datos);
 			return $falla;
 		}
@@ -47,6 +50,7 @@
 		}
 
 		/*
+		- Petición para crear una nueva falla en el estado Confirmado.
 		$.post('crear/Falla', 
 		{"clase": "Falla",
 		"datos": JSON.stringify(
@@ -54,7 +58,18 @@
 		   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
 		   "tipoFalla": {"id": 88},
 		   "criticidad": {"id": 71},
-		   "multimedias": {},
+       	   "reparacion": {"id": 42},
+		   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+		  })
+		})
+		- Petición para crear definitivamente la falla, pasa del estado Informado al Confirmado.
+		$.post('crear/Falla', 
+		{"clase": "Falla",
+		 "datos": JSON.stringify({
+		   "falla": {"id": 1, "latitud": 12.2, "longitud": 54.2, "influencia":2, "factorArea": .2},
+		   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+		   "tipoFalla": {"id": 88},
+		   "criticidad": {"id": 71},
        	   "reparacion": {"id": 42},
 		   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
 		  })
@@ -63,30 +78,40 @@
 		static public function crear($datos)
 		{
 			$CI = &get_instance();
-			$falla = new Falla();
-			$falla->latitud = $datos->falla->latitud;
-			$falla->longitud = $datos->falla->longitud;
-			$falla->influencia = $datos->falla->influencia;
-			$falla->factorArea = $datos->falla->factorArea;
-			// TipoFalla viene con id. getInstancia
-			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
-			// TipoMaterial se obtiene a traves del Tipo de Falla
-			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
-			// TipoReparacion se obtiene a traves del Tipo de Falla
-			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
-			// Criticidad viene con id. getInstancia
-			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
-			$falla->observaciones = array();
-			$observacion = new Observacion($datos->observacion);
-			$observacion->falla = $falla->id;
-			// $observacion->id = $observacion->save();
-			array_push($falla->observaciones, $observacion);
-			$falla->direccion = $falla->insertarDireccion($datos->direccion);
-			// $falla->cargar('Multimedia', $datos->multimedias);
-			$falla->id = $falla->save();
-			$falla->crearEstado();
-			$CI->utiles->debugger($falla);
-			return $falla;
+			/*
+			Si la falla viene con id debe pasar del estado Informado a Confirmado.
+			Sino se debe crear la falla directamente en el estado Confirmado.
+			*/
+			if (!property_exists($datos->falla, 'id'))
+			{
+				return self::crearFallaEnConfirmado($datos);
+			}
+			return self::crearFalla($datos);
+
+			// $falla = new Falla();
+			// $falla->latitud = $datos->falla->latitud;
+			// $falla->longitud = $datos->falla->longitud;
+			// $falla->influencia = $datos->falla->influencia;
+			// $falla->factorArea = $datos->falla->factorArea;
+			// // TipoFalla viene con id. getInstancia
+			// $falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			// // TipoMaterial se obtiene a traves del Tipo de Falla
+			// $falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+			// // TipoReparacion se obtiene a traves del Tipo de Falla
+			// $falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			// // Criticidad viene con id. getInstancia
+			// $falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			// $falla->observaciones = array();
+			// $observacion = new Observacion($datos->observacion);
+			// $observacion->falla = $falla->id;
+			// // $observacion->id = $observacion->save();
+			// array_push($falla->observaciones, $observacion);
+			// $falla->direccion = $falla->insertarDireccion($datos->direccion);
+			// // $falla->cargar('Multimedia', $datos->multimedias);
+			// $falla->id = $falla->save();
+			// $falla->crearEstado();
+			// $CI->utiles->debugger($falla);
+			// return $falla;
 		}
 
 		public function insertarDireccion($datosDireccion)
@@ -95,18 +120,10 @@
 			$datosDireccion->callePrincipal = Calle::buscarCalle($datosDireccion->callePrincipal);
 			$datosDireccion->calleSecundariaA = Calle::buscarCalle($datosDireccion->calleSecundariaA);
 			$datosDireccion->calleSecundariaB = Calle::buscarCalle($datosDireccion->calleSecundariaB);
+			// TODO: Verificar si existe la direccion con los datos
 			$direccion = new Direccion($datosDireccion);
 			$direccion->id = $direccion->save();
 			return $direccion;
-		}
-
-		public function crearEstado()
-		{
-			/* Crear estado Informado */
-			$this->estado = new Informado();
-			$this->estado->falla = $this;
-			$this->estado->setUsuario();
-			$this->estado->id = $this->estado->save();
 		}
 
 		static public function datosCrearValidos($datos)
@@ -223,30 +240,29 @@
 			# code...
 		}
 
+		/*
+		No se tienen en cuenta
+			$falla->influencia = $datos->falla->influencia;
+			$falla->factorArea = $datos->falla->factorArea;
+		No se carga el tipo de reparacion ni la criticidad
+		Se crea en el estado Informado
+		saveAnonimo()
+		asociar FallaEstadoModelo
+		*/
 		public function crearFallaAnonima($datos)
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("crearFallaAnonima");
-			$CI->utiles->debugger($datos);
-			/*
-			Primera parte muy parecida a crear
-			No se tienen en cuenta
-				$falla->influencia = $datos->falla->influencia;
-				$falla->factorArea = $datos->falla->factorArea;
-			No se carga el tipo de reparacion, la criticidad
-			Se crea en el estado Informado
-			saveAnonimo()
-			asociar FallaEstadoModelo
-			*/
+			
 			$falla = new Falla();
 			$falla->latitud = $datos->falla->latitud;
 			$falla->longitud = $datos->falla->longitud;
-			$CI->utiles->debugger($datos->tipoFalla->id);
 			// TipoFalla viene con id. getInstancia
 			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
 			// TipoMaterial se obtiene a traves del Tipo de Falla
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
+			// A partir de aca cambia
 			$falla->id = $falla->saveAnonimo();
 			$falla->estado = new Informado();
 			$falla->estado->falla = $falla;
@@ -267,5 +283,76 @@
 			return $CI->FallaModelo->asociarEstado($this);
 		}
 
+		/*
+		Falla no informada
+		Se crea en el estado Confirmado
+		save()
+		asociar FallaEstadoModelo
+		*/
+		public function crearFallaEnConfirmado($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("crearFallaEnConfirmado");
+			$falla = new Falla();
+			$falla->latitud = $datos->falla->latitud;
+			$falla->longitud = $datos->falla->longitud;
+			$falla->influencia = $datos->falla->influencia;
+			$falla->factorArea = $datos->falla->factorArea;
+			// TipoFalla viene con id. getInstancia
+			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			// TipoMaterial se obtiene a traves del Tipo de Falla
+			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+			// TipoReparacion se obtiene a traves del Tipo de Falla
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			$falla->direccion = $falla->insertarDireccion($datos->direccion);
+			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			$falla->observaciones = array();
+			$observacion = new Observacion($datos->observacion);
+			array_push($falla->observaciones, $observacion);
+			$falla->direccion = $falla->insertarDireccion($datos->direccion);
+			$falla->id = $falla->save();
+			$observacion->falla = $falla;
+			$observacion->save();
+			// 
+			$falla->estado = new Confirmado();
+			$falla->estado->setUsuario();
+			$falla->estado->falla = $falla;
+			$falla->estado->id = $falla->estado->save();
+			$falla->asociarEstado();
+			$CI->utiles->debugger($falla);
+		}
+
+		static public function crearFalla($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("crearFalla");
+			$falla = self::getInstancia($datos->falla->id);
+			$falla->influencia = $datos->falla->influencia;
+			$falla->factorArea = $datos->falla->factorArea;
+			// TipoFalla viene con id. getInstancia
+			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			// TipoMaterial se obtiene a traves del Tipo de Falla
+			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+			// TipoReparacion se obtiene a traves del Tipo de Falla
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			$falla->observaciones = array();
+			$observacion = new Observacion($datos->observacion);
+			$observacion->falla = $falla;
+			$observacion->save();
+			array_push($falla->observaciones, $observacion);
+			// 
+			$falla->estado = Estado::getEstadoActual($falla->id);
+			$falla->estado = $falla->estado->cambiar($falla);
+			$falla->actualizar();
+			$falla->asociarEstado();
+			$CI->utiles->debugger($falla);
+		}
+
+		public function actualizar()
+		{
+			$CI = &get_instance();
+			return $CI->FallaModelo->actualizar($this);
+		}
 	}
  ?>

@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Privado extends CI_Controller {
+class Privado extends CI_Controller
+{
 
 	public function __construct()
 	{
@@ -10,14 +11,17 @@ class Privado extends CI_Controller {
 
 	// --------------------------------------------------------------------
 	
-	public function getNiveles(){
-		if ($this->ion_auth->logged_in()){
+	public function getNiveles()
+	{
+		if ($this->ion_auth->logged_in())
+		{
 			$criti = Criticidad::getCriticidades();
 			echo json_encode((array_map(function($obj){ return $obj->toJsonFormal(); }, $criti)));		
 		}		
 	}
 
-	public function creacionTipoFalla(){
+	public function creacionTipoFalla()
+	{
 		$this->template->build_page("gestorFallas");
 	}
 

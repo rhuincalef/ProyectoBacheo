@@ -45,5 +45,16 @@
 			return $this->db->insert_id();
 		}
 
+		public function actualizar($falla)
+		{
+			$this->db->update($this->table_name,
+							array(	'idCriticidad' => $falla->criticidad->id,
+									'idTipoMaterial' => $falla->tipoMaterial->id,
+									'idTipoFalla' => $falla->tipoFalla->id,
+									'idTipoReparacion' => $falla->tipoReparacion->id,
+									'areaAfectada' => $falla->areaAfectada,
+									)
+							);
+		}
 	}
  ?>

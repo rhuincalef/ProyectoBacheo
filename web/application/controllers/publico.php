@@ -221,22 +221,55 @@ class Publico extends Frontend_Controller
 	}
 
 	/*
-	Establecer en el archivo routes.php las clases accesibles.
 	Clases accesibles: TipoFalla
 	Devuelve los Tipos de Falla que de un material dado.
 	*/
 	public function getTiposFalla()
 	{
-		// Si es una petición POST por ajax.
 		$arguments = func_get_args();
-		// $class = $arguments[0];
-		// $id = $arguments[1];
 		$idMaterial = $arguments[0];
 		try {
-			// $object = call_user_func(array($class, 'get'), $id);
-			// $object = $class::{'getyAll'}($id);
 			$tiposFalla = TipoFalla::{'getTiposFallaPorMaterial'}($idMaterial);
 			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+			
+		}
+	}
+
+	/*
+	GET baseurl/getAlly/TipoMaterial
+	Retorna todos los tipos de material con los tipos de falla asociadas de la siguiente manera:
+		material: {nombre, tiposFalla:[idFalla1, idFalla2, ..., idFallaN]}
+	*/
+	public function getAlly()
+	{
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		try {
+			$objectArray = $class::{'getAlly'}();
+			$codigo = 400;
+			$mensaje = "No hay elementos para mostrar";
+			if(count($objectArray) != 0)
+			{
+				$codigo = 200;
+				$mensaje = "Elementos Cargados";
+			}
+			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($objectArray)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+			
+		}
+	}
+
+	public function gety()
+	{
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		$id = $arguments[1];
+		try {
+			$object = $class::{'gety'}($id);
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$object));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
 			

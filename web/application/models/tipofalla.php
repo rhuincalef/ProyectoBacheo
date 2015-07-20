@@ -251,11 +251,24 @@
 			$arrayTiposFallaId =  $CI->TipoFallaModelo->getTiposFallaMaterial($idMaterial);
 			$arrayTiposFalla = array();
 			foreach ($arrayTiposFallaId as $key => $value) {
-				// $CI->utiles->debugger($value->idTipoMaterial);
-				array_push($arrayTiposFalla, self::get($value->idTipoMaterial));
+				$falla = self::get($value->idTipoMaterial);
+				$falla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($falla->id);
+				array_push($arrayTiposFalla, $falla);
 			}
-			// $CI->utiles->debugger($arrayTiposFallaId);
 			return $arrayTiposFalla;
+		}
+
+		// Utilizarlo para la vista de crear Falla.
+		static public function gety($id)
+		{
+			$CI = &get_instance();
+			$tipoFalla = self::get($id);
+			$tipoFalla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($tipoFalla->id);
+			// TipoAtributo::getAtributosPorTipoFalla
+			$tipoFalla->atributos = array();
+			// TipoCriticidad::getCriticidadesPorTipoFalla
+			$tipoFalla->criticidades = array();
+			return $tipoFalla;
 		}
 
 	}

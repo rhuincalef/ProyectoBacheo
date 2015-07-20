@@ -88,18 +88,34 @@
 
 		static public function validarDatos($datos)
 		{
-			// $datos_validar_tipo_material = array('nombre' => array('string', '\w'));
-			// foreach ($datos_validar_tipo_material as $key => $value)
-			// {
-			// 	if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], $datos->$key)))
-			// 	{
-			// 		return FALSE;
-			// 	}
-			// }
-			// return TRUE;
 			$terminal1 = new StringTerminalExpression("nombre", "", "true");
 			$noTerminalMaterial = new AndExpression(array($terminal1), "datos");
 			return $noTerminalMaterial->interpret($datos);
+		}
+
+		static public function getAlly()
+		{
+			$CI = &get_instance();
+			$tiposMaterial = array();
+			try {
+				$datos = $CI->TipoMaterialModelo->get_all();
+    			foreach ($datos as $row)
+    			{
+    				$tipoMaterial = new TipoMaterial();
+    				$tipoMaterial->inicializar($row);
+    				$tipoMaterial->fallas = array();
+    				$fallas = TipoFalla::getTiposFallaPorMaterial($tipoMaterial->id);
+    				array_map(function($falla) use (&$tipoMaterial)
+    				{
+    					array_push($tipoMaterial->fallas, $falla->id);
+    				}, $fallas);
+    				array_push($tiposMaterial, $tipoMaterial);
+    			}
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $tiposMaterial;
 		}
 
 	}

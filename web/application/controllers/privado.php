@@ -67,7 +67,7 @@ class Privado extends CI_Controller
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
 			// Por ahora siempre deshacemos
-			$this->db->trans_rollback();
+			// $this->db->trans_rollback();
 			if ($this->db->trans_status() === FALSE)
 			{
 				// TODO: Falta dar aviso del error

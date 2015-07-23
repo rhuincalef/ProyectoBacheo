@@ -58,13 +58,12 @@ class Privado extends CI_Controller
 			{
 				// Si los datos no son validos
 				$this->utiles->debugger("Datos Invalidos");
-				echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+				echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($datos)));
 				return;
 			}
 			$this->utiles->debugger("Datos Validos");
 			// Comienza la transaccion
 			$this->db->trans_begin();
-			// $object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
 			// Por ahora siempre deshacemos

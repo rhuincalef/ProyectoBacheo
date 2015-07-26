@@ -1,115 +1,4 @@
-var GestorMateriales = function(){
-	var diccionarioMateriales = {};
-	var diccionarioTiposFalla = {};
-	var diccionarioTiposReparacion = {};
-	
-	var agregarMaterial = function(datos){
-//		var unMaterial = arregloMateriales.filter(function(elemento){return elemento.id == datos.id});
-		if(diccionarioMateriales.hasOwnProperty(datos.id))
-			return diccionarioMateriales[datos.id];
-		diccionarioMateriales.[datos.id] = new Material(datos);
-	};
-
-	var obtenerReparaciones = function(idReparaciones,arregloReparaciones){
-		var reparacionesAPedir = [];
-		idReparaciones.map(function(k,v){
-			if(diccionarioTiposReparacion.hasOwnProperty(v.id))
-				arregloReparaciones.push(diccionarioTiposReparacion[v.id]);
-			else
-				reparacionesAPedir.push(e.id);
-		});
-		$.post("index.php/publico/getReparacionesPorId",{"idReparaciones":reparacionesAPedir} function(data){
-			var reparaciones = JSON.parse(data);
-			$(reparaciones).each(function(indice,elemento){
-				var unaReparacion = new TipoReparacion(elemento);
-				diccionarioTiposReparacion[elemento.id] = unaReparacion;
-    			arregloReparaciones.push(unaReparacion);
-    		});
-		});
-	};
-
-
-	var obtenerFallas = function(idFallas,arregloTipos){
-		var tiposAPedir = [];
-		idFallas.map(function(k,v){
-			if(diccionarioTiposFalla.hasOwnProperty(v.id))
-				arregloTipos.push(diccionarioTiposFalla[v.id]);
-			else
-				tiposAPedir.push(e.id);
-		});
-		$.post("index.php/publico/getTiposFallasPorId",{"idTipos":tiposAPedir} function(data){
-			var tipos = JSON.parse(data);
-			$(tipos).each(function(indice,elemento){
-				var unTipoFalla = new TipoFalla(elemento);
-				diccionarioTiposFalla[elemento.id] = unTipoFalla;
-    			arregloTipos.push(unTipoFalla);
-    		});
-		});
-/*		tiposAPedir.map(function(k,v){
-			$.get( "index.php/publico/getTiposFallas/"+v.id, function(data){
-				var tipo = JSON.parse(data);
-				$(tipos).each(function(indice,elemento){
-	    			_this.fallas.push(new TipoFalla(elemento));
-	    		});
-			});
-		});*/
-	};
-
-};
-
-
-var TipoFalla = function(datos){
-		this.id = datos.id;
-		this.nombre = datos.nombre;
-		this.nombre = datos.influencia;
-		this.atributos = datos.atributos;
-		this.criticidades = datos.criticidades;
-		this.reparaciones = [];
-		this.multimedia = null;
-		var _this = this;
-
-		console.log(datos);
-		GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
-
-		this.getMultimedia = function(){
-			if(this.multimedia != null)
-				return this.multimedia;
-			$.get( "index.php/publico/getMultimediaTipoFalla/"+_this.id, function(data) {
-				var datos = JSON.parse(data);
-				$(datos).each(function(indice,elemento){
-	    			_this.multimedia = elemento.multimedia;
-	    			return _this.multimedia;
-	    		});
-			});
-		};
-
-		return this;
-	};
-
-var TipoReparacion = function(datos){
-		this.id = datos.id;
-		this.nombre = datos.nombre;
-		this.descripcion = datos.descripcion;
-		this.costo = datos.costo;
-		console.log(datos);
-		var _this = this;
-		return this;
-	};
-
-var Material = function(datos){
-		this.id = datos.id;
-		this.nombre = datos.nombre;
-		this.fallas = [];
-		console.log(datos);
-		GestorMateriales.obtenerFallas(datos.tiposFalla,this.fallas);
-		return this;
-	};
-
-
 var Bacheo = (function(){
-	var materiales = [];
-	var criticidades = [];
-	var criticidadImagen = [];
 	var marcadores = [];
 	var cluster;
 	var geocoder = new google.maps.Geocoder();
@@ -152,7 +41,7 @@ var Bacheo = (function(){
 		var titulo = $formulario["titulo"].value;
 		var criticidad = $formulario["criticidad"].value;
 		guardarMarcador(titulo,criticidad,calle,altura,descripcion);
-	}
+	};
 
 /* cargarMarcador: Funcion en encargada de cargar un marcador para ser visualizado en el mapa.
  * Es utilizada por la carga inicial, al obtener los datos desde el servidor							*/
@@ -161,7 +50,7 @@ var Bacheo = (function(){
 		var marcador = new Marcador(datos,$mapa);
 		marcadores.push(marcador);
 		cluster.addMarker(marcador.marker,true);
-	}
+	};
 
 
 	function guardarImagenes(idBache) {
@@ -224,7 +113,7 @@ var Bacheo = (function(){
 
           );
 		});
-	}
+	};
 
 /* obtenerLatLng: obtiene, dados una calle y altura, las coordenadas de dicha direccion 				*/
 	function obtenerLatLng (calle,altura,callback) {
@@ -260,7 +149,7 @@ var Bacheo = (function(){
 		        alert("Geocoder failed due to: " + status);
 		    }
 	    });
-	}
+	};
 
 /* mapa: Funcion que renderiza un mapa GoogleMap en el contenedor especificado, centrandolo en la 
  * ciudad de Trelew 																					*/
@@ -282,8 +171,8 @@ var Bacheo = (function(){
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
 		  traerBaches();
-//		  obtenerCriticidad();
-	}
+		  obtenerCriticidad();
+	};
 
 	var traerBaches = function() {
 		$.get( "index.php/inicio/getBaches", function( data ) {
@@ -302,31 +191,19 @@ var Bacheo = (function(){
 			};
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
 		});
-	}
+	};
 
-	function obtenerCriticidad(){
+	function obtenerCriticidad() {
 		$.get( "index.php/publico/getNiveles", function(data) {
+//			var datos = data.split('/');
 			var datos = JSON.parse(data);
-			$(datos).each(function(indice,elemento){
-    			criticidades.push({"id":elemento.id,"nombre":elemento.nombre});
-    		});
+//			var $niveles = [];
+			// for (var i = 0 ; i < datos.length - 1; i++){
+			// 	$niveles.push(datos[i]);
+			// };
 			cargarCriticidad(datos);
 		});
 	}
-
-	function obtenerMateriales() {
-		$.get( "index.php/publico/getAll/TipoMaterial", function(data) {
-			var datos = JSON.parse(data);
-			$(datos).each(function(indice,elemento){
-    			materiales.push({"id":elemento.id,"elemento":new Material(elemento)});
-    		});
-		});
-	}
-
-	var inicializar = function($contenedor){
-		mapa($contenedor);
-		obtenerCriticidad();
-	};
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/
 return{
@@ -334,9 +211,8 @@ return{
 	generarMapa:mapa,
 	marcadores:marcadores,
 	obtenerCalle:obtenerCalle,
-	prueba: guardarMarcador,
-	init:inicializar
+	prueba: guardarMarcador
 }
 
 
-}());
+}())

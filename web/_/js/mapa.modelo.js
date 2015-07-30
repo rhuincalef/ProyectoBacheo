@@ -1,4 +1,4 @@
-var GestorMateriales = function(){
+var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
@@ -7,7 +7,7 @@ var GestorMateriales = function(){
 //		var unMaterial = arregloMateriales.filter(function(elemento){return elemento.id == datos.id});
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
 			return diccionarioMateriales[datos.id];
-		diccionarioMateriales.[datos.id] = new Material(datos);
+		diccionarioMateriales[datos.id] = new Material(datos);
 	};
 
 	var obtenerReparaciones = function(idReparaciones,arregloReparaciones){
@@ -18,7 +18,7 @@ var GestorMateriales = function(){
 			else
 				reparacionesAPedir.push(e.id);
 		});
-		$.post("index.php/publico/getReparacionesPorId",{"idReparaciones":reparacionesAPedir} function(data){
+		$.post("index.php/publico/getReparacionesPorIDs",{"idReparaciones":reparacionesAPedir},function(data){
 			var reparaciones = JSON.parse(data);
 			$(reparaciones).each(function(indice,elemento){
 				var unaReparacion = new TipoReparacion(elemento);
@@ -37,7 +37,7 @@ var GestorMateriales = function(){
 			else
 				tiposAPedir.push(e.id);
 		});
-		$.post("index.php/publico/getTiposFallasPorId",{"idTipos":tiposAPedir} function(data){
+		$.post("index.php/publico/getTiposFallasPorIDs",{"idTipos":tiposAPedir}, function(data){
 			var tipos = JSON.parse(data);
 			$(tipos).each(function(indice,elemento){
 				var unTipoFalla = new TipoFalla(elemento);
@@ -45,17 +45,15 @@ var GestorMateriales = function(){
     			arregloTipos.push(unTipoFalla);
     		});
 		});
-/*		tiposAPedir.map(function(k,v){
-			$.get( "index.php/publico/getTiposFallas/"+v.id, function(data){
-				var tipo = JSON.parse(data);
-				$(tipos).each(function(indice,elemento){
-	    			_this.fallas.push(new TipoFalla(elemento));
-	    		});
-			});
-		});*/
 	};
 
-};
+	return{
+		agregarMaterial:agregarMaterial,
+		materiales:diccionarioMateriales,
+		obtenerFallas:obtenerFallas,
+		obtenerReparaciones:obtenerReparaciones
+	}
+}());
 
 
 var TipoFalla = function(datos){
@@ -101,7 +99,8 @@ var Material = function(datos){
 		this.nombre = datos.nombre;
 		this.fallas = [];
 		console.log(datos);
-		GestorMateriales.obtenerFallas(datos.tiposFalla,this.fallas);
+		if (datos.codigo!=400)
+			GestorMateriales.obtenerFallas(datos.fallas,this.fallas);
 		return this;
 	};
 
@@ -315,17 +314,25 @@ var Bacheo = (function(){
 	}
 
 	function obtenerMateriales() {
-		$.get( "index.php/publico/getAll/TipoMaterial", function(data) {
+		$.get( "index.php/publico/getAlly/TipoMaterial", function(data) {
 			var datos = JSON.parse(data);
-			$(datos).each(function(indice,elemento){
-    			materiales.push({"id":elemento.id,"elemento":new Material(elemento)});
-    		});
+			if(datos.codigo ==200){
+				$(JSON.parse(datos.valor)).each(function(indice,elemento){
+	//    			materiales.push({"id":elemento.id,"elemento":new Material(elemento)});
+	    			GestorMateriales.agregarMaterial(elemento);
+	    		});
+				console.log(datos.mensaje);
+			}else{
+				console.log("Nada que mostrar");
+				alert(datos.mensaje);
+			}
 		});
 	}
 
 	var inicializar = function($contenedor){
 		mapa($contenedor);
 		obtenerCriticidad();
+		obtenerMateriales();
 	};
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/

@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Privado extends CI_Controller {
+class Privado extends CI_Controller
+{
 
 	public function __construct()
 	{
@@ -24,7 +25,8 @@ class Privado extends CI_Controller {
 		}		
 	}
 
-	public function creacionTipoFalla(){
+	public function creacionTipoFalla()
+	{
 		$this->template->build_page("gestorFallas");
 	}
 
@@ -61,17 +63,16 @@ class Privado extends CI_Controller {
 			{
 				// Si los datos no son validos
 				$this->utiles->debugger("Datos Invalidos");
-				echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+				echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($datos)));
 				return;
 			}
 			$this->utiles->debugger("Datos Validos");
 			// Comienza la transaccion
 			$this->db->trans_begin();
-			// $object = call_user_func(array($class, 'crear'), json_decode($this->input->post('datos')));
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
 			// Por ahora siempre deshacemos
-			$this->db->trans_rollback();
+			// $this->db->trans_rollback();
 			if ($this->db->trans_status() === FALSE)
 			{
 				// TODO: Falta dar aviso del error

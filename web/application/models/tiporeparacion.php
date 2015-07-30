@@ -19,7 +19,6 @@
 			$this->nombre = $datos->nombre;
 			$this->descripcion = $datos->descripcion;
 			$this->costo = $datos->costo;
-
 		}
 
 		static public function getInstancia($id)
@@ -29,7 +28,16 @@
 			$datos = $CI->TipoReparacionModelo->get($id);
 			$tipoReparacion->inicializar($datos);		
 			return $tipoReparacion;
+		}
 
+		// Utilizarlo en caso de ser necesario ahorrar costo.
+		static public function get($id)
+		{
+			$CI = &get_instance();
+			$datos = $CI->TipoReparacionModelo->get($id);
+			$tipoFalla = new TipoReparacion();
+			$tipoFalla->inicializar($datos);
+			return $tipoFalla;
 		}
 
 		static public function getTipoDeReparacion($id)
@@ -75,7 +83,6 @@
 		{
 			$CI = &get_instance();
 			return $CI->TipoReparacionModelo->save($this);
-
 		}
 
 		static public function crear($datos)
@@ -99,15 +106,6 @@
 
 		static public function validarDatos($datos)
 		{
-			// $datos_validar_tipo_reparacion = array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w'));
-			// foreach ($datos_validar_tipo_reparacion as $key => $value)
-			// {
-			// 	if (!property_exists($datos, $key) || !isset($datos->$key) || (gettype($datos->$key) != $value[0]) || (preg_match($value[1], var_export($datos->$key, 1))))
-			// 	{
-			// 		return FALSE;
-			// 	}
-			// }
-			// return TRUE;
 			// Creando arbol para TipoReparacion
 			$terminal1 = new StringTerminalExpression("nombre", '([a-zA-Z]+)', "true");
 			$terminal2 = new NumericTerminalExpression("costo", "double", "true");
@@ -116,5 +114,19 @@
 			$noTerminalTipoReparacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "datos");
 			return $noTerminalTipoReparacion->interpret($datos);
 		}
+
+		public function getReparacionesPorTipoFalla($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$arrayReparacionesId =  $CI->TipoReparacionModelo->getReparacionesPorTipoFalla($idTipoFalla);
+			$arrayReparaciones = array();
+			foreach ($arrayReparacionesId as $key => $value) {
+				$tipoReparacion = self::get($value->idTipoReparacion);
+				array_push($arrayReparaciones, $tipoReparacion->id);
+			}
+			$CI->utiles->debugger($arrayReparaciones);
+			return $arrayReparaciones;
+		}
+
 	}
  ?>

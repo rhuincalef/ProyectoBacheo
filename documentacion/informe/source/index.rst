@@ -6,12 +6,24 @@
 Welcome to Scanner Vial's documentation!
 ========================================
 
-Contents:
+Patología de los Pavimentos
+***************************
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
+    patologia/introduccion
+    patologia/rigidos
+    patologia/flexibles
+    patologia/articulados
+    
+Sistema
+*******
 
+.. toctree::
+    :maxdepth: 2
+    
+    sistema
 
 Indices and tables
 ==================

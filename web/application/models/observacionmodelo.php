@@ -22,13 +22,14 @@
 		{
 			$this->db->insert($this->table_name,
 							array(
-								'idFalla' => $observacion->falla,
+								'idFalla' => $observacion->falla->id,
 								'fecha' => date("Y-m-d H:i:s"),
 								'comentario' => $observacion->comentario,
 								'nombreObservador' => $observacion->nombreObservador,
 								'emailObservador' => $observacion->emailObservador)
 							);
-			return $this->db->insert_id();
+			// Id = ('idFalla', 'fecha')
+			// return $this->db->insert_id();
 		}
 
 	}

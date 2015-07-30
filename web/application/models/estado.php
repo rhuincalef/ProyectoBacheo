@@ -18,11 +18,11 @@
 		{
 			$this->id = $datos->id;
 			$this->falla = Falla::getInstancia($datos->idFalla);;
-			$this->usuario = $datos->idUsuario;
 			$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
-			$this->monto = $datos->monto;
-			$this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
-			$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
+			// $this->usuario = $datos->idUsuario;
+			// $this->monto = $datos->monto;
+			// $this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
+			// $this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
 		}
 
 		static public function getInstancia($datos)
@@ -44,15 +44,20 @@
 		static public function getEstadoActual($idFalla)
 		{
 			$CI = &get_instance();
+			$CI->utiles->debugger("getEstadoActual");
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			$estado = Estado::getInstancia($datos);
+			$CI->utiles->debugger($datos);
+			$tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
+			$nombre = $tipoEstado->nombre;
+			$CI->utiles->debugger("$nombre");
+			$estado = $nombre::getInstancia($datos);
 			return $estado;
 		}
 
 		public function save()
 		{
 			$CI = &get_instance();
-			$CI->EstadoModelo->save($this);
+			return $CI->EstadoModelo->save($this);
 		}
 
 	}
@@ -65,7 +70,39 @@
 		{
 			parent::__construct();
 			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
-			$this->setUsuario();
+		}
+
+		static public function getInstancia($datos)
+		{
+			$estado = new Informado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
+
+		private function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->falla = Falla::getInstancia($datos->idFalla);;
+			$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
+		}
+
+		public function cambiar($falla)
+		{
+			$nuevoEstado = new Confirmado();
+			$nuevoEstado->setUsuario();
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->id = $nuevoEstado->save();
+			return $nuevoEstado;
+		}
+	}
+
+	class Confirmado extends Estado
+	{
+
+		public function __construct()
+		{
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
 		}
 
 		public function setUsuario()
@@ -75,11 +112,6 @@
 			$this->usuario = $CI->ion_auth->user()->row()->id;
 		}
 
-		// public function cambiarEstado($falla)
-		// {
-		// 	$confirmado = Confirmado::crear($datos);
-		// 	$falla->estado = $confirmado;
-		// }
 	}
-	
+
 ?>

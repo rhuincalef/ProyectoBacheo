@@ -27,7 +27,7 @@
 		public function update($multimedia)
 		{
 			$this->db->where('id', $multimedia->id);
-			$this->db->update($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo)); 
+			$this->db->update($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo));
 		}
 
 	}

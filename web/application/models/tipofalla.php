@@ -20,8 +20,10 @@
 
 		private function inicializar($datos)
 		{
-			$this->id = $datos->id;		
-			$this->nombre = $datos->nombre;	
+			$this->id = $datos->id;
+			$this->nombre = $datos->nombre;
+			$this->influencia = $datos->influencia;
+			$this->idMultimedia = $datos->idMultimedia;
 		}
 
 		static public function getInstancia($id)
@@ -35,9 +37,15 @@
 			return $tipoFalla;
 		}
 
+		// Utilizarlo en caso de ser necesario ahorrar costo.
 		static public function get($id)
 		{
-			# code...
+			$CI = &get_instance();
+			$datos = $CI->TipoFallaModelo->get($id);
+			$tipoFalla = new TipoFalla();
+			$tipoFalla->inicializar($datos);
+			$tipoFalla->material = $CI->TipoFallaModelo->getMaterial($id);
+			return $tipoFalla;
 		}
 
 		static public function getTiposFalla()
@@ -237,10 +245,30 @@
 			return $validator->interpret($datos);
 		}
 
-		static public function getAllLazy($tipoMaterial)
+		static public function getTiposFallaPorMaterial($idMaterial)
 		{
 			$CI = &get_instance();
-			return $CI->TipoFallaModelo->getTiposFallaMaterial($tipoMaterial);
+			$arrayTiposFallaId =  $CI->TipoFallaModelo->getTiposFallaMaterial($idMaterial);
+			$arrayTiposFalla = array();
+			foreach ($arrayTiposFallaId as $key => $value) {
+				$falla = self::get($value->idTipoMaterial);
+				$falla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($falla->id);
+				array_push($arrayTiposFalla, $falla);
+			}
+			return $arrayTiposFalla;
+		}
+
+		// Utilizarlo para la vista de crear Falla.
+		static public function gety($id)
+		{
+			$CI = &get_instance();
+			$tipoFalla = self::get($id);
+			$tipoFalla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($tipoFalla->id);
+			// TipoAtributo::getAtributosPorTipoFalla
+			$tipoFalla->atributos = array();
+			// TipoCriticidad::getCriticidadesPorTipoFalla
+			$tipoFalla->criticidades = array();
+			return $tipoFalla;
 		}
 
 	}

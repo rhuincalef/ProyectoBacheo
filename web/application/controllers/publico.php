@@ -176,6 +176,18 @@ class Publico extends Frontend_Controller
 		}
 	}
 
+	/*
+	$.post('crearFallaAnonima', 
+	{"clase": "Falla",
+	"datos": JSON.stringify(
+	  { "falla": {"latitud": 12.2, "longitud": 54.2},
+	   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+       "tipoFalla": {"id": 1},
+	   "multimedias": {},
+	   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+	  })
+	})
+	*/
 	public function crearFallaAnonima()
 	{
 		$datos = new stdClass;
@@ -208,21 +220,98 @@ class Publico extends Frontend_Controller
 		return;
 	}
 
-	// public function getLazyTiposFalla()
-	// {
-	// 	// Si es una petición POST por ajax.
-	// 	$arguments = func_get_args();
-	// 	// $class = $arguments[0];
-	// 	// $id = $arguments[1];
-	// 	$class = "TipoFalla";
-	// 	$tipoMaterial = $arguments[0];
-	// 	try {
-	// 		$tiposFalla = $class::{'getAllLazy'}($tipoMaterial);
-	// 		echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$tiposFalla));
-	// 	} catch (MY_BdExcepcion $e) {
-	// 		echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+	/*
+	Clases accesibles: TipoFalla
+	Devuelve los Tipos de Falla que de un material dado.
+	*/
+	public function getTiposFalla()
+	{
+		$arguments = func_get_args();
+		$idMaterial = $arguments[0];
+		try {
+			$tiposFalla = TipoFalla::{'getTiposFallaPorMaterial'}($idMaterial);
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
 			
-	// 	}
-	// }
+		}
+	}
+
+	/*
+	GET baseurl/getAlly/TipoMaterial
+	Retorna todos los tipos de material con los tipos de falla asociadas de la siguiente manera:
+		material: {nombre, tiposFalla:[idFalla1, idFalla2, ..., idFallaN]}
+	*/
+	public function getAlly()
+	{
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		try {
+			$objectArray = $class::{'getAlly'}();
+			$codigo = 400;
+			$mensaje = "No hay elementos para mostrar";
+			if(count($objectArray) != 0)
+			{
+				$codigo = 200;
+				$mensaje = "Elementos Cargados";
+			}
+			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($objectArray)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+			
+		}
+	}
+
+	public function gety()
+	{
+		$arguments = func_get_args();
+		$class = $arguments[0];
+		$id = $arguments[1];
+		try {
+			$object = $class::{'gety'}($id);
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>$object));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "$class no existe", 'valor' =>''));
+			
+		}
+	}
+
+	/*
+	Probar:
+	$.post("publico/getTiposFallaPorIDs", {"arregloIDsTiposFallas":JSON.stringify([4,5])})
+	*/
+	public function getTiposFallaPorIDs()
+	{
+		$arregloIDsTiposFallas = json_decode($this->input->post('arregloIDsTiposFallas'));
+		$this->utiles->debugger($arregloIDsTiposFallas);
+		$tiposFalla = array();
+		try {
+			foreach ($arregloIDsTiposFallas as $key => $value) {
+				array_push($tiposFalla, TipoFalla::gety($value));
+			}
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
+		}
+	}
+
+	/*
+	Probar:
+	$.post("publico/getTiposReparacionPorIDs", {"arregloIDsTiposReparacion":JSON.stringify([4,5])})
+	*/
+	public function getTiposReparacionPorIDs()
+	{
+		$arregloIDsTiposReparacion = json_decode($this->input->post('arregloIDsTiposReparacion'));
+		$this->utiles->debugger($arregloIDsTiposReparacion);
+		$tiposReparacion = array();
+		try {
+			foreach ($arregloIDsTiposReparacion as $key => $value) {
+				array_push($tiposReparacion, TipoReparacion::get($value));
+			}
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposReparacion)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran los todos valores", 'valor' =>''));
+		}
+	}
 
 }

@@ -20,6 +20,7 @@
 		{
 			$CI = &get_instance();
 			$tipoEstado = new TipoEstado();
+			$CI->utiles->debugger("$id");
 			$datos = $CI->TipoEstadoModelo->get($id);
 			$tipoEstado->inicializar($datos);
 			return $tipoEstado;

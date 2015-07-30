@@ -51,5 +51,11 @@
 			$this->db->insert('TipoFallaTipoReparacionModelo', array('idTipoReparacion' => $idTipoReparacion, 'idTipoFalla' => $idTipoFalla));
 		}
 
+		public function getReparacionesPorTipoFalla($idTipoFalla)
+		{
+			$query = $this->db->get_where('TipoFallaTipoReparacionModelo', array('idTipoFalla' => $idTipoFalla));
+			return $query->result();
+		}
+
 	}
  ?>

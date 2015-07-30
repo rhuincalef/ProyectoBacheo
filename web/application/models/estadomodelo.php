@@ -9,12 +9,16 @@
 
 		public function getUltimoEstado($idFalla)
 		{
-			$this->db->order_by("fecha", "desc");
-			$query = $this->db->get_where('EstadoModelo', array('idFalla' => $idFalla));
-    		if (empty($query->result())) {
+			$this->utiles->debugger("$idFalla");
+			// $this->db->order_by("fecha", "desc");
+			$query = $this->db->get_where('FallaEstadoModelo', array('idFalla' => $idFalla));
+    		if (empty($query->result()))
+    		{
+				$this->utiles->debugger("query vacia");
 				throw new MY_BdExcepcion('Sin resultados');
-				}
-    		return $query->result()[0];
+			}
+    		$query = $this->get($query->result()[0]->idEstado);
+    		return $query;
 		}
 
 		public function getEstados($idFalla)

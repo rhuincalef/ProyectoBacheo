@@ -115,10 +115,21 @@
 		public function interpret($datos)
 		{
 			$nombre = $this->nombre;
+			/*
+				Se comprueba si en la variable $datos existe la propiedad $nombre 
+				para seguir validando los datos en el árbol armado para validarlos.
+			*/
+			if (!property_exists($datos, $nombre)) {
+				return 0;
+			}
 			$data = $datos->$nombre;
 
 			$valores = array_map(function($expression) use($data)
 			{
+				/*
+					Si en $datos se encuentra una colección de valores de un mismo objeto, se comprueba
+					que todos ellos estén correctamentes armados.
+				*/
 				if (is_array($data)) {
 					$valores = array_map(function($obj)use($expression){ return $expression->interpret($obj); }, $data);
 					foreach ($valores as $key => $value) {

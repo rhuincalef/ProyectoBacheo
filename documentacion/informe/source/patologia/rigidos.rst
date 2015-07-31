@@ -43,6 +43,30 @@ Sellado de juntas y grietas.
 Losas Desniveladas
 ******************
 
+Descripción
+-----------
+
+Desintegración de las aristas de una junta, longitudinal o transversal o una
+grieta, con pérdida de trozos.
+
+Niveles de severidad
+--------------------
+
+* **Baja**: ancho saltaduras < 50 mm, medido al centro de la junta o grieta, con pérdida de material o saltaduras, sin pérdidas de material y no parchadas.
+* **Media**: 50 mm ≤ancho saltaduras ≤150 mm, medido al centro de la junta o grieta y con pérdida de material.
+* **Alta**: ancho saltadura > 150 mm, medido al centro de la junta o grieta y con pérdida de material.
+
+Medición
+--------
+
+Longitudinal (distancia en metros).
+
+Reparación
+----------
+
+Para severidad baja sellado de juntas y grietas. Para severidad media y alta
+reparación de espesor parcial.
+
 Grietas
 *******
 

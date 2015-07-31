@@ -1,5 +1,16 @@
 .. include:: global.rst
 
+.. _patologia_objetivo:
+
+Objetivo
+========
+
+El presente trabajo está destinado a facilitar y unificar criterios en los
+relevamientos de recolección de información relacionada con los deterioros de
+los distintos tipos de pavimentos, así como proporcionar una base de datos
+pertinente destinada a los entes públicos interesados o a la comunidad en
+general.
+
 .. _patologia_introduccion:
 
 Introducción
@@ -38,7 +49,3 @@ Para cada uno de los deterioros se detallan los siguientes cinco aspectos:
 * Procedimiento de medición y cuantificación.
 * Operaciones de reparación.
 * Esquemas y/o fotografías explicativas.
-
-.. figure:: /_static/patologia/sellado1.png
-    :scale: 80%
-    :align: center

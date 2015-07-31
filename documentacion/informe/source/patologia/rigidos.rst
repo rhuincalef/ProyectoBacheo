@@ -11,7 +11,9 @@ Deficiencia de Sellado
 Descripción
 -----------
 
-Deterioro del sello de las juntas (endurecimiento, despegado de una o ambas paredes, fluencia fuera de la caja, carencia total, incrustación de materias ajenas y crecimiento de vegetación).
+Deterioro del sello de las juntas (endurecimiento, despegado de una o ambas
+paredes, fluencia fuera de la caja, carencia total, incrustación de materias
+ajenas y crecimiento de vegetación).
 
 Niveles de severidad
 --------------------

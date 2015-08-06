@@ -106,7 +106,11 @@
 									'y' => $y, 
 									'width' => $ancho_destino,
 									'height' => $alto_destino);
-			$imagen_fuente_r = imagecreatefromjpeg($this->imagen_fuente);
+			// $CI->utiles->debugger($this->imagen_fuente);
+			// preg_split -> Utilizado para separar informacion del string de la imagen
+			$info_imagen = preg_split("/[\s,]+/", $this->imagen_fuente);
+			// $CI->utiles->debugger($info_imagen);
+			$imagen_fuente_r = imagecreatefromstring(base64_decode($info_imagen[1]));
 			// Se recorta la imagen
 			$imagen_destino_r = imagecrop($imagen_fuente_r, $to_crop_array);
 			

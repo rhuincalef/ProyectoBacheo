@@ -23,7 +23,7 @@
 
 		public function getEstados($idFalla)
 		{
-			$query = $this->db->get_where('EstadoModelo', array('idFalla' => $idFalla));
+			$query = $this->db->get_where($this->table_name, array('idFalla' => $idFalla));
 			if (empty($query->result())) {
 				throw new MY_BdExcepcion('Sin resultados');
 				}

@@ -207,7 +207,7 @@ class Publico extends Frontend_Controller
 		$this->db->trans_begin();
 		Falla::crearFallaAnonima($datos->datos);
 		// Por ahora siempre deshacemos
-		$this->db->trans_rollback();
+		// $this->db->trans_rollback();
 		if ($this->db->trans_status() === FALSE)
 		{
 			// TODO: Falta dar aviso del error

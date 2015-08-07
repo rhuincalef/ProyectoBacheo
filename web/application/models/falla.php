@@ -87,43 +87,20 @@
 				return self::crearFallaEnConfirmado($datos);
 			}
 			return self::crearFalla($datos);
-
-			// $falla = new Falla();
-			// $falla->latitud = $datos->falla->latitud;
-			// $falla->longitud = $datos->falla->longitud;
-			// $falla->influencia = $datos->falla->influencia;
-			// $falla->factorArea = $datos->falla->factorArea;
-			// // TipoFalla viene con id. getInstancia
-			// $falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
-			// // TipoMaterial se obtiene a traves del Tipo de Falla
-			// $falla->tipoMaterial = $falla->tipoFalla->getMaterial();
-			// // TipoReparacion se obtiene a traves del Tipo de Falla
-			// $falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
-			// // Criticidad viene con id. getInstancia
-			// $falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
-			// $falla->observaciones = array();
-			// $observacion = new Observacion($datos->observacion);
-			// $observacion->falla = $falla->id;
-			// // $observacion->id = $observacion->save();
-			// array_push($falla->observaciones, $observacion);
-			// $falla->direccion = $falla->insertarDireccion($datos->direccion);
-			// // $falla->cargar('Multimedia', $datos->multimedias);
-			// $falla->id = $falla->save();
-			// $falla->crearEstado();
-			// $CI->utiles->debugger($falla);
-			// return $falla;
 		}
 
 		public function insertarDireccion($datosDireccion)
 		{
 			// Si no existe se crea la calle
-			$datosDireccion->callePrincipal = Calle::buscarCalle($datosDireccion->callePrincipal);
-			$datosDireccion->calleSecundariaA = Calle::buscarCalle($datosDireccion->calleSecundariaA);
-			$datosDireccion->calleSecundariaB = Calle::buscarCalle($datosDireccion->calleSecundariaB);
-			// TODO: Verificar si existe la direccion con los datos
-			$direccion = new Direccion($datosDireccion);
-			$direccion->id = $direccion->save();
-			return $direccion;
+			// $datosDireccion->callePrincipal = Calle::buscarCalle($datosDireccion->callePrincipal);
+			// $datosDireccion->calleSecundariaA = Calle::buscarCalle($datosDireccion->calleSecundariaA);
+			// $datosDireccion->calleSecundariaB = Calle::buscarCalle($datosDireccion->calleSecundariaB);
+			// // TODO: Verificar si existe la direccion con los datos
+			// $direccion = new Direccion($datosDireccion);
+			// $direccion->id = $direccion->save();
+			// return $direccion;
+			// Direccion::insertarDireccion -> Si no existe se crea la calle
+			return Direccion::insertarDireccion($datosDireccion);
 		}
 
 		static public function datosCrearValidos($datos)

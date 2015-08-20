@@ -304,7 +304,7 @@ var Bacheo = (function(){
 	}
 
 	function obtenerCriticidad(){
-		$.get( "index.php/publico/getNiveles", function(data) {
+		$.get( "index.php/publico/getAll/criticidad", function(data) {
 			var datos = JSON.parse(data);
 			$(datos).each(function(indice,elemento){
     			criticidades.push({"id":elemento.id,"nombre":elemento.nombre});
@@ -315,6 +315,7 @@ var Bacheo = (function(){
 
 	function obtenerMateriales() {
 		$.get( "index.php/publico/getAlly/TipoMaterial", function(data) {
+			console.log(data);
 			var datos = JSON.parse(data);
 			if(datos.codigo ==200){
 				$(JSON.parse(datos.valor)).each(function(indice,elemento){

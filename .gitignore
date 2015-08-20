@@ -3,7 +3,9 @@ web/application/config/environment_settings.php
 web/application/config/autoresponderlib_config.php
 web/application/logs/log-*.php
 web/application/cache/*
+web/.htaccess
 web/application/cache/!index.html
+
 #se borro para agregar la configuracion de la libreria ion auth
 # web/application/config/*
 

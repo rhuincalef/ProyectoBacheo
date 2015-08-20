@@ -474,4 +474,3 @@ AddCharset utf-8 .html .css .js .xml .json .rss
 RewriteCond $1 !^(index\.php|assets|_|images|uploads|favicon\.ico|apple-touch-icon\.png|robots\.txt|email)
 RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
-

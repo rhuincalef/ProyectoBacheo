@@ -38,6 +38,7 @@ class MY_Model extends CI_Model
     {
         foreach ($datos as $column => $value) {
             $this->db->like("LOWER($column)", strtolower($value));
+            // $this->db->like("$column", strtolower($value));
         }
         $query = $this->db->get($this->table_name);
         if (empty($query->result())) {

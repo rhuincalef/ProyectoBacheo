@@ -52,5 +52,40 @@
 			return $CI->DireccionModelo->save($this);
 		}
 
+		/*
+		* insertarDireccion
+		* Devuelve una Direccion. Si no existe se crea la Direccion.
+		* @access	public
+		* @param    array => array asociativo con los datos de la direccion
+		*					 array('callePrincipal' =>, 'altura' =>,'calleSecundariaA' =>, 'calleSecundariaB'=>)
+		*/
+		public function insertarDireccion($datosDireccion)
+		{
+			$CI = &get_instance();
+			// Calle::buscarCalle -> Si no existe se crea la calle
+			$callePrincipal = Calle::buscarCalle($datosDireccion->callePrincipal);
+			$calleSecundariaA = Calle::buscarCalle($datosDireccion->calleSecundariaA);
+			$calleSecundariaB = Calle::buscarCalle($datosDireccion->calleSecundariaB);
+			$direccion = new Direccion();
+			try {
+				$buscar = new stdClass();
+				$buscar->idCallePrincipal = $callePrincipal->id;
+				$buscar->idCalleSecundariaA = $calleSecundariaA->id;
+				$buscar->idCalleSecundariaB = $calleSecundariaB->id;
+				$buscar->altura = $datosDireccion->altura;
+				$datos = $CI->DireccionModelo->get_by($buscar);
+				$direccion->inicializar($datos);
+			} catch (MY_BdExcepcion $e) {
+				$direccion->altura = $datosDireccion->altura;
+				$direccion->callePrincipal = $callePrincipal;
+				$direccion->calleSecundariaA = $calleSecundariaA;
+				$direccion->calleSecundariaB = $calleSecundariaB;
+				$direccion->id = $direccion->save();
+			}finally{
+				return $direccion;
+			}
+
+		}
+
 	}
  ?>

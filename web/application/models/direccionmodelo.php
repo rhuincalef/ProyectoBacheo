@@ -19,5 +19,29 @@
 							);
 			return $this->db->insert_id();
 		}
+
+		/**
+		 * Fetch a single record based on the array $datos.
+		 * $datos array as $column => $value
+		 */
+		public function get_by($datos)
+		{
+			$this->utiles->debugger($datos->idCallePrincipal);
+		    // foreach ($datos as $column => $value) {
+		        // $this->db->like("LOWER($column)", strtolower($value));
+	        $query = $this->db->get_where($this->table_name, array('idCallePrincipal' => $datos->idCallePrincipal,
+																	'altura' => $datos->altura,
+																	'idCalleSecundariaA' => $datos->idCalleSecundariaA,
+																	'idCalleSecundariaB' => $datos->idCalleSecundariaB
+																	)
+	        );
+		    // }
+		    // $query = $this->db->get($this->table_name);
+		    if (empty($query->result())) {
+		        throw new MY_BdExcepcion('Sin resultados');
+		    }
+		    return $query->result()[0];
+		}
+
 	}
  ?>

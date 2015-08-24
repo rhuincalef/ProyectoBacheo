@@ -37,7 +37,8 @@
 		{
 			$CI = &get_instance();
 			$query = $this->db->get_where('TipoMaterialTipoFallaModelo', array('idTipoMaterial' => $idTipoMaterial));
-			$CI->utiles->debugger($query->result());
+			// $CI->utiles->debugger('TipoMaterialTipoFallaModelo');
+			// $CI->utiles->debugger($query->result());
 			return $query->result();
 		}
 

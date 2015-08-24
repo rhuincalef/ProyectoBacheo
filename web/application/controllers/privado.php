@@ -84,6 +84,44 @@ class Privado extends CI_Controller
 			}
 		}
 	// --------------------------------------------------------------------
+
+		/*
+		Probar:
+		$.post("publico/getTiposFallasPorIDs", {"idTipos":JSON.stringify([4,5])})
+		*/
+		public function getTiposFallasPorIDs()
+		{
+			$arregloIDsTiposFallas = json_decode($this->input->post('idTipos'));
+			$this->utiles->debugger($arregloIDsTiposFallas);
+			$tiposFalla = array();
+			try {
+				foreach ($arregloIDsTiposFallas as $key => $value) {
+					array_push($tiposFalla, TipoFalla::gety($value));
+				}
+				echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+			} catch (MY_BdExcepcion $e) {
+				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
+			}
+		}
+
+		/*
+		Probar:
+		$.post("publico/getTiposReparacionPorIDs", {"arregloIDsTiposReparacion":JSON.stringify([4,5])})
+		*/
+		public function getTiposReparacionPorIDs()
+		{
+			$arregloIDsTiposReparacion = json_decode($this->input->post('arregloIDsTiposReparacion'));
+			$this->utiles->debugger($arregloIDsTiposReparacion);
+			$tiposReparacion = array();
+			try {
+				foreach ($arregloIDsTiposReparacion as $key => $value) {
+					array_push($tiposReparacion, TipoReparacion::get($value));
+				}
+				echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposReparacion)));
+			} catch (MY_BdExcepcion $e) {
+				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran los todos valores", 'valor' =>''));
+			}
+		}
 }
 
  ?>

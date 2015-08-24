@@ -38,6 +38,7 @@ class Publico extends Frontend_Controller
 		if ($data['logueado']){
 			$data['usuario'] = $this->ion_auth->user()->row()->username;
 			$data['admin'] = $this->ion_auth->is_admin();
+			require_once(APPPATH."controllers/privado.php");
 			$privado = new Privado();
 			$privado->index($data);
 		}else{
@@ -280,11 +281,11 @@ class Publico extends Frontend_Controller
 
 	/*
 	Probar:
-	$.post("publico/getTiposFallaPorIDs", {"arregloIDsTiposFallas":JSON.stringify([4,5])})
+	$.post("publico/getTiposFallasPorIDs", {"idTipos":JSON.stringify([4,5])})
 	*/
-	public function getTiposFallaPorIDs()
+	public function getTiposFallasPorIDs()
 	{
-		$arregloIDsTiposFallas = json_decode($this->input->post('arregloIDsTiposFallas'));
+		$arregloIDsTiposFallas = json_decode($this->input->post('idTipos'));
 		$this->utiles->debugger($arregloIDsTiposFallas);
 		$tiposFalla = array();
 		try {
@@ -299,11 +300,11 @@ class Publico extends Frontend_Controller
 
 	/*
 	Probar:
-	$.post("publico/getTiposReparacionPorIDs", {"arregloIDsTiposReparacion":JSON.stringify([4,5])})
+	$.post("publico/getReparacionesPorIDs", {"idReparaciones":JSON.stringify([4,5])})
 	*/
-	public function getTiposReparacionPorIDs()
+	public function getReparacionesPorIDs()
 	{
-		$arregloIDsTiposReparacion = json_decode($this->input->post('arregloIDsTiposReparacion'));
+		$arregloIDsTiposReparacion = json_decode($this->input->post('idReparaciones'));
 		$this->utiles->debugger($arregloIDsTiposReparacion);
 		$tiposReparacion = array();
 		try {
@@ -312,7 +313,7 @@ class Publico extends Frontend_Controller
 			}
 			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposReparacion)));
 		} catch (MY_BdExcepcion $e) {
-			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran los todos valores", 'valor' =>''));
+			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran todos los valores", 'valor' =>''));
 		}
 	}
 

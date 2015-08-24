@@ -251,7 +251,7 @@
 			$arrayTiposFallaId =  $CI->TipoFallaModelo->getTiposFallaMaterial($idMaterial);
 			$arrayTiposFalla = array();
 			foreach ($arrayTiposFallaId as $key => $value) {
-				$falla = self::get($value->idTipoMaterial);
+				$falla = self::get($value->idTipoFalla);
 				$falla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($falla->id);
 				array_push($arrayTiposFalla, $falla);
 			}

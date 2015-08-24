@@ -13,12 +13,12 @@ var GestorMateriales = (function(){
 	var obtenerReparaciones = function(idReparaciones,arregloReparaciones){
 		var reparacionesAPedir = [];
 		idReparaciones.map(function(k,v){
-			if(diccionarioTiposReparacion.hasOwnProperty(v.id))
-				arregloReparaciones.push(diccionarioTiposReparacion[v.id]);
+			if(diccionarioTiposReparacion.hasOwnProperty(k.id))
+				arregloReparaciones.push(diccionarioTiposReparacion[k.id]);
 			else
-				reparacionesAPedir.push(e.id);
+				reparacionesAPedir.push(k.id);
 		});
-		$.post("index.php/publico/getReparacionesPorIDs",{"idReparaciones":reparacionesAPedir},function(data){
+		$.post("index.php/publico/getReparacionesPorIDs",{"idReparaciones":JSON.stringify(reparacionesAPedir)},function(data){
 			var reparaciones = JSON.parse(data);
 			$(reparaciones).each(function(indice,elemento){
 				var unaReparacion = new TipoReparacion(elemento);
@@ -32,12 +32,18 @@ var GestorMateriales = (function(){
 	var obtenerFallas = function(idFallas,arregloTipos){
 		var tiposAPedir = [];
 		idFallas.map(function(k,v){
-			if(diccionarioTiposFalla.hasOwnProperty(v.id))
-				arregloTipos.push(diccionarioTiposFalla[v.id]);
+			// if(diccionarioTiposFalla.hasOwnProperty(v.id))
+			// 	arregloTipos.push(diccionarioTiposFalla[v.id]);
+			if(diccionarioTiposFalla.hasOwnProperty(k))
+				arregloTipos.push(diccionarioTiposFalla[k]);
 			else
-				tiposAPedir.push(e.id);
+				// tiposAPedir.push(e.id);
+				tiposAPedir.push(k);
 		});
-		$.post("index.php/publico/getTiposFallasPorIDs",{"idTipos":tiposAPedir}, function(data){
+		if (tiposAPedir.length==0) {
+			return;
+		}
+		$.post("index.php/publico/getTiposFallasPorIDs",{"idTipos":JSON.stringify(tiposAPedir)}, function(data){
 			var tipos = JSON.parse(data);
 			$(tipos).each(function(indice,elemento){
 				var unTipoFalla = new TipoFalla(elemento);
@@ -67,7 +73,8 @@ var TipoFalla = function(datos){
 		var _this = this;
 
 		console.log(datos);
-		GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
+		// GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
+		GestorMateriales.obtenerReparaciones(JSON.parse(datos.valor),this.reparaciones);
 
 		this.getMultimedia = function(){
 			if(this.multimedia != null)

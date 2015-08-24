@@ -124,7 +124,8 @@
 				$tipoReparacion = self::get($value->idTipoReparacion);
 				array_push($arrayReparaciones, $tipoReparacion->id);
 			}
-			$CI->utiles->debugger($arrayReparaciones);
+			// $CI->utiles->debugger('arrayReparaciones');
+			// $CI->utiles->debugger($arrayReparaciones);
 			return $arrayReparaciones;
 		}
 

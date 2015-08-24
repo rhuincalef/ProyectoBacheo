@@ -267,7 +267,7 @@
 			// TipoAtributo::getAtributosPorTipoFalla
 			$tipoFalla->atributos = array();
 			// TipoCriticidad::getCriticidadesPorTipoFalla
-			$tipoFalla->criticidades = array();
+			$tipoFalla->criticidades = Criticidad::getCriticidadesPorTipoFalla($tipoFalla->id);
 			return $tipoFalla;
 		}
 

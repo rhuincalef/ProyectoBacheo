@@ -103,5 +103,17 @@
 			$CI = &get_instance();
 			$CI->CriticidadModelo->asociar($this->id, $idTipoFalla);
 		}
+
+		public function getCriticidadesPorTipoFalla($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$arrayCriticidadesId = $CI->CriticidadModelo->getCriticidadesPorTipoFalla($idTipoFalla);
+			$arrayCriticidades = array();
+			foreach ($arrayCriticidadesId as $key => $value) {
+				// $criticidad = self::get($value->idCriticidad);
+				array_push($arrayCriticidades, $value->idCriticidad);
+			}
+			return $arrayCriticidades;
+		}
 	}
  ?>

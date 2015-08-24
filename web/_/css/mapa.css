@@ -104,4 +104,12 @@
     margin-top: -0.2%;
 }
 
+.tipoFalla{
+	width: 100%;
+	margin-bottom: 13px;
+}
+
+.tipoFalla label{
+	font-weight: 100;
+}
 

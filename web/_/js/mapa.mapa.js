@@ -63,12 +63,6 @@ $(document).ready(function(){
     inicializar();
 });
 
-function inicializarFormularioBache(){
-//  cargarCriticidad();
-  Bacheo.myDropzone.removeAllFiles();
-	$("#informacionBache").modal("toggle");
-};
-
 function cargarCriticidad(niveles){
   var $opciones = $("#criticidad");
   $opciones.empty();

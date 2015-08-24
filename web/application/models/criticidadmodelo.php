@@ -29,5 +29,12 @@ class CriticidadModelo extends MY_Model{
 		$CI->utiles->debugger($idTipoFalla);
 		$this->db->insert('TipoFallaCriticidadModelo', array('idCriticidad' => $idCriticidad, 'idTipoFalla' => $idTipoFalla));
 	}
+
+	public function getCriticidadesPorTipoFalla($idCriticidad)
+	{
+		$query = $this->db->get_where('TipoFallaCriticidadModelo', array('idCriticidad' => $idCriticidad));
+		return $query->result();
+	}
+
 }
 ?>

@@ -121,11 +121,10 @@
 			$arrayReparacionesId =  $CI->TipoReparacionModelo->getReparacionesPorTipoFalla($idTipoFalla);
 			$arrayReparaciones = array();
 			foreach ($arrayReparacionesId as $key => $value) {
-				$tipoReparacion = self::get($value->idTipoReparacion);
-				array_push($arrayReparaciones, $tipoReparacion->id);
+				// $tipoReparacion = self::get($value->idTipoReparacion);
+				// array_push($arrayReparaciones, $tipoReparacion->id);
+				array_push($arrayReparaciones, $value->idTipoReparacion);
 			}
-			// $CI->utiles->debugger('arrayReparaciones');
-			// $CI->utiles->debugger($arrayReparaciones);
 			return $arrayReparaciones;
 		}
 

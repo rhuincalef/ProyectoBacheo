@@ -3,6 +3,7 @@
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/gmap3.min.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/clusterMarker.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/mapa.modelo.js"></script>
+<script src="<?php echo $this->config->base_url(); ?>_/js/mapa.modeloUsuarioRegistrado.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/mapa.mapa.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery.geocomplete.min.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/dropZone/dropzone.js"></script>

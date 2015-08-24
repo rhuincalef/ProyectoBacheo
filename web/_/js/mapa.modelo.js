@@ -13,14 +13,17 @@ var GestorMateriales = (function(){
 	var obtenerReparaciones = function(idReparaciones,arregloReparaciones){
 		var reparacionesAPedir = [];
 		idReparaciones.map(function(k,v){
-			if(diccionarioTiposReparacion.hasOwnProperty(k.id))
-				arregloReparaciones.push(diccionarioTiposReparacion[k.id]);
+			if(diccionarioTiposReparacion.hasOwnProperty(k))
+				arregloReparaciones.push(diccionarioTiposReparacion[k]);
 			else
-				reparacionesAPedir.push(k.id);
+				reparacionesAPedir.push(k);
 		});
+		if (reparacionesAPedir.length==0) {
+			return;
+		}
 		$.post("index.php/publico/getReparacionesPorIDs",{"idReparaciones":JSON.stringify(reparacionesAPedir)},function(data){
-			var reparaciones = JSON.parse(data);
-			$(reparaciones).each(function(indice,elemento){
+			var reparaciones = JSON.parse(data).valor;
+			$(JSON.parse(reparaciones)).each(function(indice,elemento){
 				var unaReparacion = new TipoReparacion(elemento);
 				diccionarioTiposReparacion[elemento.id] = unaReparacion;
     			arregloReparaciones.push(unaReparacion);
@@ -28,16 +31,20 @@ var GestorMateriales = (function(){
 		});
 	};
 
+	var obtenerArregloMateriales = function(){
+		return diccionarioMateriales;
+	};
+
 
 	var obtenerFallas = function(idFallas,arregloTipos){
 		var tiposAPedir = [];
+		if(idFallas == undefined){
+			return diccionarioTiposFalla;
+		}
 		idFallas.map(function(k,v){
-			// if(diccionarioTiposFalla.hasOwnProperty(v.id))
-			// 	arregloTipos.push(diccionarioTiposFalla[v.id]);
 			if(diccionarioTiposFalla.hasOwnProperty(k))
 				arregloTipos.push(diccionarioTiposFalla[k]);
 			else
-				// tiposAPedir.push(e.id);
 				tiposAPedir.push(k);
 		});
 		if (tiposAPedir.length==0) {
@@ -46,8 +53,9 @@ var GestorMateriales = (function(){
 		$.post("index.php/publico/getTiposFallasPorIDs",{"idTipos":JSON.stringify(tiposAPedir)}, function(data){
 			var tipos = JSON.parse(data);
 			$(tipos).each(function(indice,elemento){
-				var unTipoFalla = new TipoFalla(elemento);
-				diccionarioTiposFalla[elemento.id] = unTipoFalla;
+				var fallaJson = JSON.parse(elemento.valor)[0];
+				var unTipoFalla = new TipoFalla(fallaJson);
+				diccionarioTiposFalla[fallaJson.id] = unTipoFalla;
     			arregloTipos.push(unTipoFalla);
     		});
 		});
@@ -55,7 +63,9 @@ var GestorMateriales = (function(){
 
 	return{
 		agregarMaterial:agregarMaterial,
+		diccionarioTiposFalla:diccionarioTiposFalla,
 		materiales:diccionarioMateriales,
+		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
 		obtenerReparaciones:obtenerReparaciones
 	}
@@ -74,7 +84,7 @@ var TipoFalla = function(datos){
 
 		console.log(datos);
 		// GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
-		GestorMateriales.obtenerReparaciones(JSON.parse(datos.valor),this.reparaciones);
+		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
 
 		this.getMultimedia = function(){
 			if(this.multimedia != null)
@@ -114,7 +124,6 @@ var Material = function(datos){
 
 var Bacheo = (function(){
 	var materiales = [];
-	var criticidades = [];
 	var criticidadImagen = [];
 	var marcadores = [];
 	var cluster;
@@ -288,7 +297,6 @@ var Bacheo = (function(){
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
 		  traerBaches();
-//		  obtenerCriticidad();
 	}
 
 	var traerBaches = function() {
@@ -307,16 +315,6 @@ var Bacheo = (function(){
 				cargarMarcador(dato);
 			};
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
-		});
-	}
-
-	function obtenerCriticidad(){
-		$.get( "index.php/publico/getAll/criticidad", function(data) {
-			var datos = JSON.parse(data);
-			$(datos).each(function(indice,elemento){
-    			criticidades.push({"id":elemento.id,"nombre":elemento.nombre});
-    		});
-			cargarCriticidad(datos);
 		});
 	}
 
@@ -339,7 +337,6 @@ var Bacheo = (function(){
 
 	var inicializar = function($contenedor){
 		mapa($contenedor);
-		obtenerCriticidad();
 		obtenerMateriales();
 	};
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre

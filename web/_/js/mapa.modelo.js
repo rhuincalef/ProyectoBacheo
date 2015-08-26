@@ -300,20 +300,31 @@ var Bacheo = (function(){
 	}
 
 	var traerBaches = function() {
-		$.get( "index.php/inicio/getBaches", function( data ) {
-			var bachesTraidos = data.split('/');
-			for (var i = 0 ; i < bachesTraidos.length - 1; i++){
-				var bache = $.parseJSON(bachesTraidos[i]);
+		$.get( "index.php/getBaches", function( data ) {
+			var datos = JSON.parse(data);
+	        var fallas = JSON.parse(datos.valor);
+	        console.log(fallas);
+			// var bachesTraidos = data.split('/');
+			// for (var i = 0 ; i < bachesTraidos.length - 1; i++){
+			// 	var bache = $.parseJSON(bachesTraidos[i]);
+			// 	var dato = {};
+			// 	if (bache.hasOwnProperty("informado")) {
+			// 		dato.informado = "informado";
+			// 	}
+			// 	dato.titulo = '';
+			// 	dato.criticidad = bache.idCriticidad;
+			// 	dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
+			// 	dato.id = parseInt(bache.id);
+			// 	cargarMarcador(dato);
+			// };
+			$(fallas).each(function (index, falla) {
 				var dato = {};
-				if (bache.hasOwnProperty("informado")) {
-					dato.informado = "informado";
-				}
 				dato.titulo = '';
-				dato.criticidad = bache.idCriticidad;
-				dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
-				dato.id = parseInt(bache.id);
+				dato.criticidad = falla.criticidad;
+				dato.posicion = new google.maps.LatLng(parseFloat(falla.latitud),parseFloat(falla.longitud));
+				dato.id = parseInt(falla.id);
 				cargarMarcador(dato);
-			};
+			});
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
 		});
 	}

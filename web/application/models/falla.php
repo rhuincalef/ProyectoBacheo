@@ -21,7 +21,7 @@
 		private function inicializar($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("inicializar");
+			// $CI->utiles->debugger("inicializar");
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
@@ -331,5 +331,26 @@
 			$CI = &get_instance();
 			return $CI->FallaModelo->actualizar($this);
 		}
+
+		static public function getAll()
+		{
+			$CI = &get_instance();
+			$fallas = array();
+			try {
+				// $datos = $CI->CriticidadModelo->getCriticidades();
+				$datos = $CI->FallaModelo->get_all();
+    			foreach ($datos as $row)
+    			{
+    				$falla = new Falla();
+    				$falla->inicializar($row);
+    				array_push($fallas, $falla);
+    			}
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $fallas;
+		}
+
 	}
  ?>

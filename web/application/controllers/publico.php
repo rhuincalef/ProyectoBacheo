@@ -317,4 +317,22 @@ class Publico extends Frontend_Controller
 		}
 	}
 
+	public function getBaches()
+	{
+		try {
+			$fallas = Falla::getAll();
+			$codigo = 400;
+			$mensaje = "No hay elementos para mostrar";
+			if(count($fallas) != 0)
+			{
+				$codigo = 200;
+				$mensaje = "Elementos Cargados";
+			}
+			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($fallas)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => $mensaje, 'valor' =>json_encode('')));
+			
+		}
+	}
+
 }

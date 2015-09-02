@@ -51,11 +51,12 @@ var GestorMateriales = (function(){
 			return;
 		}
 		$.post("index.php/publico/getTiposFallasPorIDs",{"idTipos":JSON.stringify(tiposAPedir)}, function(data){
-			var tipos = JSON.parse(data);
+			var datos = JSON.parse(data);
+			var tipos = JSON.parse(datos.valor);
 			$(tipos).each(function(indice,elemento){
-				var fallaJson = JSON.parse(elemento.valor)[0];
-				var unTipoFalla = new TipoFalla(fallaJson);
-				diccionarioTiposFalla[fallaJson.id] = unTipoFalla;
+				// var fallaJson = JSON.parse(elemento.valor)[indice];
+				var unTipoFalla = new TipoFalla(elemento);
+				diccionarioTiposFalla[elemento.id] = unTipoFalla;
     			arregloTipos.push(unTipoFalla);
     		});
 		});

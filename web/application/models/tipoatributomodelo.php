@@ -29,5 +29,12 @@
 				$this->db->insert($this->table_name, array('nombre' => $tipoAtributo->nombre, 'unidadMedida' => $tipoAtributo->unidadMedida, 'idTipoFalla' => $tipoAtributo->falla));
 				return $this->db->insert_id();
 			}
+
+			public function getAtributosPorTipoFalla($idTipoFalla)
+			{
+				$query = $this->db->get_where($this->table_name, array('idTipoFalla' => $idTipoFalla));
+				return $query->result();
+			}
+
 		}
  ?>

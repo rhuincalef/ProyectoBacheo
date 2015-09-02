@@ -265,9 +265,10 @@
 			$tipoFalla = self::get($id);
 			$tipoFalla->reparaciones = TipoReparacion::getReparacionesPorTipoFalla($tipoFalla->id);
 			// TipoAtributo::getAtributosPorTipoFalla
-			$tipoFalla->atributos = array();
+			$tipoFalla->atributos = TipoAtributo::getAtributosPorTipoFalla($tipoFalla->id);
 			// TipoCriticidad::getCriticidadesPorTipoFalla
 			$tipoFalla->criticidades = Criticidad::getCriticidadesPorTipoFalla($tipoFalla->id);
+			$CI->utiles->debugger($tipoFalla->criticidades);
 			return $tipoFalla;
 		}
 

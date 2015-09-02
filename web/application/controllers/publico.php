@@ -286,12 +286,15 @@ class Publico extends Frontend_Controller
 	public function getTiposFallasPorIDs()
 	{
 		$arregloIDsTiposFallas = json_decode($this->input->post('idTipos'));
+		$this->utiles->debugger('Pepepeppe');
 		$this->utiles->debugger($arregloIDsTiposFallas);
 		$tiposFalla = array();
 		try {
 			foreach ($arregloIDsTiposFallas as $key => $value) {
 				array_push($tiposFalla, TipoFalla::gety($value));
 			}
+			$this->utiles->debugger('olvidate');
+			$this->utiles->debugger($tiposFalla);
 			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
@@ -333,6 +336,47 @@ class Publico extends Frontend_Controller
 			echo json_encode(array('codigo' => 400, 'mensaje' => $mensaje, 'valor' =>json_encode('')));
 			
 		}
+	}
+
+	/*
+	Probar:
+	$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify([4,5])})
+	*/
+	public function getTiposAtributo()
+	{
+		$arregloIDsTiposAtributo = json_decode($this->input->post('idTipos'));
+		$tiposAtributo = array();
+		try {
+			foreach ($arregloIDsTiposAtributo as $key => $value) {
+				array_push($tiposAtributo, TipoAtributo::getInstancia($value));
+			}
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposAtributo)));
+		} catch (MY_BdExcepcion $e) {
+			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
+		}
+	}
+
+	public function getBache($id){
+		$get = $this->uri->uri_to_assoc();
+		// $id = $get['id'];
+		// $this->load->model("Bache");
+		// $bache= $this->Bache->getBache($id);
+		// $bache = Falla::getInstancia($id);
+		$falla = Falla::getInstancia($id);
+		// $bache = $falla->to_array();
+		if (!isset($bache)) {
+			redirect('/', 'refresh');
+			return;
+		}
+
+		$this->output->enable_profiler(FALSE);
+		$bache['logueado'] = $this->ion_auth->logged_in();
+		if ($bache['logueado']) {
+			$bache['usuario'] = $this->ion_auth->user()->row()->username;
+			$bache['admin'] = $this->ion_auth->is_admin(); 
+		}
+		$this->template->build_page("bache",$bache);
+		
 	}
 
 }

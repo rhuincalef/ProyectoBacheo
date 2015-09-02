@@ -1,6 +1,5 @@
 Falla
 	- Crear
-		* ¿¿¿Se puede crear una falla sin pasar por el estado Informado???
 		
 		* controllers/publico/crearFallaAnonima
 			Para usuario anonimo (estado = Informado)
@@ -13,10 +12,7 @@ Falla
 			Obligatorios -> falla, observacion, tipoFalla, direccion
 			Opcionales -> multimedias
 
-		Samuel tené en cuenta lo siguiente
 		Una posible secuencia para que un usuario anónimo pueda crear falla es:
-			- Solicitar al server los tipos de materiales -> url: getAll/TipoMaterial
-			- Solicitar los tipos de falla asociadas al tipo de material seleccionado -> url: getTiposFalla/idMaterial
 			- Final, en POST para dar de alta una falla
 					$.post('crearFallaAnonima', 
 					{"clase": "Falla",
@@ -30,17 +26,27 @@ Falla
 
 		--------------------------------------------------------------------------------------------------------
 		* controllers/privado/crear/Falla
-			¿¿¿Para usuario registrado, la falla pasa del estado Informado a Confirmado
-			solamente o también puede pasar directamente a estado = Confirmado???
 			Parámetros:
 				> falla: {"latitud": double, "longitud": double, "influencia": integer, "factorArea": double}
 				> observacion: {"comentario": string, "nombreObservador": string, "emailObservador": string}
 				> tipoFalla: {"id": integer}
 				> criticidad: {"id": integer}
 				> reparacion: {"id": integer}
+				> atributos: [{"id": integer, "valor": numeric}, ....]
 				> direccion: {"altura": integer, "callePrincipal": string, "calleSecundariaA": string, "calleSecundariaB": string}
 				> multimedias: peticiones ajax con los archivos
-			Obligatorios -> falla, observacion, tipoFalla, criticidad, reparacion, direccion
+			Obligatorios -> falla, observacion, tipoFalla, criticidad, reparacion, direccion, atributos
 			Opcionales -> multimedias
 
-	- Get de los datos planos (directamente con id's no objetos posta)
+			$.post('crear/Falla', 
+					{"clase": "Falla",
+					"datos": JSON.stringify(
+					  { "falla": {"latitud": -43.2538655025621, "longitud": -65.3102016448975, "influencia": 12, "factorArea": 3},
+					   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+				       "tipoFalla": {"id": 1},
+				       "criticidad": {"id": 1},
+				       "reparacion": {"id": 1},
+				       "atributos": [{"id": 1, "valor": 12}],
+					   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+					  })
+					})

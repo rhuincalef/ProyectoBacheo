@@ -15,17 +15,18 @@
 		{
 			$this->id = $datos->id;
 			$this->nombre= $datos->nombre;
-			$this->falla = $datos->falla;
+			// $this->falla = $datos->falla;
 			$this->unidadMedida = $datos->unidadMedida;
 		}
 
 		static public function getInstancia($id)
 		{
 			$CI = &get_instance();
+			$datos = $CI->TipoAtributoModelo->get($id);
+			$CI->utiles->debugger($datos);
 			$tipoAtributo = new TipoAtributo();
-			$datos = $CI->TipoAtributo->get($id);
 			$tipoAtributo->inicializar($datos);
-			return $tipoMaterial;
+			return $tipoAtributo;
 		}
 
 		public function save()
@@ -45,6 +46,18 @@
 			$CI->utiles->debugger($tipoAtributo);
 			$tipoAtributo->save();
 			return $tipoAtributo;
+		}
+
+		public function getAtributosPorTipoFalla($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$arrayTiposAtributosId = $CI->TipoAtributoModelo->getAtributosPorTipoFalla($idTipoFalla);
+			$arrayTiposAtributos = array();
+			foreach ($arrayTiposAtributosId as $key => $value) {
+				// $criticidad = self::get($value->idCriticidad);
+				array_push($arrayTiposAtributos, $value->id);
+			}
+			return $arrayTiposAtributos;
 		}
 
 	}

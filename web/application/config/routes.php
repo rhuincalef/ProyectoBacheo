@@ -71,6 +71,7 @@ $route['gety/(TipoFalla)/(\d+)'] = 'publico/gety/$1/$2';
 $route['getTiposReparacionPorIDs'] = 'publico/getPorIds/TipoReparacion';
 $route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
 $route['getBaches'] = 'publico/getBaches';
+$route['getBache/(\d+)'] = 'publico/getBache/$1';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 

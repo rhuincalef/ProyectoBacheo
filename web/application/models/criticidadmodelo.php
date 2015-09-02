@@ -30,9 +30,9 @@ class CriticidadModelo extends MY_Model{
 		$this->db->insert('TipoFallaCriticidadModelo', array('idCriticidad' => $idCriticidad, 'idTipoFalla' => $idTipoFalla));
 	}
 
-	public function getCriticidadesPorTipoFalla($idCriticidad)
+	public function getCriticidadesPorTipoFalla($idTipoFalla)
 	{
-		$query = $this->db->get_where('TipoFallaCriticidadModelo', array('idCriticidad' => $idCriticidad));
+		$query = $this->db->get_where('TipoFallaCriticidadModelo', array('idTipoFalla' => $idTipoFalla));
 		return $query->result();
 	}
 

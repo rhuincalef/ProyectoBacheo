@@ -54,12 +54,13 @@
 		$.post('crear/Falla', 
 		{"clase": "Falla",
 		"datos": JSON.stringify(
-		  { "falla": {"latitud": 12.2, "longitud": 54.2, "influencia":2, "factorArea": .2},
+		  { "falla": {"latitud": -43.251741078254454, "longitud": -65.32084465026855, "influencia":2, "factorArea": .2},
 		   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
-		   "tipoFalla": {"id": 88},
-		   "criticidad": {"id": 71},
-       	   "reparacion": {"id": 42},
-		   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+		   "tipoFalla": {"id": 5},
+		   "criticidad": {"id": 9},
+       	   "reparacion": {"id": 6},
+           "atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
+		   "direccion": {"altura": 50,"callePrincipal": "Edison Norte", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
 		  })
 		})
 		- Petición para crear definitivamente la falla, pasa del estado Informado al Confirmado.
@@ -101,59 +102,6 @@
 			// return $direccion;
 			// Direccion::insertarDireccion -> Si no existe se crea la calle
 			return Direccion::insertarDireccion($datosDireccion);
-		}
-
-		static public function datosCrearValidos($datos)
-		{
-			/* Se arman los valores requerido y su tipo */
-			$datos_validar_falla = array(
-				'falla' => array(
-					'latitud' => array('double', '\w'),
-					'longitud' => array('double', '\w'),
-					'influencia' => array('integer', '\w'),
-					'factorArea' => array('double', '\w')
-					),
-				'observacion' => array(
-					'comentario' => array('string', '\w'),
-					'nombreObservador' => array('string', '\w'),
-					'emailObservador' => array('string', '\w')
-					),
-				'tipoFalla' => array('id' => array('integer', '\w')),
-				'criticidad' => array('id' => array('integer', '\w')),
-				'multimedias' => array('nombre' => array('string', '\w'), 'costo' => array('double', '\w'), 'descripcion' => array('string', '\w')),
-				'direccion' => array(
-					'altura' => array('integer', '\w'),
-					'callePrincipal' => array('string', '\w'),
-					'calleSecundariaA' => array('string', '\w'),
-					'calleSecundariaB' => array('string', '\w')
-					)
-			);
-			foreach ($datos_validar_falla as $clave => $valor)
-			{
-				if (!is_array($datos->$clave)) {
-					foreach ($valor as $key => $value)
-					{
-						// if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key) || (gettype($datos->$clave->$key) != $value[0]))
-							if (!property_exists($datos->$clave, $key) || !isset($datos->$clave->$key))
-						{
-							return FALSE;
-						}
-					}
-				}else{
-					foreach($datos->$clave as $c => $v)
-					{
-						foreach ($valor as $key => $value)
-						{
-							// if (!property_exists($v, $key) || !isset($v->$key) || (gettype($v->$key) != $value[0]))
-							if (!property_exists($v, $key) || !isset($v->$key))
-							{
-								return FALSE;
-							}
-						}
-					}
-				}
-			}
-			return TRUE;
 		}
 
 		public function validarDatos($datos)
@@ -290,6 +238,15 @@
 			$falla->id = $falla->save();
 			$observacion->falla = $falla;
 			$observacion->save();
+			// TipoAtributo
+			$falla->atributos = array_map(function ($atributo)
+			{
+				$tipoAtributo = TipoAtributo::getInstancia($atributo->id);
+				$tipoAtributo->valor = $atributo->valor;
+				return $tipoAtributo;
+			}, $datos->atributos);
+			// Por cada tipo de atributo se establece una entrada en la tabla FallaTipoAtributoModelo
+			$falla->asociarAtributos();
 			// 
 			$falla->estado = new Confirmado();
 			$falla->estado->setUsuario();
@@ -313,11 +270,21 @@
 			// TipoReparacion se obtiene a traves del Tipo de Falla
 			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			// Observacion
 			$falla->observaciones = array();
 			$observacion = new Observacion($datos->observacion);
 			$observacion->falla = $falla;
 			$observacion->save();
 			array_push($falla->observaciones, $observacion);
+			// TipoAtributo
+			$falla->atributos = array_map(function ($atributo)
+			{
+				$tipoAtributo = TipoAtributo::getInstancia($atributo->id);
+				$tipoAtributo->valor = $atributo->valor;
+				return $tipoAtributo;
+			}, $datos->atributos);
+			// Por cada tipo de atributo se establece una entrada en la tabla FallaTipoAtributoModelo
+			$falla->asociarAtributos();
 			// 
 			$falla->estado = Estado::getEstadoActual($falla->id);
 			$falla->estado = $falla->estado->cambiar($falla);
@@ -337,7 +304,6 @@
 			$CI = &get_instance();
 			$fallas = array();
 			try {
-				// $datos = $CI->CriticidadModelo->getCriticidades();
 				$datos = $CI->FallaModelo->get_all();
     			foreach ($datos as $row)
     			{
@@ -350,6 +316,12 @@
 				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
 			}
 			return $fallas;
+		}
+
+		public function asociarAtributos()
+		{
+			$CI = &get_instance();
+			return $CI->FallaModelo->asociarAtributos($this);
 		}
 
 	}

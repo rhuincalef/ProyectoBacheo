@@ -56,5 +56,22 @@
 									)
 							);
 		}
+
+		public function asociarAtributos($falla)
+		{
+			$idFalla = $falla->id;
+			$arrayIds = array_map(function($tipoAtributo) use ($idFalla)
+			{
+				$this->db->insert('FallaTipoAtributoModelo',
+					array(
+						'idFalla' => $idFalla,
+						'idTipoAtributo' => $tipoAtributo->id,
+						'valor' => $tipoAtributo->valor
+						)
+					);
+				return $this->db->insert_id();
+			}, $falla->atributos);
+		}
+
 	}
  ?>

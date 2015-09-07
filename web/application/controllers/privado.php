@@ -122,6 +122,73 @@ class Privado extends CI_Controller
 				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran los todos valores", 'valor' =>''));
 			}
 		}
+
+		public function registrarUsuario()
+		{
+			$this->template->build_page("registrarUsuario");
+		}
+
+		public function create_user()
+		{
+			$firephp = FirePHP::getInstance(True);
+
+			// Set validation rules.
+			// The custom rules 'identity_available' and 'validate_password' can be found in '../libaries/MY_Form_validation.php'.
+			$validation_rules = array(
+				array('field' => 'register_first_name', 'label' => 'First Name', 'rules' => 'required'),
+				array('field' => 'register_last_name', 'label' => 'Last Name', 'rules' => 'required'),
+				array('field' => 'register_phone_number', 'label' => 'Phone Number', 'rules' => 'xss_clean'),
+				// array('field' => 'register_newsletter', 'label' => 'Newsletter', 'rules' => 'integer'),
+				array('field' => 'register_email_address', 'label' => 'Email Address', 'rules' => 'required|valid_email|identity_available'),
+				array('field' => 'register_username', 'label' => 'Username', 'rules' => 'required|min_length[4]|identity_available'),
+				array('field' => 'register_password', 'label' => 'Password', 'rules' => 'required|validate_password'),
+				array('field' => 'register_confirm_password', 'label' => 'Confirm Password', 'rules' => 'required|matches[register_password]')
+			);
+			$this->form_validation->set_rules($validation_rules);
+
+			// Run the validation.
+			if ($this->form_validation->run())
+			{
+				$firephp->log('Pasa la validacion.');
+				// Get user login details from input.
+				$username = $this->input->post('register_username');
+				$password = $this->input->post('register_password');
+				$email = $this->input->post('register_email_address');
+				$additional_data = array(
+										'first_name' => $this->input->post('register_first_name'),
+										'last_name' => $this->input->post('register_last_name'),
+										'phone' => $this->input->post('register_phone_number'),
+										 'email' => $this->input->post('register_email_address')
+										);
+				$group = array('2'); // Sets user to public. No need for array('1', '2') as user is always set to member by default
+
+				$firephp->log($username);
+				$firephp->log($password);
+				$firephp->log($email);
+				$firephp->log($additional_data);
+				$firephp->log($group);
+
+				if ($this->ion_auth->register($username, $password, $email, $additional_data, $group))
+				{
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					// $this->data['message'] = $this->ion_auth->errors();
+					echo json_encode(array('status' => 'OK', 'message' => 'Your account has successfully been created.'));
+				}
+				else{
+					$firephp->log('No se pudo registrar el usuario.');
+					$this->session->flashdata('message');
+					// echo $this->ion_auth->errors();
+					echo json_encode(array('status' => 'ERROR', 'message' => $this->ion_auth->errors()));
+				}			
+			}
+			else
+			{
+				$firephp->log('No pasa la validacion.');
+				// echo validation_errors();
+				echo json_encode(array('status' => 'ERROR', 'message' => validation_errors()));
+			}
+		}
+
 }
 
  ?>

@@ -14,7 +14,7 @@
       <div class="alert hide" role="alert">
         <!-- <a href="#" class="alert-link"></a> -->
       </div>
-      <form id="crearUsuario" class="form-signin" action="<?php echo base_url();?>index.php/auth/create_user">
+      <form id="crearUsuario" class="form-signin" action="<?php echo base_url();?>index.php/create_user">
         <h4 class="form-signin-heading">Por favor ingrese la información de usuario a continuación.</h4>
         <input type="text" class="form-control" placeholder="First name*" required autofocus name="register_first_name">
         <br>

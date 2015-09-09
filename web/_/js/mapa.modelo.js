@@ -77,7 +77,8 @@ var TipoFalla = function(datos){
 		this.id = datos.id;
 		this.nombre = datos.nombre;
 		this.influencia = datos.influencia;
-		this.atributos = datos.atributos;
+		this.atributos = [];
+//		this.atributos = datos.atributos;
 		this.criticidades = datos.criticidades;
 		this.reparaciones = [];
 		this.multimedia = null;
@@ -87,6 +88,15 @@ var TipoFalla = function(datos){
 		// GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
 
+		$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
+			var datos = JSON.parse(data);
+			if(datos.codigo == 200){
+				var attr = JSON.parse(datos.valor);
+				$(attr).each(function(indice,elemento){
+	    			_this.atributos.push({"id":elemento.id,"nombre":elemento.nombre});
+	    		});
+			}
+		});
 		this.getMultimedia = function(){
 			if(this.multimedia != null)
 				return this.multimedia;
@@ -209,7 +219,7 @@ var Bacheo = (function(){
 
 /* guardarMarcador: Funcion llamada desde "guardarBache", efectua la llamada al servidor para realizar
  * dicha accion, obteniendo las coordenadas reales de la dirección especificada y, de resultar efectiva
- * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizada en
+ * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizado en
  * el mapa 																								*/
 	var guardarMarcador = function(titulo, criticidad, calle, altura, descripcion){
 		var datos={};
@@ -220,8 +230,7 @@ var Bacheo = (function(){
 			return;
 		};
 		obtenerLatLng(calle,altura,function (posicion){
-    	$.post( 
-				"index.php/inicio/AltaBache",
+    	$.post("inicio/AltaBache",
              { titulo: titulo, latitud: posicion.lat(), longitud:posicion.lng(), criticidad: criticidad, descripcion:descripcion, calle:calle, alturaCalle:altura},
              function(data) {
                 datos.posicion = posicion;

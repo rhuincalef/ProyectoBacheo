@@ -4,7 +4,7 @@
       <div class="modal-header tituloFormularioBache">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         
-        <h4 class="modal-title">Información sobre Bache</h4>
+        <h4 class="modal-title">Información sobre Falla</h4>
       </div>
 
         <div class="contenedorCampos">

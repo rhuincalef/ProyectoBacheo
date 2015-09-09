@@ -13,7 +13,7 @@
 			    	<input name="nombreTipoFalla" type="text" placeholder="Ej:Bache" class="list-group-item-text tabuladoDerecha inputLi"/>
 			    </h4>
 			    <h4 class="list-group-item-heading">Influencia Tipo Falla:
-			    	<input name="influenciaTipoFalla" type="number" placeholder="Ej:10" class="list-group-item-text tabuladoDerecha inputLi"/>
+			    	<input name="influenciaTipoFalla" type="number" step="any" min="0" placeholder="Ej:10" class="list-group-item-text tabuladoDerecha inputLi"/>
 			    </h4>
 		  	</a>	
 			<a id="material" class="list-group-item active">
@@ -127,7 +127,7 @@
 					</li>
 					<li class="list-group-item">
 						Ponderación:
-						<input id="ponderacionCriticidadNueva" name="ponderacionCriticidad" class="tabuladoDerecha inputLi" type="number" placeholder="Ej:12.3"/>
+						<input id="ponderacionCriticidadNueva" name="ponderacionCriticidad" class="tabuladoDerecha inputLi" type="number" step="any" min="0" placeholder="Ej:12.3"/>
 					</li>
 					<li class="list-group-item">
 						<button id="crearYAgregarCriticidad" type="button" class="btn btn-primary ancho100">Crear y Agregar</button>
@@ -176,7 +176,7 @@
 					</li>
 					
 					<li class="list-group-item">
-						Costo de Reparacion por Unidad:<input id="costoReparacionNueva" class="tabuladoDerecha inputLi" name="reparacion" type="number" placeholder="Ej:578.25"/>
+						Costo de Reparacion por Unidad:<input id="costoReparacionNueva" class="tabuladoDerecha inputLi" name="reparacion" type="number" step="any" min="0" placeholder="Ej:578.25"/>
 					</li>
 
 					<li class="list-group-item rowTextArea">

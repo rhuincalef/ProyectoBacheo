@@ -7,7 +7,7 @@ function inicializarFormularioBache(){
 	var fallas = GestorMateriales.obtenerFallas();
 	var keysFallas = Object.keys(fallas);
 //	$formulario.empty();
-	var $opcionesFalla = $('<select class="form-control campoDerecho" id="tipoFalla"/>');
+	var $opcionesFalla = $('<select class="form-control campoIzquierdo derechoAmpliado" id="tipoFalla"/>');
 	$(keysFallas).each(function(indice,elemento){
 	    var opcion = new Option(fallas[elemento].nombre,fallas[elemento].id,true,true);
 	    $(opcion).click(function(){
@@ -15,7 +15,7 @@ function inicializarFormularioBache(){
 	    $opcionesFalla.append(opcion);
 	  });
 //	var $divSelect = $('<div id="contenedorSelect" class="input-group tipoFalla"/>');
-	$divSelect.append($('<label class="campoIzquierdo">Tipo de Falla</label>'));
+	$divSelect.append($('<label class="form-control campoDerecho derechoAmpliado">Tipo de Falla</label>'));
 	$divSelect.append($opcionesFalla);
 
 };

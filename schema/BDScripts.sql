@@ -1,3 +1,35 @@
+/*
+Todos los Drop en el orden que van para que no estorben
+
+DROP TABLE IF EXISTS "MultimediaModelo";
+DROP TABLE IF EXISTS "ObservacionModelo";
+DROP TABLE IF EXISTS "TipoAtributoModelo";
+DROP TABLE IF EXISTS "FallaTipoAtributoModelo";
+DROP TABLE IF EXISTS "ConformaNivelServicioModelo";
+DROP TABLE IF EXISTS "FallaEstadoModelo";
+DROP TABLE IF EXISTS "EstadoModelo";
+DROP TABLE IF EXISTS "FallaModelo";
+DROP TABLE IF EXISTS "DireccionModelo";
+DROP TABLE IF EXISTS "CalleModelo";
+DROP TABLE IF EXISTS "TipoFallaCriticidadModelo";
+DROP TABLE IF EXISTS "TipoFallaTipoReparacionModelo";
+DROP TABLE IF EXISTS "TipoMaterialTipoFallaModelo";
+DROP TABLE IF EXISTS "TipoFallaModelo";
+DROP TABLE IF EXISTS "CriticidadModelo";
+DROP TABLE IF EXISTS "TipoMaterialModelo";
+DROP TABLE IF EXISTS "TipoReparacionModelo";
+DROP TABLE IF EXISTS "TipoEstadoModelo";
+DROP TABLE IF EXISTS "FallaMultimediaModelo";
+DROP TABLE IF EXISTS "NivelServicioModelo";
+DROP TABLE IF EXISTS "ci_sessions";
+DROP TABLE IF EXISTS "users";
+DROP TABLE IF EXISTS "groups";
+DROP TABLE IF EXISTS "users_groups";
+DROP TABLE IF EXISTS "login_attempts";
+*/
+
+
+
 DROP TABLE IF EXISTS "ci_sessions";
 CREATE TABLE ci_sessions (
   session_id varchar(40) DEFAULT '0' NOT NULL,

@@ -71,10 +71,18 @@
 	margin-bottom: 2%;
 }
 
+.izquierdoReducido{
+	width: 40% !important;
+}
+
 
 .campoDerecho{
 	width: 28%;
 	margin-bottom: 2%;
+}
+
+.derechoAmpliado{
+	width: 58% !important
 }
 
 .informacionBache{

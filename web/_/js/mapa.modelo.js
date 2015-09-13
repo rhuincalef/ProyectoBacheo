@@ -171,12 +171,12 @@ var Bacheo = (function(){
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
 	var guardarBache = function(){
-		var $formulario = $('form[id="formularioBache"]')[0];
+/*		var $formulario = $('form[id="formularioBache"]')[0];
 		var calle = $formulario["calle"].value;
 		var altura = $formulario["altura"].value;
 		var descripcion = $formulario["descripcion"].value;
 		var titulo = $formulario["titulo"].value;
-		var criticidad = $formulario["criticidad"].value;
+		var criticidad = $formulario["criticidad"].value;								*/
 		guardarMarcador(titulo,criticidad,calle,altura,descripcion);
 	}
 

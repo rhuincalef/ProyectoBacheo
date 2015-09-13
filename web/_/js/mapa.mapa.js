@@ -81,7 +81,7 @@ function cargarCriticidad(niveles){
 
 
 function inicializar(){
-  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
+//  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
   Bacheo.init($("#canvasMapa"));
   //Bacheo.generarMapa($("#canvasMapa"));
   $("#seleccionarCalle").click(bindearEventoClick);

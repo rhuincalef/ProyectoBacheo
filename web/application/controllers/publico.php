@@ -356,14 +356,14 @@ class Publico extends Frontend_Controller
 		}
 	}
 
-	public function getBache($id){
+	public function getFalla($id){
 		$get = $this->uri->uri_to_assoc();
 		// $id = $get['id'];
 		// $this->load->model("Bache");
 		// $bache= $this->Bache->getBache($id);
 		// $bache = Falla::getInstancia($id);
 		$falla = Falla::getInstancia($id);
-		// $bache = $falla->to_array();
+		$bache = $falla->to_array();
 		if (!isset($bache)) {
 			redirect('/', 'refresh');
 			return;

@@ -73,5 +73,15 @@
 			}, $falla->atributos);
 		}
 
+		public function getEstado($id)
+		{
+			$query = $this->db->get_where("FallaEstadoModelo", array('idFalla' => $id));
+			if (empty($query->result()))
+			{
+			    throw new MY_BdExcepcion('Sin resultados');
+			}
+			return $query->result()[0];
+		}
+
 	}
  ?>

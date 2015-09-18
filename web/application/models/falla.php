@@ -21,15 +21,25 @@
 		private function inicializar($datos)
 		{
 			$CI = &get_instance();
-			// $CI->utiles->debugger("inicializar");
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
-			// $this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			$this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
 			$this->direccion = Direccion::getInstancia($datos->idDireccion);
 			// $this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
-			// $this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
+			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
 			// $this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
+			// getEstado()
+			$this->estado = 'Corrigiendo...';
+			$datosEstado = $CI->FallaModelo->getEstado($this->id);
+			// $CI->utiles->debugger($datosEstado);
+			$datosTipoEstado = $CI->TipoEstadoModelo->get($datosEstado->idEstado);
+			// $CI->utiles->debugger($datosTipoEstado);
+			$data = new stdClass;
+			$data->id = $datosEstado->idEstado;
+			$data->idFalla = $this->id;
+			$data->idTipoEstado = $datosTipoEstado->id;
+			$CI->utiles->debugger($data);
 		}
 
 		static public function getInstancia($id)
@@ -322,6 +332,23 @@
 		{
 			$CI = &get_instance();
 			return $CI->FallaModelo->asociarAtributos($this);
+		}
+
+		public function to_array()
+		{
+			$datos = array(
+            "id" => $this->id,
+            "latitud" => $this->latitud,
+            "longitud" => $this->longitud,
+            "alturaCalle" => $this->direccion->altura,
+            "calle" => $this->direccion->callePrincipal->nombre,
+            "criticidad" => $this->criticidad->nombre,
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $this->tipoFalla->nombre,
+            "estado" => $this->estado,
+            );
+			return $datos;
 		}
 
 	}

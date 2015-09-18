@@ -1,6 +1,7 @@
 
 <div class="oculto">
 	<label id="idBache"><?php echo $id; ?></label>
+	<label id="titulo"><?php echo $titulo; ?></label>
 	<label id="longBache"><?php echo $longitud; ?></label>
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>

@@ -29,17 +29,23 @@
 			// $this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
 			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
 			// $this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
-			// getEstado()
 			$this->estado = 'Corrigiendo...';
+			// La idea...
+			// Con $datosTipoEstado->nombre me dice la clase de estado a crear
+			// $cadena = "Informado";
+			// $this->estado = new $cadena();
 			$datosEstado = $CI->FallaModelo->getEstado($this->id);
-			// $CI->utiles->debugger($datosEstado);
+			$CI->utiles->debugger($datosEstado);
+			// $datosTipoEstado = $CI->TipoEstadoModelo->get($datosEstado->idEstado);
+			// lo debe hacer la clase Estado
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datosEstado->idEstado);
-			// $CI->utiles->debugger($datosTipoEstado);
+			$CI->utiles->debugger($datosTipoEstado);
 			$data = new stdClass;
 			$data->id = $datosEstado->idEstado;
 			$data->idFalla = $this->id;
 			$data->idTipoEstado = $datosTipoEstado->id;
 			$CI->utiles->debugger($data);
+			$CI->utiles->debugger($this);
 		}
 
 		static public function getInstancia($id)

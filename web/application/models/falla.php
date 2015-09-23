@@ -24,27 +24,14 @@
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
-			$this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			// A partir de confirmado ya se puede consultar
+			// $this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
 			$this->direccion = Direccion::getInstancia($datos->idDireccion);
-			// $this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
+			$this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
 			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
 			// $this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
-			$this->estado = 'Corrigiendo...';
-			// La idea...
-			// Con $datosTipoEstado->nombre me dice la clase de estado a crear
-			// $cadena = "Informado";
-			// $this->estado = new $cadena();
-			$datosEstado = $CI->FallaModelo->getEstado($this->id);
-			$CI->utiles->debugger($datosEstado);
-			// $datosTipoEstado = $CI->TipoEstadoModelo->get($datosEstado->idEstado);
-			// lo debe hacer la clase Estado
-			$datosTipoEstado = $CI->TipoEstadoModelo->get($datosEstado->idEstado);
-			$CI->utiles->debugger($datosTipoEstado);
-			$data = new stdClass;
-			$data->id = $datosEstado->idEstado;
-			$data->idFalla = $this->id;
-			$data->idTipoEstado = $datosTipoEstado->id;
-			$CI->utiles->debugger($data);
+			$this->estado = Estado::getEstadoActual($this->id);
+			// $this->estado->falla = $this;
 			$CI->utiles->debugger($this);
 		}
 
@@ -60,7 +47,6 @@
 
 		public function save()
 		{
-			// return 1;
 			$CI = &get_instance();
 			return $CI->FallaModelo->save($this);
 		}
@@ -108,10 +94,6 @@
 
 		public function insertarDireccion($datosDireccion)
 		{
-			// Si no existe se crea la calle
-			// $datosDireccion->callePrincipal = Calle::buscarCalle($datosDireccion->callePrincipal);
-			// $datosDireccion->calleSecundariaA = Calle::buscarCalle($datosDireccion->calleSecundariaA);
-			// $datosDireccion->calleSecundariaB = Calle::buscarCalle($datosDireccion->calleSecundariaB);
 			// // TODO: Verificar si existe la direccion con los datos
 			// $direccion = new Direccion($datosDireccion);
 			// $direccion->id = $direccion->save();
@@ -124,7 +106,6 @@
 		{
 			$valor = $datos->clase;
 			$CI = &get_instance();
-			$CI->utiles->debugger($valor);
 			switch ($valor) {
 				case 'Falla':
 					return self::validarDatosFalla($datos);
@@ -205,10 +186,14 @@
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			// A partir de aca cambia
 			$falla->id = $falla->saveAnonimo();
+			$observacion = new Observacion($datos->observacion);
+			$observacion->falla = $falla;
+			$observacion->save();
 			$falla->estado = new Informado();
 			$falla->estado->falla = $falla;
 			$falla->estado->id = $falla->estado->save();
 			$falla->asociarEstado();
+			// TODO: Falta asociar la observacion
 			$CI->utiles->debugger($falla);
 		}
 
@@ -233,7 +218,6 @@
 		public function crearFallaEnConfirmado($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("crearFallaEnConfirmado");
 			$falla = new Falla();
 			$falla->latitud = $datos->falla->latitud;
 			$falla->longitud = $datos->falla->longitud;
@@ -244,10 +228,16 @@
 			// TipoMaterial se obtiene a traves del Tipo de Falla
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 			// TipoReparacion se obtiene a traves del Tipo de Falla
-			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			// Se establece más tarde en el próximo estado
+			// $falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 			$falla->observaciones = array();
+			// TODO: Ver donde acomodarlo mejor
+			$user = $CI->ion_auth->user()->row();
+			$datos->observacion->nombreObservador = $user->username;
+			$datos->observacion->emailObservador = $user->email;
+			// 
 			$observacion = new Observacion($datos->observacion);
 			array_push($falla->observaciones, $observacion);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
@@ -275,7 +265,6 @@
 		static public function crearFalla($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("crearFalla");
 			$falla = self::getInstancia($datos->falla->id);
 			$falla->influencia = $datos->falla->influencia;
 			$falla->factorArea = $datos->falla->factorArea;
@@ -288,6 +277,11 @@
 			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 			// Observacion
 			$falla->observaciones = array();
+			// TODO: Ver donde acomodarlo mejor
+			$user = $CI->ion_auth->user()->row();
+			$datos->observacion->nombreObservador = $user->username;
+			$datos->observacion->emailObservador = $user->email;
+			// 
 			$observacion = new Observacion($datos->observacion);
 			$observacion->falla = $falla;
 			$observacion->save();
@@ -352,7 +346,7 @@
             // "imagenes"=> $this->obtenerImagenes($idBache)
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $this->tipoFalla->nombre,
-            "estado" => $this->estado,
+            "estado" => json_encode($this->estado),
             );
 			return $datos;
 		}

@@ -268,7 +268,7 @@
 			$tipoFalla->atributos = TipoAtributo::getAtributosPorTipoFalla($tipoFalla->id);
 			// TipoCriticidad::getCriticidadesPorTipoFalla
 			$tipoFalla->criticidades = Criticidad::getCriticidadesPorTipoFalla($tipoFalla->id);
-			$CI->utiles->debugger($tipoFalla->criticidades);
+			// $CI->utiles->debugger($tipoFalla->criticidades);
 			return $tipoFalla;
 		}
 

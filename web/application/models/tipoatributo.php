@@ -23,7 +23,6 @@
 		{
 			$CI = &get_instance();
 			$datos = $CI->TipoAtributoModelo->get($id);
-			$CI->utiles->debugger($datos);
 			$tipoAtributo = new TipoAtributo();
 			$tipoAtributo->inicializar($datos);
 			return $tipoAtributo;

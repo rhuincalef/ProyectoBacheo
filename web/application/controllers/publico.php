@@ -183,11 +183,11 @@ class Publico extends Frontend_Controller
 	$.post('crearFallaAnonima', 
 	{"clase": "Falla",
 	"datos": JSON.stringify(
-	  { "falla": {"latitud": 12.2, "longitud": 54.2},
+	  { "falla": {"latitud": -43.2517261, "longitud": -65.30606180000001},
 	   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
        "tipoFalla": {"id": 1},
 	   "multimedias": {},
-	   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+	   "direccion": {"altura": 350,"callePrincipal": "Avenida Fontana", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
 	  })
 	})
 	*/
@@ -198,7 +198,7 @@ class Publico extends Frontend_Controller
 		$datos->clase = 'FallaAnonima';
 		$datos->datos = json_decode($this->input->post('datos'));
 		$class = $datos->clase;
-		$this->utiles->debugger($datos);
+		// $this->utiles->debugger($datos);
 		if (!Falla::{"validarDatos"}($datos))
 		{
 			// Si los datos no son validos
@@ -286,15 +286,11 @@ class Publico extends Frontend_Controller
 	public function getTiposFallasPorIDs()
 	{
 		$arregloIDsTiposFallas = json_decode($this->input->post('idTipos'));
-		$this->utiles->debugger('Pepepeppe');
-		$this->utiles->debugger($arregloIDsTiposFallas);
 		$tiposFalla = array();
 		try {
 			foreach ($arregloIDsTiposFallas as $key => $value) {
 				array_push($tiposFalla, TipoFalla::gety($value));
 			}
-			$this->utiles->debugger('olvidate');
-			$this->utiles->debugger($tiposFalla);
 			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
@@ -308,7 +304,6 @@ class Publico extends Frontend_Controller
 	public function getReparacionesPorIDs()
 	{
 		$arregloIDsTiposReparacion = json_decode($this->input->post('idReparaciones'));
-		$this->utiles->debugger($arregloIDsTiposReparacion);
 		$tiposReparacion = array();
 		try {
 			foreach ($arregloIDsTiposReparacion as $key => $value) {
@@ -358,10 +353,6 @@ class Publico extends Frontend_Controller
 
 	public function getFalla($id){
 		$get = $this->uri->uri_to_assoc();
-		// $id = $get['id'];
-		// $this->load->model("Bache");
-		// $bache= $this->Bache->getBache($id);
-		// $bache = Falla::getInstancia($id);
 		$falla = Falla::getInstancia($id);
 		$bache = $falla->to_array();
 		if (!isset($bache)) {

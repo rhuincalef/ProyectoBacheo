@@ -14,13 +14,11 @@
 			
 		}
 
-		private function inicializar($datos)
+		protected function inicializar($datos)
 		{
 			$this->id = $datos->id;
-			$this->falla = Falla::getInstancia($datos->idFalla);;
+			$this->falla = Falla::getInstancia($datos->idFalla);
 			$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
-			// $this->usuario = $datos->idUsuario;
-			// $this->monto = $datos->monto;
 			// $this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
 			// $this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
 		}
@@ -41,16 +39,13 @@
 			return $estados;
 		}
 
-		static public function getEstadoActual($idFalla)
+		public function getEstadoActual($idFalla)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("getEstadoActual");
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			$CI->utiles->debugger($datos);
-			$tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
-			$nombre = $tipoEstado->nombre;
-			$CI->utiles->debugger("$nombre");
-			$estado = $nombre::getInstancia($datos);
+			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idEstado);
+			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
+			$estado = $nombreTipoEstado::getInstancia($datos);
 			return $estado;
 		}
 
@@ -79,11 +74,11 @@
 			return $estado;
 		}
 
-		private function inicializar($datos)
+		protected function inicializar($datos)
 		{
-			$this->id = $datos->id;
-			$this->falla = Falla::getInstancia($datos->idFalla);;
-			$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
+			$this->id = $datos->idEstado;
+			$this->falla = $datos->idFalla;
+			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
 		public function cambiar($falla)
@@ -107,9 +102,24 @@
 
 		public function setUsuario()
 		{
+			// $this->usuario = $idUsuario;
 			// Se obtiene el usuario a traves de la libreria ion_auth
 			$CI = &get_instance();
 			$this->usuario = $CI->ion_auth->user()->row()->id;
+		}
+
+		static public function getInstancia($datos)
+		{
+			$estado = new Confirmado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
+
+		public function inicializar($datos)
+		{
+			// parent::inicializar($datos);
+			$this->id = $datos->idEstado;
+			// $this->usuario = $datos->idUsuario;
 		}
 
 	}

@@ -170,14 +170,16 @@ var Bacheo = (function(){
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
-	var guardarBache = function(){
+//	var guardarBache = function(calle,altura,objetoFalla){
+	var guardarBache = function(datos){
 /*		var $formulario = $('form[id="formularioBache"]')[0];
 		var calle = $formulario["calle"].value;
 		var altura = $formulario["altura"].value;
 		var descripcion = $formulario["descripcion"].value;
 		var titulo = $formulario["titulo"].value;
 		var criticidad = $formulario["criticidad"].value;								*/
-		guardarMarcador(titulo,criticidad,calle,altura,descripcion);
+//		guardarMarcador(titulo,criticidad,calle,altura,descripcion);
+		guardarMarcador(datos);
 	}
 
 /* cargarMarcador: Funcion en encargada de cargar un marcador para ser visualizado en el mapa.
@@ -198,15 +200,10 @@ var Bacheo = (function(){
 	}
 
 
-	function datosValidos (titulo, criticidad, calle, altura, descripcion) {
+	function datosValidos (calle, altura, descripcion) {
 		var patron = /(\w+)\s*(\w+)/;
-		if (!patron.exec(titulo)){
+		if (!patron.exec(calle)){
 			alertar("Oups!","El parametro del campo 'Titulo' contiene errores","error");
-			return false;
-		};
-		patron =  /^[0-9]$/;
-		if (!patron.exec(criticidad)){
-			alertar("Oups!","El parametro del campo 'Criticidad' contiene errores","error");
 			return false;
 		};
 		patron =  /^(?:\+|-)?\d+$/;
@@ -221,33 +218,31 @@ var Bacheo = (function(){
  * dicha accion, obteniendo las coordenadas reales de la dirección especificada y, de resultar efectiva
  * la carga del nuevo bache en el servidor, realiza la renderizacion del mismo para ser visualizado en
  * el mapa 																								*/
-	var guardarMarcador = function(titulo, criticidad, calle, altura, descripcion){
+//	var guardarMarcador = function(calle,altura,descripcion,objetoFalla){
+	var guardarMarcador = function(datosFalla){
 		var datos={};
-		datos.titulo = titulo;
-		datos.criticidad = criticidad;
-		datos.descripcion = descripcion;
-		if (!datosValidos(titulo, criticidad, calle, altura, descripcion)){
+		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
 			return;
-		};
-		obtenerLatLng(calle,altura,function (posicion){
-    	$.post("inicio/AltaBache",
-             { titulo: titulo, latitud: posicion.lat(), longitud:posicion.lng(), criticidad: criticidad, descripcion:descripcion, calle:calle, alturaCalle:altura},
-             function(data) {
-                datos.posicion = posicion;
-                var respuestaServidor = $.parseJSON(data);
-                if(respuestaServidor.estado > -1){
-					datos.id = respuestaServidor.id;
-    				cargarMarcador(datos);
-    				guardarImagenes(datos.id);
-					alertar("Exito!","Bache notificado con exito","success");
-					$("#formularioBache")[0].reset();
+		obtenerLatLng(datosFalla.direccion.callePrincipal,datosFalla.direccion.altura,function (posicion){
+			datosFalla.falla.latitud = posicion.lat();
+			datosFalla.falla.longitud = posicion.lng();
+			datos.posicion = posicion;
+    		$.post('crear/Falla',
+	            {"datos": JSON.stringify(datosFalla)},
+	            function(data) {
+	                var respuestaServidor = $.parseJSON(data);
+	                if(respuestaServidor.estado > -1){
+						datos.id = respuestaServidor.id;
+	    				cargarMarcador(datos);
+//	    				guardarImagenes(datos.id);
+						alertar("Exito!","Bache notificado con exito","success");
+						$("#formularioBache")[0].reset();
 
-    			}else{
-					alertar("la Pucha!","No fue posible informar el bache","error");
-    			}
-             }
-
-          );
+	    			}else{
+						alertar("la Pucha!","No fue posible informar el bache","error");
+	    			}
+	            }
+          	);
 		});
 	}
 

@@ -17,6 +17,9 @@ function inicializarFormularioBache(){
 	  });
 	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Tipo de Material</label>'));
 	$divSelect.append($opcionesMaterial);
+	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Factor Área (%)</label>'));
+	$divSelect.append('<input class="form-control campoDerecho derechoAmpliado" name="factorArea" id="factorArea" type="number" step="any" min="0"/>');
+
 	$divSelect.append($('<div id="contenedorSelectFallas" class="input-group" style="width:100%;"/>'));
 	cargarTiposFalla(materiales[keysMateriales[0]].fallas);
 
@@ -65,7 +68,15 @@ function recolectarFalla(){
 	var calle = $formulario["calle"].value;
 	var altura = $formulario["altura"].value;
 	var descripcion = $formulario["descripcion"].value;
-	var material = $formulario["tipoMaterial"].value;
-	var falla = $formulario["tipoFalla"].value;
-	var $datos = $formulario["criticidad"].value;
+	var idMaterial = $formulario["tipoMaterial"].value;
+	var idFalla = $formulario["tipoFalla"].value;
+	var factorArea = $formulario["factorArea"].value;
+	var arregloAtributos = $("#contenedorAtributosFalla").find("input");
+	var atributos = [];
+	for (var i = arregloAtributos.length - 1; i >= 0; i--) {
+		var attr = {"id":$(arregloAtributos[i]).attr("propId"),"valor":arregloAtributos[i].value};
+		atributos.push(attr);
+	};
+
+
 }

@@ -132,6 +132,10 @@
 	margin-top: 40px;
 }
 
+.tipoFalla > select{
+	margin-bottom: 3px !important;
+}
+
 #contenedorAtributosFalla{
 	text-transform: capitalize;
 	margin-top: 40px;
@@ -140,3 +144,4 @@
 	border-width: 0.5px;
 	border-color: rgba(0, 0, 0, 0.25);
 }
+

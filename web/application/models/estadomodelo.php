@@ -17,7 +17,8 @@
     		{
 				throw new MY_BdExcepcion('Sin resultados');
 			}
-    		return $query->result()[0];
+			$datosEstadoFalla = $query->result()[0];
+			return $this->get($datosEstadoFalla->idEstado);
 		}
 
 		public function getEstados($idFalla)

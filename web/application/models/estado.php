@@ -43,7 +43,7 @@
 		{
 			$CI = &get_instance();
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idEstado);
+			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
 			return $estado;
@@ -76,7 +76,7 @@
 
 		protected function inicializar($datos)
 		{
-			$this->id = $datos->idEstado;
+			$this->id = $datos->id;
 			$this->falla = $datos->idFalla;
 			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
@@ -118,7 +118,7 @@
 		public function inicializar($datos)
 		{
 			// parent::inicializar($datos);
-			$this->id = $datos->idEstado;
+			$this->id = $datos->id;
 			// $this->usuario = $datos->idUsuario;
 		}
 

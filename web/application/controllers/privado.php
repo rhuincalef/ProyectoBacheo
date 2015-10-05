@@ -54,6 +54,7 @@ class Privado extends CI_Controller
 			// $this->utiles->debugger(func_get_args());
 			$datos = new stdClass;
 			$datos->clase = $this->input->post('clase');
+			$datos->clase = func_get_args()[0];
 			$datos->datos = json_decode($this->input->post('datos'));
 			$class = $datos->clase;
 			$this->utiles->debugger($datos);

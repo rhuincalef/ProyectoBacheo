@@ -221,17 +221,19 @@
 			$falla = new Falla();
 			$falla->latitud = $datos->falla->latitud;
 			$falla->longitud = $datos->falla->longitud;
-			$falla->influencia = $datos->falla->influencia;
+			// la influencia se obtiene a través del tipo de falla
+			// $falla->influencia = $datos->falla->influencia;
 			$falla->factorArea = $datos->falla->factorArea;
 			// TipoFalla viene con id. getInstancia
 			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			$falla->influencia = $falla->tipoFalla->influencia;
 			// TipoMaterial se obtiene a traves del Tipo de Falla
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 			// TipoReparacion se obtiene a traves del Tipo de Falla
 			// Se establece más tarde en el próximo estado
 			// $falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
-			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			// $falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 			$falla->observaciones = array();
 			// TODO: Ver donde acomodarlo mejor
 			$user = $CI->ion_auth->user()->row();
@@ -266,10 +268,11 @@
 		{
 			$CI = &get_instance();
 			$falla = self::getInstancia($datos->falla->id);
-			$falla->influencia = $datos->falla->influencia;
+			// $falla->influencia = $datos->falla->influencia;
 			$falla->factorArea = $datos->falla->factorArea;
 			// TipoFalla viene con id. getInstancia
 			$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			$falla->influencia = $falla->tipoFalla->influencia;
 			// TipoMaterial se obtiene a traves del Tipo de Falla
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 			// TipoReparacion se obtiene a traves del Tipo de Falla

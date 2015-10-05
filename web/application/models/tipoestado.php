@@ -13,7 +13,7 @@
 		private function inicializar($datos)
 		{
 			$this->id = $datos->id;
-			$this->nombre= $datos->nombre;
+			$this->nombre= ucfirst($datos->nombre);
 		}
 
 		static public function getInstancia($id)

@@ -39,6 +39,7 @@
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("getInstancia");
+			$CI->utiles->debugger("$id");
 			$falla = new Falla();
 			$datos = $CI->FallaModelo->get($id);
 			$falla->inicializar($datos);
@@ -339,18 +340,19 @@
 
 		public function to_array()
 		{
-			$datos = array(
-            "id" => $this->id,
-            "latitud" => $this->latitud,
-            "longitud" => $this->longitud,
-            "alturaCalle" => $this->direccion->altura,
-            "calle" => $this->direccion->callePrincipal->nombre,
-            "criticidad" => $this->criticidad->nombre,
-            // "imagenes"=> $this->obtenerImagenes($idBache)
-            //"observaciones"=>$this->obtenerObservaciones($idBache)
-            "titulo" => $this->tipoFalla->nombre,
-            "estado" => json_encode($this->estado),
-            );
+			$datos = $this->estado->to_array($this);
+			// $datos = array(
+   //          "id" => $this->id,
+   //          "latitud" => $this->latitud,
+   //          "longitud" => $this->longitud,
+   //          "alturaCalle" => $this->direccion->altura,
+   //          "calle" => $this->direccion->callePrincipal->nombre,
+   //          // "criticidad" => $this->criticidad->nombre,
+   //          // "imagenes"=> $this->obtenerImagenes($idBache)
+   //          //"observaciones"=>$this->obtenerObservaciones($idBache)
+   //          "titulo" => $this->tipoFalla->nombre,
+   //          "estado" => json_encode($this->estado),
+   //          );
 			return $datos;
 		}
 

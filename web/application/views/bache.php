@@ -75,17 +75,17 @@
 				</tr>
 				<tr>
 					<td> Estado </td>
-					<td id="campoEstadoBache"> <?php $estadoActual = end(json_decode($estado));
-					
-					$conjuntoTiposEstados = json_decode($tiposEstado,True); 
-					echo $conjuntoTiposEstados[($estadoActual->idTipoEstado)-1]["nombre"];
+					<td id="campoEstadoBache"> <?php $estadoActual = json_decode($estado);
+					echo $estadoActual->tipoEstado->nombre;
+					// $conjuntoTiposEstados = json_decode($tiposEstado,True); 
+					// echo $conjuntoTiposEstados[($estadoActual->idTipoEstado)-1]["nombre"];
 					//echo $conjuntoTiposEstados[$estadoActual->idTipoEstado]
 					?> </td>
 				</tr>
 				<tr>
 					<td> Fecha Ultimo Estado </td>
-					<td id="campoFechaEstado"> <?php $fechaEstadoActual = end(json_decode($estado));
-					echo $fechaEstadoActual->fecha;?> </td>
+					<!-- <td id="campoFechaEstado"> <?php $fechaEstadoActual = end(json_decode($estado));
+					echo $fechaEstadoActual->fecha;?> </td> -->
 				</tr>
 
 				<!-- "material" => $tuplaBacheConCalle->material,

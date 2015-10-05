@@ -43,9 +43,11 @@
 		{
 			$CI = &get_instance();
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
+			$CI->utiles->debugger($datos);
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
+			// $estado->fecha = $datos->fecha;
 			return $estado;
 		}
 
@@ -89,6 +91,24 @@
 			$nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
 		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => "No se especifica en Informado",
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $falla->tipoFalla->nombre,
+            "estado" => json_encode($falla->estado),
+            );
+            return $datos;
+		}
+
 	}
 
 	class Confirmado extends Estado
@@ -120,6 +140,24 @@
 			// parent::inicializar($datos);
 			$this->id = $datos->id;
 			// $this->usuario = $datos->idUsuario;
+		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => "Falta especificar",
+            // "criticidad" => $falla->criticidad->nombre,
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $falla->tipoFalla->nombre,
+            "estado" => json_encode($falla->estado),
+            );
+            return $datos;
 		}
 
 	}

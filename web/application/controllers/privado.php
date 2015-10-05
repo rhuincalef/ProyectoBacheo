@@ -124,6 +124,25 @@ class Privado extends CI_Controller
 			}
 		}
 
+		public function getFalla($id)
+		{
+			$get = $this->uri->uri_to_assoc();
+			$falla = Falla::getInstancia($id);
+			$bache = $falla->to_array();
+			if (!isset($bache)) {
+				redirect('/', 'refresh');
+				return;
+			}
+
+			$this->output->enable_profiler(FALSE);
+			// $bache['logueado'] = TRUE;
+			$bache['logueado'] = $this->ion_auth->logged_in();
+			$bache['usuario'] = $this->ion_auth->user()->row()->username;
+			$bache['admin'] = $this->ion_auth->is_admin(); 
+			$this->template->build_page("bache",$bache);
+			
+		}
+
 		public function registrarUsuario()
 		{
 			$this->template->build_page("registrarUsuario");

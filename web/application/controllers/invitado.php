@@ -17,6 +17,22 @@ class Invitado extends CI_Controller {
 		} catch (MY_BdExcepcion $e) {
 			echo "Ha ocurrido un error";
 		}
+
+	}
+
+	public function getFalla($id)
+	{
+		$get = $this->uri->uri_to_assoc();
+		$falla = Falla::getInstancia($id);
+		$bache = $falla->to_array();
+		if (!isset($bache)) {
+			redirect('/', 'refresh');
+			return;
+		}
+
+		$this->output->enable_profiler(FALSE);
+		$bache['logueado'] = FALSE;
+		$this->template->build_page("bache",$bache);
 		
 	}
 

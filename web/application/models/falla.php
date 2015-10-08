@@ -356,5 +356,31 @@
 			return $datos;
 		}
 
+		public function obtenerObservaciones($idBache)
+		{
+			$observaciones = Observacion::getAll($idBache);
+			return array_map(function($elemento)
+			{
+	            return array(
+	                //'fecha' => "null",
+	                'fecha' => $elemento->fecha,
+	                'texto' => $elemento->comentario,
+	                'usuario' => $elemento->nombreObservador
+	            );
+        	}, $observaciones);
+		}
+
+		public function asociarObservacionAnonima($datos)
+		{
+			$observacion = new Observacion();
+			$observacion->comentario = $datos->comentario;
+			$observacion->nombreObservador = $datos->nombreObservador;
+			$observacion->emailObservador = $datos->emailObservador;
+			$falla = new self();
+			$falla->id = $datos->idFalla;
+			$observacion->falla = $falla;
+			$observacion->save();
+		}
+
 	}
  ?>

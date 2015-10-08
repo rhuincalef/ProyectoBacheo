@@ -351,4 +351,9 @@ class Publico extends Frontend_Controller
 		}
 	}
 
+	public function obtenerObservaciones($idBache){	
+		$comentarios = Falla::obtenerObservaciones($idBache);
+		echo json_encode($comentarios);
+	}
+
 }

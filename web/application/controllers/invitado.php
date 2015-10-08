@@ -33,7 +33,16 @@ class Invitado extends CI_Controller {
 		$this->output->enable_profiler(FALSE);
 		$bache['logueado'] = FALSE;
 		$this->template->build_page("bache",$bache);
-		
+	}
+
+	public function asociarObservacion(){
+		$this->utiles->debugger($this->input->post());
+		$datos = new stdClass;
+		$datos->comentario = $this->input->post("comentario");
+		$datos->nombreObservador = $this->input->post("nombreObservador");
+		$datos->emailObservador = $this->input->post("emailObservador");
+		$datos->idFalla = $this->input->post("idBache");
+		Falla::asociarObservacionAnonima($datos);
 	}
 
 	// --------------------------------------------------------------------

@@ -73,6 +73,10 @@ $route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
 $route['getBaches'] = 'publico/getBaches';
 $route['getBache/(\d+)'] = 'publico/getFalla/$1';
 
+$route['obtenerObservaciones/(\d+)'] = 'publico/obtenerObservaciones/$1';
+$route['asociarObservacion'] = 'publico/asociarObservacion';
+
+
 $route['registrarUsuario'] = 'publico/registrarUsuario';
 $route['create_user'] = 'publico/create_user';
 /* End of file routes.php */

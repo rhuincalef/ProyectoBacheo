@@ -50,7 +50,7 @@ Bache = (function () {
 
 	
 	var comentarios = function() {
-		var url = baseUrl+"index.php/inicio/obtenerObservaciones/" + idBache;
+		var url = baseUrl+"index.php/obtenerObservaciones/" + idBache;
 		$.get(url, function( data ) {
 		//$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
 				cargarComentarios(JSON.parse(data));
@@ -68,7 +68,7 @@ Bache = (function () {
 			return;
 		}
 		datos.emailObservador = $("#emailObservador").val();
-		$.post(baseUrl+"index.php/inicio/asociarObservacion",{idBache:datos.idBache, nombreObservador: datos.nombreObservador, comentario:datos.comentario, emailObservador: datos.emailObservador}, function (data) {
+		$.post(baseUrl+"index.php/asociarObservacion",{idBache:datos.idBache, nombreObservador: datos.nombreObservador, comentario:datos.comentario, emailObservador: datos.emailObservador}, function (data) {
 			$("#formularioComentario")[0].reset();
 			alertar("Exito!","Su comentario ha sido enviado","success");
 			//alert("asdasdasd");

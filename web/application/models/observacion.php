@@ -26,7 +26,7 @@
 			$this->comentario = $datos->comentario;
 			$this->nombreObservador = $datos->nombreObservador;
 			$this->emailObservador = $datos->emailObservador;
-			// $this->fecha = $datos->fecha;
+			$this->fecha = $datos->fecha;
 		}
 
 		static public function getInstacia($datos)

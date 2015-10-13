@@ -140,8 +140,18 @@ class Privado extends CI_Controller
 			$bache['logueado'] = $this->ion_auth->logged_in();
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
 			$bache['admin'] = $this->ion_auth->is_admin(); 
-			$this->template->build_page("bache",$bache);
-			
+			$this->template->build_page("bache",$bache);	
+		}
+
+		public function asociarObservacion(){
+			$this->utiles->debugger($this->input->post());
+			$datos = new stdClass;
+			$datos->comentario = $this->input->post("comentario");
+			// $datos->nombreObservador = $this->input->post("nombreObservador");
+			$datos->nombreObservador = $this->ion_auth->user()->row()->username;
+			$datos->emailObservador = $this->ion_auth->user()->row()->email;
+			$datos->idFalla = $this->input->post("idBache");
+			Falla::asociarObservacionAnonima($datos);
 		}
 
 		public function registrarUsuario()

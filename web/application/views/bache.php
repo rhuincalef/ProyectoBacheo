@@ -38,7 +38,7 @@
 
 	<div class="jumbotron personalizacionJumbotron">
       	  
-        <h1>#Bache<?php echo $id; ?></h1>
+        <h1>#Falla<?php echo $id; ?></h1>
 
 	</div>
 	
@@ -46,7 +46,7 @@
 	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
 	  <?php 
             if ($logueado) {
-             echo '<li><a href="#estado" role="tab" data-toggle="tab">Estado del Bache</a></li>';
+             echo '<li><a href="#estado" role="tab" data-toggle="tab">Estado de Falla</a></li>';
         }?>
 	  <li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
 	   
@@ -59,7 +59,7 @@
 	  	
 	  <div id="canvasMapa" class="contenedorMapa"></div>
 		<div class="especificacionesBache">
-			<h1>Especificación del Bache</h1>
+			<h1>Especificación de Falla</h1>
 			<table class="table table-hover">
 				<tr>
 					<td> Titulo </td>
@@ -137,7 +137,7 @@
           if ($logueado) {
             echo '<div class="tab-pane" id="estado">';
             	echo '<div class="contenedorControles">';
-            		echo '<h1 id="nombreEstado" >Estado del Bache:  </h1>';
+            		echo '<h1 id="nombreEstado" >Estado de Falla:  </h1>';
             	echo '</div>';
            		echo '<div class="contenedorControles">';
             		echo '<div id="contenedorControladorEstado" class="contenedorPropiedades">';

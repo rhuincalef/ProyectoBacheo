@@ -129,6 +129,7 @@ class Privado extends CI_Controller
 			$get = $this->uri->uri_to_assoc();
 			$falla = Falla::getInstancia($id);
 			$bache = $falla->to_array();
+			$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
 			if (!isset($bache)) {
 				redirect('/', 'refresh');
 				return;

@@ -50,5 +50,25 @@
 			return $tipoEstado;
 		}
 
+		static public function getAll()
+		{
+			$CI = &get_instance();
+			$tiposEstado = array();
+			try {
+				// $datos = $CI->CriticidadModelo->getCriticidades();
+				$datos = $CI->TipoEstadoModelo->get_all();
+    			foreach ($datos as $row)
+    			{
+    				$tipoEstado = new TipoEstado();
+    				$tipoEstado->inicializar($row);
+    				array_push($tiposEstado, $tipoEstado);
+    			}
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $tiposEstado;
+		}
+
 	}
 ?>

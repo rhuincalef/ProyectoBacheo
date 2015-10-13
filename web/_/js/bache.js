@@ -50,9 +50,19 @@ function cargarComentarios(comentarios) {
 	$("#comentarios").scrollTop(1000);	
 }
 
+function inArray(elem,array)
+{
+    var len = array.length;
+    for(var i = 0 ; i < len;i++)
+    {
+        if(JSON.stringify(array[i]) == JSON.stringify(elem)){return i;}
+    }
+    return -1;
+}
 
 function estadoBache(estado, tiposEstado){
-	var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
+	var indice = parseInt(inArray(estado.tipoEstado, tiposEstado));
+	// var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
 	var valFin = (indice+1) % (tiposEstado.length);
 	if(valFin == 0){
 		valFin = 4;

@@ -9,8 +9,8 @@ Bache = (function () {
 
 	var init = function (){
 		estado = JSON.parse($("#estadoBache").text());
-		// tiposEstado = JSON.parse($("#tiposEstadoBache").text());
-		tiposEstado = $("tiposEstadoBache").text();
+		tiposEstado = JSON.parse($("#tiposEstadoBache").text());
+		// tiposEstado = $("tiposEstadoBache").text();
 		idBache = parseFloat($("#idBache").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());

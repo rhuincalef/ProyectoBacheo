@@ -18,7 +18,10 @@
 				throw new MY_BdExcepcion('Sin resultados');
 			}
 			$datosEstadoFalla = $query->result()[0];
-			return $this->get($datosEstadoFalla->idEstado);
+
+			$estado = $this->get($datosEstadoFalla->idEstado);
+			$estado->fecha = $datosEstadoFalla->fecha;
+			return $estado;
 		}
 
 		public function getEstados($idFalla)

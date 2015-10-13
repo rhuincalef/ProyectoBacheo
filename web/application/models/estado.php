@@ -47,6 +47,8 @@
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
+			// date('F jS, Y h:i:s', strtotime($date));
+			$estado->fecha = date("F d Y h:i:s", strtotime($datos->fecha));
 			// $estado->fecha = $datos->fecha;
 			return $estado;
 		}

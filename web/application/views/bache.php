@@ -84,8 +84,9 @@
 				</tr>
 				<tr>
 					<td> Fecha Ultimo Estado </td>
-					<!-- <td id="campoFechaEstado"> <?php $fechaEstadoActual = end(json_decode($estado));
-					echo $fechaEstadoActual->fecha;?> </td> -->
+					<td id="campoFechaEstado"> <?php $estadoActual = json_decode($estado);
+					echo $estadoActual->fecha;?> </td>
+					<td></td>
 				</tr>
 
 				<!-- "material" => $tuplaBacheConCalle->material,
@@ -143,7 +144,7 @@
             		echo '</div>';
             	echo '</div>';
             	echo '<div id="contenedorFormulario" class="oculto">';
-            		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/inicio/cambiarEstadoBache">';
+            		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/cambiarEstadoBache">';
             		echo '<div id="formularioEspecificacionesTecnicas" class="form-group">';
 						echo '<div id="contenedorEstado1" class="oculto">';
 							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"> <option value="0" selected="selected">Pavimento</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
@@ -184,8 +185,8 @@ echo '<option value="1">Total</option> </select>';
 		          	<button id="botonTwitter" type="button" class="btn btn-primary botonComentario"> <i class="fa fa-twitter"></i> Twittear</button>
 		      </div>
 	          <form id="formularioComentario" class="formularioComentario">
-		          <input id="nombreObservador" type="User" class="form-control inputUsuario" placeholder="Usuario">
-		          <input id="emailObservador" type="Email" class="form-control inputEmail" placeholder="Email">
+		          <input id="nombreObservador" type="User" class="form-control inputUsuario <?php if($logueado){echo 'oculto';}?>" placeholder="Usuario">
+		          <input id="emailObservador" type="Email" class="form-control inputEmail <?php if($logueado){echo 'oculto';}?>" placeholder="Email">
 		          <textarea id="comentarioObservador" placeholder="Comentario" maxlength="100" class="form-control areaComentario"></textarea>
 		          
 	          </form>

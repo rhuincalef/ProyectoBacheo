@@ -7,6 +7,9 @@ class Privado extends CI_Controller
 	{
 		parent::__construct();
 		$this->output->enable_profiler(FALSE);
+		// Se quitan los delimitadores que devuelven los mensajes como <p/>
+		$this->ion_auth->set_message_delimiters('', '');
+		$this->ion_auth->set_error_delimiters('', '');
 	}	
 
 	// --------------------------------------------------------------------
@@ -161,7 +164,6 @@ class Privado extends CI_Controller
 
 		public function create_user()
 		{
-			$firephp = FirePHP::getInstance(True);
 
 			// Set validation rules.
 			// The custom rules 'identity_available' and 'validate_password' can be found in '../libaries/MY_Form_validation.php'.
@@ -180,7 +182,6 @@ class Privado extends CI_Controller
 			// Run the validation.
 			if ($this->form_validation->run())
 			{
-				$firephp->log('Pasa la validacion.');
 				// Get user login details from input.
 				$username = $this->input->post('register_username');
 				$password = $this->input->post('register_password');
@@ -193,20 +194,13 @@ class Privado extends CI_Controller
 										);
 				$group = array('2'); // Sets user to public. No need for array('1', '2') as user is always set to member by default
 
-				$firephp->log($username);
-				$firephp->log($password);
-				$firephp->log($email);
-				$firephp->log($additional_data);
-				$firephp->log($group);
-
 				if ($this->ion_auth->register($username, $password, $email, $additional_data, $group))
 				{
 					$this->session->set_flashdata('message', $this->ion_auth->messages());
 					// $this->data['message'] = $this->ion_auth->errors();
-					echo json_encode(array('status' => 'OK', 'message' => 'Your account has successfully been created.'));
+					echo json_encode(array('status' => 'OK', 'message' => $this->ion_auth->messages()));
 				}
 				else{
-					$firephp->log('No se pudo registrar el usuario.');
 					$this->session->flashdata('message');
 					// echo $this->ion_auth->errors();
 					echo json_encode(array('status' => 'ERROR', 'message' => $this->ion_auth->errors()));
@@ -214,7 +208,6 @@ class Privado extends CI_Controller
 			}
 			else
 			{
-				$firephp->log('No pasa la validacion.');
 				// echo validation_errors();
 				echo json_encode(array('status' => 'ERROR', 'message' => validation_errors()));
 			}

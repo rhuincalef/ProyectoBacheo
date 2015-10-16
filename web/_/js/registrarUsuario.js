@@ -19,22 +19,22 @@
 				success: function (arguments) {
 					response = $.parseJSON(arguments);
 					if (response.status=='OK'){
-						$(".alert").addClass("alert-success");
-						//alertar("Exito!", "Usuario creado correctamente", "success");
+						// $(".alert").addClass("alert-success");
+						alertar("Exito!", response.message, "success");
 						// Empty the login form content and replace it will a successful.
 						$("#crearUsuario").find("input").each(function (i, e) {
 							$(e).val('');
 						});
 					}else{
 						$(".alert").addClass("alert-danger");
-						//alertar("Error!", "Error al crear el usuario", "error");
+						alertar("Error!", response.message, "error");
 					}
 					// Show the message received.
 					// $(".alert").children().text(response);
-					$(".alert").append('<i class="fa fa-warning">  </i>');
-					$(".alert").append(response.message);
+					// $(".alert").append('<i class="fa fa-warning">  </i>');
+					// $(".alert").append(response.message);
 					// $(".alert p").prepend('<i class="fa fa-warning"></i>');
-					$(".alert").removeClass("hide");
+					// $(".alert").removeClass("hide");
 				}
 			});
 		});

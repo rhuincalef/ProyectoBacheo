@@ -220,6 +220,51 @@ class Privado extends CI_Controller
 			}
 		}
 
+		public $datosEstadoConfirmado = array(
+		                                    array(
+		                                            'field' => 'material',
+		                                            'label' => 'Material',
+		                                            'rules' => 'required'
+		                                         ),
+		                                    array(
+		                                    		'field' => 'criticidad',
+		                                    		'label' => 'Criticidad',
+		                                    		'rules' => 'callback_criticidad_check'
+		                                    	),
+		);
+
+		public function modificarEstado()
+		{
+			$user = $this->ion_auth->user()->row();
+			$idUsuario = $user->id;
+			// TODO: usar formValidation CI
+			$idBache = $_POST["idBache"];
+			// $estado = $_POST["estadoBache"];
+			$this->utiles->debugger("idBache=".$idBache."; idUsuario=".$idUsuario);
+			$falla = Falla::getInstancia($idBache);
+			$this->form_validation->set_rules($this->datosEstadoConfirmado);
+			if(!$this->form_validation->run())
+			{
+				$this->utiles->debugger("Validation error");
+			}else{
+				$this->utiles->debugger("Datos Validos");
+			}
+			/*	$falla->cambiarEstado($datos);
+				Falla tiene un estado concreto.
+				La falla le pide a su estado.
+				Estado cambia el estado de la falla con los argumentos validos
+			*/
+			$datos = array();
+			$falla->cambiarEstado($datos);
+			// $this->utiles->debugger($falla);
+		}
+
+		public function criticidad_check($str)
+		{
+			// debo verificar que el valor sea una criticidad valida
+			return TRUE;
+		}
+
 }
 
  ?>

@@ -359,6 +359,7 @@
 		public function obtenerObservaciones($idBache)
 		{
 			$observaciones = Observacion::getAll($idBache);
+			// Por cada observacion se arma un array fijado para no romper la view.
 			return array_map(function($elemento)
 			{
 	            return array(
@@ -380,6 +381,13 @@
 			$falla->id = $datos->idFalla;
 			$observacion->falla = $falla;
 			$observacion->save();
+		}
+
+		public function cambiarEstado($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger($datos);
+			$this->estado->cambiar($datos);
 		}
 
 	}

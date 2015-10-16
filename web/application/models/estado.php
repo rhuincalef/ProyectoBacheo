@@ -85,8 +85,29 @@
 			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
-		public function cambiar($falla)
+		public function cambiar($falla, $datos=array())
 		{
+			/*
+				Datos para Confirmado: 
+					- latitud, longitud y factorArea
+						"falla": {"latitud": -43.251741078254454, "longitud": -65.32084465026855, "influencia":2, "factorArea": .2}
+
+					- tipoFalla (id)
+						"tipoFalla": {"id": 5}
+
+					- criticidad
+						"criticidad": {"id": 9}
+
+					- direccion (callePrincipal, calleSecundariaA, calleSecundariaB y altura)
+						"direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+
+					- observacion (comentario, -- email y usuario se obtienen de la sesion--)
+						"observacion": {"comentario": "comentario falla"}
+
+					- atributos (array -- es variable, depende del tipo de falla --)
+						"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}]
+
+			*/
 			$nuevoEstado = new Confirmado();
 			$nuevoEstado->setUsuario();
 			$nuevoEstado->falla = $falla;
@@ -160,6 +181,21 @@
             "estado" => json_encode($falla->estado),
             );
             return $datos;
+		}
+
+		public function cambiar($falla, $datos=array())
+		{
+			/*
+				Datos para Reparando: 
+					- monto
+
+					- fechaFinReparacionEstimada
+				
+			$nuevoEstado = new Reparando();
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->id = $nuevoEstado->save();
+			return $nuevoEstado;
+			*/
 		}
 
 	}

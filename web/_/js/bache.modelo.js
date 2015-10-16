@@ -165,7 +165,7 @@ Bache = (function () {
 		 	function (data) {
 				
 				alertar("Exito!","El bache ha cambiado de estado","success");
-				setTimeout("window.location.reload()",2000);
+				// setTimeout("window.location.reload()",2000);
 		});
 
 	}

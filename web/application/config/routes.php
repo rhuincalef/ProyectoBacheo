@@ -75,6 +75,7 @@ $route['getBache/(\d+)'] = 'publico/getFalla/$1';
 
 $route['obtenerObservaciones/(\d+)'] = 'publico/obtenerObservaciones/$1';
 $route['asociarObservacion'] = 'publico/asociarObservacion';
+$route['inicio/cambiarEstadoBache'] = 'publico/modificarEstado';
 
 
 $route['registrarUsuario'] = 'publico/registrarUsuario';

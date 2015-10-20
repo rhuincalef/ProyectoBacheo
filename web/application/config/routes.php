@@ -71,7 +71,7 @@ $route['gety/(TipoFalla)/(\d+)'] = 'publico/gety/$1/$2';
 $route['getTiposReparacionPorIDs'] = 'publico/getPorIds/TipoReparacion';
 $route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
 $route['getBaches'] = 'publico/getBaches';
-$route['getBache/(\d+)'] = 'publico/getFalla/$1';
+$route['inicio/getBache/id/(\d+)'] = 'publico/getFalla/$1';
 
 $route['obtenerObservaciones/(\d+)'] = 'publico/obtenerObservaciones/$1';
 $route['asociarObservacion'] = 'publico/asociarObservacion';

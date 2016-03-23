@@ -1,0 +1,2 @@
+/usr/bin/ar cr libsegmentador.a  CMakeFiles/segmentador.dir/segmentacion/planar_segmentation/Segmentador.cpp.o
+/usr/bin/ranlib libsegmentador.a

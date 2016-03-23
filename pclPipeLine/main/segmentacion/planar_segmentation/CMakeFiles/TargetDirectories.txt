@@ -1,0 +1,1 @@
+/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir

@@ -1,0 +1,2 @@
+/usr/bin/ar cr libgeneradorClusters.a  "CMakeFiles/generadorClusters.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o"
+/usr/bin/ranlib libgeneradorClusters.a

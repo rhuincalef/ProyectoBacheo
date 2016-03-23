@@ -1,0 +1,2 @@
+/usr/bin/ar cr libfiltroNube.a  CMakeFiles/filtroNube.dir/segmentacion/filtrado/FiltroNube.cpp.o
+/usr/bin/ranlib libfiltroNube.a

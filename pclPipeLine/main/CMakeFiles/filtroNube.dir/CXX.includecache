@@ -54,9 +54,13 @@ pcl/common/distances.h
 math.h
 -
 
+/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/main.h
+
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp
 ../../../lib/FiltroNube.h
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/FiltroNube.h
+../../../lib/main.h
+/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/main.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core

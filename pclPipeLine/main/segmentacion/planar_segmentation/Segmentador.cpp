@@ -74,9 +74,9 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr Segmentador::obtenerIndices(pcl::PointCloud<
 }
 
 
-int 
-main (int argc, char** argv)
-{
+// int 
+// main (int argc, char** argv)
+// {
 // 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 	
 // 	// Read a PCD file from disk.
@@ -96,5 +96,5 @@ main (int argc, char** argv)
 // 	}
 // 	// pcl::io::savePCDFileBinary("planePoints.pcd", *planePoints);
 
-	return 0;
-}
+	// return 0;
+// }

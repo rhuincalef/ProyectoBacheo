@@ -5,6 +5,10 @@ SET(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/main.cpp" "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir/main.cpp.o"
+  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp" "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o"
+  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp" "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o"
+  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp" "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o"
+  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/Segmentador.cpp" "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -18,10 +22,6 @@ SET(CMAKE_TARGET_DEFINITIONS
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/filtroNube.dir/DependInfo.cmake"
-  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/segmentador.dir/DependInfo.cmake"
-  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/generadorClusters.dir/DependInfo.cmake"
-  "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/constructorConvexHull.dir/DependInfo.cmake"
   )
 
 # The include file search paths:

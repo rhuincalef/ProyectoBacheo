@@ -25,6 +25,9 @@
 #include <math.h>
 
 
+
+
+
 // Includes de FiltroNube
 // #include <iostream>
 // #include <pcl/io/pcd_io.h>

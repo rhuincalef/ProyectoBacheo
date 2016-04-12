@@ -80,9 +80,9 @@ void GeneradorClusters::obtenerClusters(pcl::PointCloud<pcl::PointXYZ>::Ptr clou
 }
 
 
-int 
-main (int argc, char** argv)
-{
+// int 
+// main (int argc, char** argv)
+// {
 // 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
 // 	// Read a PCD file from disk.
@@ -93,5 +93,5 @@ main (int argc, char** argv)
 // 	pcl::PointCloud<pcl::PointXYZ>::Ptr cluster;
 	
 // 	GeneradorClusters::obtenerClusters(cloud);
-	return 0;
-}
+	// return 0;
+// }

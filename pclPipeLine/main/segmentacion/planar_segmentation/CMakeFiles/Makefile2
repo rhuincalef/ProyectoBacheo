@@ -50,44 +50,44 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation
+CMAKE_SOURCE_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation
+CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
 
 #=============================================================================
-# Target rules for target CMakeFiles/planar_segmentation.dir
+# Target rules for target CMakeFiles/segmentador.dir
 
 # All Build rule for target.
-CMakeFiles/planar_segmentation.dir/all:
-	$(MAKE) -f CMakeFiles/planar_segmentation.dir/build.make CMakeFiles/planar_segmentation.dir/depend
-	$(MAKE) -f CMakeFiles/planar_segmentation.dir/build.make CMakeFiles/planar_segmentation.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation/CMakeFiles  1
-	@echo "Built target planar_segmentation"
-.PHONY : CMakeFiles/planar_segmentation.dir/all
+CMakeFiles/segmentador.dir/all:
+	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/depend
+	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/CMakeFiles  1
+	@echo "Built target segmentador"
+.PHONY : CMakeFiles/segmentador.dir/all
 
 # Include target in all.
-all: CMakeFiles/planar_segmentation.dir/all
+all: CMakeFiles/segmentador.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/planar_segmentation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/planar_segmentation.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/planar_segmentation/CMakeFiles 0
-.PHONY : CMakeFiles/planar_segmentation.dir/rule
+CMakeFiles/segmentador.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/segmentador.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/CMakeFiles 0
+.PHONY : CMakeFiles/segmentador.dir/rule
 
 # Convenience name for target.
-planar_segmentation: CMakeFiles/planar_segmentation.dir/rule
-.PHONY : planar_segmentation
+segmentador: CMakeFiles/segmentador.dir/rule
+.PHONY : segmentador
 
 # clean rule for target.
-CMakeFiles/planar_segmentation.dir/clean:
-	$(MAKE) -f CMakeFiles/planar_segmentation.dir/build.make CMakeFiles/planar_segmentation.dir/clean
-.PHONY : CMakeFiles/planar_segmentation.dir/clean
+CMakeFiles/segmentador.dir/clean:
+	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/clean
+.PHONY : CMakeFiles/segmentador.dir/clean
 
 # clean rule for target.
-clean: CMakeFiles/planar_segmentation.dir/clean
+clean: CMakeFiles/segmentador.dir/clean
 .PHONY : clean
 
 #=============================================================================

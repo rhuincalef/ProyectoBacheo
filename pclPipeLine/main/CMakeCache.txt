@@ -224,6 +224,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Path to a file.
 EIGEN_INCLUDE_DIRS:PATH=/usr/include/eigen3
 
+//Dependencies for target
+FILTRADO_LIB_LIB_DEPENDS:STATIC=
+
 //Path to a file.
 FLANN_INCLUDE_DIRS:PATH=/usr/include
 
@@ -438,7 +441,7 @@ QHULL_LIBRARY:FILEPATH=/usr/lib/i386-linux-gnu/libqhull.so
 QHULL_LIBRARY_DEBUG:FILEPATH=/usr/lib/i386-linux-gnu/libqhull.so
 
 //Dependencies for the target
-constructorConvexHull_LIB_DEPENDS:STATIC=general;libreriasCCH;
+constructorConvexHull_LIB_DEPENDS:STATIC=general;/usr/lib/libpcl_visualization.so.1.7;general;/usr/lib/libpcl_search.so.1.7;general;/usr/lib/libpcl_surface.so.1.7;general;/usr/lib/libpcl_segmentation.so.1.7;general;/usr/lib/libpcl_recognition.so.1.7;general;/usr/lib/libpcl_filters.so.1.7;
 
 //Value Computed by CMake
 convex_hull_reconstruction_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction
@@ -452,20 +455,29 @@ euclidean_segmentation_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoB
 //Value Computed by CMake
 euclidean_segmentation_SOURCE_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)
 
+//Dependencies for target
+filtradoLib_LIB_DEPENDS:STATIC=
+
 //Value Computed by CMake
 filtradoNube_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado
+
+//Dependencies for the target
+filtradoNube_LIB_DEPENDS:STATIC=general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/libpcl_common.so;debug;/usr/lib/libpcl_common.so;optimized;/usr/lib/libpcl_octree.so;debug;/usr/lib/libpcl_octree.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;optimized;/usr/lib/libpcl_io.so;debug;/usr/lib/libpcl_io.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;optimized;/usr/lib/libpcl_kdtree.so;debug;/usr/lib/libpcl_kdtree.so;optimized;/usr/lib/libpcl_search.so;debug;/usr/lib/libpcl_search.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;optimized;/usr/lib/libpcl_surface.so;debug;/usr/lib/libpcl_surface.so;optimized;/usr/lib/libpcl_sample_consensus.so;debug;/usr/lib/libpcl_sample_consensus.so;optimized;/usr/lib/libpcl_filters.so;debug;/usr/lib/libpcl_filters.so;optimized;/usr/lib/libpcl_features.so;debug;/usr/lib/libpcl_features.so;optimized;/usr/lib/libpcl_keypoints.so;debug;/usr/lib/libpcl_keypoints.so;optimized;/usr/lib/libpcl_registration.so;debug;/usr/lib/libpcl_registration.so;optimized;/usr/lib/libpcl_segmentation.so;debug;/usr/lib/libpcl_segmentation.so;optimized;/usr/lib/libpcl_recognition.so;debug;/usr/lib/libpcl_recognition.so;optimized;/usr/lib/libpcl_visualization.so;debug;/usr/lib/libpcl_visualization.so;optimized;/usr/lib/libpcl_people.so;debug;/usr/lib/libpcl_people.so;optimized;/usr/lib/libpcl_outofcore.so;debug;/usr/lib/libpcl_outofcore.so;optimized;/usr/lib/libpcl_tracking.so;debug;/usr/lib/libpcl_tracking.so;optimized;/usr/lib/libpcl_apps.so;debug;/usr/lib/libpcl_apps.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;general;libEstadisticas;
 
 //Value Computed by CMake
 filtradoNube_SOURCE_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado
 
-//Dependencies for target
-filtroNube_LIB_DEPENDS:STATIC=
+//Dependencies for the target
+filtroNube_LIB_DEPENDS:STATIC=general;/usr/lib/libpcl_common.so.1.7;general;/usr/lib/libpcl_io.so.1.7;general;/usr/lib/libpcl_filters.so.1.7;general;/usr/lib/libpcl_segmentation.so.1.7;general;/usr/lib/libpcl_recognition.so.1.7;
 
-//Dependencies for target
-generadorClusters_LIB_DEPENDS:STATIC=
+//Dependencies for the target
+generadorClusters_LIB_DEPENDS:STATIC=general;/usr/lib/libpcl_common.so.1.7;general;/usr/lib/libpcl_search.so.1.7;general;/usr/lib/libpcl_io.so.1.7;general;/usr/lib/libpcl_segmentation.so.1.7;general;/usr/lib/libpcl_recognition.so.1.7;
 
 //Dependencies for target
 global_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
+libStatistical_LIB_DEPENDS:STATIC=
 
 //Value Computed by CMake
 planar_segmentation_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
@@ -473,8 +485,14 @@ planar_segmentation_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBach
 //Value Computed by CMake
 planar_segmentation_SOURCE_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
 
-//Dependencies for target
-segmentador_LIB_DEPENDS:STATIC=
+//Value Computed by CMake
+segmentador_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
+
+//Dependencies for the target
+segmentador_LIB_DEPENDS:STATIC=general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/libpcl_common.so;debug;/usr/lib/libpcl_common.so;optimized;/usr/lib/libpcl_octree.so;debug;/usr/lib/libpcl_octree.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;optimized;/usr/lib/libpcl_io.so;debug;/usr/lib/libpcl_io.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;optimized;/usr/lib/libpcl_kdtree.so;debug;/usr/lib/libpcl_kdtree.so;optimized;/usr/lib/libpcl_search.so;debug;/usr/lib/libpcl_search.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;optimized;/usr/lib/libpcl_surface.so;debug;/usr/lib/libpcl_surface.so;optimized;/usr/lib/libpcl_sample_consensus.so;debug;/usr/lib/libpcl_sample_consensus.so;optimized;/usr/lib/libpcl_filters.so;debug;/usr/lib/libpcl_filters.so;optimized;/usr/lib/libpcl_features.so;debug;/usr/lib/libpcl_features.so;optimized;/usr/lib/libpcl_keypoints.so;debug;/usr/lib/libpcl_keypoints.so;optimized;/usr/lib/libpcl_registration.so;debug;/usr/lib/libpcl_registration.so;optimized;/usr/lib/libpcl_segmentation.so;debug;/usr/lib/libpcl_segmentation.so;optimized;/usr/lib/libpcl_recognition.so;debug;/usr/lib/libpcl_recognition.so;optimized;/usr/lib/libpcl_visualization.so;debug;/usr/lib/libpcl_visualization.so;optimized;/usr/lib/libpcl_people.so;debug;/usr/lib/libpcl_people.so;optimized;/usr/lib/libpcl_outofcore.so;debug;/usr/lib/libpcl_outofcore.so;optimized;/usr/lib/libpcl_tracking.so;debug;/usr/lib/libpcl_tracking.so;optimized;/usr/lib/libpcl_apps.so;debug;/usr/lib/libpcl_apps.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;general;libPclSegmentacion;general;libPclApps;general;libPclSACSegmentacion;general;libPclFilters;
+
+//Value Computed by CMake
+segmentador_SOURCE_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation
 
 
 ########################

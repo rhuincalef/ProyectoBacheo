@@ -50,10 +50,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/filtrado
+CMAKE_SOURCE_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/filtrado
+CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado
 
 #=============================================================================
 # Target rules for target CMakeFiles/filtradoNube.dir
@@ -62,7 +62,7 @@ CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segm
 CMakeFiles/filtradoNube.dir/all:
 	$(MAKE) -f CMakeFiles/filtradoNube.dir/build.make CMakeFiles/filtradoNube.dir/depend
 	$(MAKE) -f CMakeFiles/filtradoNube.dir/build.make CMakeFiles/filtradoNube.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/filtrado/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/CMakeFiles  1
 	@echo "Built target filtradoNube"
 .PHONY : CMakeFiles/filtradoNube.dir/all
 
@@ -72,9 +72,9 @@ all: CMakeFiles/filtradoNube.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/filtradoNube.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/filtrado/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/filtradoNube.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/filtrado/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/CMakeFiles 0
 .PHONY : CMakeFiles/filtradoNube.dir/rule
 
 # Convenience name for target.

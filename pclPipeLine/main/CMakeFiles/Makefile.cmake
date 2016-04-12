@@ -64,13 +64,9 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 SET(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/constructorConvexHull.dir/DependInfo.cmake"
-  "CMakeFiles/filtroNube.dir/DependInfo.cmake"
-  "CMakeFiles/generadorClusters.dir/DependInfo.cmake"
   "CMakeFiles/main.dir/DependInfo.cmake"
-  "CMakeFiles/segmentador.dir/DependInfo.cmake"
   "segmentacion/filtrado/CMakeFiles/filtradoNube.dir/DependInfo.cmake"
-  "segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/DependInfo.cmake"
+  "segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/DependInfo.cmake"
   "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/DependInfo.cmake"
   "reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/DependInfo.cmake"
   )

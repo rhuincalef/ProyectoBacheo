@@ -56,121 +56,13 @@ CMAKE_SOURCE_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main
 CMAKE_BINARY_DIR = /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main
 
 #=============================================================================
-# Target rules for target CMakeFiles/constructorConvexHull.dir
-
-# All Build rule for target.
-CMakeFiles/constructorConvexHull.dir/all:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/depend
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  1
-	@echo "Built target constructorConvexHull"
-.PHONY : CMakeFiles/constructorConvexHull.dir/all
-
-# Include target in all.
-all: CMakeFiles/constructorConvexHull.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/constructorConvexHull.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/constructorConvexHull.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 0
-.PHONY : CMakeFiles/constructorConvexHull.dir/rule
-
-# Convenience name for target.
-constructorConvexHull: CMakeFiles/constructorConvexHull.dir/rule
-.PHONY : constructorConvexHull
-
-# clean rule for target.
-CMakeFiles/constructorConvexHull.dir/clean:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/clean
-.PHONY : CMakeFiles/constructorConvexHull.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/constructorConvexHull.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/filtroNube.dir
-
-# All Build rule for target.
-CMakeFiles/filtroNube.dir/all:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/depend
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  5
-	@echo "Built target filtroNube"
-.PHONY : CMakeFiles/filtroNube.dir/all
-
-# Include target in all.
-all: CMakeFiles/filtroNube.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/filtroNube.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/filtroNube.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 0
-.PHONY : CMakeFiles/filtroNube.dir/rule
-
-# Convenience name for target.
-filtroNube: CMakeFiles/filtroNube.dir/rule
-.PHONY : filtroNube
-
-# clean rule for target.
-CMakeFiles/filtroNube.dir/clean:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/clean
-.PHONY : CMakeFiles/filtroNube.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/filtroNube.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/generadorClusters.dir
-
-# All Build rule for target.
-CMakeFiles/generadorClusters.dir/all:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make CMakeFiles/generadorClusters.dir/depend
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make CMakeFiles/generadorClusters.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  6
-	@echo "Built target generadorClusters"
-.PHONY : CMakeFiles/generadorClusters.dir/all
-
-# Include target in all.
-all: CMakeFiles/generadorClusters.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/generadorClusters.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/generadorClusters.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 0
-.PHONY : CMakeFiles/generadorClusters.dir/rule
-
-# Convenience name for target.
-generadorClusters: CMakeFiles/generadorClusters.dir/rule
-.PHONY : generadorClusters
-
-# clean rule for target.
-CMakeFiles/generadorClusters.dir/clean:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make CMakeFiles/generadorClusters.dir/clean
-.PHONY : CMakeFiles/generadorClusters.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/generadorClusters.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/main.dir
 
 # All Build rule for target.
-CMakeFiles/main.dir/all: CMakeFiles/segmentador.dir/all
-CMakeFiles/main.dir/all: CMakeFiles/generadorClusters.dir/all
-CMakeFiles/main.dir/all: CMakeFiles/filtroNube.dir/all
-CMakeFiles/main.dir/all: CMakeFiles/constructorConvexHull.dir/all
+CMakeFiles/main.dir/all:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  7
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  4 5 6 7 8
 	@echo "Built target main"
 .PHONY : CMakeFiles/main.dir/all
 
@@ -199,41 +91,6 @@ clean: CMakeFiles/main.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/segmentador.dir
-
-# All Build rule for target.
-CMakeFiles/segmentador.dir/all:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/depend
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  9
-	@echo "Built target segmentador"
-.PHONY : CMakeFiles/segmentador.dir/all
-
-# Include target in all.
-all: CMakeFiles/segmentador.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/segmentador.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/segmentador.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 0
-.PHONY : CMakeFiles/segmentador.dir/rule
-
-# Convenience name for target.
-segmentador: CMakeFiles/segmentador.dir/rule
-.PHONY : segmentador
-
-# clean rule for target.
-CMakeFiles/segmentador.dir/clean:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/clean
-.PHONY : CMakeFiles/segmentador.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/segmentador.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Directory level rules for directory segmentacion/filtrado
 
 # Convenience name for "all" pass in the directory.
@@ -255,7 +112,7 @@ segmentacion/filtrado/preinstall:
 segmentacion/filtrado/CMakeFiles/filtradoNube.dir/all:
 	$(MAKE) -f segmentacion/filtrado/CMakeFiles/filtradoNube.dir/build.make segmentacion/filtrado/CMakeFiles/filtradoNube.dir/depend
 	$(MAKE) -f segmentacion/filtrado/CMakeFiles/filtradoNube.dir/build.make segmentacion/filtrado/CMakeFiles/filtradoNube.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  4
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  3
 	@echo "Built target filtradoNube"
 .PHONY : segmentacion/filtrado/CMakeFiles/filtradoNube.dir/all
 
@@ -287,11 +144,11 @@ clean: segmentacion/filtrado/CMakeFiles/filtradoNube.dir/clean
 # Directory level rules for directory segmentacion/planar_segmentation
 
 # Convenience name for "all" pass in the directory.
-segmentacion/planar_segmentation/all: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/all
+segmentacion/planar_segmentation/all: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/all
 .PHONY : segmentacion/planar_segmentation/all
 
 # Convenience name for "clean" pass in the directory.
-segmentacion/planar_segmentation/clean: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/clean
+segmentacion/planar_segmentation/clean: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/clean
 .PHONY : segmentacion/planar_segmentation/clean
 
 # Convenience name for "preinstall" pass in the directory.
@@ -299,38 +156,38 @@ segmentacion/planar_segmentation/preinstall:
 .PHONY : segmentacion/planar_segmentation/preinstall
 
 #=============================================================================
-# Target rules for target segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir
+# Target rules for target segmentacion/planar_segmentation/CMakeFiles/segmentador.dir
 
 # All Build rule for target.
-segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/all:
-	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/depend
-	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  8
-	@echo "Built target planar_segmentation"
-.PHONY : segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/all
+segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/all:
+	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/depend
+	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  9
+	@echo "Built target segmentador"
+.PHONY : segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/all
 
 # Include target in all.
-all: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/all
+all: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule: cmake_check_build_system
+segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles 0
-.PHONY : segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule
+.PHONY : segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule
 
 # Convenience name for target.
-planar_segmentation: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule
-.PHONY : planar_segmentation
+segmentador: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule
+.PHONY : segmentador
 
 # clean rule for target.
-segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/clean:
-	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/clean
-.PHONY : segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/clean
+segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/clean:
+	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/clean
+.PHONY : segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/clean
 
 # clean rule for target.
-clean: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/clean
+clean: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -355,7 +212,7 @@ segmentacion/clusterizado(euclidean_segmentation)/preinstall:
 segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/all:
 	$(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/depend"
 	$(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build"
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  3
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  2
 	@echo "Built target euclidean_segmentation"
 .PHONY : segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/all
 
@@ -405,7 +262,7 @@ reconstruccionConvexHull/convex_hull_reconstruction/preinstall:
 reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/all:
 	$(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/depend
 	$(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  2
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles  1
 	@echo "Built target convex_hull_reconstruction"
 .PHONY : reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/all
 

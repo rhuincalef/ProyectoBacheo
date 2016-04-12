@@ -37,69 +37,52 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/pcl-1.7")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/eigen3")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include/vtk-5.8 ")
 
-
 #Se define una variable con el dir. de instalacion de la libreria de pcl
-SET (DIR_PCL_LIBS /usr/lib)
-
-# Se agregan los modulos como librerias
-add_library(filtroNube "segmentacion/filtrado/FiltroNube.cpp" )
-add_library(segmentador "segmentacion/planar_segmentation/Segmentador.cpp")
-add_library(generadorClusters "segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp")
-add_library(constructorConvexHull "reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp")
-
-SET( LIBRERIAS_A_LINKEAR filtroNube segmentador generadorClusters constructorConvexHull)
-
-
-#Se definen las librerias para filtroNube
-#SE LINKEAN DEPENDENCIAS de filtroNube.cpp
-
-#target_link_libraries(filtroNube 
-#	"${DIR_PCL_LIBS}/libpcl_common.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_io.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_filters.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_segmentation.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_recognition.so.1.7"
-#)
-
-#Se definen las librerias para segmentador
-#SE LINKEAN DEPENDENCIAS de segmentador.cpp
-#target_link_libraries(segmentador 
-#	"${DIR_PCL_LIBS}/libpcl_common.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_io.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_filters.so.1.7"
-##	"${DIR_PCL_LIBS}/libpcl_search.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_segmentation.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_recognition.so.1.7"
-#)
-
-
-#Se definen las librerias para generadorClusters
-#SE LINKEAN DEPENDENCIAS de generadorClusters.cpp
-#target_link_libraries(generadorClusters 
-#	"${DIR_PCL_LIBS}/libpcl_common.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_search.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_io.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_segmentation.so.1.7"
-#	"${DIR_PCL_LIBS}/libpcl_recognition.so.1.7"
-#)
-
-
-#Se definen las librerias para convexHull
-#SE LINKEAN DEPENDENCIAS de CONSTRUCTORCONVEXHULL.cpp
 #
-file(GLOB libreriasCCH "${DIR_PCL_LIBS}/libpcl_visualization.so.1.7" "${DIR_PCL_LIBS}/libpcl_search.so.1.7" "${DIR_PCL_LIBS}/libpcl_surface.so.1.7" "${DIR_PCL_LIBS}/libpcl_segmentation.so.1.7" "${DIR_PCL_LIBS}/libpcl_recognition.so.1.7" "${DIR_PCL_LIBS}/libpcl_filters.so.1.7" )
-
-target_link_libraries(constructorConvexHull ${libreriasCCH})
-
-#Se agrega el ejecutable
-add_executable(main main.cpp)
-
-target_link_libraries(main ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_LIBRARIES} ${global} ${LIBRERIAS_A_LINKEAR})
+SET (FILTRO_NUBE "segmentacion/filtrado/FiltroNube.cpp")
+SET (SEGMENTADOR "segmentacion/planar_segmentation/Segmentador.cpp")
+SET (GENERADOR_CLUSTERS "segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp")
+SET (CONSTRUCTOR_CONVEX_HULL "reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp")
 
 
 
-#foreach(lib ${LIBRERIAS_A_LINKEAR})
-	#Se deben agregar las referencias que tienen las librerias anteriores a PCL con target_link_libraries()
-#	target_link_libraries(${lib} ${PCL_LIBRARIES})
-#endforeach()
+#Se agrega la libreria de filtradoNube.a compilada con la referencia a  la libreria
+# (ESTO FALLABA EN EL METODO -->pcl::StatisticalOutlierRemoval<pcl::PointXYZ>::applyFilter antes!!!)
+add_library(filtradoLib  STATIC IMPORTED "segmentacion/filtrado/libfiltradoNube.a")
+add_library(segmentadorA  STATIC IMPORTED "segmentacion/planar_segmentation/libsegmentador.a")
+
+
+##################################### Se agregan modulos especificos de PCL no agregados por defecto#####################################
+#Se define la libreria como shared y se la importa para vincularla al ejecutable
+#add_library(libPclApps1 SHARED IMPORTED "/usr/lib/pcl_apps")
+#add_library(libPclSearch SHARED IMPORTED "/usr/lib/pcl_search")
+#add_library(libPclKeypoints SHARED IMPORTED "/usr/lib/pcl_keypoints")
+#add_library(libPclRecognition  SHARED IMPORTED "/usr/lib/pcl_recognition")
+#add_library(libPclSurface SHARED IMPORTED "/usr/lib/pcl_surface")
+#add_library(libPclTracking SHARED IMPORTED "/usr/lib/pcl_tracking")
+
+
+
+#########################################################################################################################################
+
+#Se genera el ejecutable con el codigo de cada uno de los modulos .cpp
+#
+add_executable(main main.cpp ${FILTRO_NUBE} ${SEGMENTADOR} ${GENERADOR_CLUSTERS} ${CONSTRUCTOR_CONVEX_HULL} )
+
+target_link_libraries(main ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_LIBRARIES} ${filtradoLib} ${segmentadorA} )
+
+#Se vincula la libreria compartida propia del proyecto
+#target_link_libraries(main ${segmentadorA})
+
+
+
+#Librerias de PCL necesarias.
+#target_link_libraries(main ${libPclApps1})
+#target_link_libraries(main ${libPclSearch})
+#target_link_libraries(main ${libPclKeypoints})
+#target_link_libraries(main ${libPclRecognition})
+#target_link_libraries(main ${libPclSurface})
+#target_link_libraries(main ${libPclTracking})
+
+
 

@@ -8,5 +8,12 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable (filtradoNube FiltroNube.cpp)
-target_link_libraries (filtradoNube ${PCL_LIBRARIES})
+
+SET (DIR_INCLUDE_FILTRADO "/usr/lib")
+#Se compila la libreria con filtrado nube
+add_library(filtradoNube "FiltroNube.cpp")
+
+#Se define la libreria como shared y se la importa para vincularla al ejecutable
+add_library(libEstadisticas SHARED IMPORTED "/usr/lib/pcl_filters")
+
+target_link_libraries (filtradoNube ${PCL_LIBRARIES} libEstadisticas )

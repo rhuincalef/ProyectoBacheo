@@ -4,11 +4,12 @@ using namespace std;
 // https://www.cs.swarthmore.edu/~adanner/tips/cmake.php
 
 // Se incluyen los demas modulos del pipeLine
+#include "../lib/Global.h"
 #include "../lib/FiltroNube.h"
 #include "../lib/Segmentador.h"
 #include "../lib/GeneradorClusters.h"
 #include "../lib/ConstructorConvexHull.h"
-
+#include "../lib/main.h"
 
 
 // Configuracion de PCL con .cpp independientes -->

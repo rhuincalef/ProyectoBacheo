@@ -102,45 +102,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named constructorConvexHull
-
-# Build rule for target.
-constructorConvexHull: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 constructorConvexHull
-.PHONY : constructorConvexHull
-
-# fast build rule for target.
-constructorConvexHull/fast:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/build
-.PHONY : constructorConvexHull/fast
-
-#=============================================================================
-# Target rules for targets named filtroNube
-
-# Build rule for target.
-filtroNube: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 filtroNube
-.PHONY : filtroNube
-
-# fast build rule for target.
-filtroNube/fast:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/build
-.PHONY : filtroNube/fast
-
-#=============================================================================
-# Target rules for targets named generadorClusters
-
-# Build rule for target.
-generadorClusters: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 generadorClusters
-.PHONY : generadorClusters
-
-# fast build rule for target.
-generadorClusters/fast:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make CMakeFiles/generadorClusters.dir/build
-.PHONY : generadorClusters/fast
-
-#=============================================================================
 # Target rules for targets named main
 
 # Build rule for target.
@@ -152,19 +113,6 @@ main: cmake_check_build_system
 main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
-
-#=============================================================================
-# Target rules for targets named segmentador
-
-# Build rule for target.
-segmentador: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 segmentador
-.PHONY : segmentador
-
-# fast build rule for target.
-segmentador/fast:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/build
-.PHONY : segmentador/fast
 
 #=============================================================================
 # Target rules for targets named filtradoNube
@@ -180,17 +128,17 @@ filtradoNube/fast:
 .PHONY : filtradoNube/fast
 
 #=============================================================================
-# Target rules for targets named planar_segmentation
+# Target rules for targets named segmentador
 
 # Build rule for target.
-planar_segmentation: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 planar_segmentation
-.PHONY : planar_segmentation
+segmentador: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 segmentador
+.PHONY : segmentador
 
 # fast build rule for target.
-planar_segmentation/fast:
-	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build
-.PHONY : planar_segmentation/fast
+segmentador/fast:
+	$(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build
+.PHONY : segmentador/fast
 
 #=============================================================================
 # Target rules for targets named euclidean_segmentation
@@ -247,7 +195,7 @@ reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.o: rec
 
 # target to build an object file
 reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o
 .PHONY : reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o
 
 reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.i: reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i
@@ -255,7 +203,7 @@ reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.i: rec
 
 # target to preprocess a source file
 reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i
 .PHONY : reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i
 
 reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.s: reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s
@@ -263,7 +211,7 @@ reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.s: rec
 
 # target to generate assembly for a file
 reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s:
-	$(MAKE) -f CMakeFiles/constructorConvexHull.dir/build.make CMakeFiles/constructorConvexHull.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s
 .PHONY : reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s
 
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.o: segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o
@@ -271,7 +219,7 @@ segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.o: segmentac
 
 # target to build an object file
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make "CMakeFiles/generadorClusters.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o"
+	$(MAKE) -f CMakeFiles/main.dir/build.make "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o"
 .PHONY : segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o
 
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.i: segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i
@@ -279,7 +227,7 @@ segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.i: segmentac
 
 # target to preprocess a source file
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make "CMakeFiles/generadorClusters.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i"
+	$(MAKE) -f CMakeFiles/main.dir/build.make "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i"
 .PHONY : segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i
 
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.s: segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s
@@ -287,7 +235,7 @@ segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.s: segmentac
 
 # target to generate assembly for a file
 segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s:
-	$(MAKE) -f CMakeFiles/generadorClusters.dir/build.make "CMakeFiles/generadorClusters.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s"
+	$(MAKE) -f CMakeFiles/main.dir/build.make "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s"
 .PHONY : segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s
 
 segmentacion/filtrado/FiltroNube.o: segmentacion/filtrado/FiltroNube.cpp.o
@@ -295,7 +243,7 @@ segmentacion/filtrado/FiltroNube.o: segmentacion/filtrado/FiltroNube.cpp.o
 
 # target to build an object file
 segmentacion/filtrado/FiltroNube.cpp.o:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/segmentacion/filtrado/FiltroNube.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o
 .PHONY : segmentacion/filtrado/FiltroNube.cpp.o
 
 segmentacion/filtrado/FiltroNube.i: segmentacion/filtrado/FiltroNube.cpp.i
@@ -303,7 +251,7 @@ segmentacion/filtrado/FiltroNube.i: segmentacion/filtrado/FiltroNube.cpp.i
 
 # target to preprocess a source file
 segmentacion/filtrado/FiltroNube.cpp.i:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/segmentacion/filtrado/FiltroNube.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.i
 .PHONY : segmentacion/filtrado/FiltroNube.cpp.i
 
 segmentacion/filtrado/FiltroNube.s: segmentacion/filtrado/FiltroNube.cpp.s
@@ -311,7 +259,7 @@ segmentacion/filtrado/FiltroNube.s: segmentacion/filtrado/FiltroNube.cpp.s
 
 # target to generate assembly for a file
 segmentacion/filtrado/FiltroNube.cpp.s:
-	$(MAKE) -f CMakeFiles/filtroNube.dir/build.make CMakeFiles/filtroNube.dir/segmentacion/filtrado/FiltroNube.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.s
 .PHONY : segmentacion/filtrado/FiltroNube.cpp.s
 
 segmentacion/planar_segmentation/Segmentador.o: segmentacion/planar_segmentation/Segmentador.cpp.o
@@ -319,7 +267,7 @@ segmentacion/planar_segmentation/Segmentador.o: segmentacion/planar_segmentation
 
 # target to build an object file
 segmentacion/planar_segmentation/Segmentador.cpp.o:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/segmentacion/planar_segmentation/Segmentador.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o
 .PHONY : segmentacion/planar_segmentation/Segmentador.cpp.o
 
 segmentacion/planar_segmentation/Segmentador.i: segmentacion/planar_segmentation/Segmentador.cpp.i
@@ -327,7 +275,7 @@ segmentacion/planar_segmentation/Segmentador.i: segmentacion/planar_segmentation
 
 # target to preprocess a source file
 segmentacion/planar_segmentation/Segmentador.cpp.i:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/segmentacion/planar_segmentation/Segmentador.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.i
 .PHONY : segmentacion/planar_segmentation/Segmentador.cpp.i
 
 segmentacion/planar_segmentation/Segmentador.s: segmentacion/planar_segmentation/Segmentador.cpp.s
@@ -335,7 +283,7 @@ segmentacion/planar_segmentation/Segmentador.s: segmentacion/planar_segmentation
 
 # target to generate assembly for a file
 segmentacion/planar_segmentation/Segmentador.cpp.s:
-	$(MAKE) -f CMakeFiles/segmentador.dir/build.make CMakeFiles/segmentador.dir/segmentacion/planar_segmentation/Segmentador.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.s
 .PHONY : segmentacion/planar_segmentation/Segmentador.cpp.s
 
 # Help Target
@@ -344,15 +292,11 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... constructorConvexHull"
 	@echo "... edit_cache"
-	@echo "... filtroNube"
-	@echo "... generadorClusters"
 	@echo "... main"
 	@echo "... rebuild_cache"
-	@echo "... segmentador"
 	@echo "... filtradoNube"
-	@echo "... planar_segmentation"
+	@echo "... segmentador"
 	@echo "... euclidean_segmentation"
 	@echo "... convex_hull_reconstruction"
 	@echo "... main.o"

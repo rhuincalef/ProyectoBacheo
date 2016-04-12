@@ -102,25 +102,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule
-.PHONY : segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule
+segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule
+.PHONY : segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule
 
 # Convenience name for target.
-planar_segmentation: segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/rule
-.PHONY : planar_segmentation
+segmentador: segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/rule
+.PHONY : segmentador
 
 # fast build rule for target.
-planar_segmentation/fast:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build
-.PHONY : planar_segmentation/fast
+segmentador/fast:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build
+.PHONY : segmentador/fast
 
 Segmentador.o: Segmentador.cpp.o
 .PHONY : Segmentador.o
 
 # target to build an object file
 Segmentador.cpp.o:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/Segmentador.cpp.o
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/Segmentador.cpp.o
 .PHONY : Segmentador.cpp.o
 
 Segmentador.i: Segmentador.cpp.i
@@ -128,7 +128,7 @@ Segmentador.i: Segmentador.cpp.i
 
 # target to preprocess a source file
 Segmentador.cpp.i:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/Segmentador.cpp.i
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/Segmentador.cpp.i
 .PHONY : Segmentador.cpp.i
 
 Segmentador.s: Segmentador.cpp.s
@@ -136,7 +136,7 @@ Segmentador.s: Segmentador.cpp.s
 
 # target to generate assembly for a file
 Segmentador.cpp.s:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/build.make segmentacion/planar_segmentation/CMakeFiles/planar_segmentation.dir/Segmentador.cpp.s
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/build.make segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/Segmentador.cpp.s
 .PHONY : Segmentador.cpp.s
 
 # Help Target
@@ -146,8 +146,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... planar_segmentation"
 	@echo "... rebuild_cache"
+	@echo "... segmentador"
 	@echo "... Segmentador.o"
 	@echo "... Segmentador.i"
 	@echo "... Segmentador.s"

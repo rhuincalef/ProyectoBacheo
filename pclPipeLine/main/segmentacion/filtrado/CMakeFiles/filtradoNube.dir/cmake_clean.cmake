@@ -1,7 +1,7 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/filtradoNube.dir/FiltroNube.cpp.o"
-  "filtradoNube.pdb"
-  "filtradoNube"
+  "libfiltradoNube.pdb"
+  "libfiltradoNube.a"
 )
 
 # Per-language clean rules from dependency scanning.

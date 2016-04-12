@@ -127,8 +127,8 @@ pcl::ConvexHull<pcl::PointXYZ> ConstructorConvexHull::configurarHull(pcl::PointC
 	}
 }
 
-int 
-main (int argc, char** argv){
+// int 
+// main (int argc, char** argv){
 // 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 // 	// Read a PCD file from disk.
 // 	if (pcl::io::loadPCDFile<pcl::PointXYZ>(argv[1], *cloud) != 0)
@@ -139,5 +139,5 @@ main (int argc, char** argv){
 // 	pcl::PointCloud<pcl::PointXYZ>::Ptr convexHull;
 // 	ConstructorConvexHull::imprimirPropiedadesFalla(cloud,hull);
 // 	ConstructorConvexHull::graficarConvexHull(convexHull);
-	return 0;
-}
+	// return 0;
+// }

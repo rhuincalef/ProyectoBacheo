@@ -75,14 +75,114 @@ CMakeFiles/main.dir/main.cpp.o.provides: CMakeFiles/main.dir/main.cpp.o.requires
 
 CMakeFiles/main.dir/main.cpp.o.provides.build: CMakeFiles/main.dir/main.cpp.o
 
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o: segmentacion/filtrado/FiltroNube.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o -c /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp
+
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp > CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.i
+
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp -o CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.s
+
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.requires:
+.PHONY : CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.requires
+
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.provides: CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.provides.build
+.PHONY : CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.provides
+
+CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.provides.build: CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o: segmentacion/planar_segmentation/Segmentador.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o -c /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/Segmentador.cpp
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/Segmentador.cpp > CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.i
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/Segmentador.cpp -o CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.s
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.requires:
+.PHONY : CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.requires
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.provides: CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.provides.build
+.PHONY : CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.provides
+
+CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.provides.build: CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o: segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o" -c "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp"
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp" > "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.i"
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp" -o "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.s"
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.requires:
+.PHONY : CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.requires
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.provides: CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make "CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.provides.build"
+.PHONY : CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.provides
+
+CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.provides.build: CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o: reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o -c /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp > CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.i
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp -o CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.s
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.requires:
+.PHONY : CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.requires
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.provides: CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.provides.build
+.PHONY : CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.provides
+
+CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.provides.build: CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o
+
 # Object files for target main
 main_OBJECTS = \
-"CMakeFiles/main.dir/main.cpp.o"
+"CMakeFiles/main.dir/main.cpp.o" \
+"CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o" \
+"CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o" \
+"CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o" \
+"CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cpp.o
+main: CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o
+main: CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o
+main: CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o
+main: CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: /usr/lib/i386-linux-gnu/libboost_system.so
 main: /usr/lib/i386-linux-gnu/libboost_filesystem.so
@@ -183,15 +283,6 @@ main: /usr/lib/libvtkInfovis.so.5.8.0
 main: /usr/lib/libvtkGeovis.so.5.8.0
 main: /usr/lib/libvtkViews.so.5.8.0
 main: /usr/lib/libvtkCharts.so.5.8.0
-main: ../lib/GeneradorClusters.h
-main: ../lib/Global.h
-main: ../lib/ConstructorConvexHull.h
-main: ../lib/FiltroNube.h
-main: ../lib/Segmentador.h
-main: libfiltroNube.a
-main: libsegmentador.a
-main: libgeneradorClusters.a
-main: libconstructorConvexHull.a
 main: /usr/lib/libpcl_common.so
 main: /usr/lib/libpcl_io.so
 main: /usr/lib/libpcl_octree.so
@@ -208,11 +299,6 @@ main: /usr/lib/libOpenNI.so
 main: /usr/lib/libOpenNI2.so
 main: /usr/lib/libpcl_io.so
 main: /usr/lib/libpcl_octree.so
-main: ../lib/GeneradorClusters.h
-main: ../lib/Global.h
-main: ../lib/ConstructorConvexHull.h
-main: ../lib/FiltroNube.h
-main: ../lib/Segmentador.h
 main: /usr/lib/libvtkViews.so.5.8.0
 main: /usr/lib/libvtkInfovis.so.5.8.0
 main: /usr/lib/libvtkWidgets.so.5.8.0
@@ -235,6 +321,10 @@ CMakeFiles/main.dir/build: main
 .PHONY : CMakeFiles/main.dir/build
 
 CMakeFiles/main.dir/requires: CMakeFiles/main.dir/main.cpp.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/segmentacion/filtrado/FiltroNube.cpp.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/segmentacion/planar_segmentation/Segmentador.cpp.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp.o.requires
 .PHONY : CMakeFiles/main.dir/requires
 
 CMakeFiles/main.dir/clean:

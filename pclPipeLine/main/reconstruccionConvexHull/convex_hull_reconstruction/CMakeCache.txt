@@ -152,7 +152,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=convex_hull_reconstruction
+CMAKE_PROJECT_NAME:STATIC=convexHull
 
 //Flags used by the linker during the creation of dll's.
 CMAKE_SHARED_LINKER_FLAGS:STRING=' '
@@ -409,6 +409,15 @@ QHULL_LIBRARY:FILEPATH=/usr/lib/i386-linux-gnu/libqhull.so
 
 //Path to a library.
 QHULL_LIBRARY_DEBUG:FILEPATH=/usr/lib/i386-linux-gnu/libqhull.so
+
+//Value Computed by CMake
+convexHull_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction
+
+//Dependencies for the target
+convexHull_LIB_DEPENDS:STATIC=general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/libpcl_common.so;debug;/usr/lib/libpcl_common.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;optimized;/usr/lib/libpcl_kdtree.so;debug;/usr/lib/libpcl_kdtree.so;optimized;/usr/lib/libpcl_octree.so;debug;/usr/lib/libpcl_octree.so;optimized;/usr/lib/libpcl_search.so;debug;/usr/lib/libpcl_search.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;optimized;/usr/lib/libpcl_surface.so;debug;/usr/lib/libpcl_surface.so;optimized;/usr/lib/libpcl_sample_consensus.so;debug;/usr/lib/libpcl_sample_consensus.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;optimized;/usr/lib/libpcl_io.so;debug;/usr/lib/libpcl_io.so;optimized;/usr/lib/libpcl_filters.so;debug;/usr/lib/libpcl_filters.so;optimized;/usr/lib/libpcl_features.so;debug;/usr/lib/libpcl_features.so;optimized;/usr/lib/libpcl_keypoints.so;debug;/usr/lib/libpcl_keypoints.so;optimized;/usr/lib/libpcl_registration.so;debug;/usr/lib/libpcl_registration.so;optimized;/usr/lib/libpcl_segmentation.so;debug;/usr/lib/libpcl_segmentation.so;optimized;/usr/lib/libpcl_recognition.so;debug;/usr/lib/libpcl_recognition.so;optimized;/usr/lib/libpcl_visualization.so;debug;/usr/lib/libpcl_visualization.so;optimized;/usr/lib/libpcl_people.so;debug;/usr/lib/libpcl_people.so;optimized;/usr/lib/libpcl_outofcore.so;debug;/usr/lib/libpcl_outofcore.so;optimized;/usr/lib/libpcl_tracking.so;debug;/usr/lib/libpcl_tracking.so;optimized;/usr/lib/libpcl_apps.so;debug;/usr/lib/libpcl_apps.so;general;/usr/lib/i386-linux-gnu/libboost_system.so;general;/usr/lib/i386-linux-gnu/libboost_filesystem.so;general;/usr/lib/i386-linux-gnu/libboost_thread.so;general;/usr/lib/i386-linux-gnu/libboost_date_time.so;general;/usr/lib/i386-linux-gnu/libboost_iostreams.so;general;/usr/lib/i386-linux-gnu/libboost_serialization.so;general;/usr/lib/i386-linux-gnu/libboost_chrono.so;general;/usr/lib/i386-linux-gnu/libpthread.so;optimized;/usr/lib/i386-linux-gnu/libqhull.so;debug;/usr/lib/i386-linux-gnu/libqhull.so;general;/usr/lib/libOpenNI.so;general;/usr/lib/libOpenNI2.so;optimized;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;debug;/usr/lib/i386-linux-gnu/libflann_cpp_s.a;general;vtkCommon;general;vtkFiltering;general;vtkImaging;general;vtkGraphics;general;vtkGenericFiltering;general;vtkIO;general;vtkRendering;general;vtkVolumeRendering;general;vtkHybrid;general;vtkWidgets;general;vtkParallel;general;vtkInfovis;general;vtkGeovis;general;vtkViews;general;vtkCharts;general;libPclSegmentacion;general;libPclApps;general;libPclSACSegmentacion;general;libPclFilters;
+
+//Value Computed by CMake
+convexHull_SOURCE_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction
 
 //Value Computed by CMake
 convex_hull_reconstruction_BINARY_DIR:STATIC=/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction

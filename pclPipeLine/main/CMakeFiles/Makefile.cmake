@@ -11,6 +11,7 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/2.8.12.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/2.8.12.2/CMakeSystem.cmake"
   "CMakeLists.txt"
+  "cmake/Modules/FindPCL.cmake"
   "reconstruccionConvexHull/convex_hull_reconstruction/CMakeLists.txt"
   "segmentacion/clusterizado(euclidean_segmentation)/CMakeLists.txt"
   "segmentacion/filtrado/CMakeLists.txt"
@@ -67,6 +68,6 @@ SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/main.dir/DependInfo.cmake"
   "segmentacion/filtrado/CMakeFiles/filtradoNube.dir/DependInfo.cmake"
   "segmentacion/planar_segmentation/CMakeFiles/segmentador.dir/DependInfo.cmake"
-  "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/DependInfo.cmake"
-  "reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/DependInfo.cmake"
+  "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/DependInfo.cmake"
+  "reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/DependInfo.cmake"
   )

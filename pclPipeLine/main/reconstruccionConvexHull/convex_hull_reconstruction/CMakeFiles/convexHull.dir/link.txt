@@ -1,0 +1,2 @@
+/usr/bin/ar cr libconvexHull.a  CMakeFiles/convexHull.dir/ConstructorConvexHull.cpp.o
+/usr/bin/ranlib libconvexHull.a

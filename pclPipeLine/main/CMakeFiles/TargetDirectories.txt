@@ -1,5 +1,5 @@
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir
+/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir
+/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/CMakeFiles/filtradoNube.dir
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/CMakeFiles/main.dir
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/CMakeFiles/segmentador.dir

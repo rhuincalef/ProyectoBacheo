@@ -6,15 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/ConstructorConvexHull.h
-Global.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Global.h
-
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/FiltroNube.h
-Global.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Global.h
-
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/GeneradorClusters.h
 Global.h
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Global.h
 
@@ -62,25 +54,9 @@ pcl/common/distances.h
 math.h
 -
 
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Segmentador.h
-Global.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Global.h
-
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/reconstruccionConvexHull/convex_hull_reconstruction/ConstructorConvexHull.cpp
-../../../lib/ConstructorConvexHull.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/ConstructorConvexHull.h
-
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/GeneradorClusters.cpp
-../../../lib/GeneradorClusters.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/GeneradorClusters.h
-
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/filtrado/FiltroNube.cpp
 ../../../lib/FiltroNube.h
 /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/FiltroNube.h
-
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/planar_segmentation/Segmentador.cpp
-../../../lib/Segmentador.h
-/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/lib/Segmentador.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core

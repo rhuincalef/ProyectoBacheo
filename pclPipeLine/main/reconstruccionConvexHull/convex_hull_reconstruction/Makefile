@@ -102,25 +102,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/rule:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/rule
-.PHONY : reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/rule
+reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/rule:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/rule
+.PHONY : reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/rule
 
 # Convenience name for target.
-convex_hull_reconstruction: reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/rule
-.PHONY : convex_hull_reconstruction
+convexHull: reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/rule
+.PHONY : convexHull
 
 # fast build rule for target.
-convex_hull_reconstruction/fast:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build
-.PHONY : convex_hull_reconstruction/fast
+convexHull/fast:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build
+.PHONY : convexHull/fast
 
 ConstructorConvexHull.o: ConstructorConvexHull.cpp.o
 .PHONY : ConstructorConvexHull.o
 
 # target to build an object file
 ConstructorConvexHull.cpp.o:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/ConstructorConvexHull.cpp.o
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/ConstructorConvexHull.cpp.o
 .PHONY : ConstructorConvexHull.cpp.o
 
 ConstructorConvexHull.i: ConstructorConvexHull.cpp.i
@@ -128,7 +128,7 @@ ConstructorConvexHull.i: ConstructorConvexHull.cpp.i
 
 # target to preprocess a source file
 ConstructorConvexHull.cpp.i:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/ConstructorConvexHull.cpp.i
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/ConstructorConvexHull.cpp.i
 .PHONY : ConstructorConvexHull.cpp.i
 
 ConstructorConvexHull.s: ConstructorConvexHull.cpp.s
@@ -136,7 +136,7 @@ ConstructorConvexHull.s: ConstructorConvexHull.cpp.s
 
 # target to generate assembly for a file
 ConstructorConvexHull.cpp.s:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/ConstructorConvexHull.cpp.s
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/ConstructorConvexHull.cpp.s
 .PHONY : ConstructorConvexHull.cpp.s
 
 # Help Target
@@ -145,7 +145,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... convex_hull_reconstruction"
+	@echo "... convexHull"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ConstructorConvexHull.o"

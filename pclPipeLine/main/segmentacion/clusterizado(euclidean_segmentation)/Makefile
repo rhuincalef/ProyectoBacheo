@@ -102,25 +102,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/rule:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/rule"
-.PHONY : segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/rule
+segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/rule:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f CMakeFiles/Makefile2 "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/rule"
+.PHONY : segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/rule
 
 # Convenience name for target.
-euclidean_segmentation: segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/rule
-.PHONY : euclidean_segmentation
+clusterizador: segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/rule
+.PHONY : clusterizador
 
 # fast build rule for target.
-euclidean_segmentation/fast:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build"
-.PHONY : euclidean_segmentation/fast
+clusterizador/fast:
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build"
+.PHONY : clusterizador/fast
 
 GeneradorClusters.o: GeneradorClusters.cpp.o
 .PHONY : GeneradorClusters.o
 
 # target to build an object file
 GeneradorClusters.cpp.o:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/GeneradorClusters.cpp.o"
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/GeneradorClusters.cpp.o"
 .PHONY : GeneradorClusters.cpp.o
 
 GeneradorClusters.i: GeneradorClusters.cpp.i
@@ -128,7 +128,7 @@ GeneradorClusters.i: GeneradorClusters.cpp.i
 
 # target to preprocess a source file
 GeneradorClusters.cpp.i:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/GeneradorClusters.cpp.i"
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/GeneradorClusters.cpp.i"
 .PHONY : GeneradorClusters.cpp.i
 
 GeneradorClusters.s: GeneradorClusters.cpp.s
@@ -136,7 +136,7 @@ GeneradorClusters.s: GeneradorClusters.cpp.s
 
 # target to generate assembly for a file
 GeneradorClusters.cpp.s:
-	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/GeneradorClusters.cpp.s"
+	cd /home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main && $(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/GeneradorClusters.cpp.s"
 .PHONY : GeneradorClusters.cpp.s
 
 # Help Target
@@ -145,8 +145,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... clusterizador"
 	@echo "... edit_cache"
-	@echo "... euclidean_segmentation"
 	@echo "... rebuild_cache"
 	@echo "... GeneradorClusters.o"
 	@echo "... GeneradorClusters.i"

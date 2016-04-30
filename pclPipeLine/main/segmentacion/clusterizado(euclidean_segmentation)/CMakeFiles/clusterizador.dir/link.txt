@@ -1,0 +1,2 @@
+/usr/bin/ar cr libclusterizador.a  CMakeFiles/clusterizador.dir/GeneradorClusters.cpp.o
+/usr/bin/ranlib libclusterizador.a

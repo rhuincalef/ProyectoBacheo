@@ -141,30 +141,30 @@ segmentador/fast:
 .PHONY : segmentador/fast
 
 #=============================================================================
-# Target rules for targets named euclidean_segmentation
+# Target rules for targets named clusterizador
 
 # Build rule for target.
-euclidean_segmentation: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 euclidean_segmentation
-.PHONY : euclidean_segmentation
+clusterizador: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 clusterizador
+.PHONY : clusterizador
 
 # fast build rule for target.
-euclidean_segmentation/fast:
-	$(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/euclidean_segmentation.dir/build"
-.PHONY : euclidean_segmentation/fast
+clusterizador/fast:
+	$(MAKE) -f "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build.make" "segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles/clusterizador.dir/build"
+.PHONY : clusterizador/fast
 
 #=============================================================================
-# Target rules for targets named convex_hull_reconstruction
+# Target rules for targets named convexHull
 
 # Build rule for target.
-convex_hull_reconstruction: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 convex_hull_reconstruction
-.PHONY : convex_hull_reconstruction
+convexHull: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 convexHull
+.PHONY : convexHull
 
 # fast build rule for target.
-convex_hull_reconstruction/fast:
-	$(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convex_hull_reconstruction.dir/build
-.PHONY : convex_hull_reconstruction/fast
+convexHull/fast:
+	$(MAKE) -f reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build.make reconstruccionConvexHull/convex_hull_reconstruction/CMakeFiles/convexHull.dir/build
+.PHONY : convexHull/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -297,8 +297,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... filtradoNube"
 	@echo "... segmentador"
-	@echo "... euclidean_segmentation"
-	@echo "... convex_hull_reconstruction"
+	@echo "... clusterizador"
+	@echo "... convexHull"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

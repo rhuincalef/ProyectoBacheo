@@ -46,48 +46,45 @@ RM = /usr/bin/cmake -E remove -f
 # Escaping for special characters.
 EQUALS = =
 
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/clusterizado(euclidean_segmentation)"
+CMAKE_SOURCE_DIR = "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/clusterizado(euclidean_segmentation)"
+CMAKE_BINARY_DIR = "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)"
 
 #=============================================================================
-# Target rules for target CMakeFiles/euclidean_segmentation.dir
+# Target rules for target CMakeFiles/clusterizador.dir
 
 # All Build rule for target.
-CMakeFiles/euclidean_segmentation.dir/all:
-	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/depend
-	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles"  1
-	@echo "Built target euclidean_segmentation"
-.PHONY : CMakeFiles/euclidean_segmentation.dir/all
+CMakeFiles/clusterizador.dir/all:
+	$(MAKE) -f CMakeFiles/clusterizador.dir/build.make CMakeFiles/clusterizador.dir/depend
+	$(MAKE) -f CMakeFiles/clusterizador.dir/build.make CMakeFiles/clusterizador.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles"  1
+	@echo "Built target clusterizador"
+.PHONY : CMakeFiles/clusterizador.dir/all
 
 # Include target in all.
-all: CMakeFiles/euclidean_segmentation.dir/all
+all: CMakeFiles/clusterizador.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/euclidean_segmentation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles" 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/euclidean_segmentation.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles" 0
-.PHONY : CMakeFiles/euclidean_segmentation.dir/rule
+CMakeFiles/clusterizador.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles" 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clusterizador.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/rodrigo/aplicacionesWeb/ProyectoBacheo/pclPipeLine/main/segmentacion/clusterizado(euclidean_segmentation)/CMakeFiles" 0
+.PHONY : CMakeFiles/clusterizador.dir/rule
 
 # Convenience name for target.
-euclidean_segmentation: CMakeFiles/euclidean_segmentation.dir/rule
-.PHONY : euclidean_segmentation
+clusterizador: CMakeFiles/clusterizador.dir/rule
+.PHONY : clusterizador
 
 # clean rule for target.
-CMakeFiles/euclidean_segmentation.dir/clean:
-	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/clean
-.PHONY : CMakeFiles/euclidean_segmentation.dir/clean
+CMakeFiles/clusterizador.dir/clean:
+	$(MAKE) -f CMakeFiles/clusterizador.dir/build.make CMakeFiles/clusterizador.dir/clean
+.PHONY : CMakeFiles/clusterizador.dir/clean
 
 # clean rule for target.
-clean: CMakeFiles/euclidean_segmentation.dir/clean
+clean: CMakeFiles/clusterizador.dir/clean
 .PHONY : clean
 
 #=============================================================================

@@ -90,7 +90,10 @@
 			/*
 				Datos para Confirmado: 
 					- latitud, longitud y factorArea
-						"falla": {"latitud": -43.251741078254454, "longitud": -65.32084465026855, "influencia":2, "factorArea": .2}
+						latitud y longitud se obtuvieron al informar la Falla
+						"falla": {"influencia":2, "factorArea": .2}
+
+					- tipoMaterial: se obtiene a través del tipo de falla
 
 					- tipoFalla (id)
 						"tipoFalla": {"id": 5}
@@ -98,6 +101,7 @@
 					- criticidad
 						"criticidad": {"id": 9}
 
+					(direccion No va, se obtuvo al informar la Falla)
 					- direccion (callePrincipal, calleSecundariaA, calleSecundariaB y altura)
 						"direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
 
@@ -107,9 +111,62 @@
 					- atributos (array -- es variable, depende del tipo de falla --)
 						"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}]
 
+			{
+				"datos":{
+					"falla": {"id": 1, "factorArea": .2},
+					"observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+					"tipoFalla": {"id": 88},
+					"criticidad": {"id": 71},
+					"observacion": {"comentario":""}
+					"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
+					"reparacion": {"id":1}
+					"fechaFin":"",
+					"tipoObstruccion":"Parcial",
+					"montoEstimado":""
+				}
+				Probar:..........
+				$.post(
+					"http://localhost/web/index.php/inicio/cambiarEstadoBache",
+					{"datos" : JSON.stringify(
+						{
+							"falla" : {"id": 1, "factorArea": .2},
+							"criticidad" : {"id": 1},
+							"observacion": {"comentario": "comentario falla"},
+							"atributos": [{"id": 1, "valor": '5'},{"id": 2,"valor": '4'}, {"id": 3, "valor": '2'}],
+						}
+					)},
+					function (data) {
+								
+								alertar("Exito!","El bache ha cambiado de estado","success");
+						}	
+				);
+			}
 			*/
+			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
 			$nuevoEstado = new Confirmado();
-			$nuevoEstado->setUsuario();
+			$CI = &get_instance();
+			$falla->factorArea = $datos->falla->factorArea;
+			// Buscar Material por si lo cambian
+			// Buscar TipoFalla por si la cambian
+			// $falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla);
+			// $falla->tipoFalla = Criticidad::getInstancia($datos->criticidad);
+			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			// TipoAtributo
+			$falla->atributos = array_map(function ($atributo)
+			{
+				$tipoAtributo = TipoAtributo::getInstancia($atributo->id);
+				$tipoAtributo->valor = $atributo->valor;
+				return $tipoAtributo;
+			}, $datos->atributos);
+			// Por cada tipo de atributo se establece una entrada en la tabla FallaTipoAtributoModelo
+			$falla->asociarAtributos();
+			$falla->observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
+			$falla->observacion->falla = $falla;
+			$falla->observacion->save();
+			$tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			$falla->tipoReparacion = $tipoReparacion;
+
+			$CI->utiles->debugger("Cambios");
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
@@ -122,7 +179,7 @@
             "latitud" => $falla->latitud,
             "longitud" => $falla->longitud,
             "alturaCalle" => $falla->direccion->altura,
-            "calle" => $falla->direccion->callePrincipal->nombre,
+            "calle" => $falla->direccion->getNombre(),
             "criticidad" => "No se especifica en Informado",
             // "imagenes"=> $this->obtenerImagenes($idBache)
             //"observaciones"=>$this->obtenerObservaciones($idBache)

@@ -38,8 +38,6 @@
 		static public function getInstancia($id)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("getInstancia");
-			$CI->utiles->debugger("$id");
 			$falla = new Falla();
 			$datos = $CI->FallaModelo->get($id);
 			$falla->inicializar($datos);
@@ -95,10 +93,6 @@
 
 		public function insertarDireccion($datosDireccion)
 		{
-			// // TODO: Verificar si existe la direccion con los datos
-			// $direccion = new Direccion($datosDireccion);
-			// $direccion->id = $direccion->save();
-			// return $direccion;
 			// Direccion::insertarDireccion -> Si no existe se crea la calle
 			return Direccion::insertarDireccion($datosDireccion);
 		}
@@ -341,18 +335,6 @@
 		public function to_array()
 		{
 			$datos = $this->estado->to_array($this);
-			// $datos = array(
-   //          "id" => $this->id,
-   //          "latitud" => $this->latitud,
-   //          "longitud" => $this->longitud,
-   //          "alturaCalle" => $this->direccion->altura,
-   //          "calle" => $this->direccion->callePrincipal->nombre,
-   //          // "criticidad" => $this->criticidad->nombre,
-   //          // "imagenes"=> $this->obtenerImagenes($idBache)
-   //          //"observaciones"=>$this->obtenerObservaciones($idBache)
-   //          "titulo" => $this->tipoFalla->nombre,
-   //          "estado" => json_encode($this->estado),
-   //          );
 			return $datos;
 		}
 
@@ -363,7 +345,6 @@
 			return array_map(function($elemento)
 			{
 	            return array(
-	                //'fecha' => "null",
 	                'fecha' => $elemento->fecha,
 	                'texto' => $elemento->comentario,
 	                'usuario' => $elemento->nombreObservador
@@ -386,8 +367,11 @@
 		public function cambiarEstado($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger($datos);
-			$this->estado->cambiar($datos);
+			$nuevoEstado = $this->estado->cambiar($this, $datos);
+			$CI->utiles->debugger('Nuevo Estado');
+			$this->estado = $nuevoEstado;
+			$CI->utiles->debugger($nuevoEstado);
+			// $this->asociarEstado();
 		}
 
 	}

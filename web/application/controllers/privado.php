@@ -231,31 +231,52 @@ class Privado extends CI_Controller
 			$user = $this->ion_auth->user()->row();
 			$idUsuario = $user->id;
 			// TODO: usar formValidation CI
-			$idBache = $_POST["idBache"];
-			// $estado = $_POST["estadoBache"];
-			$this->utiles->debugger("idBache=".$idBache."; idUsuario=".$idUsuario);
-			$falla = Falla::getInstancia($idBache);
-			$this->form_validation->set_rules($this->datosEstadoConfirmado);
-			if(!$this->form_validation->run())
-			{
-				$this->utiles->debugger("Validation error");
-			}else{
-				$this->utiles->debugger("Datos Validos");
-			}
+			$datos = json_decode($this->input->post("datos"));
+			// $this->form_validation->set_rules($this->datosEstadoConfirmado);
+			// if(!$this->form_validation->run())
+			// {
+			// 	$this->utiles->debugger("Validation error");
+			// }else{
+			// 	$this->utiles->debugger("Datos Validos");
+			// }
 			/*	$falla->cambiarEstado($datos);
 				Falla tiene un estado concreto.
 				La falla le pide a su estado.
 				Estado cambia el estado de la falla con los argumentos validos
 			*/
-			$datos = array();
+			$this->db->trans_begin();
+			$falla = Falla::getInstancia($datos->falla->id);
+			$user = $this->ion_auth->user()->row();
+
+			$datos->observacion->nombreObservador = $user->username;
+			$datos->observacion->emailObservador = $user->email;
 			$falla->cambiarEstado($datos);
-			// $this->utiles->debugger($falla);
+			$this->db->trans_rollback();
+			echo json_encode(array('codigo' => 400, 'mensaje' => "Falta completar implementacion....", 'valor' =>''));
 		}
 
 		public function criticidad_check($str)
 		{
 			// debo verificar que el valor sea una criticidad valida
 			return TRUE;
+		}
+
+		/*
+		Probar:
+		$.post("publico/getCriticidadesPorIDs", {"arregloIDsCriticidades":JSON.stringify([4,5])})
+		*/
+		public function getCriticidadesPorIDs()
+		{
+			$arregloIDsCriticidades = json_decode($this->input->post('arregloIDsCriticidades'));
+			$criticidades = array();
+			try {
+				foreach ($arregloIDsCriticidades as $key => $value) {
+					array_push($criticidades, Criticidad::getInstancia($value));
+				}
+				echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($criticidades)));
+			} catch (MY_BdExcepcion $e) {
+				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición o no se encuentran los todos valores", 'valor' =>''));
+			}
 		}
 
 }

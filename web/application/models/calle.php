@@ -55,5 +55,9 @@
 			return $CI->CalleModelo->save($this);
 		}
 
+		public function getNombre()
+		{
+			return $this->nombre;
+		}
 	}
 ?>

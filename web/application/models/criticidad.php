@@ -110,7 +110,6 @@
 			$arrayCriticidadesId = $CI->CriticidadModelo->getCriticidadesPorTipoFalla($idTipoFalla);
 			$arrayCriticidades = array();
 			foreach ($arrayCriticidadesId as $key => $value) {
-				// $criticidad = self::get($value->idCriticidad);
 				array_push($arrayCriticidades, $value->idCriticidad);
 			}
 			return $arrayCriticidades;

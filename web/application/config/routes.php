@@ -70,6 +70,7 @@ $route['gety/(TipoFalla)/(\d+)'] = 'publico/gety/$1/$2';
 
 $route['getTiposReparacionPorIDs'] = 'publico/getPorIds/TipoReparacion';
 $route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
+// $route['getCriticidadesPorIDs'] = 'publico/getCriticidadesPorIDs';
 $route['getBaches'] = 'publico/getBaches';
 $route['inicio/getBache/id/(\d+)'] = 'publico/getFalla/$1';
 

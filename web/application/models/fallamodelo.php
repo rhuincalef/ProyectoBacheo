@@ -69,7 +69,7 @@
 						'valor' => $tipoAtributo->valor
 						)
 					);
-				return $this->db->insert_id();
+				// return $this->db->insert_id();
 			}, $falla->atributos);
 		}
 

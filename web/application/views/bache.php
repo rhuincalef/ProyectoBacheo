@@ -77,9 +77,6 @@
 					<td> Estado </td>
 					<td id="campoEstadoBache"> <?php $estadoActual = json_decode($estado);
 					echo $estadoActual->tipoEstado->nombre;
-					// $conjuntoTiposEstados = json_decode($tiposEstado,True); 
-					// echo $conjuntoTiposEstados[($estadoActual->idTipoEstado)-1]["nombre"];
-					//echo $conjuntoTiposEstados[$estadoActual->idTipoEstado]
 					?> </td>
 				</tr>
 				<tr>
@@ -89,13 +86,6 @@
 					<td></td>
 				</tr>
 
-				<!-- "material" => $tuplaBacheConCalle->material,
-            "nroBaldosa" => $tuplaBacheConCalle->nroBaldosa,
-            "rotura"=> $tuplaBacheConCalle->rotura,
-            "ancho"=> $tuplaBacheConCalle->ancho,
-            "largo"=> $tuplaBacheConCalle->largo,
-            "profundidad"=> $tuplaBacheConCalle->profundidad,
-             -->
 				<?php
 					if (isset($material)) {
 					 	echo"<tr><td> Material de Calle </td><td>$material</td></tr>";         
@@ -147,15 +137,25 @@
             		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/cambiarEstadoBache">';
             		echo '<div id="formularioEspecificacionesTecnicas" class="form-group">';
 						echo '<div id="contenedorEstado1" class="oculto">';
-							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"> <option value="0" selected="selected">Pavimento</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
-							echo '<br><input id="numeroBaldosa" class="form-control" type="text" placeholder="Baldosa" name="baldosa"/>';
-							echo '<label class="control-label col-sm-2" for="rotura"> Rotura</label><select class="form-control selectFormulario" type="text" id="tipoRotura" name="tipoRotura"> <option value="0" selected="selected">Esquina</option>   <option value="1">Huellon</option>	<option value="2">Fisura Transversal</option></select>';
-							echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
-							echo '<br><input id="largo" class="form-control" type="text" placeholder="Largo" name="largo"/>';
-							echo '<br><input id="profundidad" class="form-control" type="text" placeholder="Profundidad" name="profundidad"/>';
+							// echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"> <option value="0" selected="selected">Pavimento</option>   <option value="1">Asfalto</option>   <option value="2">Adoquin</option></select>';
+							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control selectFormulario" type="text" id="material" name="material"></select>';
+							// echo '<br><input id="numeroBaldosa" class="form-control" type="text" placeholder="Baldosa" name="baldosa"/>';
+							echo '<label for="factorArea" class="control-label col-sm-4"> Factor Área (%)</label>';
+							echo '<br><input type="number" class="form-control selectFormulario" name="factorArea" id="factorArea" step="any" min="0">';
+							echo '<label class="control-label col-sm-2" for="tipoFalla"> Tipo de Falla</label><select class="form-control selectFormulario" type="text" id="tipoFalla" name="tipoFalla"> <option value="0" selected="selected">Esquina</option>   <option value="1">Huellon</option>	<option value="2">Fisura Transversal</option></select>';
+							// echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
+							// echo '<br><input id="largo" class="form-control" type="text" placeholder="Largo" name="largo"/>';
+							// echo '<br><input id="profundidad" class="form-control" type="text" placeholder="Profundidad" name="profundidad"/>';
+							echo '<label class="control-label col-sm-4"> Atributos</label>';
+								echo '<br><div style="width:83.4%; border-top-style:solid; border-top-color: grey; border-bottom-style: solid; border-bottom-color: grey;" class="input-group" id="contenedorAtributosFalla">';
+									echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
+									echo '<label class="control-label col-sm-4" for="tipoReparacion"> Tipo de Reparación</label>';
+									echo '<select id="tipoReparacion" name="tipoReparacion" class="form-control"><option value="1" selected="">reparación especial</option></select>';
+								echo ';</div>';
 							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control selectFormulario" type="text" id="criticidad" name="criticidad"></select>';
 							echo '</div>';
 						echo '</div>';
+							echo '<textarea style="width:83.4%;" class="form-control" maxlength="100" placeholder="Descripcion" name="descripcion"></textarea>';
 						echo '<div id="contenedorEstado2" class="oculto">';
 						echo '<br><input id="montoEstimado" class="form-control" type="numeric" placeholder="Monto Estimado" name="montoEstimado"/>';
 						echo '<br><input id="fechaFin" class="form-control" type="text"/>';
@@ -166,9 +166,6 @@ echo '<option value="1">Total</option> </select>';
     				echo '</div>';
 				echo '</div>';
 
-           // echo '<script type="text/javascript">estadoBache(this.estado,this.tiposEstado);</script>'; 
-      
-            //var_dump($tiposEstado);
         }?>
 
 	  <div class="tab-pane" id="social">
@@ -197,4 +194,4 @@ echo '<option value="1">Total</option> </select>';
 
 </div>
 
-	<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>
+	<!--<script>Bache.cargarImagenes('<?php echo $this->config->base_url();?>',<?php echo json_encode($imagenes);?>);</script>-->

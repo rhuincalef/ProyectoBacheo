@@ -64,7 +64,6 @@
 			$CI = &get_instance();
 			$tiposReparacion = array();
 			try {
-				// $datos = $CI->CriticidadModelo->getCriticidades();
 				$datos = $CI->TipoReparacionModelo->get_all();
     			foreach ($datos as $row)
     			{
@@ -121,8 +120,6 @@
 			$arrayReparacionesId =  $CI->TipoReparacionModelo->getReparacionesPorTipoFalla($idTipoFalla);
 			$arrayReparaciones = array();
 			foreach ($arrayReparacionesId as $key => $value) {
-				// $tipoReparacion = self::get($value->idTipoReparacion);
-				// array_push($arrayReparaciones, $tipoReparacion->id);
 				array_push($arrayReparaciones, $value->idTipoReparacion);
 			}
 			return $arrayReparaciones;

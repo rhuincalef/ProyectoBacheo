@@ -87,5 +87,10 @@
 
 		}
 
+		public function getNombre()
+		{
+			return $this->callePrincipal->getNombre();
+		}
+
 	}
  ?>

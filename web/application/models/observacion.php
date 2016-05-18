@@ -15,6 +15,9 @@
 				case 1:
 					return call_user_func_array(array($this,'inicializar'), func_get_args());
 					break;
+				case 2:
+					return call_user_func(array($this,'nueva'), func_get_arg(0), func_get_arg(1));
+					break;
 				default:
 					break;
 			}
@@ -27,6 +30,14 @@
 			$this->nombreObservador = $datos->nombreObservador;
 			$this->emailObservador = $datos->emailObservador;
 			$this->fecha = $datos->fecha;
+		}
+
+		private function nueva($datos, $fecha)
+		{
+			$this->comentario = $datos->comentario;
+			$this->nombreObservador = $datos->nombreObservador;
+			$this->emailObservador = $datos->emailObservador;
+			$this->fecha = $fecha;
 		}
 
 		static public function getInstacia($datos)

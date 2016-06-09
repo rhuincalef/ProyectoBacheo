@@ -13,6 +13,7 @@
 		height:100%;
 		margin-top: -7.5%;
 		z-index: 1;
+		position: absolute;
 	}
 
 @media only screen and (min-width : 1224px) {
@@ -70,10 +71,18 @@
 	margin-bottom: 2%;
 }
 
+.izquierdoReducido{
+	width: 40% !important;
+}
+
 
 .campoDerecho{
 	width: 28%;
 	margin-bottom: 2%;
+}
+
+.derechoAmpliado{
+	width: 58% !important
 }
 
 .informacionBache{
@@ -103,4 +112,36 @@
     margin-top: -0.2%;
 }
 
+.tipoFalla{
+	width: 100%;
+	margin-bottom: 13px;
+	border-style: solid;
+	border-radius: 5px;
+	border-width: 0.5px;
+	border-color: rgba(0, 0, 0, 0.25);
+	padding: 7px 0px 7px 5px !important;
+}
+
+.tipoFalla label{
+	font-weight: 100;
+	margin-top: 4px;
+}
+
+.tipoFalla > div{
+	overflow: hidden;
+	margin-top: 40px;
+}
+
+.tipoFalla > select{
+	margin-bottom: 3px !important;
+}
+
+#contenedorAtributosFalla{
+	text-transform: capitalize;
+	margin-top: 40px;
+	padding-top: 5px;
+	border-top-style: solid;
+	border-width: 0.5px;
+	border-color: rgba(0, 0, 0, 0.25);
+}
 

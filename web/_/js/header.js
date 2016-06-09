@@ -8,7 +8,7 @@
 			var $form_inputs = $(this).find("input");
 			// data = {'login_identity':'guille@gmail.com', 'login_password':'1234', 'remember_me':'1', 'login_user':'Submit'};
 			data = {"login_identity":$($form_inputs[0]).val(), "login_password":$($form_inputs[1]).val()}
-			var submit_url = $(this).attr("action")+"index.php/auth/login_via_ajax";
+			var submit_url = $(this).attr("action")+"/login";
 			$.ajax(
 			{
 				url: submit_url,
@@ -42,7 +42,7 @@
 		$("#cerrarSesion").click(function (evento) {
 			evento.preventDefault();
 			$.ajax({
-				url: $("#inicioSesion").attr("action")+"index.php/auth/logout",
+				url: $("#inicioSesion").attr("action")+"logout",
 				type: "POST",
 				success:function () {
 					alertar("Aviso","Se ha cerrado la sesion.","info");
@@ -64,7 +64,9 @@
 				{"width": "+=100px"},
 			   	'slow',
 			  	'swing',
-			  	function(){$(".cuadroBusqueda").find("input").css({"width":"90%"})}
+			  	function(){
+			  		$(".cuadroBusqueda").find("input").css({"width":"80%"});
+			  	}
 			 );
 		});
 
@@ -74,7 +76,7 @@
 			   	'slow',
 			  	'swing'
 			 );
-			$(".cuadroBusqueda").find("input").css({"width":"70%"});
+			$(".cuadroBusqueda").find("input").css({"width":"60%"});
 		});
 
 

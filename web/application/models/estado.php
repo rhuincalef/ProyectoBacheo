@@ -1,98 +1,260 @@
-<?php 
-require_once('FirePHP.class.php');
-class Estado extends MY_Model {
-	private $id;
-	private $idTipoEstado;
-	private $idBache;
-	private $idUsuario;
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	class Estado
+	{
+		var $id;
+		var $falla;
+		var $usuario;
+		var $tipoEstado;
+		var $monto;
+		var $fechaFinReparacionReal;
+		var $fechaFinReparacionEstimada;
+		
+		function __construct()
+		{
+			
+		}
 
-	//Atributos usados por la libreria
-    public $_table = 'Estado';//Este atributo permite denominar la forma en que  se llama la tabla
-                                //realmente en lugar de dejar que adivine automaticamente como se llama.
-    public $primary_key = 'id';//Sobreescribiendo el id por defecto.
+		protected function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->falla = Falla::getInstancia($datos->idFalla);
+			$this->tipoEstado = TipoEstado::getInstancia($datos->idTipoEstado);
+			// $this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
+			// $this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
+		}
 
- 	//-->Se indica la clave foranea desde Estado hacia Bache y TipoEstado
-    public $belongs_to = array( 'TipoEstado' => array('model' => 'Estado', 'primary_key' => 'idTipoEstado' ),'Bache' => array('model' => 'Bache', 'primary_key' => 'idBache' ));
+		static public function getInstancia($datos)
+		{
+			$estado = new Estado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
 
+		static public function getAll($idFalla)
+		{
+			$CI = &get_instance();
+			$estados = array();
+			$datos = $CI->EstadoModelo->getEstados($idFalla);
+			$estados = array_map(function($obj){ return Estado::getInstancia($obj); }, $datos);
+			return $estados;
+		}
 
+		public function getEstadoActual($idFalla)
+		{
+			$CI = &get_instance();
+			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
+			$CI->utiles->debugger($datos);
+			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
+			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
+			$estado = $nombreTipoEstado::getInstancia($datos);
+			// date('F jS, Y h:i:s', strtotime($date));
+			$estado->fecha = date("F d Y h:i:s", strtotime($datos->fecha));
+			// $estado->fecha = $datos->fecha;
+			return $estado;
+		}
 
-    //Esta funcion asocia un bache con un estado. Es llamada desde el altaBache().
-    public function asociarEstado($idBache,$estado){
-    	$firephp = FirePHP::getInstance(True);
-    	$this->load->database();
-    	// $firephp->log("Dentro de estado->asociarEstado() con estado: ".$estado);
-    	$this->load->model("TipoEstado");
-    	$idTipoEstado=$this->TipoEstado->obtenerTipoEstado($estado);
-    	// $firephp->log("El idTipoEstado es:".$idTipoEstado);
+		public function save()
+		{
+			$CI = &get_instance();
+			return $CI->EstadoModelo->save($this);
+		}
 
-    	//Se obtiene la fecha actual en la que se setea la tupla.
-    	$fecha=date("d-m-Y", time());
-		// $firephp->log("La fecha actual es la siguiente:".$fecha);    	
-    	$estado= array(
-    		"idTipoEstado" => $idTipoEstado,
-    		"idBache" => $idBache,
-    		"fecha" =>$fecha 
-    		);
-    	$this->insert($estado);
-		// $firephp->log("Se dio de alta correctamente el estado de bache en la BD!"); 
-		return $idBache;
-    }
+	}
 
-    //Esta funcion cambia el estado de un bache con un determinado $idBache y asocia el usuario logueado
-    // con el $idUsuario. Recibe por parametro $idBache, $idUsuario y el nombre del nuevo estado.
-    public function cambiarEstado($idBache,$idUsuario,$estadoNuevo){
-    	$firephp = FirePHP::getInstance(True);
-    	$this->load->database();
-    	$this->load->model("TipoEstado");
-    	$idTipoEstado=$this->TipoEstado->obtenerTipoEstado($estadoNuevo);
-    	//Se busca el estado del bache y se modifica por $idBache
-		$this->update_by('idBache',$idBache,array(
-    		'idTipoEstado'=>$idTipoEstado,
-    		'idUsuario'=>$idUsuario
-    		));
-		$firephp->log("Se cambio el estado del bache correctamente");
-    }
+	
+	class Informado extends Estado
+	{
 
-    public function borrarEstado($idBache){
-    	$firephp = FirePHP::getInstance(True);
-    	$this->load->database();
-    	$this->delete_by("idBache",$idBache);
-    	$firephp->log("Se borro el estado del bache");
-    }
+		public function __construct()
+		{
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
+		}
 
-    public function obtenerEstadosBache($idBache){
-        $this->load->database();
-       // var_dump($this->-get_where(array("idBache"=>$idBache)));
-        $this->order_by('fecha');
-        $estados = $this->get_many_by("idBache",$idBache); //$this->db->get_where("Estado",array("idBache"=>$idBache));
-        return $estados;
-                
-    }
+		static public function getInstancia($datos)
+		{
+			$estado = new Informado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
 
-    public function asociarNuevoEstado($idBache){
-        $firephp = FirePHP::getInstance(True);
-        // $firephp->log($idBache);
-        $this->load->database();
-        $estados = $this->obtenerEstadosBache($idBache);
-        $estadoActual = end($estados);
-        $this->load->model("TipoEstado");
-        $tiposEstados = $this->TipoEstado->obtenerTiposEstados();
-        $firephp->log($tiposEstados);
-        $firephp->log("obteniendo nuevo estado");
+		protected function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->falla = $datos->idFalla;
+			// $this->falla = Falla::getInstancia($datos->idFalla);;
+		}
 
-        $idNuevoEstado = ($estadoActual->idTipoEstado+1)%(count($tiposEstados));
-        if ($idNuevoEstado == 0) {
-            $idNuevoEstado = count($tiposEstados);
-        }
-        $firephp->log($idNuevoEstado);
-        $nuevoEstado = $tiposEstados[$idNuevoEstado-1]["nombre"];
-        $firephp->log($nuevoEstado);
-        $this->asociarEstado($idBache, $nuevoEstado);
-        return $idNuevoEstado;
-    }
+		public function cambiar($falla, $datos=array())
+		{
+			/*
+				Datos para Confirmado: 
+					- latitud, longitud y factorArea
+						latitud y longitud se obtuvieron al informar la Falla
+						"falla": {"influencia":2, "factorArea": .2}
 
+					- tipoMaterial: se obtiene a través del tipo de falla
 
-}
-/* End of file bache.php */
-/* Location: ./application/models/bache.php */
+					- tipoFalla (id)
+						"tipoFalla": {"id": 5}
+
+					- criticidad
+						"criticidad": {"id": 9}
+
+					(direccion No va, se obtuvo al informar la Falla)
+					- direccion (callePrincipal, calleSecundariaA, calleSecundariaB y altura)
+						"direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+
+					- observacion (comentario, -- email y usuario se obtienen de la sesion--)
+						"observacion": {"comentario": "comentario falla"}
+
+					- atributos (array -- es variable, depende del tipo de falla --)
+						"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}]
+
+			{
+				"datos":{
+					"falla": {"id": 1, "factorArea": .2},
+					"observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+					"tipoFalla": {"id": 88},
+					"criticidad": {"id": 71},
+					"observacion": {"comentario":""}
+					"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
+					"reparacion": {"id":1}
+					"fechaFin":"",
+					"tipoObstruccion":"Parcial",
+					"montoEstimado":""
+				}
+				Probar:..........
+				$.post(
+					"http://localhost/web/index.php/inicio/cambiarEstadoBache",
+					{"datos" : JSON.stringify(
+						{
+							"falla" : {"id": 1, "factorArea": .2},
+							"criticidad" : {"id": 1},
+							"observacion": {"comentario": "comentario falla"},
+							"atributos": [{"id": 1, "valor": '5'},{"id": 2,"valor": '4'}, {"id": 3, "valor": '2'}],
+						}
+					)},
+					function (data) {
+								
+								alertar("Exito!","El bache ha cambiado de estado","success");
+						}	
+				);
+			}
+			*/
+			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
+			$nuevoEstado = new Confirmado();
+			$CI = &get_instance();
+			$falla->factorArea = $datos->falla->factorArea;
+			// Buscar Material por si lo cambian
+			// Buscar TipoFalla por si la cambian
+			// $falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla);
+			// $falla->tipoFalla = Criticidad::getInstancia($datos->criticidad);
+			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			// TipoAtributo
+			$falla->atributos = array_map(function ($atributo)
+			{
+				$tipoAtributo = TipoAtributo::getInstancia($atributo->id);
+				$tipoAtributo->valor = $atributo->valor;
+				return $tipoAtributo;
+			}, $datos->atributos);
+			// Por cada tipo de atributo se establece una entrada en la tabla FallaTipoAtributoModelo
+			$falla->asociarAtributos();
+			$falla->observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
+			$falla->observacion->falla = $falla;
+			$falla->observacion->save();
+			$tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			$falla->tipoReparacion = $tipoReparacion;
+
+			$CI->utiles->debugger("Cambios");
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->id = $nuevoEstado->save();
+			return $nuevoEstado;
+		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->getNombre(),
+            "criticidad" => "No se especifica en Informado",
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $falla->tipoFalla->nombre,
+            "estado" => json_encode($falla->estado),
+            );
+            return $datos;
+		}
+
+	}
+
+	class Confirmado extends Estado
+	{
+
+		public function __construct()
+		{
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
+		}
+
+		public function setUsuario()
+		{
+			// $this->usuario = $idUsuario;
+			// Se obtiene el usuario a traves de la libreria ion_auth
+			$CI = &get_instance();
+			$this->usuario = $CI->ion_auth->user()->row()->id;
+		}
+
+		static public function getInstancia($datos)
+		{
+			$estado = new Confirmado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
+
+		public function inicializar($datos)
+		{
+			// parent::inicializar($datos);
+			$this->id = $datos->id;
+			// $this->usuario = $datos->idUsuario;
+		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => "Falta especificar",
+            // "criticidad" => $falla->criticidad->nombre,
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $falla->tipoFalla->nombre,
+            "estado" => json_encode($falla->estado),
+            );
+            return $datos;
+		}
+
+		public function cambiar($falla, $datos=array())
+		{
+			/*
+				Datos para Reparando: 
+					- monto
+
+					- fechaFinReparacionEstimada
+				
+			$nuevoEstado = new Reparando();
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->id = $nuevoEstado->save();
+			return $nuevoEstado;
+			*/
+		}
+
+	}
+
 ?>

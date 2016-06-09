@@ -9,21 +9,21 @@
 
         <div class="contenedorCampos">
           <form id="formularioBache">
-              <input name="titulo" type="text" class="form-control campoIzquierdo" placeholder="Titulo">
-              <select id="criticidad" class="form-control campoDerecho">
-<!--                 <option value="baja">Pequeño</option>
+<!--               <select id="criticidad" class="form-control campoDerecho">
+                 <option value="baja">Pequeño</option>
                 <option value="media">Mediano</option>
-                <option value="alta">Grande</option> -->
-              </select>
+                <option value="alta">Grande</option>
+              </select> -->
 
               <!-- <div class="alerta">  
                 <strong>Nota:</strong> Esta descripcion corresponde a un bache mediano
               </div> -->
 
-              <button id="seleccionarCalle" type='button' class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
               <input name="calle" type="text" class="form-control campoIzquierdo campoCalle" placeholder="Calle">
+              <button id="seleccionarCalle" type='button' class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
               <input name="altura" type="numeric" class="form-control campoDerecho" placeholder="Altura">
-              <textarea name="descripcion" placeholder="Descripcion" maxlength="100" class="form-control campoDescripcion"></textarea>
+              <div id="contenedorSelect" class="input-group tipoFalla"></div>
+              <textarea name="descripcion" placeholder="Observacion" maxlength="100" class="form-control campoDescripcion"></textarea>
           </form> 
 
 

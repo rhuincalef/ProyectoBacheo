@@ -29,7 +29,8 @@ class Template {
 	var $template_directory = 'templates/page';
 	var $template_name = 'default';
 	
-	function Template()
+	// function Template()
+	function __construct()
 	{
 		// Load CI instance so we can get config values etc
 		$this->CI =& get_instance();

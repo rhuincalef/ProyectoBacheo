@@ -1,0 +1,52 @@
+Falla
+	- Crear
+		
+		* controllers/publico/crearFallaAnonima
+			Para usuario anonimo (estado = Informado)
+			Parámetros:
+				> falla: {"latitud": double, "longitud": double}
+				> observacion: {"comentario": string, "nombreObservador": string, "emailObservador": string}
+				> tipoFalla: {"id": integer}
+				> direccion: {"altura": integer, "callePrincipal": string, "calleSecundariaA": string, "calleSecundariaB": string}
+				> multimedias: peticiones ajax con los archivos
+			Obligatorios -> falla, observacion, tipoFalla, direccion
+			Opcionales -> multimedias
+
+		Una posible secuencia para que un usuario anónimo pueda crear falla es:
+			- Final, en POST para dar de alta una falla
+					$.post('crearFallaAnonima', 
+					{"clase": "Falla",
+					"datos": JSON.stringify(
+					  { "falla": {"latitud": 12.2, "longitud": 54.2},
+					   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+				       "tipoFalla": {"id": 1},
+					   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+					  })
+					})
+
+		--------------------------------------------------------------------------------------------------------
+		* controllers/privado/crear/Falla
+			Parámetros:
+				> falla: {"latitud": double, "longitud": double, "influencia": integer, "factorArea": double}
+				> observacion: {"comentario": string, "nombreObservador": string, "emailObservador": string}
+				> tipoFalla: {"id": integer}
+				> criticidad: {"id": integer}
+				> reparacion: {"id": integer}
+				> atributos: [{"id": integer, "valor": numeric}, ....]
+				> direccion: {"altura": integer, "callePrincipal": string, "calleSecundariaA": string, "calleSecundariaB": string}
+				> multimedias: peticiones ajax con los archivos
+			Obligatorios -> falla, observacion, tipoFalla, criticidad, reparacion, direccion, atributos
+			Opcionales -> multimedias
+
+			$.post('crear/Falla', 
+					{"clase": "Falla",
+					"datos": JSON.stringify(
+					  { "falla": {"latitud": -43.2538655025621, "longitud": -65.3102016448975, "influencia": 12, "factorArea": 3},
+					   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+				       "tipoFalla": {"id": 1},
+				       "criticidad": {"id": 1},
+				       "reparacion": {"id": 1},
+				       "atributos": [{"id": 1, "valor": 12}],
+					   "direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+					  })
+					})

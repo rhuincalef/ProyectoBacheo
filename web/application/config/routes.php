@@ -38,9 +38,50 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "publico";
 $route['404_override'] = 'error/error_404';
+$route['get(TiposEstado|Niveles|TiposRotura|TiposDeMateriales)'] = 'publico/get$1';
+$route['get(Falla|Observaciones|Multimedia|Estado|Estados)/(\d+)'] = 'publico/get$1/$2';
+
+$route['get[^(Falla|Observaciones|Multimedia|Estado|Estados)]'] = 'error/error_404';
+$route['login'] = 'publico/login_via_ajax';
+$route['logout'] = 'publico/logout';
+$route['creacionTipoFalla'] = 'publico/creacionTipoFalla';
+
+$route['get(TiposDeMateriales)'] = 'privado/get$1';
+// $route['get(TipoDeMaterial|TipoDeReparacion)/(\d+)'] = 'privado/get$1/$2';
+$route['get(TipoMaterial|TipoDeReparacion)/(\d+)'] = 'publico/get$1/$2';
+
+/*{3,6}     Between 3 and 6 of characters, tener en cuenta*/
+$route['crearTipoAtributo/(\d+)/([\w]+)/([\w]+)'] = 'publico/crearTipoAtributo/$1/$2/$3';
+$route['getCriticidades'] = 'publico/getCriticidades';
+$route['getLazyTiposFalla/(\d+)'] = 'publico/getLazyTiposFalla/$1';
+
+// Restringir a los necesarios
+$route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$2';
+$route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
+$route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';
+
+$route['crearFallaAnonima'] = 'publico/crearFallaAnonima';
+$route['getTiposFalla/(\d+)'] = 'publico/getTiposFalla/$1';
+
+$route['getAlly/(TipoMaterial)'] = 'publico/getAlly/$1';
+$route['gety/(TipoFalla)/(\d+)'] = 'publico/gety/$1/$2';
+
+$route['getTiposReparacionPorIDs'] = 'publico/getPorIds/TipoReparacion';
+$route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
+// $route['getCriticidadesPorIDs'] = 'publico/getCriticidadesPorIDs';
+$route['getBaches'] = 'publico/getBaches';
+$route['inicio/getBache/id/(\d+)'] = 'publico/getFalla/$1';
+
+$route['obtenerObservaciones/(\d+)'] = 'publico/obtenerObservaciones/$1';
+$route['asociarObservacion'] = 'publico/asociarObservacion';
+$route['inicio/cambiarEstadoBache'] = 'publico/modificarEstado';
 
 
+$route['registrarUsuario'] = 'publico/registrarUsuario';
+$route['create_user'] = 'publico/create_user';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
+
+?>

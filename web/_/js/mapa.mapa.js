@@ -63,12 +63,6 @@ $(document).ready(function(){
     inicializar();
 });
 
-function inicializarFormularioBache(){
-//  cargarCriticidad();
-  Bacheo.myDropzone.removeAllFiles();
-	$("#informacionBache").modal("toggle");
-};
-
 function cargarCriticidad(niveles){
   var $opciones = $("#criticidad");
   $opciones.empty();
@@ -87,8 +81,9 @@ function cargarCriticidad(niveles){
 
 
 function inicializar(){
-  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
-  Bacheo.generarMapa($("#canvasMapa"));
+//  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
+  Bacheo.init($("#canvasMapa"));
+  //Bacheo.generarMapa($("#canvasMapa"));
   $("#seleccionarCalle").click(bindearEventoClick);
 
   var boundsTrelew = new google.maps.LatLngBounds(

@@ -1,47 +1,118 @@
-<?php 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	class Criticidad
+	{
+		
+		var $id;
+		var $nombre;
+		var $descripcion;
+		var $ponderacion;
+		
+		function __construct()
+		{
+			switch (func_get_args()) {
+				case 3:
+					return call_user_func_array(array($this,'constructor'), func_get_args());
+					break;
+				default:
+					break;
+			}
+		}
 
-class Criticidad extends MY_Model{
- 
+		public function constructor($args)
+		{
+			$this->nombre = $args[0];
+			$this->descripcion = $args[1];
+			$this->ponderacion = $args[2];
 
-        public $_table = 'Criticidad';//Este atributo permite denominar la forma en que  se llama la tabla
-                                //realmente en lugar de dejar que adivine automaticamente como se llama.
-        public $primary_key = 'id';//Sobreescribiendo el id por defecto.
+		}
 
-        //Muchos baches tienen clave foránea hacia la criticidad. La primary_key se refiere a los baches
-        //que apuntan a las criticidades.
-        public $has_many = array( 'Bache' => array( 'model' => 'Bache','primary_key' => 'idCriticidad' ) );
+		private function inicializar($datos)
+		{
+			$this->id = $datos->id;		
+			$this->nombre = $datos->nombre;
+			$this->descripcion = $datos->descripcion;
+		}
 
-        function __construct()
-        {
-            // Call the Model constructor
-            parent::__construct();
-            // $this->load->database();    
-        }
+		static public function getInstancia($id)
+		{
 
-        function obtenerCriticidad($nivel){
-            //Se retorna un arreglo con el tipo de 
-            $criticidadObj=$this->get_by("nombre",$nivel);
-            //Se castea el objeto retornado a una array asociativo.
-            $criticidadArray= (array)$criticidadObj;
-            return $criticidadArray["id"];
-        }
+			$CI = &get_instance();
+			$criticidad = new Criticidad();
+			$datos = $CI->CriticidadModelo->get($id);
+			$criticidad->inicializar($datos);		
+			return $criticidad;
 
-        function obtenerNivelesDeCriticidad(){
-            // echo "Llame a obtenerNiveles de criticidad\n";
-            $resultados=$this->as_array()->get_all();
-            return $resultados;
-        }
-}
+		}
 
-	// function getColCriticidades($valoresJSONizados)
- //    {
- //        $this->load->library("ConsultaJSON");
- //        //Se instacia la clase que se definió como parte de la libreria
- //        $consult=new ConsultaJSON();
- //        $consult->setConexion('postgre://adminpepe:adminpepe@localhost/ProyectoBacheo');
- //        return $consult->obtenerCriticidades($valoresJSONizados);          
- //    }
+		// static public function getCriticidades()
+		static public function getAll()
+		{
+			$CI = &get_instance();
+			$criticidades = array();
+			try {
+				// $datos = $CI->CriticidadModelo->getCriticidades();
+				$datos = $CI->CriticidadModelo->get_all();
+    			foreach ($datos as $row)
+    			{
+    				$criticidad = new Criticidad();
+    				$criticidad->inicializar($row);
+    				array_push($criticidades, $criticidad);		
+    			}
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $criticidades;
+		}
+		
+		public function toJson() {
+    		return ['id'=> $this->id,'nombre' => $this->nombre,'descripcion' => $this->descripcion];
+		}
 
+		static public function getCriticidadPorNombre($nombre)
+		{
+			$CI = &get_instance();
+			// $datos = $CI->CriticidadModelo->getCriticidadPorNombre($nombre);
+			$datos = $CI->CriticidadModelo->get_by(array('nombre' => $nombre));
+			$criticidad = new Criticidad();
+			$criticidad->inicializar($datos);
+			return $criticidad;
+		}
 
-/* End of file criticidad.php */
-?>
+		public function save()
+		{
+			$CI = &get_instance();
+			return $CI->CriticidadModelo->save($this);
+		}
+
+		static public function crear($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger($datos);
+			$criticidad = new Criticidad();
+			$criticidad->nombre = $datos->nombre;
+			$criticidad->descripcion = $datos->descripcion;
+			$criticidad->ponderacion = $datos->ponderacion;
+			$criticidad->id = $criticidad->save();
+			$CI->utiles->debugger($criticidad);
+			return $criticidad;
+		}
+
+		public function asociar($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$CI->CriticidadModelo->asociar($this->id, $idTipoFalla);
+		}
+
+		public function getCriticidadesPorTipoFalla($idTipoFalla)
+		{
+			$CI = &get_instance();
+			$arrayCriticidadesId = $CI->CriticidadModelo->getCriticidadesPorTipoFalla($idTipoFalla);
+			$arrayCriticidades = array();
+			foreach ($arrayCriticidadesId as $key => $value) {
+				array_push($arrayCriticidades, $value->idCriticidad);
+			}
+			return $arrayCriticidades;
+		}
+	}
+ ?>

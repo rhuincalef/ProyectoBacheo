@@ -1,29 +1,74 @@
-<?php 
-
-require_once('FirePHP.class.php');
-
-class TipoEstado extends MY_Model {
-	private $id;
-  	private $nombre;
-  	//Atributos usados por la libreria
-    public $_table = 'TipoEstado';//Este atributo permite denominar la forma en que  se llama la tabla
-                                //realmente en lugar de dejar que adivine automaticamente como se llama.
-    public $primary_key = 'id';//Sobreescribiendo el id por defecto.
-
-
-    //Esta funcion obtiene el id del estado en base a un nombre pasado por parámetro.
-	public function obtenerTipoEstado($nombreEstado){
-		$tupla=$this->get_by("nombre",$nombreEstado);
-		return $tupla->id;
-	}    
-
-	public function obtenerTiposEstados()
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	class TipoEstado
 	{
-		$this->order_by('id');
-		return $this->as_array()->get_all();
+		
+		var $id;
+		var $nombre;
+		
+		function __construct()
+		{
+			
+		}
+
+		private function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->nombre= ucfirst($datos->nombre);
+		}
+
+		static public function getInstancia($id)
+		{
+			$CI = &get_instance();
+			$tipoEstado = new TipoEstado();
+			$CI->utiles->debugger("$id");
+			$datos = $CI->TipoEstadoModelo->get($id);
+			$tipoEstado->inicializar($datos);
+			return $tipoEstado;
+		}
+
+		static public function getTiposEstado()
+		{
+			$CI = &get_instance();
+			$tiposEstado = array();
+			$datos = $CI->TipoEstadoModelo->getTiposEstado();
+			foreach ($datos as $row)
+			{
+				$tipoEstado = new TipoEstado();
+				$tipoEstado->inicializar($row);
+				array_push($tiposEstado, $tipoEstado);
+			}
+			
+			return $tiposEstado;
+		}
+
+		static public function getTipoEstado($nombre)
+		{
+			$CI = &get_instance();
+			$datos = $CI->TipoEstadoModelo->getTipoEstado($nombre);
+			$tipoEstado = new TipoEstado();
+			$tipoEstado->inicializar($datos);
+			return $tipoEstado;
+		}
+
+		static public function getAll()
+		{
+			$CI = &get_instance();
+			$tiposEstado = array();
+			try {
+				// $datos = $CI->CriticidadModelo->getCriticidades();
+				$datos = $CI->TipoEstadoModelo->get_all();
+    			foreach ($datos as $row)
+    			{
+    				$tipoEstado = new TipoEstado();
+    				$tipoEstado->inicializar($row);
+    				array_push($tiposEstado, $tipoEstado);
+    			}
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $tiposEstado;
+		}
 
 	}
-}
-/* End of file bache.php */
-/* Location: ./application/models/bache.php */
 ?>

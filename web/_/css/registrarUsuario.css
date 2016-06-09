@@ -45,3 +45,19 @@
     border-top-right-radius: 0;
     margin-bottom: 10px;
 }
+
+.contenedorFormularioLogin{
+    width: 100%;
+    background-image: url("../img/pc.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.contenedorFormularioLogin div{
+    margin: 0px auto;
+    width: 50%;
+    background-color: rgba(255,255,255,.4);
+    padding-top:20px; 
+    padding-bottom:20px; 
+}

@@ -120,7 +120,9 @@ html,body{
 
 .cuadroBusqueda > i {
 	float: right;
-	margin-top: 2%;
+	position: relative;
+	top: 25%;
+	margin-right: 4.5px;
 }
 
 .cuadroBusqueda > input {
@@ -128,5 +130,23 @@ html,body{
 	border:none;
 	height: 100%;
 	border-radius: 4px;
-	width: 70%;
+	width: 60%;
 }
+
+.sangria{
+	text-indent: 20px;	
+}
+
+.ancho100{
+	width: 100%;
+}
+
+.capitalizado{
+	text-transform:capitalize;
+}
+
+.tabuladoDerecha{
+	float: right;
+	
+}
+

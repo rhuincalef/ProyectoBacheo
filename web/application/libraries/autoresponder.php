@@ -27,7 +27,8 @@ class Autoresponder {
 	var $charset = 'utf-8';
 	var $wordwrap = TRUE;
 	
-	function Autoresponder()
+	// function Autoresponder()
+	function __construct()
 	{
 		// Load CI instance so we can get config values etc
 		$this->CI =& get_instance();

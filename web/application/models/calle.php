@@ -1,31 +1,63 @@
-<?php 
-require_once('FirePHP.class.php');
-class Calle extends MY_Model{
-		public $_table = 'Calle';//Este atributo permite denominar la forma en que  se llama la tabla
-                                //realmente en lugar de dejar que adivine automaticamente como se llama.
-        public $primary_key = 'id';//Sobreescribiendo el id por defecto.
 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	class Calle
+	{
+		
+		var $id;
+		var $nombre;
+		
+		
 		function __construct()
 		{
-			// Call the Model constructor
-			parent::__construct();
-		    $this->load->database();	
+			
 		}
-		/*Se inserta la calle y se retorna el ID de la calle insertada*/
-		function insertarCalle($nombreCalle){
-			$firephp = FirePHP::getInstance(true);
-			$nombreMin=strtolower($nombreCalle);
-			$this->insert(array("nombre"=>ucfirst($nombreMin)));
-			$firephp->log("La calle insertada en la BD fue:"+ucfirst($nombreCalle));
-	        return $this->db->insert_id();
+
+		private function inicializar($datos)
+		{
+			$this->id = $datos->id;		
+			$this->nombre = $datos->nombre;
 		}
-		/*Borra la calle y retorna el id de la calle eliminada. */
-		// Si existe al menos un bache que este asociado a la calle, la calle no se borra. Se retorna 0.
-		function borrarCalle($idCalle){
-			$result=$this->delete($idCalle);
-			return $idCalle;
+
+		static public function getInstancia($id)
+		{
+
+			$CI = &get_instance();
+			
+			$calle = new Calle();
+			try {
+				$datos = $CI->CalleModelo->get($id);
+				$calle->inicializar($datos);		
+			}	
+			catch (MY_BdExcepcion $e) {
+				echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
+			}
+			return $calle;
 		}
-}
-/* End of file calle.php */
-/* Location: ./application/models/bache.php */
+
+		static public function buscarCalle($nombre)
+		{
+			$CI = &get_instance();
+			$calle = new Calle();
+			try {
+				$datos = $CI->CalleModelo->get_by(array('nombre' => $nombre));
+				$calle->inicializar($datos);
+			} catch (MY_BdExcepcion $e) {
+				$calle->nombre = $nombre;
+				$calle->id = $calle->save();
+			}finally{
+				return $calle;
+			}
+		}
+
+		public function save()
+		{
+			$CI = &get_instance();
+			return $CI->CalleModelo->save($this);
+		}
+
+		public function getNombre()
+		{
+			return $this->nombre;
+		}
+	}
 ?>

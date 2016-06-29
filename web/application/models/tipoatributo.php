@@ -47,7 +47,7 @@
 			return $tipoAtributo;
 		}
 
-		public function getAtributosPorTipoFalla($idTipoFalla)
+		static public function getAtributosPorTipoFalla($idTipoFalla)
 		{
 			$CI = &get_instance();
 			$arrayTiposAtributosId = $CI->TipoAtributoModelo->getAtributosPorTipoFalla($idTipoFalla);

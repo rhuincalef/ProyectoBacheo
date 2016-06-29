@@ -22,6 +22,9 @@ Bache = (function () {
 		longitud = parseFloat($("#longBache").text());
 
 		var otroLat = latitud-0.0025;
+	
+		if (typeof google != 'undefined')
+		{
 		var latlon = new google.maps.LatLng(latitud, longitud);
 		var latLongCenter = new google.maps.LatLng(otroLat, longitud);
 		var mapOptions = {
@@ -36,6 +39,8 @@ Bache = (function () {
 			map: mapa,
 			title: "Bache "+ idBache
 	  	});
+
+		}
 
 		if (logueado) {
 			estadoBache(estado,tiposEstado);
@@ -127,9 +132,10 @@ Bache = (function () {
 		// datos.baldosa = $("#numeroBaldosa").val();
 		datos.falla = {};
 		datos.falla.id = idBache;
-		datos.falla.factorArea = $("#factorArea").val();
+		datos.falla.factorArea = parseFloat($("#factorArea").val());
 		// datos.rotura = $("#tipoRotura option:selected").text()
-		datos.tipoFalla = $("#tipoFalla option:selected").text();
+		datos.tipoFalla = {};
+		datos.tipoFalla.id = parseInt($("#tipoFalla option:selected").val());
 		datos.observacion = {}
 		datos.observacion.comentario = $('#contenedorFormulario textarea').val();
 		datos.fecha = $("#fechaFin").val();
@@ -139,27 +145,30 @@ Bache = (function () {
 		/* Mis aportes............*/
 		// Se envia id material por si se lo desea cambiar
 		datos.material = {};
-		datos.material.id = $("#material option:selected").val();
+		datos.material.id = parseInt($("#material option:selected").val());
 		datos.criticidad = {};
-		datos.criticidad.id = $("#criticidad").val();
+		datos.criticidad.id = parseInt($("#criticidad").val());
 		// Por cada atributo
 		datos.atributos = [];
 		inputsAtributos = $("#contenedorAtributosFalla input");
 		inputsAtributos.each(function(indice,elemento) {
 			atributo = {};
-			atributo.id = elemento.attributes.propid.value;
-			atributo.valor = elemento.value;
+			atributo.id = parseInt(elemento.attributes.propid.value);
+			atributo.valor = parseFloat(elemento.value);
 			datos.atributos.push(atributo);
 		});
 		datos.reparacion = {};
-		datos.reparacion.id = $("#tipoReparacion option:selected").val();
-
+		datos.reparacion.id = parseInt($("#tipoReparacion option:selected").val());
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
-			{"datos" : JSON.stringify(datos)},
+			{'datos':JSON.stringify(datos)},
 		 	function (data) {
 				// alertar("Exito!","El bache ha cambiado de estado","success");
 				datos = JSON.parse(data);
-				alertar("Exito!",datos.mensaje,"success");
+				if (datos.codigo == 200) {
+					alertar("Exito!",datos.mensaje,"success");
+				}else{
+					alertar("Error!",datos.mensaje,"error");
+				}
 		});
 
 	}

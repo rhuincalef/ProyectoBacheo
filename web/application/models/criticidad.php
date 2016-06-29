@@ -104,7 +104,7 @@
 			$CI->CriticidadModelo->asociar($this->id, $idTipoFalla);
 		}
 
-		public function getCriticidadesPorTipoFalla($idTipoFalla)
+		static public function getCriticidadesPorTipoFalla($idTipoFalla)
 		{
 			$CI = &get_instance();
 			$arrayCriticidadesId = $CI->CriticidadModelo->getCriticidadesPorTipoFalla($idTipoFalla);

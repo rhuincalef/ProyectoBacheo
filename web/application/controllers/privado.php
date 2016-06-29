@@ -20,17 +20,18 @@ class Privado extends CI_Controller
 		}		
 	}
 
-
-	public function getNiveles(){
-		if ($this->ion_auth->logged_in()){
-			$criti = Criticidad::getCriticidades();
-			echo json_encode((array_map(function($obj){ return $obj->toJsonFormal(); }, $criti)));		
-		}		
-	}
-
 	public function creacionTipoFalla()
 	{
-		$this->template->build_page("gestorFallas");
+		$data['logueado'] = $this->ion_auth->logged_in();
+		if ($data['logueado']){
+			$data['usuario'] = $this->ion_auth->user()->row()->username;
+			$data['admin'] = $this->ion_auth->is_admin();
+			$this->template->build_page("gestorFallas", $data);
+		}else{
+			// Redirecciona a index
+			redirect('/', 'refresh');
+			return;
+		}
 	}
 
 		/*
@@ -74,7 +75,10 @@ class Privado extends CI_Controller
 			// Comienza la transaccion
 			$this->db->trans_begin();
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
-			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => $object));
+			$this->utiles->debugger("return");
+			$this->utiles->debugger($object);
+
+			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => json_encode($object)));
 			// Por ahora siempre deshacemos
 			// $this->db->trans_rollback();
 			if ($this->db->trans_status() === FALSE)
@@ -132,6 +136,7 @@ class Privado extends CI_Controller
 			$get = $this->uri->uri_to_assoc();
 			$falla = Falla::getInstancia($id);
 			$bache = $falla->to_array();
+			$bache['estado'] = json_encode($falla->estado);
 			$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
 			if (!isset($bache)) {
 				redirect('/', 'refresh');
@@ -159,7 +164,16 @@ class Privado extends CI_Controller
 
 		public function registrarUsuario()
 		{
-			$this->template->build_page("registrarUsuario");
+			$data['logueado'] = $this->ion_auth->logged_in();
+			if ($data['logueado']){
+				$data['usuario'] = $this->ion_auth->user()->row()->username;
+				$data['admin'] = $this->ion_auth->is_admin();
+				$this->template->build_page("registrarUsuario", $data);
+			}else{
+				// Redirecciona a index
+				redirect('/', 'refresh');
+				return;
+			}
 		}
 
 		public function create_user()
@@ -228,37 +242,32 @@ class Privado extends CI_Controller
 
 		public function modificarEstado()
 		{
+			$datos = new stdClass;
+			$datos->datos = json_decode($this->input->post('datos'));
+
 			$user = $this->ion_auth->user()->row();
 			$idUsuario = $user->id;
-			// TODO: usar formValidation CI
-			$datos = json_decode($this->input->post("datos"));
-			// $this->form_validation->set_rules($this->datosEstadoConfirmado);
-			// if(!$this->form_validation->run())
-			// {
-			// 	$this->utiles->debugger("Validation error");
-			// }else{
-			// 	$this->utiles->debugger("Datos Validos");
-			// }
-			/*	$falla->cambiarEstado($datos);
-				Falla tiene un estado concreto.
-				La falla le pide a su estado.
-				Estado cambia el estado de la falla con los argumentos validos
-			*/
+			// $this->utiles->debugger($datos);
+
 			$this->db->trans_begin();
-			$falla = Falla::getInstancia($datos->falla->id);
+			$falla = Falla::getInstancia($datos->datos->falla->id);
 			$user = $this->ion_auth->user()->row();
+			$datos->datos->observacion->nombreObservador = $user->username;
+			$datos->datos->observacion->emailObservador = $user->email;
+			$this->utiles->debugger("datos");
+			if ($falla->estado->validarDatos($datos))
+			{
+			$this->utiles->debugger("Valido");
+				$falla->cambiarEstado($datos->datos, $user->id);
+				echo json_encode(array('codigo' => 200, 'mensaje' => "Pasa validación....", 'valor' =>""));
+			}
+			else
+			{
+				$this->db->trans_rollback();
+			$this->utiles->debugger("No Valido");
 
-			$datos->observacion->nombreObservador = $user->username;
-			$datos->observacion->emailObservador = $user->email;
-			$falla->cambiarEstado($datos);
-			$this->db->trans_rollback();
 			echo json_encode(array('codigo' => 400, 'mensaje' => "Falta completar implementacion....", 'valor' =>''));
-		}
-
-		public function criticidad_check($str)
-		{
-			// debo verificar que el valor sea una criticidad valida
-			return TRUE;
+			}
 		}
 
 		/*

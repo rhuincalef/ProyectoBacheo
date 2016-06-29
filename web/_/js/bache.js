@@ -67,14 +67,15 @@ function inArray(elem,array)
 }
 
 function estadoBache(estado, tiposEstado){
-	var indice = parseInt(inArray(estado.tipoEstado, tiposEstado)) + 1;
-	// var indice = parseInt(estado[estado.length-1].idTipoEstado)-1;
-	var valFin = (indice+1) % (tiposEstado.length);
+	var indice = parseInt(inArray(estado.tipoEstado, tiposEstado));
+	var valFin = (indice+1) % (tiposEstado.length) + 1;
 	if(valFin == 0){
 		valFin = 4;
 		tiposEstado.push(tiposEstado[0]);
 	}
-	$("#nombreEstado").text("Estado del Bache: "+tiposEstado[indice].nombre);
+	$("#nombreEstado").text("Estado de Falla: "+tiposEstado[indice].nombre);
+	indice = indice + 1;
+	$('#cambiarEstado').text('Cambiar estado a: '+tiposEstado[indice].nombre);
 	$("#contenedorControladorEstado").append('<div id="slider" class="controlEstado"></div>');
 	$( "#slider" ).slider({
 		value:parseInt(indice),
@@ -83,29 +84,14 @@ function estadoBache(estado, tiposEstado){
 		step: 1,
 		slide: function( event, ui ) {
 			var indiceCarga = ui.value;
-			$("#nombreEstado").empty();
-			$("#nombreEstado").text("Estado del Bache: "+tiposEstado[indiceCarga].nombre);
+			$("#cambiarEstado").empty();
+			$("#cambiarEstado").text("Cambiar estado a: "+tiposEstado[indiceCarga].nombre);
 			cargarFormularioTecnico(indiceCarga);
 		}
 	});
 	cargarFormularioTecnico(indice);
 }
 
-function cargarCriticidad(niveles){
-  var $opciones = $("#criticidad");
-  $opciones.empty();
-  $(niveles).each(function(indice,elemento){
-    var opcion = new Option(elemento.nombre,elemento.id,true,true);
-    $opciones.append(opcion);
-    var globo = informar("Informacion",elemento.descripcion);
-      $(opcion).hover(function(event){
-        // var posicionY = $(event.target).position().top+100;
-        // globo.get().css({'top': posicionY });
-        globo.open();
-      });
-    $(opcion).mouseout(function(){globo.remove();});
-  });  
-};
 
 function cargarFormularioTecnico (estado) {
 	var $form = $("#formularioEspecificacionesTecnicas");
@@ -171,7 +157,7 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
 		$unDiv.append($('<label class="control-label col-sm-4">'+elemento.nombre+'</label>'));
-		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="any" min="0" class="form-control selectFormulario"/>'));
+		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario" value="0.5"/>'));
 		$contenedorAtributos.append($unDiv);
 	});
 	$contenedorAtributos.append($('<label class="control-label col-sm-4" for="tipoReparacion"> Tipo de Reparación</label>'));

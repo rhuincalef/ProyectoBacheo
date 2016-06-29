@@ -29,12 +29,6 @@
 						$(".alert").addClass("alert-danger");
 						alertar("Error!", response.message, "error");
 					}
-					// Show the message received.
-					// $(".alert").children().text(response);
-					// $(".alert").append('<i class="fa fa-warning">  </i>');
-					// $(".alert").append(response.message);
-					// $(".alert p").prepend('<i class="fa fa-warning"></i>');
-					// $(".alert").removeClass("hide");
 				}
 			});
 		});

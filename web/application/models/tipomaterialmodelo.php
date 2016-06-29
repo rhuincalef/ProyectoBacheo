@@ -21,15 +21,13 @@
 
 			public function save($material)
 			{
-				$this->db->insert($this->table_name, array('nombre' => $material->nombre));
+				$this->db->insert($this->table_name, array('nombre' => ucwords($material->nombre)));
 				return $this->db->insert_id();
 			}
 
 			public function asociar($idTipoMaterial, $idTipoFalla)
 			{
 				$CI = &get_instance();
-				$CI->utiles->debugger($idTipoMaterial);
-				$CI->utiles->debugger($idTipoFalla);
 				$this->db->insert('TipoMaterialTipoFallaModelo', array('idTipoMaterial' => $idTipoMaterial, 'idTipoFalla' => $idTipoFalla));
 			}
 

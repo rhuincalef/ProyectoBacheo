@@ -56,7 +56,7 @@
 
 		$("#registrarUsuario").click(function (evento) {
 			evento.preventDefault();
-			window.location = "index.php/auth/registrarUsuario";
+			window.location = "index.php/registrarUsuario";
 		});
 
 		$(".cuadroBusqueda").find("input").focus(function(){

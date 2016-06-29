@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	
 	class Estado
+	// class Estado implements JsonSerializable
 	{
 		var $id;
 		var $falla;
@@ -39,17 +41,17 @@
 			return $estados;
 		}
 
-		public function getEstadoActual($idFalla)
+		static public function getEstadoActual($idFalla)
 		{
 			$CI = &get_instance();
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			$CI->utiles->debugger($datos);
+			// $CI->utiles->debugger($datos);
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
 			// date('F jS, Y h:i:s', strtotime($date));
-			$estado->fecha = date("F d Y h:i:s", strtotime($datos->fecha));
-			// $estado->fecha = $datos->fecha;
+			// $estado->fecha = date("F d Y h:i:s", strtotime($datos->fecha));
+			$estado->fecha = date("d-m-Y h:i", strtotime($datos->fecha));
 			return $estado;
 		}
 
@@ -58,6 +60,16 @@
 			$CI = &get_instance();
 			return $CI->EstadoModelo->save($this);
 		}
+
+		public function toJsonSerialize()
+		{
+			return $this->to_array($this->falla);
+		}
+
+		// public function jsonSerialize()
+		// {
+		// 	return;
+		// }
 
 	}
 
@@ -85,7 +97,12 @@
 			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
-		public function cambiar($falla, $datos=array())
+		public function inicializarFalla($falla, $datos)
+		{
+			return;
+		}
+
+		public function cambiar($falla, $datos=array(), $idUsuario)
 		{
 			/*
 				Datos para Confirmado: 
@@ -144,6 +161,7 @@
 			*/
 			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
 			$nuevoEstado = new Confirmado();
+			$nuevoEstado->usuario = $idUsuario;
 			$CI = &get_instance();
 			$falla->factorArea = $datos->falla->factorArea;
 			// Buscar Material por si lo cambian
@@ -166,7 +184,6 @@
 			$tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			$falla->tipoReparacion = $tipoReparacion;
 
-			$CI->utiles->debugger("Cambios");
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
@@ -184,9 +201,52 @@
             // "imagenes"=> $this->obtenerImagenes($idBache)
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
-            "estado" => json_encode($falla->estado),
+            "estado" => "Informado",
+            // "estado" => json_encode($falla->estado),
             );
             return $datos;
+		}
+
+		public function jsonSerialize()
+		{
+			$arrayJson = array(
+				"nombre" => $this->tipoEstado->nombre,
+				);
+			return $arrayJson;
+		}
+
+		/*
+		{"datos" : JSON.stringify(
+			{
+				"falla" : {"id": 1, "factorArea": .2},
+				"criticidad" : {"id": 1},
+				"observacion": {"comentario": "comentario falla"},
+				"atributos": [{"id": 1, "valor": '5'},{"id": 2,"valor": '4'}, {"id": 3, "valor": '2'}],
+			}
+		)}
+		*/
+		public function validarDatos($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("validarDatos");
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal2 = new NumericTerminalExpression("factorArea", "double", "true");
+			$noTerminalFalla = new AndExpression(array($terminal1, $terminal2), "falla");
+
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$noTerminalCriticidad = new AndExpression(array($terminal1), "criticidad");
+
+			$terminal1 = new StringTerminalExpression("comentario", "", "true");
+			$terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
+			$terminal3 = new StringTerminalExpression("emailObservador", "", "true");
+			$noTerminalObservacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "observacion");
+
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal2 = new NumericTerminalExpression("valor", "double", "true");
+			$noTerminalAtributo = new AndExpression(array($terminal1, $terminal2), "atributos");
+
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalCriticidad, $noTerminalObservacion, $noTerminalAtributo), "datos");
+			return $validator->interpret($datos);
 		}
 
 	}
@@ -222,6 +282,13 @@
 			// $this->usuario = $datos->idUsuario;
 		}
 
+		public function inicializarFalla($falla, $datos)
+		{
+			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
+			$falla->factorArea = $datos->areaAfectada;
+		}
+
 		public function to_array($falla)
 		{
 			$datos = array(
@@ -230,12 +297,12 @@
             "longitud" => $falla->longitud,
             "alturaCalle" => $falla->direccion->altura,
             "calle" => $falla->direccion->callePrincipal->nombre,
-            "criticidad" => "Falta especificar",
-            // "criticidad" => $falla->criticidad->nombre,
+            "criticidad" => $falla->criticidad->nombre,
             // "imagenes"=> $this->obtenerImagenes($idBache)
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
-            "estado" => json_encode($falla->estado),
+            "estado" => "Confirmado",
+            // "estado" => json_encode($falla->estado),
             );
             return $datos;
 		}
@@ -253,6 +320,11 @@
 			$nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
 			*/
+		}
+
+		public function validarDatos($datos)
+		{
+			return true;
 		}
 
 	}

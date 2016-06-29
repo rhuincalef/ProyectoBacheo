@@ -21,7 +21,13 @@ class Publico extends Frontend_Controller
 		{
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
-			call_user_func_array(array(&$invitado,$method),$args);
+		    if (method_exists($invitado, $method)) {
+				call_user_func_array(array(&$invitado,$method),$args);
+		    }else{
+		    	// Redirecciona a index
+		    	redirect('/', 'refresh');
+		    	return;
+		    }
 		}else{
 			require_once(APPPATH."controllers/privado.php");
 		    $privado = new Privado();
@@ -195,10 +201,10 @@ class Publico extends Frontend_Controller
 	{
 		$datos = new stdClass;
 		$datos->clase = $this->input->post('clase');
-		$datos->clase = 'FallaAnonima';
+		$datos->clase = 'Falla';
 		$datos->datos = json_decode($this->input->post('datos'));
 		$class = $datos->clase;
-		// $this->utiles->debugger($datos);
+		$this->utiles->debugger($datos);
 		if (!Falla::{"validarDatos"}($datos))
 		{
 			// Si los datos no son validos
@@ -208,11 +214,12 @@ class Publico extends Frontend_Controller
 		}
 		$this->utiles->debugger("Datos Validos");
 		$this->db->trans_begin();
-		Falla::crearFallaAnonima($datos->datos);
+		$falla = Falla::crearFallaAnonima($datos->datos);
 		// Por ahora siempre deshacemos
 		// $this->db->trans_rollback();
 		if ($this->db->trans_status() === FALSE)
 		{
+			$this->utiles->debugger("Falla en DB");
 			// TODO: Falta dar aviso del error
 		    $this->db->trans_rollback();
 		}
@@ -220,6 +227,9 @@ class Publico extends Frontend_Controller
 		{
 		    $this->db->trans_commit();
 		}
+		
+		$this->utiles->debugger($falla);
+		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada con exito!", 'valor' =>(array)$falla));
 		return;
 	}
 
@@ -351,7 +361,8 @@ class Publico extends Frontend_Controller
 		}
 	}
 
-	public function obtenerObservaciones($idBache){	
+	public function obtenerObservaciones($idBache){
+		$this->utiles->debugger($idBache);
 		$comentarios = Falla::obtenerObservaciones($idBache);
 		echo json_encode($comentarios);
 	}

@@ -17,7 +17,7 @@
 		public function save($tipoFalla)
 		{
 			$this->db->insert($this->table_name, 
-				array('nombre' => $tipoFalla->nombre,
+				array('nombre' => ucfirst($tipoFalla->nombre),
 					  'influencia' => $tipoFalla->influencia,
 					  'idMultimedia' => $tipoFalla->multimedia->id)
 				);

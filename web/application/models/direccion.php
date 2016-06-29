@@ -59,7 +59,7 @@
 		* @param    array => array asociativo con los datos de la direccion
 		*					 array('callePrincipal' =>, 'altura' =>,'calleSecundariaA' =>, 'calleSecundariaB'=>)
 		*/
-		public function insertarDireccion($datosDireccion)
+		static public function insertarDireccion($datosDireccion)
 		{
 			$CI = &get_instance();
 			// Calle::buscarCalle -> Si no existe se crea la calle

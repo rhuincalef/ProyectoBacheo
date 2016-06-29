@@ -2,9 +2,9 @@ var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
+	var diccionarioCriticidades = {};
 	
 	var agregarMaterial = function(datos){
-//		var unMaterial = arregloMateriales.filter(function(elemento){return elemento.id == datos.id});
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
 			return diccionarioMateriales[datos.id];
 		diccionarioMateriales[datos.id] = new Material(datos);
@@ -60,7 +60,35 @@ var GestorMateriales = (function(){
     			arregloTipos.push(unTipoFalla);
     		});
 		});
+
+
 	};
+
+	var obtenerCriticidades = function(idCriticidades,arregloCriticidades){
+		var criticidadesAPedir = [];
+		if (idCriticidades == undefined) {
+			return diccionarioCriticidades;
+		};
+		idCriticidades.map(function(k,v){
+			if(diccionarioCriticidades.hasOwnProperty(k))
+				arregloCriticidades.push(diccionarioCriticidades[k]);
+			else
+				criticidadesAPedir.push(k);
+		});
+		if (criticidadesAPedir.length==0) {
+			return;
+		}
+		$.post("publico/getCriticidadesPorIDs",{"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
+			var datos = JSON.parse(data);
+			var tipos = JSON.parse(datos.valor);
+			$(tipos).each(function(indice,elemento){
+				criticidad = {"id":elemento.id, "nombre":elemento.nombre, "descripcion":elemento.descripcion};
+				diccionarioCriticidades[criticidad.id] = criticidad;
+				arregloCriticidades.push(criticidad);
+    		});
+		});
+	};
+
 
 	return{
 		agregarMaterial:agregarMaterial,
@@ -68,7 +96,8 @@ var GestorMateriales = (function(){
 		materiales:diccionarioMateriales,
 		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
-		obtenerReparaciones:obtenerReparaciones
+		obtenerReparaciones:obtenerReparaciones,
+		obtenerCriticidades:obtenerCriticidades
 	}
 }());
 
@@ -79,7 +108,8 @@ var TipoFalla = function(datos){
 		this.influencia = datos.influencia;
 		this.atributos = [];
 //		this.atributos = datos.atributos;
-		this.criticidades = datos.criticidades;
+//		this.criticidades = datos.criticidades;
+		this.criticidades = [];
 		this.reparaciones = [];
 		this.multimedia = null;
 		var _this = this;
@@ -87,6 +117,7 @@ var TipoFalla = function(datos){
 		console.log(datos);
 		// GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
+		GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
 
 		$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
 			var datos = JSON.parse(data);
@@ -138,7 +169,11 @@ var Bacheo = (function(){
 	var criticidadImagen = [];
 	var marcadores = [];
 	var cluster;
-	var geocoder = new google.maps.Geocoder();
+
+	if (typeof google != 'undefined')
+	{
+		var geocoder = new google.maps.Geocoder();
+	}
 
 /* Marcador: Objeto que representa la información básica del bache a mostrar en la páguina principal,
  * Es creado cuando desde el servidor se indica que el bache fue agregado de manera correcta, o al
@@ -147,7 +182,9 @@ var Bacheo = (function(){
 		this.id = datos.id;
 		this.criticidad = datos.criticidad;
 		console.log(datos);
-		if (datos.hasOwnProperty("informado")) {
+		// var estado = JSON.parse(datos.estado);
+		// if (datos.hasOwnProperty("informado")) {
+		if (datos.estado=="Informado") {
 			var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
 			
 		}else{
@@ -170,15 +207,7 @@ var Bacheo = (function(){
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
-//	var guardarBache = function(calle,altura,objetoFalla){
 	var guardarBache = function(datos){
-/*		var $formulario = $('form[id="formularioBache"]')[0];
-		var calle = $formulario["calle"].value;
-		var altura = $formulario["altura"].value;
-		var descripcion = $formulario["descripcion"].value;
-		var titulo = $formulario["titulo"].value;
-		var criticidad = $formulario["criticidad"].value;								*/
-//		guardarMarcador(titulo,criticidad,calle,altura,descripcion);
 		guardarMarcador(datos);
 	}
 
@@ -231,8 +260,9 @@ var Bacheo = (function(){
 	            {"datos": JSON.stringify(datosFalla)},
 	            function(data) {
 	                var respuestaServidor = $.parseJSON(data);
-	                if(respuestaServidor.estado > -1){
-						datos.id = respuestaServidor.id;
+	                // if(respuestaServidor.estado > -1){
+	                if(respuestaServidor.codigo == 200){
+	                	datos = $.parseJSON(respuestaServidor.valor);
 	    				cargarMarcador(datos);
 //	    				guardarImagenes(datos.id);
 						alertar("Exito!","Bache notificado con exito","success");
@@ -309,25 +339,13 @@ var Bacheo = (function(){
 			var datos = JSON.parse(data);
 	        var fallas = JSON.parse(datos.valor);
 	        console.log(fallas);
-			// var bachesTraidos = data.split('/');
-			// for (var i = 0 ; i < bachesTraidos.length - 1; i++){
-			// 	var bache = $.parseJSON(bachesTraidos[i]);
-			// 	var dato = {};
-			// 	if (bache.hasOwnProperty("informado")) {
-			// 		dato.informado = "informado";
-			// 	}
-			// 	dato.titulo = '';
-			// 	dato.criticidad = bache.idCriticidad;
-			// 	dato.posicion = new google.maps.LatLng(parseFloat(bache.latitud),parseFloat(bache.longitud));
-			// 	dato.id = parseInt(bache.id);
-			// 	cargarMarcador(dato);
-			// };
 			$(fallas).each(function (index, falla) {
 				var dato = {};
 				dato.titulo = '';
 				dato.criticidad = falla.criticidad;
 				dato.posicion = new google.maps.LatLng(parseFloat(falla.latitud),parseFloat(falla.longitud));
 				dato.id = parseInt(falla.id);
+				dato.estado = falla.estado;
 				cargarMarcador(dato);
 			});
 			alertar("Carga Completa","se concluyo la carga de los baches","success");
@@ -351,6 +369,35 @@ var Bacheo = (function(){
 		});
 	}
 
+	function agregarAnonimo(datosFalla) {
+		console.log("Agregar Falla Anonima");
+		console.log(datosFalla);
+		var datos={};
+		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
+			return;
+		obtenerLatLng(datosFalla.direccion.callePrincipal,datosFalla.direccion.altura,function (posicion){
+			datosFalla.falla.latitud = posicion.lat();
+			datosFalla.falla.longitud = posicion.lng();
+			datos.posicion = posicion;
+    		$.post('crearFallaAnonima',
+	            {"clase": "Falla", 	"datos":JSON.stringify(datosFalla)},
+	            function(data) {
+	                var respuestaServidor = $.parseJSON(data);
+	                if(respuestaServidor.codigo == 200){
+	                	datos = respuestaServidor.valor;
+	    				cargarMarcador(datos);
+//	    				guardarImagenes(datos.id);
+						alertar("Exito!","Bache notificado con exito","success");
+						$("#formularioBache")[0].reset();
+
+	    			}else{
+						alertar("la Pucha!","No fue posible informar el bache","error");
+	    			}
+	            }
+          	);
+		});
+	}
+
 	var inicializar = function($contenedor){
 		mapa($contenedor);
 		obtenerMateriales();
@@ -362,7 +409,8 @@ return{
 	generarMapa:mapa,
 	marcadores:marcadores,
 	obtenerCalle:obtenerCalle,
-	prueba: guardarMarcador,
+	prueba:guardarMarcador,
+	agregarAnonimo:agregarAnonimo,
 	init:inicializar
 }
 

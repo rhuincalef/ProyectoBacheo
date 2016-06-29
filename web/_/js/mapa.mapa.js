@@ -63,25 +63,12 @@ $(document).ready(function(){
     inicializar();
 });
 
-function cargarCriticidad(niveles){
-  var $opciones = $("#criticidad");
-  $opciones.empty();
-  $(niveles).each(function(indice,elemento){
-    var opcion = new Option(elemento.nombre,elemento.id,true,true);
-    $opciones.append(opcion);
-    var globo = informar("Informacion",elemento.descripcion);
-      $(opcion).hover(function(event){
-        // var posicionY = $(event.target).position().top+100;
-        // globo.get().css({'top': posicionY });
-        globo.open();
-      });
-    $(opcion).mouseout(function(){globo.remove();});
-  });  
-};
-
-
 function inicializar(){
 //  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
+  if (typeof google == 'undefined')
+  {
+    return;
+  }
   Bacheo.init($("#canvasMapa"));
   //Bacheo.generarMapa($("#canvasMapa"));
   $("#seleccionarCalle").click(bindearEventoClick);

@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-	class Falla
+	class Falla implements JsonSerializable
+	// class Falla
 	{
 		var $id;
 		var $latitud;
@@ -11,7 +12,7 @@
 		var $tipoReparacion;
 		var $influencia;
 		var $factorArea;
-		var $estados;
+		// var $estados;
 		
 		function __construct()
 		{
@@ -21,16 +22,18 @@
 		private function inicializar($datos)
 		{
 			$CI = &get_instance();
+			$CI->utiles->debugger("datos");
+			$CI->utiles->debugger($datos);
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
-			// A partir de confirmado ya se puede consultar
-			// $this->criticidad = Criticidad::getInstancia($datos->idCriticidad);
 			$this->direccion = Direccion::getInstancia($datos->idDireccion);
-			$this->tipoMaterial = TipoMaterial::getInstancia($datos->idTipoMaterial);
+			$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
 			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
-			// $this->tipoReparacion= TipoReparacion::getInstancia($datos->idTipoReparacion);
 			$this->estado = Estado::getEstadoActual($this->id);
+			// El estado de la conoce los demás atributos que se deben inicializar 
+			$this->estado->inicializarFalla($this, $datos);
+			$this->estado->falla = $this;
 			// $this->estado->falla = $this;
 			$CI->utiles->debugger($this);
 		}
@@ -97,7 +100,7 @@
 			return Direccion::insertarDireccion($datosDireccion);
 		}
 
-		public function validarDatos($datos)
+		static public function validarDatos($datos)
 		{
 			$valor = $datos->clase;
 			$CI = &get_instance();
@@ -114,12 +117,12 @@
 			}
 		}
 
-		public function validarDatosFalla($datos)
+		static public function validarDatosFalla($datos)
 		{
 			return true;
 		}
 
-		public function validarDatosFallaAnonima($datos)
+		static public function validarDatosFallaAnonima($datos)
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("validarDatosFallaAnonima");
@@ -166,7 +169,7 @@
 		saveAnonimo()
 		asociar FallaEstadoModelo
 		*/
-		public function crearFallaAnonima($datos)
+		static public function crearFallaAnonima($datos)
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("crearFallaAnonima");
@@ -181,7 +184,7 @@
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			// A partir de aca cambia
 			$falla->id = $falla->saveAnonimo();
-			$observacion = new Observacion($datos->observacion);
+			$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
 			$observacion->falla = $falla;
 			$observacion->save();
 			$falla->estado = new Informado();
@@ -190,6 +193,7 @@
 			$falla->asociarEstado();
 			// TODO: Falta asociar la observacion
 			$CI->utiles->debugger($falla);
+			return $falla;
 		}
 
 		public function saveAnonimo()
@@ -210,7 +214,7 @@
 		save()
 		asociar FallaEstadoModelo
 		*/
-		public function crearFallaEnConfirmado($datos)
+		static public function crearFallaEnConfirmado($datos)
 		{
 			$CI = &get_instance();
 			$falla = new Falla();
@@ -226,16 +230,17 @@
 			$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 			// TipoReparacion se obtiene a traves del Tipo de Falla
 			// Se establece más tarde en el próximo estado
-			// $falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			// $falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 			$falla->observaciones = array();
 			// TODO: Ver donde acomodarlo mejor
 			$user = $CI->ion_auth->user()->row();
 			$datos->observacion->nombreObservador = $user->username;
 			$datos->observacion->emailObservador = $user->email;
 			// 
-			$observacion = new Observacion($datos->observacion);
+			$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
 			array_push($falla->observaciones, $observacion);
 			$falla->direccion = $falla->insertarDireccion($datos->direccion);
 			$falla->id = $falla->save();
@@ -257,6 +262,7 @@
 			$falla->estado->id = $falla->estado->save();
 			$falla->asociarEstado();
 			$CI->utiles->debugger($falla);
+			return $falla;
 		}
 
 		static public function crearFalla($datos)
@@ -299,6 +305,7 @@
 			$falla->actualizar();
 			$falla->asociarEstado();
 			$CI->utiles->debugger($falla);
+			return $falla;
 		}
 
 		public function actualizar()
@@ -338,7 +345,7 @@
 			return $datos;
 		}
 
-		public function obtenerObservaciones($idBache)
+		static public function obtenerObservaciones($idBache)
 		{
 			$observaciones = Observacion::getAll($idBache);
 			// Por cada observacion se arma un array fijado para no romper la view.
@@ -364,15 +371,21 @@
 			$observacion->save();
 		}
 
-		public function cambiarEstado($datos)
+		public function cambiarEstado($datos, $idUsuario)
 		{
 			$CI = &get_instance();
-			$nuevoEstado = $this->estado->cambiar($this, $datos);
+			$nuevoEstado = $this->estado->cambiar($this, $datos, $idUsuario);
 			$CI->utiles->debugger('Nuevo Estado');
 			$this->estado = $nuevoEstado;
 			$CI->utiles->debugger($nuevoEstado);
 			// $this->asociarEstado();
 		}
+
+		public function jsonSerialize() {
+			// Estado conoce los datos que debe mostrar
+	        // return array('id' => $this->id, );
+	        return $this->estado->toJsonSerialize();
+	    }
 
 	}
  ?>

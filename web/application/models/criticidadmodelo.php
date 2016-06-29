@@ -13,7 +13,7 @@ class CriticidadModelo extends MY_Model{
 
 	public function save($criticidad)
 	{
-		$this->db->insert($this->table_name, array('nombre' => $criticidad->nombre, 'descripcion' => $criticidad->descripcion, 'ponderacion' => $criticidad->ponderacion));
+		$this->db->insert($this->table_name, array('nombre' => ucfirst($criticidad->nombre), 'descripcion' => $criticidad->descripcion, 'ponderacion' => $criticidad->ponderacion));
 		$id = $this->db->insert_id();
 		if (empty($id))
 		{

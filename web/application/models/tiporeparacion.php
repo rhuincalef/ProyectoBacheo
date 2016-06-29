@@ -114,7 +114,7 @@
 			return $noTerminalTipoReparacion->interpret($datos);
 		}
 
-		public function getReparacionesPorTipoFalla($idTipoFalla)
+		static public function getReparacionesPorTipoFalla($idTipoFalla)
 		{
 			$CI = &get_instance();
 			$arrayReparacionesId =  $CI->TipoReparacionModelo->getReparacionesPorTipoFalla($idTipoFalla);

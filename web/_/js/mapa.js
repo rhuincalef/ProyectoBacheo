@@ -70,7 +70,6 @@ $(document).ready(function(){
 });
 
 function inicializarFormularioBache(){
-  cargarCriticidad();
 	$("#informacionBache").modal("toggle");
 };
 

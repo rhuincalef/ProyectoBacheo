@@ -68,7 +68,7 @@
 	float:left;
 	width: 70%;
 	margin-right: 1%;
-	margin-bottom: 2%;
+	/*margin-bottom: 2%;*/
 }
 
 .izquierdoReducido{
@@ -77,7 +77,7 @@
 
 
 .campoDerecho{
-	width: 28%;
+	width: 25%;
 	margin-bottom: 2%;
 }
 

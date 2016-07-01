@@ -10,7 +10,6 @@ Bache = (function () {
 	var init = function (){
 		estado = JSON.parse($("#estadoBache").text());
 		tiposEstado = JSON.parse($("#tiposEstadoBache").text());
-		// tiposEstado = $("tiposEstadoBache").text();
 		idBache = parseFloat($("#idBache").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
@@ -25,21 +24,20 @@ Bache = (function () {
 	
 		if (typeof google != 'undefined')
 		{
-		var latlon = new google.maps.LatLng(latitud, longitud);
-		var latLongCenter = new google.maps.LatLng(otroLat, longitud);
-		var mapOptions = {
-		          center: latLongCenter,
-		          zoom: 16,
-		          mapTypeControl: false,
-		          mapTypeId: google.maps.MapTypeId.ROADMAP
-		        };
-		var mapa = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
-		var marcador = new google.maps.Marker({
-			position: latlon,
-			map: mapa,
-			title: "Bache "+ idBache
-	  	});
-
+			var latlon = new google.maps.LatLng(latitud, longitud);
+			var latLongCenter = new google.maps.LatLng(otroLat, longitud);
+			var mapOptions = {
+			          center: latLongCenter,
+			          zoom: 16,
+			          mapTypeControl: false,
+			          mapTypeId: google.maps.MapTypeId.ROADMAP
+			        };
+			var mapa = new google.maps.Map(document.getElementById("canvasMapa"),mapOptions);
+			var marcador = new google.maps.Marker({
+				position: latlon,
+				map: mapa,
+				title: "Bache "+ idBache
+		  	});
 		}
 
 		if (logueado) {
@@ -57,7 +55,6 @@ Bache = (function () {
 	var comentarios = function() {
 		var url = baseUrl+"index.php/obtenerObservaciones/" + idBache;
 		$.get(url, function( data ) {
-		//$.get("http://localhost/proyectoBacheo/index.php/inicio/obtenerObservaciones/"+this.idBache, function( data ) {
 				cargarComentarios(JSON.parse(data));
 		});
 	}
@@ -75,7 +72,6 @@ Bache = (function () {
 		$.post(baseUrl+"index.php/asociarObservacion",{idBache:datos.idBache, nombreObservador: datos.nombreObservador, comentario:datos.comentario, emailObservador: datos.emailObservador}, function (data) {
 			$("#formularioComentario")[0].reset();
 			alertar("Exito!","Su comentario ha sido enviado","success");
-			//alert("asdasdasd");
 			comentarios();
 		});
 	}
@@ -101,7 +97,6 @@ Bache = (function () {
 	//		325 x 244
 		var $img = $('.item img');
 		$img.each(function (i, e) {
-	//alert("1");
 			if(e.width > e.height)
 			{
 				var temporal = e.width / e.height;
@@ -129,17 +124,14 @@ Bache = (function () {
 	
 	var cambiarEstado = function(nuevoEstado){
 		var datos = {};
-		// datos.baldosa = $("#numeroBaldosa").val();
 		datos.falla = {};
 		datos.falla.id = idBache;
 		datos.falla.factorArea = parseFloat($("#factorArea").val());
-		// datos.rotura = $("#tipoRotura option:selected").text()
 		datos.tipoFalla = {};
 		datos.tipoFalla.id = parseInt($("#tipoFalla option:selected").val());
 		datos.observacion = {}
 		datos.observacion.comentario = $('#contenedorFormulario textarea').val();
 		datos.fecha = $("#fechaFin").val();
-		// datos.obstruccion = $("#tipoObstruccion option:selected").text();
 		datos.monto = $("#montoEstimado").val();
 
 		/* Mis aportes............*/
@@ -162,7 +154,6 @@ Bache = (function () {
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
-				// alertar("Exito!","El bache ha cambiado de estado","success");
 				datos = JSON.parse(data);
 				if (datos.codigo == 200) {
 					alertar("Exito!",datos.mensaje,"success");
@@ -173,6 +164,30 @@ Bache = (function () {
 
 	}
 
+	var cambiarReparando = function()
+	{
+		var datos = {};
+		datos.falla = {};
+		datos.falla.id = idBache;
+		// montoEstimado, fechaFin
+		datos.estado = {};
+		datos.estado.montoEstimado = parseFloat($("#montoEstimado").val());
+		datos.estado.fechaFinReparacionEstimada = $("#fechaFin").val();
+		$.post(baseUrl+"inicio/cambiarEstadoBache",
+			{'datos':JSON.stringify(datos)},
+		 	function (data) {
+				datos = JSON.parse(data);
+				if (datos.codigo == 200) {
+					alertar("Exito!",datos.mensaje,"success");
+				}else{
+					alertar("Error!",datos.mensaje,"error");
+				}
+		});
+	}
+
+	var cambiarReparado = function() {
+		// Descripcion, montoReal, fechaFinReparacionReal
+	}
 
 	return{
 		init:init,
@@ -181,7 +196,9 @@ Bache = (function () {
 		cargarImagenes:cargarImagenes,
 		redimensionarImg: redimensionarImg,
 		comentarTwitter:comentarTwitter,
-		cambiarEstado:cambiarEstado
+		cambiarEstado:cambiarEstado,
+		cambiarReparando:cambiarReparando,
+		cambiarReparado:cambiarReparado
 	}
 }());
 

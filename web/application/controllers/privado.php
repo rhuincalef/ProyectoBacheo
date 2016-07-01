@@ -246,19 +246,19 @@ class Privado extends CI_Controller
 			$datos->datos = json_decode($this->input->post('datos'));
 
 			$user = $this->ion_auth->user()->row();
-			$idUsuario = $user->id;
+			$usuario = new stdClass();
+			$usuario->id = $user->id;
+			$usuario->nombre = $user->username;
+			$usuario->email = $user->email;
 			// $this->utiles->debugger($datos);
 
 			$this->db->trans_begin();
 			$falla = Falla::getInstancia($datos->datos->falla->id);
 			$user = $this->ion_auth->user()->row();
-			$datos->datos->observacion->nombreObservador = $user->username;
-			$datos->datos->observacion->emailObservador = $user->email;
-			$this->utiles->debugger("datos");
 			if ($falla->estado->validarDatos($datos))
 			{
-			$this->utiles->debugger("Valido");
-				$falla->cambiarEstado($datos->datos, $user->id);
+			$this->utiles->debugger("Válido");
+				$falla->cambiarEstado($datos->datos, $usuario);
 				echo json_encode(array('codigo' => 200, 'mensaje' => "Pasa validación....", 'valor' =>""));
 			}
 			else

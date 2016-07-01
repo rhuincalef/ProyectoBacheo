@@ -35,8 +35,10 @@
 		static public function getAll($idFalla)
 		{
 			$CI = &get_instance();
+			$CI->utiles->debugger("datos->getAll");
 			$estados = array();
 			$datos = $CI->EstadoModelo->getEstados($idFalla);
+			$CI->utiles->debugger($datos);
 			$estados = array_map(function($obj){ return Estado::getInstancia($obj); }, $datos);
 			return $estados;
 		}
@@ -102,7 +104,7 @@
 			return;
 		}
 
-		public function cambiar($falla, $datos=array(), $idUsuario)
+		public function cambiar($falla, $datos=array(), $usuario)
 		{
 			/*
 				Datos para Confirmado: 
@@ -161,7 +163,9 @@
 			*/
 			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
 			$nuevoEstado = new Confirmado();
-			$nuevoEstado->usuario = $idUsuario;
+			$datos->observacion->nombreObservador = $usuario->nombre;
+			$datos->observacion->emailObservador = $usuario->email;
+			$nuevoEstado->usuario = $usuario->id;
 			$CI = &get_instance();
 			$falla->factorArea = $datos->falla->factorArea;
 			// Buscar Material por si lo cambian
@@ -198,7 +202,7 @@
             "alturaCalle" => $falla->direccion->altura,
             "calle" => $falla->direccion->getNombre(),
             "criticidad" => "No se especifica en Informado",
-            // "imagenes"=> $this->obtenerImagenes($idBache)
+            "imagenes"=> $falla->obtenerImagenes(),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
             "estado" => "Informado",
@@ -237,9 +241,9 @@
 			$noTerminalCriticidad = new AndExpression(array($terminal1), "criticidad");
 
 			$terminal1 = new StringTerminalExpression("comentario", "", "true");
-			$terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
-			$terminal3 = new StringTerminalExpression("emailObservador", "", "true");
-			$noTerminalObservacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "observacion");
+			// $terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
+			// $terminal3 = new StringTerminalExpression("emailObservador", "", "true");
+			$noTerminalObservacion = new AndExpression(array($terminal1), "observacion");
 
 			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
 			$terminal2 = new NumericTerminalExpression("valor", "double", "true");
@@ -307,7 +311,7 @@
             return $datos;
 		}
 
-		public function cambiar($falla, $datos=array())
+		public function cambiar($falla, $datos=array(), $usuario)
 		{
 			/*
 				Datos para Reparando: 
@@ -320,13 +324,57 @@
 			$nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
 			*/
+			$nuevoEstado = new Reparando();
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->usuario = $usuario->id;
+			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
+			$fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
+			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
+			// $nuevoEstado->id = $nuevoEstado->save();
+			return $nuevoEstado;
+
 		}
 
 		public function validarDatos($datos)
 		{
-			return true;
+			$CI = &get_instance();
+			$CI->utiles->debugger("validarDatos");
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$noTerminalFalla = new AndExpression(array($terminal1), "falla");
+
+			$terminal1 = new NumericTerminalExpression("montoEstimado", "double", "true");
+			$terminal2 = new StringTerminalExpression("fechaFinReparacionEstimada", "", "true");
+			// $terminal3 = new StringTerminalExpression("emailObservador", "", "true");
+			$noTerminalEstado = new AndExpression(array($terminal1, $terminal2), "estado");
+
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalEstado), "datos");
+			return $validator->interpret($datos);
 		}
 
 	}
 
+	class Reparando extends Estado
+	{
+
+		public function __construct()
+		{
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
+		}
+
+		static public function getInstancia($datos)
+		{
+			$estado = new Informado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
+
+		protected function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->falla = $datos->idFalla;
+			// $this->falla = Falla::getInstancia($datos->idFalla);;
+		}
+
+	}
 ?>

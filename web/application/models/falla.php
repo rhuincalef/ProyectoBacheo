@@ -22,8 +22,8 @@
 		private function inicializar($datos)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger("datos");
-			$CI->utiles->debugger($datos);
+			// $CI->utiles->debugger("datos");
+			// $CI->utiles->debugger($datos);
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
@@ -35,7 +35,7 @@
 			$this->estado->inicializarFalla($this, $datos);
 			$this->estado->falla = $this;
 			// $this->estado->falla = $this;
-			$CI->utiles->debugger($this);
+			// $CI->utiles->debugger($this);
 		}
 
 		static public function getInstancia($id)
@@ -151,7 +151,8 @@
 
 		public function obtenerImagenes()
 		{
-			# code...
+			/*$imagenes = Multimedia::getAll($this->id);
+			return $imagenes;*/
 		}
 
 		// Metodo llamado por el formulario de twitter para obtener los comentarios de un bache.
@@ -371,11 +372,10 @@
 			$observacion->save();
 		}
 
-		public function cambiarEstado($datos, $idUsuario)
+		public function cambiarEstado($datos, $usuario)
 		{
 			$CI = &get_instance();
-			$nuevoEstado = $this->estado->cambiar($this, $datos, $idUsuario);
-			$CI->utiles->debugger('Nuevo Estado');
+			$nuevoEstado = $this->estado->cambiar($this, $datos, $usuario);
 			$this->estado = $nuevoEstado;
 			$CI->utiles->debugger($nuevoEstado);
 			// $this->asociarEstado();

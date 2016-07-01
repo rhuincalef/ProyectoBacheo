@@ -62,7 +62,7 @@
 			<h1>Especificación de Falla</h1>
 			<table class="table table-hover">
 				<tr>
-					<td> Titulo </td>
+					<td> Tipo de falla </td>
 					<td> <?php echo $titulo;?> </td>
 				</tr>
 				<tr>
@@ -138,25 +138,30 @@
             		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/cambiarEstadoBache">';
             		echo '<div id="formularioEspecificacionesTecnicas" class="form-group selectFormulario">';
 						echo '<div id="contenedorEstado1" class="oculto selectFormulario">';
-							echo '<label class="control-label col-sm-2" for="material"> Material</label><select class="form-control" type="text" id="material" name="material"></select>';
-							echo '<label for="factorArea" class="control-label col-sm-4"> Factor Área (%)</label>';
-							echo '<br><input type="number" class="form-control" name="factorArea" id="factorArea" value="0.5" step="0.1" min="0">';
-							echo '<label class="control-label col-sm-4" for="tipoFalla"> Tipo de Falla</label><select class="form-control" type="text" id="tipoFalla" name="tipoFalla"> <option value="0" selected="selected">Esquina</option>   <option value="1">Huellon</option>	<option value="2">Fisura Transversal</option></select>';
-							echo '<label class="control-label col-sm-4"> Atributos</label>';
-								echo '<br><div style="width:100%; border-top-style:solid; border-top-color: grey; border-bottom-style: solid; border-bottom-color: grey;" class="input-group" id="contenedorAtributosFalla">';
-									echo '<br><input id="ancho" class="form-control" type="text" placeholder="Ancho" name="ancho"/>';
-									echo '<label class="control-label col-sm-8" for="tipoReparacion"> Tipo de Reparación</label>';
-									echo '<select id="tipoReparacion" name="tipoReparacion" class="form-control"><option value="1" selected="">reparación especial</option></select>';
+							echo '<label class="control-label col-sm-2 itemFormularioEstado" for="material"> Material</label><select class="form-control itemFormularioEstado" type="text" id="material" name="material"></select>';
+							echo '<label for="factorArea" class="control-label col-sm-4 itemFormularioEstado"> Factor Área (%)</label>';
+							echo '<input type="number" class="form-control itemFormularioEstado" name="factorArea" id="factorArea" value="0.5" step="0.1" min="0">';
+							echo '<label class="control-label col-sm-4 itemFormularioEstado" for="tipoFalla"> Tipo de Falla</label><select class="form-control itemFormularioEstado" type="text" id="tipoFalla" name="tipoFalla"> <option value="0" selected="selected">Esquina</option>   <option value="1">Huellon</option>	<option value="2">Fisura Transversal</option></select>';
+							echo '<label class="control-label col-sm-4 itemFormularioEstado"> Atributos</label>';
+								echo '<div style="width:100%; border-top-style:solid; border-top-color: grey; border-bottom-style: solid; border-bottom-color: grey;" class="input-group" id="contenedorAtributosFalla">';
+									echo '<input id="ancho" class="form-control itemFormularioEstado" type="text" placeholder="Ancho" name="ancho"/>';
+									echo '<label class="control-label col-sm-8 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>';
+									echo '<select id="tipoReparacion" name="tipoReparacion" class="form-control itemFormularioEstado"><option value="1" selected="">reparación especial</option></select>';
 								echo ';</div>';
-							echo '<label class="control-label col-sm-2" for="criticidad"> Criticidad</label><select class="form-control" type="text" id="criticidad" name="criticidad"></select>';
+							echo '<label class="control-label col-sm-2 itemFormularioEstado" for="criticidad"> Criticidad</label><select class="form-control itemFormularioEstado" type="text" id="criticidad" name="criticidad"></select>';
 							echo '</div>';
 						echo '</div>';
 							echo '<textarea class="form-control selectFormulario" maxlength="100" placeholder="Descripcion" name="descripcion"></textarea>';
 						echo '<div id="contenedorEstado2" class="oculto selectFormulario">';
-						echo '<br><input id="montoEstimado" class="form-control" type="numeric" placeholder="Monto Estimado" name="montoEstimado"/>';
-						echo '<br><input id="fechaFin" class="form-control" type="text"/>';
-echo '<label class="control-label col-sm-10" for="tipoObstruccion"> Obstruccion de Calle</label><select class="form-control" type="text" id="tipoObstruccion" name="tipoObstruccion"> <option value="0" selected="selected">Parcial</option>';
-echo '<option value="1">Total</option> </select>';
+							echo '<input id="montoEstimado" class="form-control itemFormularioEstado" type="number" placeholder="Monto Estimado" name="montoEstimado" step="any" min="0"/>';
+							echo '<label class="control-label col-sm-10 itemFormularioEstado" for="fechaFin"> Fecha Fin Reparación Estimada</label>';
+							echo '<input id="fechaFin" class="form-control itemFormularioEstado" type="text"/>';
+							echo '<label class="control-label col-sm-10 itemFormularioEstado" for="tipoObstruccion"> Obstruccion de Calle</label><select class="form-control itemFormularioEstado" type="text" id="tipoObstruccion" name="tipoObstruccion"> <option value="0" selected="selected">Parcial</option>';
+								echo '<option value="1">Total</option> </select>';
+        				echo '</div>';
+        				echo '<div class="oculto selectFormulario" id="contenedorEstado3" style="display: none;">';
+        					echo '<input type="number" min="0" step="any" name="montoReal" placeholder="Monto Real" class="form-control itemFormularioEstado" id="montoReal">';
+        					echo '<input type="text" class="form-control hasDatepicker itemFormularioEstado" id="fechaFinReal">';
         				echo '</div>';
         				echo '<br><button id="registrarEstadoBache"> Confirmar</button></form>';
     				echo '</div>';

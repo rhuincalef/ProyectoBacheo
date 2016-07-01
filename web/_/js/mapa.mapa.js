@@ -12,27 +12,7 @@ $(document).ready(function(){
           maxFiles: 5,
           acceptedFiles: "image/*",
           dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
-        
-    // Dropzone.options.imagenesForm = { // The camelized version of the ID of the form element
-    //     // The configuration we've talked about above
-    //     autoProcessQueue: false,
-    //     uploadMultiple: true,
-    //     parallelUploads: 5,
-    //     maxFiles: 5,
-    //     acceptedFiles: "image/*",
-    //     dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
-        // The setting up of the dropzone
-        // init: function() {
-        //   var myDropzone = this;
-        //  // Here's the change from enyo's tutorial...
-        //     // $("#submit-all").click(function (e)   
-        //     //     e.preventDefault();
-        //     //     e.stopPropagation();  
-        //     //     myDropzone.processQueue();
-        //     //     }
-        //     // );
 
-        // }
         init: function() {
           Bacheo.myDropzone = this;
           this.on("addedfile", function(file) {
@@ -64,9 +44,9 @@ $(document).ready(function(){
 });
 
 function inicializar(){
-//  $("#modaInfoBacheAceptar").click(Bacheo.agregarMarcador);
   if (typeof google == 'undefined')
   {
+    alertar("La Pucha!","No ha sido posible cargar las librerías de Google. Varias funcionalidades de la aplicación no se podrán utilizar.","error");
     return;
   }
   Bacheo.init($("#canvasMapa"));

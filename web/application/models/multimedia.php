@@ -29,7 +29,7 @@
 		{
 			$CI = &get_instance();
 			$multimedias = array();
-			$datos = $CI->MultimediaModelo->getAll($idFalla[0]);
+			$datos = $CI->MultimediaModelo->getAll($idFalla);
 			$multimedias = array_map(function($obj){ return Multimedia::getInstacia($obj); },$datos);
 			return $multimedias;
 		}

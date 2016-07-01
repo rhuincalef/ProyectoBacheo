@@ -84,15 +84,9 @@
 		public function interpret($datos)
 		{
 			$nombre = $this->nombre;
-
-			$firephp = FirePHP::getInstance(True);
-
 			if (!property_exists($datos, $this->nombre)) {
-				$firephp->log('!property_exists');
 				return 0;
 			}
-				$firephp->log($nombre);
-				$firephp->log(gettype($datos->$nombre));
 			if (!(gettype($datos->$nombre)==$this->tipo)) {
 				return 0;
 			}

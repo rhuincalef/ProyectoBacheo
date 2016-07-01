@@ -1,7 +1,11 @@
 $(document).ready(function(){
 	Bache.init();
 	$( "#fechaFin").datepicker();
+	$( "#fechaFinReal").datepicker();
 
+	url = $('#baseUrlBache').text();
+	imagenesBache = $('#imagenesBache').text();
+	// Bache.cargarImagenes(url, );
 	Bache.redimensionarImg();
 
 	Bache.comentarios();
@@ -10,7 +14,18 @@ $(document).ready(function(){
     });
     $("#registrarEstadoBache").click(function(evento){
 		evento.preventDefault();
+		estado = JSON.parse($("#estadoBache").text());
+		console.log(estado.tipoEstado.nombre);
+		nuevoEstado = estado.tipoEstado.nombre;
+		if ("Informado"==nuevoEstado) {
 		Bache.cambiarEstado();
+		}
+		if ("Confirmado"==nuevoEstado) {
+			Bache.cambiarReparando();
+		}
+		if ("Reparando"==nuevoEstado) {
+			Bache.cambiarReparado();
+		}
 	});
 
 	$("#enviarObservacion").click(function(){
@@ -102,17 +117,20 @@ function cargarFormularioTecnico (estado) {
   			break;
 	 	case 1:
 	 		$("#contenedorEstado2").hide();
+	 		$("#contenedorEstado3").hide();
 	 		$("#contenedorEstado1").show();
 	 		$("#contenedorFormulario").show();
 	 		break;
 	 	case 2:
 	 		$("#contenedorEstado1").hide();
+	 		$("#contenedorEstado3").hide();
 	 		$("#contenedorEstado2").show();
 	 		$("#contenedorFormulario").show();
 	 		break;
 	 	case 3:
 	 		$("#contenedorEstado1").hide();
 	 		$("#contenedorEstado2").hide();
+	 		$("#contenedorEstado3").show();
 	 		$("#contenedorFormulario").show();
 	 	default:
 	 		break;
@@ -156,12 +174,12 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	$contenedorAtributos.empty();
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
-		$unDiv.append($('<label class="control-label col-sm-4">'+elemento.nombre+'</label>'));
-		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario" value="0.5"/>'));
+		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+elemento.nombre+'</label>'));
+		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" value="0.5"/>'));
 		$contenedorAtributos.append($unDiv);
 	});
-	$contenedorAtributos.append($('<label class="control-label col-sm-4" for="tipoReparacion"> Tipo de Reparación</label>'));
-	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control"></select>');
+	$contenedorAtributos.append($('<label class="control-label col-sm-10 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
+	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
 	    var opcion = new Option(reparaciones[elemento].nombre,reparaciones[elemento].id,true,true);

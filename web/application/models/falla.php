@@ -122,6 +122,54 @@
 			return true;
 		}
 
+		/*
+		{ "falla": {"latitud": -43.251741078254454, "longitud": -65.32084465026855, "influencia":2, "factorArea": .2},
+		"observacion": {"comentario": "comentario falla"},
+		"tipoFalla": {"id": 5},
+		"criticidad": {"id": 9},
+		   "reparacion": {"id": 6},
+		"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
+		"direccion": {"altura": 50,"callePrincipal": "Edison Norte", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+		}
+		*/
+/*
+		static public function validarDatosFalla($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("validarDatosFalla");
+			// Creando arbol para validar los datos de Falla
+			$terminal1 = new NumericTerminalExpression("latitud", "double", "true");
+			$terminal2 = new NumericTerminalExpression("longitud", "double", "true");
+			$terminal3 = new NumericTerminalExpression("factorArea", "double", "true");
+			$noTerminalFalla = new AndExpression(array($terminal1, $terminal2, $terminal3), "falla");
+
+			$terminal1 = new StringTerminalExpression("comentario", "", "true");
+			// mail y nombre de usuario se toman de la sesión
+			// $terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
+			// $terminal3 = new StringTerminalExpression("emailObservador", "", "true");
+			$noTerminalObservacion = new AndExpression(array($terminal1), "observacion");
+
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$noTerminaTipolFalla = new AndExpression(array($terminal1), "tipoFalla");
+
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$noTerminaCriticidad = new AndExpression(array($terminal1), "criticidad");
+
+			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal2 = new NumericTerminalExpression("valor", "double", "true");
+			$noTerminalAtributo = new AndExpression(array($terminal1, $terminal2), "atributos");
+
+			$terminal1 = new NumericTerminalExpression("altura", "integer", "true");
+			$terminal2 = new StringTerminalExpression("callePrincipal", "", "true");
+			$terminal3 = new StringTerminalExpression("calleSecundariaA", "", "true");
+			$terminal4 = new StringTerminalExpression("calleSecundariaB", "", "true");
+			$noTerminalDireccion = new AndExpression(array($terminal1, $terminal2, $terminal3, $terminal4), "direccion");
+
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion, $noTerminaTipolFalla, $noTerminaCriticidad, $noTerminalAtributo), "datos");
+			return $validator->interpret($datos);
+		}
+*/
+
 		static public function validarDatosFallaAnonima($datos)
 		{
 			$CI = &get_instance();
@@ -193,6 +241,7 @@
 			$falla->estado->id = $falla->estado->save();
 			$falla->asociarEstado();
 			// TODO: Falta asociar la observacion
+			// TODO: realizar los save's dependientes en save Falla
 			$CI->utiles->debugger($falla);
 			return $falla;
 		}

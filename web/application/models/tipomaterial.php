@@ -48,7 +48,6 @@
 		static public function getTipoMaterial($id)
 		{
 			$CI = &get_instance();
-			$CI->utiles->debugger('pepe');
 			$datos = $CI->TipoMaterialModelo->get($id);
 			$tipoMaterial = new TipoMaterial();
 			$tipoMaterial->inicializar($datos);

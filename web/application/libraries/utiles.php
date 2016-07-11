@@ -84,15 +84,61 @@
 		public function interpret($datos)
 		{
 			$nombre = $this->nombre;
+			if (!$this->requerido) {
+				return true;
+			}
+			// La propiedad es requerida
+			// Se verifica existe propiedad
 			if (!property_exists($datos, $this->nombre)) {
 				return 0;
 			}
-			if (!(gettype($datos->$nombre)==$this->tipo)) {
+			// Se verifica que la propiedad tenga algún valor
+			if (!isset($datos->$nombre)) {
 				return 0;
 			}
-			if ($this->requerido) {
-				return isset($datos->$nombre);
+			// Trato de convertir
+			// Se verifica que es del tipo de dato correcto
+			$firephp = FirePHP::getInstance(True);
+			$firephp->log('*************');
+			$firephp->log('Tipo ingresado: '.gettype($datos->$nombre));
+			$firephp->log('Valor: '.$datos->$nombre);
+			$valor = $datos->$nombre;
+			$firephp->log($this->tipo.'val');
+			$datos->$nombre = call_user_func($this->tipo.'val', $valor);
+			$firephp->log('Convertido en: '.gettype($datos->$nombre));
+			return true;
+		}
+	}
+
+	class IntegerTerminalExpression extends Expression
+	{
+		private $nombre = null; /* Ejemplo: influencia*/
+		private $requerido;
+		private $tipo;  /* Ejemplo: influencia*/
+
+		function __construct($nombre, $requerido=false)
+		{
+			$this->nombre = $nombre;
+			$this->requerido = $requerido;
+		}
+
+		public function interpret($datos)
+		{
+			$nombre = $this->nombre;
+			if (!$this->requerido) {
+				return true;
 			}
+			// La propiedad es requerida
+			// Se verifica existe propiedad
+			if (!property_exists($datos, $this->nombre)) {
+				return 0;
+			}
+			// Se verifica que la propiedad tenga algún valor
+			if (!isset($datos->$nombre)) {
+				return 0;
+			}
+			// En algún momento debo verificar que sea valor entero
+			$datos->$nombre = (integer)$datos->$nombre;
 			return true;
 		}
 	}

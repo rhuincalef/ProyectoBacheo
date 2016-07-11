@@ -62,7 +62,8 @@ $route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$
 $route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
 $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';
 
-$route['crearFallaAnonima'] = 'publico/crearFallaAnonima';
+$route['crearFallaAnonima'] = 'publico/crearFallaAnonima/$1';
+
 $route['getTiposFalla/(\d+)'] = 'publico/getTiposFalla/$1';
 
 $route['getAlly/(TipoMaterial)'] = 'publico/getAlly/$1';

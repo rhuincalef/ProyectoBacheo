@@ -233,19 +233,17 @@
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("validarDatos");
-			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal1 = new NumericTerminalExpression("id", "int", "true");
 			$terminal2 = new NumericTerminalExpression("factorArea", "double", "true");
 			$noTerminalFalla = new AndExpression(array($terminal1, $terminal2), "falla");
 
-			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal1 = new NumericTerminalExpression("id", "int", "true");
 			$noTerminalCriticidad = new AndExpression(array($terminal1), "criticidad");
 
 			$terminal1 = new StringTerminalExpression("comentario", "", "true");
-			// $terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
-			// $terminal3 = new StringTerminalExpression("emailObservador", "", "true");
 			$noTerminalObservacion = new AndExpression(array($terminal1), "observacion");
 
-			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal1 = new NumericTerminalExpression("id", "int", "true");
 			$terminal2 = new NumericTerminalExpression("valor", "double", "true");
 			$noTerminalAtributo = new AndExpression(array($terminal1, $terminal2), "atributos");
 
@@ -339,7 +337,7 @@
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("validarDatos");
-			$terminal1 = new NumericTerminalExpression("id", "integer", "true");
+			$terminal1 = new NumericTerminalExpression("id", "int", "true");
 			$noTerminalFalla = new AndExpression(array($terminal1), "falla");
 
 			$terminal1 = new NumericTerminalExpression("montoEstimado", "double", "true");

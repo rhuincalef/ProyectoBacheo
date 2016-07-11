@@ -48,5 +48,54 @@ class Invitado extends CI_Controller {
 	}
 
 	// --------------------------------------------------------------------
+
+	/*
+	$.post('crearFallaAnonima', 
+	{"clase": "Falla",
+	"datos": JSON.stringify(
+	  { "falla": {"latitud": -43.2517261, "longitud": -65.30606180000001},
+	   "observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+       "tipoFalla": {"id": 1},
+	   "multimedias": {},
+	   "direccion": {"altura": 350,"callePrincipal": "Avenida Fontana", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+	  })
+	})
+	*/
+	public function crearFallaAnonima()
+	{
+		$datos = new stdClass;
+		$datos->clase = $this->input->post('clase');
+		$datos->clase = 'Falla';
+		$datos->datos = json_decode($this->input->post('datos'));
+		$class = $datos->clase;
+		$this->utiles->debugger($datos);
+		if (!Falla::{"validarDatosFallaAnonima"}($datos))
+		{
+			// Si los datos no son validos
+			$this->utiles->debugger("Datos Invalidos");
+			echo json_encode(array('codigo' => 400, 'mensaje' => "datos invalidos", 'valor' => json_encode($this->input->post())));
+			return;
+		}
+		$this->utiles->debugger("Datos Validos");
+		$this->db->trans_begin();
+		$falla = Falla::crearFallaAnonima($datos->datos);
+		// Por ahora siempre deshacemos
+		// $this->db->trans_rollback();
+		if ($this->db->trans_status() === FALSE)
+		{
+			$this->utiles->debugger("Falla en DB");
+			// TODO: Falta dar aviso del error
+		    $this->db->trans_rollback();
+		}
+		else
+		{
+		    $this->db->trans_commit();
+		}
+		
+		$this->utiles->debugger($falla);
+		echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada con exito!", 'valor' =>json_encode($falla)));
+		return;
+	}
+
 }
 ?>

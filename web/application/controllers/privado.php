@@ -144,7 +144,6 @@ class Privado extends CI_Controller
 			}
 
 			$this->output->enable_profiler(FALSE);
-			// $bache['logueado'] = TRUE;
 			$bache['logueado'] = $this->ion_auth->logged_in();
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
 			$bache['admin'] = $this->ion_auth->is_admin(); 
@@ -155,7 +154,6 @@ class Privado extends CI_Controller
 			$this->utiles->debugger($this->input->post());
 			$datos = new stdClass;
 			$datos->comentario = $this->input->post("comentario");
-			// $datos->nombreObservador = $this->input->post("nombreObservador");
 			$datos->nombreObservador = $this->ion_auth->user()->row()->username;
 			$datos->emailObservador = $this->ion_auth->user()->row()->email;
 			$datos->idFalla = $this->input->post("idBache");

@@ -202,16 +202,15 @@
 			return TRUE;
 		}
 
-		public function validarDatos($datos)
+		static public function validarDatos($datos)
 		{
 			$CI = &get_instance();
 			$CI->utiles->debugger("validarDatos");
-			// $CI->utiles->debugger($datos);
 			// Creando arbol para TipoFalla
 			$terminal1 = new StringTerminalExpression("nombre", "", "true");
 			// $terminal2 = new NumericTerminalExpression("influencia", "integer", "true");
 			// TODO: hablar sobre como tratar esto?????
-			$terminal2 = new StringTerminalExpression("influencia", "", "true");
+			$terminal2 = new NumericTerminalExpression("influencia", "int", "true");
 			$noTerminal1 = new AndExpression(array($terminal1, $terminal2), "general");
 
 			$terminal1 = new StringTerminalExpression("nombre", "", "true");
@@ -222,14 +221,12 @@
 			$noTerminal3 = new AndExpression(array($terminal1, $terminal2), "atributos");
 
 			$terminal1 = new StringTerminalExpression("nombre", "", "true");
-			// $terminal2 = new NumericTerminalExpression("ponderacion", "double", "true");
-			$terminal2 = new StringTerminalExpression("ponderacion", "", "true");
+			$terminal2 = new NumericTerminalExpression("ponderacion", "double", "true");
 			$terminal3 = new StringTerminalExpression("descripcion", "", "true");
 			$noTerminal4 = new AndExpression(array($terminal1, $terminal2, $terminal3), "criticidades");
 
 			$terminal1 = new StringTerminalExpression("nombre", "", "true");
-			// $terminal2 = new NumericTerminalExpression("costo", "double", "true");
-			$terminal2 = new StringTerminalExpression("costo", "", "true");
+			$terminal2 = new NumericTerminalExpression("costo", "double", "true");
 			$terminal3 = new StringTerminalExpression("descripcion", "", "true");
 			$noTerminal5 = new AndExpression(array($terminal1, $terminal2, $terminal3), "reparaciones");
 

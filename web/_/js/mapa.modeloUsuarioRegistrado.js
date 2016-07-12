@@ -29,6 +29,43 @@ function inicializarFormularioBache(){
 	});
 };
 
+// Agregamos al gestor de Materiales la obtención de los nieles de criticidades de un tipo de falla
+// necesario sólo en la vista de usuario registrado
+var GestorMaterialesRegistrado = (function (Module) {
+    
+    console.log(Module);
+    var diccionarioCriticidades = {};
+    Module.diccionarioCriticidades = diccionarioCriticidades; 
+    Module.obtenerCriticidades = function obtenerCriticidades(idCriticidades,arregloCriticidades) {
+        // another method!
+        var criticidadesAPedir = [];
+        if (idCriticidades == undefined) {
+        	return diccionarioCriticidades;
+        };
+        idCriticidades.map(function(k,v){
+        	if(diccionarioCriticidades.hasOwnProperty(k))
+        		arregloCriticidades.push(diccionarioCriticidades[k]);
+        	else
+        		criticidadesAPedir.push(k);
+        });
+        if (criticidadesAPedir.length==0) {
+        	return;
+        }
+        $.post("publico/getCriticidadesPorIDs",{"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
+        	var datos = JSON.parse(data);
+        	var tipos = JSON.parse(datos.valor);
+        	$(tipos).each(function(indice,elemento){
+        		criticidad = {"id":elemento.id, "nombre":elemento.nombre, "descripcion":elemento.descripcion};
+        		diccionarioCriticidades[criticidad.id] = criticidad;
+        		arregloCriticidades.push(criticidad);
+        	});
+        });
+    };
+    
+    return GestorMateriales;
+    
+})(GestorMateriales || {});
+
 /* cargarTiposFalla: Obtiene y completa la parte del formulario encargada de presentar los diferentes tipos
  * de falla registrados en el sistema																		*/
 function cargarTiposFalla(fallas){
@@ -85,6 +122,7 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 	$unDiv.append($opcionesCriticidades);
 	$contenedorAtributos.append($unDiv);
 }
+
 
 // Bacheo.agregarMarcador
 function recolectarFalla(){

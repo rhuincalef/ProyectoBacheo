@@ -2,7 +2,7 @@ var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
-	var diccionarioCriticidades = {};
+	// var diccionarioCriticidades = {};
 	
 	var agregarMaterial = function(datos){
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
@@ -63,7 +63,7 @@ var GestorMateriales = (function(){
 
 
 	};
-
+/*
 	var obtenerCriticidades = function(idCriticidades,arregloCriticidades){
 		var criticidadesAPedir = [];
 		if (idCriticidades == undefined) {
@@ -88,7 +88,7 @@ var GestorMateriales = (function(){
     		});
 		});
 	};
-
+*/
 
 	return{
 		agregarMaterial:agregarMaterial,
@@ -96,8 +96,7 @@ var GestorMateriales = (function(){
 		materiales:diccionarioMateriales,
 		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
-		obtenerReparaciones:obtenerReparaciones,
-		obtenerCriticidades:obtenerCriticidades
+		obtenerReparaciones:obtenerReparaciones
 	}
 }());
 

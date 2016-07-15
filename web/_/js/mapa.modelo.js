@@ -2,7 +2,6 @@ var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
-	// var diccionarioCriticidades = {};
 	
 	var agregarMaterial = function(datos){
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
@@ -54,7 +53,6 @@ var GestorMateriales = (function(){
 			var datos = JSON.parse(data);
 			var tipos = JSON.parse(datos.valor);
 			$(tipos).each(function(indice,elemento){
-				// var fallaJson = JSON.parse(elemento.valor)[indice];
 				var unTipoFalla = new TipoFalla(elemento);
 				diccionarioTiposFalla[elemento.id] = unTipoFalla;
     			arregloTipos.push(unTipoFalla);
@@ -63,32 +61,6 @@ var GestorMateriales = (function(){
 
 
 	};
-/*
-	var obtenerCriticidades = function(idCriticidades,arregloCriticidades){
-		var criticidadesAPedir = [];
-		if (idCriticidades == undefined) {
-			return diccionarioCriticidades;
-		};
-		idCriticidades.map(function(k,v){
-			if(diccionarioCriticidades.hasOwnProperty(k))
-				arregloCriticidades.push(diccionarioCriticidades[k]);
-			else
-				criticidadesAPedir.push(k);
-		});
-		if (criticidadesAPedir.length==0) {
-			return;
-		}
-		$.post("publico/getCriticidadesPorIDs",{"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
-			var datos = JSON.parse(data);
-			var tipos = JSON.parse(datos.valor);
-			$(tipos).each(function(indice,elemento){
-				criticidad = {"id":elemento.id, "nombre":elemento.nombre, "descripcion":elemento.descripcion};
-				diccionarioCriticidades[criticidad.id] = criticidad;
-				arregloCriticidades.push(criticidad);
-    		});
-		});
-	};
-*/
 
 	return{
 		agregarMaterial:agregarMaterial,
@@ -112,9 +84,13 @@ var TipoFalla = function(datos){
 		var _this = this;
 
 		console.log(datos);
-		// GestorMateriales.obtenerReparaciones(datos.reparaciones,this.reparaciones);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
-		GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
+		/* La siguiente línea se debe mejorar. Seguir modularizando el tema de mapa usuario
+		   registrado y anónimo. */
+		checkCookie = document.cookie.split(';');
+		if (checkCookie[1]) {
+			GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
+		}
 
 		$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
 			var datos = JSON.parse(data);

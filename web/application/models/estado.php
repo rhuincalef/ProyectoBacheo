@@ -206,6 +206,7 @@
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
             "estado" => "Informado",
+            "posicion" => array($falla->latitud, $falla->longitud),
             // "estado" => json_encode($falla->estado),
             );
             return $datos;

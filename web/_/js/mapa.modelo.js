@@ -91,6 +91,7 @@ var TipoFalla = function(datos){
 		if (checkCookie[1]) {
 			GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
 		}
+		/*---------------*/
 
 		$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
 			var datos = JSON.parse(data);
@@ -236,6 +237,7 @@ var Bacheo = (function(){
 	                // if(respuestaServidor.estado > -1){
 	                if(respuestaServidor.codigo == 200){
 	                	datos = $.parseJSON(respuestaServidor.valor);
+	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
 	    				cargarMarcador(datos);
 //	    				guardarImagenes(datos.id);
 						alertar("Exito!","Bache notificado con exito","success");
@@ -358,6 +360,8 @@ var Bacheo = (function(){
 	                var respuestaServidor = $.parseJSON(data);
 	                if(respuestaServidor.codigo == 200){
 	                	datos = respuestaServidor.valor;
+	                	datos = $.parseJSON(respuestaServidor.valor);
+	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
 	    				cargarMarcador(datos);
 //	    				guardarImagenes(datos.id);
 						alertar("Exito!","Bache notificado con exito","success");

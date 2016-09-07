@@ -11,8 +11,8 @@ class Errori extends CI_Controller {
 	// --------------------------------------------------------------------
 	
 	public function error_404(){
-		echo "La pagina solicitada no existe hweon!";
-		//show_404();
+		//echo "La pagina solicitada no existe hweon!";
+		$this->load->view('error/error_404');
 	}
 
 	// --------------------------------------------------------------------

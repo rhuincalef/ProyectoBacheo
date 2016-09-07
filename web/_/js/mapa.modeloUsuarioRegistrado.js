@@ -9,6 +9,11 @@ function inicializarFormularioBache(){
 	var keysMateriales = Object.keys(materiales);
 	var $opcionesMaterial = $('<select class="form-control campoIzquierdo derechoAmpliado" name="tipoMaterial" id="tipoMaterial"/>');
 	$(keysMateriales).each(function(indice,elemento){
+		/* No se muestran aquellos tipos de materiales que no poseen tipos de falla */
+		if (materiales[elemento].fallas.length <= 0) {
+			keysMateriales.splice(indice, 1);
+			return;
+		}
 	    var opcion = new Option(materiales[elemento].nombre,materiales[elemento].id,true,true);
 	    $(opcion).click(function(){
 	    	cargarTiposFalla(materiales[elemento].fallas);

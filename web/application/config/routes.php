@@ -39,7 +39,7 @@
 */
 
 $route['default_controller'] = "publico";
-$route['404_override'] = 'error/error_404';
+$route['404_override'] = 'errori/error_404';
 $route['get(TiposEstado|Niveles|TiposRotura|TiposDeMateriales)'] = 'publico/get$1';
 $route['get(Falla|Observaciones|Multimedia|Estado|Estados)/(\d+)'] = 'publico/get$1/$2';
 

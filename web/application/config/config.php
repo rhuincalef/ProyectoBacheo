@@ -156,7 +156,8 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 |
 */
 $config['allow_get_array']		= TRUE;
-$config['enable_query_strings'] = FALSE;
+// $config['enable_query_strings'] = FALSE;
+$config['enable_query_strings'] = TRUE;
 $config['controller_trigger']	= 'c';
 $config['function_trigger']		= 'm';
 $config['directory_trigger']	= 'd'; // experimental not currently in use
@@ -369,6 +370,21 @@ $config['proxy_ips'] = '';
 */
 
 $config['upload_path'] = './_/img/Multimedias';
+
+
+
+
+
+// Constantes para resolver la visualizacion en WebGL
+// $config['main_dir_web_app'] = "/web";
+$config['pcd_dir'] = 'dataMultimedia/';
+$config['dir_csv'] = 'csv_temp/';
+$config['subfijo_csv_pc'] = '_pc.csv' ;
+$config['subfijo_csv_info'] = '_info.csv';
+$config['img_default'] = 'img_default.png' ;
+// TODO: Descomentar esto si se desea emplear la imagen
+// $config['subfijo_img'] = '.png' ;
+
 
 
 function __autoload($class)

@@ -1,5 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//TODO Comentar! Clase de firephp utilizada para la depuración.
+/*
+if (defined('DIR_DEBUGGING') == FALSE) {
+	define("DIR_DEBUGGING","/var/www/html/repoProyectoBacheo/web/application/debugging/");
+	set_include_path(get_include_path() . PATH_SEPARATOR . DIR_DEBUGGING);
+}
+require_once('FirePHP.class.php');
+*/
+
+
 class Publico extends Frontend_Controller
 {
 
@@ -34,6 +44,8 @@ class Publico extends Frontend_Controller
 		    call_user_func_array(array(&$privado,$method),$args);
 		}
 	}
+
+
 
 	// --------------------------------------------------------------------
 
@@ -184,6 +196,25 @@ class Publico extends Frontend_Controller
 			
 		}
 	}
+
+
+	// URL de prueba -->
+	// http://localhost/repoProyectoBacheo/web/index.php/inicio/genPass/administrator
+	// USER: administrator
+	// PASSWORD: administrator.
+	// NOTA PASSWORD: Cuando se almacena en la BD borrar las comillas ''.
+	// 
+	// Genera un hash para la BD partiendo de un string.
+	public function genPass($password){
+		$firephp = FirePHP::getInstance(True);
+		$this->load->library('ion_auth');
+	    $pass = $this->ion_auth->hash_password($password,FALSE,FALSE);
+	    $firephp->log("Pass encriptada OK:");
+	    $firephp->log($pass);
+	    $firephp->log("<------------------------>");
+	}
+
+
 
 	/*
 	Clases accesibles: TipoFalla

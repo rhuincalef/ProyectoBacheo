@@ -62,7 +62,11 @@ $route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$
 $route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
 $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';
 
+
+
+// $route['crearFallaAnonima'] = 'invitado/crearFallaAnonima/$1';
 $route['crearFallaAnonima'] = 'publico/crearFallaAnonima/$1';
+
 
 $route['getTiposFalla/(\d+)'] = 'publico/getTiposFalla/$1';
 
@@ -82,6 +86,20 @@ $route['inicio/cambiarEstadoBache'] = 'publico/modificarEstado';
 
 $route['registrarUsuario'] = 'publico/registrarUsuario';
 $route['create_user'] = 'publico/create_user';
+
+
+// Ruta para el metodo que genera los datos para el thumbnail.
+$route['obtenerDatosVisualizacion/(\d+)'] = "publico/obtenerDatosVisualizacion/$1";
+
+
+
+// Utilizacion
+//"application/helpers/generar_csv_php/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp
+// Ruta que genera el csv con una descripcion.
+// $route['generarDescripcion/(\d+)/(\s+)'] = "publico/generarDescripcion/$1/$2";
+
+
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
 

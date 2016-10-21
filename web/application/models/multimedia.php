@@ -86,7 +86,7 @@
 			$CI = &get_instance();
 			$CI->utiles->debugger($CI->config->item('upload_path'));
 
-			// Path configurado config.php (upload_path)
+			// Path configurado application/config/config.php (upload_path)
 			$directorio = $CI->config->item('upload_path').'/'.'TipoFalla';
 			if(!is_dir($directorio)){ 
 			    mkdir($directorio, 0777, true);

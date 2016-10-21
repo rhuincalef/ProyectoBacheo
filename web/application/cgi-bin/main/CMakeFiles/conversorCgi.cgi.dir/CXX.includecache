@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/excepciones/lib/excepciones.h
+
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/lib/shared.h
+
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/conversorCgi.cpp
+lib/conversorCgi.h
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/lib/conversorCgi.h
+
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/lib/conversorCgi.h
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+iostream
+-
+dirent.h
+-
+string.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+errno.h
+-
+signal.h
+-
+../../lib/shared.h
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/lib/shared.h
+../../excepciones/lib/excepciones.h
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/excepciones/lib/excepciones.h
+

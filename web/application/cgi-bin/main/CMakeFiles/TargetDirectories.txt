@@ -1,0 +1,4 @@
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/CMakeFiles/conversorCgi.cgi.dir
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/CMakeFiles/excepciones.dir
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/CMakeFiles/pcd_to_csv.dir
+/var/www/html/repoProyectoBacheo/web/application/cgi-bin/main/CMakeFiles/pcd_to_json.dir

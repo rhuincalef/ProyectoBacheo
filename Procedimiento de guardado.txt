@@ -1,0 +1,21 @@
+1- Generar el achivo .PCD para cada falla con el sensor.
+2- Ejecutar un script de carga de .PCD que creara una carpeta csv_temp en cada 
+carpeta de falla y generara los archivos necesarios para el thumbnail(2 csv y la imagen que se muestra).
+3- La vista de cada bache.php solicta por ajax al servidor las url de los archivos para inicializar el thumbnail.
+
+
+Pasos del sistema:
+	1- Salir a capturar nubes de puntos con el sensor Kinect y aplicación de captura.Los archivos son guardados temporalmente hasta su procesamiento.
+	2- En batch realiza el filtrado e identificación y clasificado de la captura.
+	Si el resultado del procesamiento nos dice que es un tipo de falla conocido se guarda definitivamente en una ubicación en el sistema de archivo.
+	Sino se descarta.
+	3- ** Posibilidad de visualizar las fallas identificadas y dar a elegir aquellas que no fueron correctamente detectadas por el aplicativo y descartarlas.
+	Se inicia la carga al servidor de todas las fallas identificadas vía red (red local).
+		Se trabaja en el aplicativo con los mismos atributos que se encuentran en el modelo realizado.
+	4- El servidor hace uso de la información subida por el aplicativo para su visualización por WebGL.
+
+**********************
+Posibilidad de pedir información al servidor.
+Pedir al servidor aquellos id de fallas que no tienen .pcd (informados y confirmados)
+Listado de baches con sus características (direccion, atributos,id bache).
+*******************************

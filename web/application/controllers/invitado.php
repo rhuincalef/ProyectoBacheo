@@ -19,9 +19,13 @@ class Invitado extends CI_Controller {
 		}
 
 	}
+	 
 
 	public function getFalla($id)
 	{
+		// AGREGADO RODRIGO
+		$this->load->helper('url');
+
 		$get = $this->uri->uri_to_assoc();
 		$falla = Falla::getInstancia($id);
 		$bache = $falla->to_array();

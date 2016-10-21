@@ -93,7 +93,7 @@ var TipoFalla = function(datos){
 		}
 		/*---------------*/
 
-		$.post("publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
+		$.post("index.php/publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
 			var datos = JSON.parse(data);
 			if(datos.codigo == 200){
 				var attr = JSON.parse(datos.valor);
@@ -328,7 +328,8 @@ var Bacheo = (function(){
 	}
 
 	function obtenerMateriales() {
-		$.get( "index.php/publico/getAlly/TipoMaterial", function(data) {
+		$.get( "getAlly/TipoMaterial", function(data) {
+		// $.get( "index.php/publico/getAlly/TipoMaterial", function(data) {
 			console.log(data);
 			var datos = JSON.parse(data);
 			if(datos.codigo ==200){

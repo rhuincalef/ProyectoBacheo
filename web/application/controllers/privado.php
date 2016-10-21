@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class Privado extends CI_Controller
 {
 
@@ -10,7 +11,39 @@ class Privado extends CI_Controller
 		// Se quitan los delimitadores que devuelven los mensajes como <p/>
 		$this->ion_auth->set_message_delimiters('', '');
 		$this->ion_auth->set_error_delimiters('', '');
+		// $this->load->helper('url');
 	}	
+
+	// Metodo csv de descripcion
+	// public function generarDescripcion($idFalla,$carpetaFalla){
+	// 	$this->load->library('GeneradorCsv');
+	// 	// $this->load->library('ExcepcionPHP');
+	// 	$g = new GeneradorCsv();
+	// 	echo $g->generar($idFalla,$carpetaFalla);
+	// }
+
+	// Metodo para generar el .csv a partir del csv y la imagen
+	public function obtenerDatosVisualizacion($idFalla){
+		require_once("FirePHP.class.php");
+		$firephp = FirePHP::getInstance(true);
+		$firephp->log("EN obtenerDatosVisualizacion!!");
+		$this->load->helper('url');
+		$CI = &get_instance();
+		// $web_root_dir =$CI->config->item('main_dir_web_app');
+		// $dir_raiz = chop(base_url(),$web_root_dir)."/";
+		$dir_raiz = base_url().'_/';
+		$dir_csv = $dir_raiz.$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
+		$pc_csv =  $idFalla.$CI->config->item('subfijo_csv_pc');
+		$info_csv = $idFalla.$CI->config->item('subfijo_csv_info');
+		$img_default = $CI->config->item('img_default');
+		$valores= array(
+			'raiz_tmp' => $dir_csv,
+			'csv_nube' => $pc_csv ,
+			'imagen' => $img_default,
+			'info_csv' => $info_csv );
+		echo json_encode($valores);
+	}
+
 
 	// --------------------------------------------------------------------
 	

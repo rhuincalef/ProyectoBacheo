@@ -377,6 +377,7 @@ $config['upload_path'] = './_/img/Multimedias';
 
 // Constantes para resolver la visualizacion en WebGL
 // $config['main_dir_web_app'] = "/web";
+$config['path_web'] = "/repoProyectoBacheo/web/";
 $config['pcd_dir'] = 'dataMultimedia/';
 $config['dir_csv'] = 'csv_temp/';
 $config['subfijo_csv_pc'] = '_pc.csv' ;

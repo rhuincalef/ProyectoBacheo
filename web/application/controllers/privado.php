@@ -14,6 +14,8 @@ class Privado extends CI_Controller
 		// $this->load->helper('url');
 	}	
 
+
+
 	// Metodo csv de descripcion
 	// public function generarDescripcion($idFalla,$carpetaFalla){
 	// 	$this->load->library('GeneradorCsv');
@@ -21,6 +23,8 @@ class Privado extends CI_Controller
 	// 	$g = new GeneradorCsv();
 	// 	echo $g->generar($idFalla,$carpetaFalla);
 	// }
+
+
 
 	// Metodo para generar el .csv a partir del csv y la imagen
 	public function obtenerDatosVisualizacion($idFalla){

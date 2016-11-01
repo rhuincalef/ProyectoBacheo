@@ -20,16 +20,6 @@
                   debug(json_estado.error);
                   nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
                   return;
-                // }else if(json_estado.estado == 401){
-                //   debug("Ha ocurrido un error en el servidor -->");
-                //   debug(json_estado.error);
-                //   nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
-                //   return;
-                // }else if(json_estado.estado == 402){
-                //   debug("Ha ocurrido un error en el servidor -->");
-                //   debug(json_estado.error);
-                //   nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
-                //   return;
                 }else{
                   debug('Los datos capturados desde el server fueron -->');
                   debug(json_estado);
@@ -82,7 +72,6 @@
             }
         );
         $("#imagenThumb").attr("src",rutaImg);
-        
         $(".thumbnail").find('.caption').slideUp(250);
           
       }
@@ -133,6 +122,7 @@
       // Oculta el canvas y restaura el thumbnail.
       restaurar_thumbnail = function(){
         $("#containerWebGL").fadeOut();
+        webGL.resetear_canvas(); 
         $("#boton-info").fadeOut();
         $("#containerThumnail").fadeIn();
       }

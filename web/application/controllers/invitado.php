@@ -39,6 +39,8 @@ class Invitado extends CI_Controller {
 		$this->output->enable_profiler(FALSE);
 		$bache['logueado'] = FALSE;
 		$this->template->build_page("bache",$bache);
+		
+
 	}
 
 	public function asociarObservacion(){

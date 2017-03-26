@@ -73,50 +73,6 @@ var GestorMateriales = (function(){
 }());
 
 
-var TipoFalla = function(datos){
-		this.id = datos.id;
-		this.nombre = datos.nombre;
-		this.influencia = datos.influencia;
-		this.atributos = [];
-		this.criticidades = [];
-		this.reparaciones = [];
-		this.multimedia = null;
-		var _this = this;
-
-		console.log(datos);
-		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
-		/* La siguiente línea se debe mejorar. Seguir modularizando el tema de mapa usuario
-		   registrado y anónimo. */
-		checkCookie = document.cookie.split(';');
-		if (checkCookie[1]) {
-			GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
-		}
-		/*---------------*/
-
-		$.post("index.php/publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
-			var datos = JSON.parse(data);
-			if(datos.codigo == 200){
-				var attr = JSON.parse(datos.valor);
-				$(attr).each(function(indice,elemento){
-	    			_this.atributos.push({"id":elemento.id,"nombre":elemento.nombre});
-	    		});
-			}
-		});
-		this.getMultimedia = function(){
-			if(this.multimedia != null)
-				return this.multimedia;
-			$.get( "index.php/publico/getMultimediaTipoFalla/"+_this.id, function(data) {
-				var datos = JSON.parse(data);
-				$(datos).each(function(indice,elemento){
-	    			_this.multimedia = elemento.multimedia;
-	    			return _this.multimedia;
-	    		});
-			});
-		};
-
-		return this;
-	};
-
 var TipoReparacion = function(datos){
 		this.id = datos.id;
 		this.nombre = datos.nombre;

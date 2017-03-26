@@ -19,7 +19,11 @@ function inicializarFormularioBache(){
 	    	cargarTiposFalla(materiales[elemento].fallas);
 	    });
 	    $opcionesMaterial.append(opcion);
-	  });
+	});
+	$opcionesMaterial.change(function(event){
+		var indice = $(this).val() - 1;
+		cargarTiposFalla(materiales[indice].fallas);
+	});
 	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Tipo de Material</label>'));
 	$divSelect.append($opcionesMaterial);
 	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Factor Área (%)</label>'));
@@ -71,6 +75,44 @@ var GestorMaterialesRegistrado = (function (Module) {
     
 })(GestorMateriales || {});
 
+var TipoFalla = function(datos){
+	this.id = datos.id;
+	this.nombre = datos.nombre;
+	this.influencia = datos.influencia;
+	this.atributos = [];
+	this.criticidades = [];
+	this.reparaciones = [];
+	this.multimedia = null;
+	var _this = this;
+
+	console.log(datos);
+	GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
+	GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
+
+	$.post("index.php/publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {
+		var datos = JSON.parse(data);
+		if(datos.codigo == 200){
+			var attr = JSON.parse(datos.valor);
+			$(attr).each(function(indice,elemento){
+    			_this.atributos.push({"id":elemento.id,"nombre":elemento.nombre});
+    		});
+		}
+	});
+	this.getMultimedia = function(){
+		if(this.multimedia != null)
+			return this.multimedia;
+		$.get( "index.php/publico/getMultimediaTipoFalla/"+_this.id, function(data) {
+			var datos = JSON.parse(data);
+			$(datos).each(function(indice,elemento){
+    			_this.multimedia = elemento.multimedia;
+    			return _this.multimedia;
+    		});
+		});
+	};
+
+	return this;
+};
+
 /* cargarTiposFalla: Obtiene y completa la parte del formulario encargada de presentar los diferentes tipos
  * de falla registrados en el sistema																		*/
 function cargarTiposFalla(fallas){
@@ -84,6 +126,10 @@ function cargarTiposFalla(fallas){
 	    	cargarOpcionesFalla(elemento.atributos,elemento.reparaciones, elemento.criticidades);
 	    });
 	    $opcionesFallas.append(opcion);
+	});
+	$opcionesFallas.change(function(event){
+		var indice = $(this).val() - 1;
+		cargarOpcionesFalla(fallas[indice].atributos, fallas[indice].reparaciones, fallas[indice].criticidades);
 	});
 	$opcionesFallas.val(fallas[0].id);
 	$divSelectFallas.append($opcionesFallas);

@@ -256,6 +256,18 @@
 
 	class Confirmado extends Estado
 	{
+		/*
+		TODO: Confirmado debe estimar el monto de la reparacion.
+		Suponemos***
+		Precio del tipo de material * (dimension) + costo de la mano de obra
+		El tipo de falla tiene costo según dimensión.
+
+		costoTipoReparacion == mano de obra
+		costoTipoFalla == valor de material * (unidad de medida)
+
+		valorEstimadoReparacion == costoTipoFalla + costoTipoReparacion
+
+		*/
 
 		public function __construct()
 		{
@@ -327,8 +339,7 @@
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->usuario = $usuario->id;
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
-			$fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
-			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
+			$nuevoEstado->fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
 			// $nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
 

@@ -12,13 +12,14 @@
 		<link href="<?php echo $this->config->base_url(); ?>_/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/header.css" rel="stylesheet">
 		<link href="<?php echo $this->config->base_url(); ?>_/css/PNotify/pnotify.custom.min.css" rel="stylesheet" type="text/css" />
+	  	<!--<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-3.2.1.min.js"></script>-->
 	  	<script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery-2.1.1.min.js"></script>
 		<script src="<?php echo $this->config->base_url(); ?>_/js/libs/bootstrap/bootstrap.min.js"></script>
 
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/plugins.js"></script>
 	    
 	    <!-- IMPORT API DE GOOGLE OBLIGATORIO-->
-	    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;libraries=places,drawing&amp;key=AIzaSyDrSwzqn60EgqwOk7a9U68PlLHqT8LtsBI "></script>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrSwzqn60EgqwOk7a9U68PlLHqT8LtsBI&libraries=places"></script>
 
 	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>	    

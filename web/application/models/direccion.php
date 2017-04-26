@@ -92,5 +92,10 @@
 			return $this->callePrincipal->getNombre();
 		}
 
+		public function esCalle($calle)
+		{
+			return $this->callePrincipal->esCalle($calle);
+		}
+
 	}
  ?>

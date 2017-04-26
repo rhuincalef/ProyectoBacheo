@@ -36,7 +36,14 @@
 				}
 			});
 		});
-		
+		/*
+		$("#opcionInicioSesion").toggle(function(evento) {
+			evento.preventDefault();
+			if ($(this).hasClass('open')) {
+				
+			}
+		});
+		*/
 		
 
 		$("#cerrarSesion").click(function (evento) {
@@ -78,9 +85,6 @@
 			 );
 			$(".cuadroBusqueda").find("input").css({"width":"60%"});
 		});
-
-
-
 
 	});
 

@@ -73,6 +73,11 @@
 		// 	return;
 		// }
 
+		public function esEstadoActual($tipoEstado)
+	    {
+	    	return $this->tipoEstado->esTipoEstadoActual($tipoEstado);
+	    }
+
 	}
 
 	

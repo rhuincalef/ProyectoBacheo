@@ -59,5 +59,10 @@
 		{
 			return $this->nombre;
 		}
+
+		public function esCalle($calle)
+		{
+			return !strcmp($this->nombre, $calle);
+		}
 	}
 ?>

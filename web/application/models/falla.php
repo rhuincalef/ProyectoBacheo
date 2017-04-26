@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	class Falla implements JsonSerializable
 	// class Falla
 	{
@@ -102,6 +102,7 @@
 
 		static public function validarDatos($datos)
 		{
+			/* Desacoplar en estados */
 			$valor = $datos->clase;
 			$CI = &get_instance();
 			switch ($valor) {
@@ -445,6 +446,43 @@
 			// Estado conoce los datos que debe mostrar
 	        // return array('id' => $this->id, );
 	        return $this->estado->toJsonSerialize();
+	    }
+
+	    public function esCalle($calle)
+	    {
+	    	return $this->direccion->esCalle($calle);
+	    }
+
+	    public function esEstadoActual($estado)
+	    {
+	    	return $this->estado->esEstadoActual($estado);
+	    }
+
+	    static public function getFallasPorTipoFalla($idTipoFalla)
+	    {
+	    	$CI = &get_instance();
+	    	try {	    		
+				$idsFalla = $CI->FallaModelo->getFallasPorTipoFalla($idTipoFalla);
+	    	} catch (MY_BdExcepcion $e) {
+	    		$idsFalla = array();
+	    	}
+			$fallas = array();
+			foreach ($idsFalla as $key => $value) {
+				array_push($fallas, Falla::getInstancia($value->id));
+			}
+			return $fallas;
+	    }
+
+	    static public function getFallasPorCalle($idTipoFalla, $calle)
+	    {
+	    	$fallas = self::getFallasPorTipoFalla($idTipoFalla);
+	    	$fallasPorCalle = array();
+	    	foreach ($fallas as $key => $value) {
+	    		if (!strcmp($value->direccion->callePrincipal->nombre, $calle)) {
+	    			array_push($fallasPorCalle, $value);
+	    		}
+	    	}
+	    	return $fallasPorCalle;
 	    }
 
 	}

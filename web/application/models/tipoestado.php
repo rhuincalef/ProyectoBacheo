@@ -70,5 +70,16 @@
 			return $tiposEstado;
 		}
 
+		public function esTipoEstadoActual($tipoEstado)
+		{
+			//($this->id == $estado->tipoEstado->id) ||
+			if (strcasecmp($this->nombre, $tipoEstado->nombre) == 0) {
+				return (bool)1;
+			}
+			return (bool)0;
+			//return (bool)$this->id == $tipoEstado->id;
+			//return !strcasecmp($this->nombre, $tipoEstado->nombre) == 0;
+		}
+
 	}
 ?>

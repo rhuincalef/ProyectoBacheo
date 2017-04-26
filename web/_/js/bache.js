@@ -41,6 +41,10 @@ $(document).ready(function(){
 		cargarMateriales();
 	});
 
+	// Enable Bootstrap-checkbox via JavaScript
+	$(":checkbox").checkboxpicker();
+	$(":checkbox").prop("checked", false);
+	arrayDOMElements = ["SELECT", "INPUT", "TEXTAREA"];
 });
 
 	
@@ -110,31 +114,8 @@ function estadoBache(estado, tiposEstado){
 
 function cargarFormularioTecnico (estado) {
 	var $form = $("#formularioEspecificacionesTecnicas");
-  	switch(estado){
-	 	case 0:
-
-			$("#contenedorFormulario").hide();
-  			break;
-	 	case 1:
-	 		$("#contenedorEstado2").hide();
-	 		$("#contenedorEstado3").hide();
-	 		$("#contenedorEstado1").show();
-	 		$("#contenedorFormulario").show();
-	 		break;
-	 	case 2:
-	 		$("#contenedorEstado1").hide();
-	 		$("#contenedorEstado3").hide();
-	 		$("#contenedorEstado2").show();
-	 		$("#contenedorFormulario").show();
-	 		break;
-	 	case 3:
-	 		$("#contenedorEstado1").hide();
-	 		$("#contenedorEstado2").hide();
-	 		$("#contenedorEstado3").show();
-	 		$("#contenedorFormulario").show();
-	 	default:
-	 		break;
-	 }
+	$("#contenedorEstado").show();
+	$("#contenedorFormulario").show();
 }
 
 /* Mis aportes....................*/
@@ -176,9 +157,11 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var $unDiv = $('<div/>');
 		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+elemento.nombre+'</label>'));
 		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" value="0.5"/>'));
+		//$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado form-desactivado" value="0.5" disabled=""/>'));
 		$contenedorAtributos.append($unDiv);
 	});
 	$contenedorAtributos.append($('<label class="control-label col-sm-10 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
+	//var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado form-desactivado" disabled=""></select>');
 	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
@@ -193,4 +176,5 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var opcion = new Option(elemento.nombre, elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
+	//$opcionesCriticidades.prop("disabled",true);
 }

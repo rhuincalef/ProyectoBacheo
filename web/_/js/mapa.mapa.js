@@ -1,46 +1,5 @@
 $(document).ready(function(){
-// alertar("laPucha","fue un la pucha","error");
-
-/*ESto capas que no va aca pero todavia estoy laburando con esto. */
-    Bacheo.myDropzone = 4;
-        Dropzone.options.imagenesForm = {
-          paramName: "file", // The name that will be used to transfer the file
-          maxFilesize: 5, // MB
-          maxFiles:8, //Cantidad maxima de archivos para admitir dentro de dropzone
-          autoProcessQueue:false,
-          parallelUploads:8,
-          maxFiles: 5,
-          acceptedFiles: "image/*",
-          dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
-
-        init: function() {
-          Bacheo.myDropzone = this;
-          this.on("addedfile", function(file) {
-            // Create the remove button
-            var removeButton = Dropzone.createElement("<button>Remove file</button>");
-            // Capture the Dropzone instance as closure.
-            var _this = this;
-            // Listen to the click event
-            removeButton.addEventListener("click", function(e) {
-              // Make sure the button click doesn't submit the form:
-              e.preventDefault();
-              e.stopPropagation();
-              // Remove the file preview.
-              _this.removeFile(file);
-              // If you want to the delete the file on the server as well,
-              // you can do the AJAX request here.
-            });
-            // Add the button to the file preview element.
-            file.previewElement.appendChild(removeButton);
-          });
-        }
-      };
-
-
-    $("#opcionAgregar").click(function(){
-    	inicializarFormularioBache();    	
-    });
-    inicializar();
+  inicializar();
 });
 
 function inicializar(){
@@ -50,8 +9,6 @@ function inicializar(){
     return;
   }
   Bacheo.init($("#canvasMapa"));
-  //Bacheo.generarMapa($("#canvasMapa"));
-  $("#seleccionarCalle").click(bindearEventoClick);
 
   var boundsTrelew = new google.maps.LatLngBounds(
     new google.maps.LatLng(-43.230650145567985, -65.37500381469727),
@@ -66,7 +23,11 @@ function inicializar(){
       postal_code:'9100'
     }
   });
+
   $("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
+  $("#opcionAgregar").click(function(){
+    inicializarFormularioBache();     
+  });
 }
 
 

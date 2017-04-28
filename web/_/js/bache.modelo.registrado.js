@@ -98,6 +98,5 @@ $(document).ready(function(){
     // Enable Bootstrap-checkbox via JavaScript
     $(":checkbox").checkboxpicker();
     $(":checkbox").prop("checked", false);
-    checkFormulario();
     $(":checkbox").checkboxpicker().change(checkFormulario);
 });

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	debug();
 	Bache.init();
 	$( "#fechaFin").datepicker();
 	$( "#fechaFinReal").datepicker();
@@ -174,4 +175,5 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		$opcionesCriticidades.append(opcion);
 	});
 	//$opcionesCriticidades.prop("disabled",true);
+	checkFormulario();
 }

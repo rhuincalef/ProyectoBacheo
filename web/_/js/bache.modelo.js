@@ -22,6 +22,10 @@ Bache = (function () {
 
 		var otroLat = latitud-0.0025;
 	
+		if (logueado) {
+			estadoBache(estado,tiposEstado);
+		};
+
 		if (typeof google != 'undefined')
 		{
 			var latlon = new google.maps.LatLng(latitud, longitud);
@@ -40,9 +44,6 @@ Bache = (function () {
 		  	});
 		}
 
-		if (logueado) {
-			estadoBache(estado,tiposEstado);
-		};
 
 	}
 	

@@ -80,17 +80,24 @@ function checkFormulario() {
         $("#formularioEspecificacionesTecnicas").find("select").attr("disabled", false);
         $("#formularioEspecificacionesTecnicas").find("input").attr("disabled", false);
         $("#contenedorFormulario").find("textarea").attr("disabled", false);
+        $("#contenedorAtributosFalla").find("select").attr("disabled", false);
+        $("#contenedorFormulario").find("button").attr("disabled", false);
         $("#formularioEspecificacionesTecnicas").removeClass("form-desactivado");
         return;
     }
     $("#formularioEspecificacionesTecnicas").find("select").attr("disabled", true);
     $("#formularioEspecificacionesTecnicas").find("input").attr("disabled", true);
+    $("#contenedorFormulario").find("button").attr("disabled", true);
     $("#contenedorFormulario").find("textarea").attr("disabled", true);
+    $("#contenedorAtributosFalla").find("select").attr("disabled", true);
     $("#formularioEspecificacionesTecnicas").addClass("form-desactivado");
     return;
 }
 
 $(document).ready(function(){
+    // Enable Bootstrap-checkbox via JavaScript
+    $(":checkbox").checkboxpicker();
+    $(":checkbox").prop("checked", false);
     checkFormulario();
     $(":checkbox").checkboxpicker().change(checkFormulario);
 });

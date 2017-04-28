@@ -1,5 +1,5 @@
 <label class="control-label col-sm-2 itemFormularioEstado" for="material"> Material</label>
-<select class="form-control itemFormularioEstado" type="text" id="material" name="material"></select>;
+<select class="form-control itemFormularioEstado" type="text" id="material" name="material"></select>
 <label for="factorArea" class="control-label col-sm-4 itemFormularioEstado"> Factor Área (%)</label>
 <input type="number" class="form-control itemFormularioEstado" name="factorArea" id="factorArea" value="0.5" step="0.1" min="0"/>
 <label class="control-label col-sm-4 itemFormularioEstado" for="tipoFalla"> Tipo de Falla</label>

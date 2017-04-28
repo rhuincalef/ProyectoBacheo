@@ -41,9 +41,6 @@ $(document).ready(function(){
 		cargarMateriales();
 	});
 
-	// Enable Bootstrap-checkbox via JavaScript
-	$(":checkbox").checkboxpicker();
-	$(":checkbox").prop("checked", false);
 	arrayDOMElements = ["SELECT", "INPUT", "TEXTAREA"];
 });
 

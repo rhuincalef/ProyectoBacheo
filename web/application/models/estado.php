@@ -84,6 +84,11 @@
 			return FALSE;
 		}
 
+		public function esEstadoActual($tipoEstado)
+	    {
+	    	return $this->tipoEstado->esTipoEstadoActual($tipoEstado);
+	    }
+
 	}
 
 	
@@ -306,30 +311,23 @@
             return $array_falla;
 		}
 
-	
-
-
-
-		
-
-
-		//BACKUP! VERSION VIEJA QUE FILTRA TODAS LAS INFORMADAS.
-		//public function filtrar($f){
-		//	require_once('CustomLogger.php');
-        //	CustomLogger::log('Dentro de filtrar para idFalla: '.$f->getId());
-		//	$array_falla = array();
-        //    $array_falla["id"] = $f->getId();
-        //    $array_falla["calle"] = $f->direccion->getNombre();
-        //    $array_falla["altura"] = $f->direccion->getAltura();
-        //    return $array_falla;
-		//}
-
-
 
 	}
 
 	class Confirmado extends Estado
 	{
+		/*
+		TODO: Confirmado debe estimar el monto de la reparacion.
+		Suponemos***
+		Precio del tipo de material * (dimension) + costo de la mano de obra
+		El tipo de falla tiene costo según dimensión.
+
+		costoTipoReparacion == mano de obra
+		costoTipoFalla == valor de material * (unidad de medida)
+
+		valorEstimadoReparacion == costoTipoFalla + costoTipoReparacion
+
+		*/
 
 		public function __construct()
 		{
@@ -407,8 +405,7 @@
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->usuario = $usuario->id;
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
-			$fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
-			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
+			$nuevoEstado->fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
 			// $nuevoEstado->id = $nuevoEstado->save();
 			return $nuevoEstado;
 

@@ -207,7 +207,7 @@ var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
-	var diccionarioCriticidades = {};
+/*	var diccionarioCriticidades = {};*/
 	
 	var agregarMaterial = function(datos){
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
@@ -268,6 +268,7 @@ var GestorMateriales = (function(){
 		});
 	};
 
+/*
 	var obtenerCriticidades = function(idCriticidades,arregloCriticidades){
 		var criticidadesAPedir = [];
 		if (idCriticidades == undefined) {
@@ -293,15 +294,15 @@ var GestorMateriales = (function(){
     		});
 		});
 	};
-
+*/
 	return{
 		agregarMaterial:agregarMaterial,
 		diccionarioTiposFalla:diccionarioTiposFalla,
 		materiales:diccionarioMateriales,
 		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
-		obtenerReparaciones:obtenerReparaciones,
-		obtenerCriticidades:obtenerCriticidades
+		//obtenerCriticidades:obtenerCriticidades,
+		obtenerReparaciones:obtenerReparaciones
 	}
 }());
 
@@ -312,14 +313,14 @@ var TipoFalla = function(datos){
 		this.influencia = datos.influencia;
 		this.atributos = [];
 		// this.criticidades = datos.criticidades;
-		this.criticidades = [];
+		//this.criticidades = [];
 		this.reparaciones = [];
 		this.multimedia = null;
 		var _this = this;
 
 		console.log(datos);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
-		GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
+		//GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
 
 		baseUrl = $("#baseUrlBache").text();
 		$.post(baseUrl+"publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {

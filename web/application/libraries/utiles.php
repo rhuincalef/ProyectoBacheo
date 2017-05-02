@@ -4,13 +4,18 @@
 	* 
 	*/
 	require_once('FirePHP.class.php');
+	include 'ChromePhp.php';
+	
 	class Utiles
 	{
 
 		function Debugger($objeto)
 		{
+			ChromePhp::log($objeto);
+			/*
 			$firephp = FirePHP::getInstance(True);
 			$firephp->log($objeto);
+			*/
 		}
 		
 	}

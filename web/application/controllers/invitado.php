@@ -8,6 +8,13 @@ class Invitado extends CI_Controller {
 		$this->output->enable_profiler(FALSE);
 	}	
 
+	public function index()
+	{
+		$data['logueado'] = $this->ion_auth->logged_in();
+		$this->template->template_name = "default";
+		$this->template->build_page("mapa",$data);
+	}
+
 	// --------------------------------------------------------------------
 	
 	public function getNiveles(){

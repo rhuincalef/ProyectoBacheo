@@ -8,6 +8,9 @@
 require_once('FirePHP.class.php');
 */
 
+
+//include 'ChromePhp.php';
+
 class Publico extends Frontend_Controller
 {
 
@@ -78,7 +81,7 @@ class Publico extends Frontend_Controller
 
 
 	// --------------------------------------------------------------------
-
+/*
 	public function index()
 	{
 		$firephp = FirePHP::getInstance(True);
@@ -95,7 +98,7 @@ class Publico extends Frontend_Controller
 			$this->template->build_page("mapa",$data);
 		}
 	}
-
+*/
 	public function getObservaciones($idFalla)
 	{
 		try{
@@ -316,7 +319,7 @@ class Publico extends Frontend_Controller
 			foreach ($arregloIDsTiposFallas as $key => $value) {
 				array_push($tiposFalla, TipoFalla::gety($value));
 			}
-			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
+			echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode(array_values($tiposFalla))));
 		} catch (MY_BdExcepcion $e) {
 			echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
 		}
@@ -380,6 +383,62 @@ class Publico extends Frontend_Controller
 		$this->utiles->debugger($idBache);
 		$comentarios = Falla::obtenerObservaciones($idBache);
 		echo json_encode($comentarios);
+	}
+
+	/*
+	$.post('getFallasPorCalle', {"calle":"Gales", tiposFalla:JSON.stringify({"id":1, "id":2})}, function(data){console.log(data)})
+	$.post('getFallasPorCalle', {"calle":"Gales", tiposFalla:JSON.stringify([1,2]), estados:JSON.stringify([1,2])})
+	*/
+	public function getFallasPorCalle(){
+		$calle = $this->input->post('calle');
+		$idsTiposFalla = json_decode($this->input->post('tiposFalla'));
+		$idsEstadoFalla = json_decode($this->input->post('estados'));
+		/*
+		$this->utiles->debugger(boolval(in_array(-1,$idsTiposFalla)));
+		*/
+		$fallasPorTipoFalla = array();
+		/* Si el valor en idsTiposFalla es -1 se debe obtener las fallas por todos los
+		   tipos de fallas */
+		if (in_array(-1,$idsTiposFalla)) {
+			$tiposFalla = TipoFalla::getTiposFalla();
+			$idsTiposFalla = array();
+			foreach ($tiposFalla as $value) {
+				array_push($idsTiposFalla, $value->id);
+			}
+		}
+		foreach ($idsTiposFalla as $value) {
+			$fallasPorTipoFalla = $fallasPorTipoFalla + Falla::getFallasPorTipoFalla($value);
+		}
+		$fallasPorCalle = array_filter($fallasPorTipoFalla,
+			function ($falla) use ($calle)
+			{
+				return $falla->esCalle($calle);
+			});
+		$tiposEstado = array();
+		/* Si el valor en idsEstadoFalla es -1 se debe obtener todos los tipos estados */
+		if (in_array(-1, $idsEstadoFalla)) {
+			$tiposEstado = TipoEstado::getTiposEstado();
+			$idsEstadoFalla = array();
+			foreach ($tiposEstado as $value) {
+				array_push($idsEstadoFalla, $value->id);
+			}
+		}
+		foreach ($idsEstadoFalla as $value) {
+					$this->utiles->debugger($value);
+			array_push($tiposEstado, TipoEstado::getInstancia($value));
+		}
+		/* Buscamos por Tipos Estados */
+		$fallasPorEstados = array();
+		foreach ($tiposEstado as $value) {
+			$fallasPorEstados = $fallasPorEstados + array_filter($fallasPorCalle,
+				function ($falla) use ($value)
+				{
+					return $falla->esEstadoActual($value);
+				});
+		}
+		$fallas = array_filter( $fallasPorEstados);
+		echo json_encode(array_values($fallasPorEstados));
+		return;
 	}
 
 }

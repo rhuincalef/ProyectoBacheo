@@ -47,6 +47,7 @@ html,body{
 
 .navbar-inverse { 
 	background-color: #ffffff;
+/*	background-color: rgb(0, 93, 179);*/
 }
 .navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { 
 	background-color: #334C7D;
@@ -150,3 +151,30 @@ html,body{
 	
 }
 
+.btn-input {
+   display: block;
+}
+
+.btn-input .btn.form-control {
+    text-align: left;
+}
+
+.panel-side-bar,
+.dropdown-menu-side-bar {
+	background-color: inherit;
+}
+
+.dropdown-menu-side-bar {	
+	width: 100%;
+	position: static;
+}
+
+.btn-side-bar {
+	height: 50px;
+}
+
+/*
+.formulario-side-bar {
+	display: none !important;
+}
+*/

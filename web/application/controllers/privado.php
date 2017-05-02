@@ -12,7 +12,18 @@ class Privado extends CI_Controller
 		$this->ion_auth->set_message_delimiters('', '');
 		$this->ion_auth->set_error_delimiters('', '');
 		// $this->load->helper('url');
-	}	
+	}
+
+	public function index()
+	{
+		
+		$data['logueado'] = $this->ion_auth->logged_in();
+		$data['usuario'] = $this->ion_auth->user()->row()->username;
+		$data['admin'] = $this->ion_auth->is_admin();
+		//$this->template->build_page("mapaRegistrado",$data);
+		$this->template->template_name = "mapa";
+		$this->template->build_page("pruebaMapaRegistrado",$data);
+	}
 
 
 
@@ -63,7 +74,7 @@ class Privado extends CI_Controller
 
 	// --------------------------------------------------------------------
 	
-	public function index($data){
+	public function index1($data){
 		if ($this->ion_auth->logged_in()){
 			$this->template->build_page("mapaRegistrado",$data);
 		}		
@@ -196,7 +207,9 @@ class Privado extends CI_Controller
 			$bache['logueado'] = $this->ion_auth->logged_in();
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
 			$bache['admin'] = $this->ion_auth->is_admin(); 
-			$this->template->build_page("bache",$bache);	
+			//$this->template->build_page("bache",$bache);
+
+			$this->template->build_page("bacheRegistrado",$bache);
 		}
 
 		public function asociarObservacion(){
@@ -297,6 +310,7 @@ class Privado extends CI_Controller
 			$usuario->id = $user->id;
 			$usuario->nombre = $user->username;
 			$usuario->email = $user->email;
+			$this->utiles->debugger("datos");
 			// $this->utiles->debugger($datos);
 
 			$this->db->trans_begin();
@@ -335,6 +349,34 @@ class Privado extends CI_Controller
 			}
 		}
 
+		public function getFallasPorCalle()
+		{
+			/*
+			{
+				"calle": nombre
+				"tiposFalla": [tipoFalla1, id:tipoFalla2]
+				"operacion": tipoOperacion - <, >, =
+				"cantidad": valor - 0 -> todos los encontrados
+				"estados": [estado1, estado2] - 0 todos los estados
+			}
+			*/
+			// $arrayIdTiposFalla = {id:tipoFalla1, id:tipoFalla2}
+			// $arrayFallas = array();
+			/*
+			foreach ($arrayFallas as $key => $value) {
+				array_merge($arrayFallas, TipoFalla::getFallasPorTipoDeFalla($value));
+			}
+			*/
+			// filtrar por calle
+			/*
+			foreach ($arrayFallas as $key => $value) {
+				if ($value->comprobarCalle($calle)) {
+					array_push($arrayFallasFilter, $value);
+				}
+			}
+			*/
+		}
+
 }
 
- ?>
+?>

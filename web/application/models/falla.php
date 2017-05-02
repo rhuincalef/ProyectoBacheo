@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	class Falla implements JsonSerializable
 	// class Falla
 	{
@@ -113,6 +113,7 @@
 
 		static public function validarDatos($datos)
 		{
+			/* Desacoplar en estados */
 			$valor = $datos->clase;
 			$CI = &get_instance();
 			switch ($valor) {
@@ -465,7 +466,6 @@
 	        return $this->estado->toJsonSerialize();
 	    }
 
-	    
 	    //Filtra las fallas que tienen estado Informado del servidor
 	    public function filtrar($calleDecodificada){
 	    	return $this->estado->filtrar($this,$calleDecodificada);
@@ -475,7 +475,7 @@
 	    //Crea una falla nueva capturada en la calle y le asigna el estado
 	    // "Confirmado".
 
-	    //Retrona un array asociativo con los datos:
+	    //Retorna un array asociativo con los datos:
 	    //		-estado: codigo de error del problema o de la peticion OK
 	    //		-msg: informacion para ser usada en el campo 'infolog' de la respuesta.
 	    //		-dataFalla: Atributos de la falla subida(solamente idFalla)
@@ -672,6 +672,43 @@
         $obj_fallamult->save();
 	 	log_message('debug', 'Fin de asociarCapturaAFalla ...');
 	 }
+
+    public function esCalle($calle)
+    {
+    	return $this->direccion->esCalle($calle);
+    }
+
+    public function esEstadoActual($estado)
+    {
+    	return $this->estado->esEstadoActual($estado);
+    }
+
+    static public function getFallasPorTipoFalla($idTipoFalla)
+    {
+    	$CI = &get_instance();
+    	try {	    		
+			$idsFalla = $CI->FallaModelo->getFallasPorTipoFalla($idTipoFalla);
+    	} catch (MY_BdExcepcion $e) {
+    		$idsFalla = array();
+    	}
+		$fallas = array();
+		foreach ($idsFalla as $key => $value) {
+			array_push($fallas, Falla::getInstancia($value->id));
+		}
+		return $fallas;
+    }
+
+    static public function getFallasPorCalle($idTipoFalla, $calle)
+    {
+    	$fallas = self::getFallasPorTipoFalla($idTipoFalla);
+    	$fallasPorCalle = array();
+    	foreach ($fallas as $key => $value) {
+    		if (!strcmp($value->direccion->callePrincipal->nombre, $calle)) {
+    			array_push($fallasPorCalle, $value);
+    		}
+    	}
+    	return $fallasPorCalle;
+    }
 
 	}
  ?>

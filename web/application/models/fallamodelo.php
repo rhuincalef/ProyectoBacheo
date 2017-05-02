@@ -83,5 +83,15 @@
 			return $query->result()[0];
 		}
 
+		public function getFallasPorTipoFalla($id)
+		{
+			$query = $this->db->get_where("FallaModelo", array('idTipoFalla' => $id));
+			if (empty($query->result()))
+			{
+			    throw new MY_BdExcepcion('Sin resultados');
+			}
+			return $query->result();
+		}
+
 	}
  ?>

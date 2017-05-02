@@ -3,7 +3,7 @@
 	/**
 	* 
 	*/
-	require_once('FirePHP.class.php');
+	//require_once('FirePHP.class.php');
 	include 'ChromePhp.php';
 	
 	class Utiles
@@ -103,14 +103,14 @@
 			}
 			// Trato de convertir
 			// Se verifica que es del tipo de dato correcto
-			$firephp = FirePHP::getInstance(True);
-			$firephp->log('*************');
-			$firephp->log('Tipo ingresado: '.gettype($datos->$nombre));
-			$firephp->log('Valor: '.$datos->$nombre);
+			//$firephp = FirePHP::getInstance(True);
+			//$firephp->log('*************');
+			//$firephp->log('Tipo ingresado: '.gettype($datos->$nombre));
+			//$firephp->log('Valor: '.$datos->$nombre);
 			$valor = $datos->$nombre;
-			$firephp->log($this->tipo.'val');
+			//$firephp->log($this->tipo.'val');
 			$datos->$nombre = call_user_func($this->tipo.'val', $valor);
-			$firephp->log('Convertido en: '.gettype($datos->$nombre));
+			//$firephp->log('Convertido en: '.gettype($datos->$nombre));
 			return true;
 		}
 	}

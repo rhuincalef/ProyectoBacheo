@@ -26,17 +26,28 @@
 			$this->id = $datos->id;
 			$this->latitud = $datos->latitud;
 			$this->longitud = $datos->longitud;
+        	CustomLogger::log('asignadas lat y long');
 			$this->direccion = Direccion::getInstancia($datos->idDireccion);
+        	CustomLogger::log('asiganada direccion');
 			$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
+        	CustomLogger::log('asiganada tipofalla');
 			$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
 			$this->estado = Estado::getEstadoActual($this->id);
+        	CustomLogger::log('asignado estado');
 			// El estado de la conoce los demás atributos que se deben inicializar 
 			$this->estado->inicializarFalla($this, $datos);
+        	CustomLogger::log('despues de inicializarFalla()...');
 			$this->estado->falla = $this;
 			// $this->estado->falla = $this;
 			// $CI->utiles->debugger($this);
 		}
 
+
+
+		public function getId(){
+			return $this->id;
+		}
+		
 		static public function getInstancia($id)
 		{
 			$CI = &get_instance();
@@ -377,15 +388,22 @@
 
 		static public function getAll()
 		{
+    		require_once('CustomLogger.php');
+        	CustomLogger::log('EN falla.getAll()...');
 			$CI = &get_instance();
 			$fallas = array();
 			try {
 				$datos = $CI->FallaModelo->get_all();
+				//NOTA: Tira "Excepcion capturada: Sin resultados" si la falla no tiene los campos obligatorios usados en los metodos de inicializacion
     			foreach ($datos as $row)
     			{
+        			CustomLogger::log('Instanciando $row: ');
+        			CustomLogger::log($row);
+        			CustomLogger::log('------------------------ ');
     				$falla = new Falla();
     				$falla->inicializar($row);
     				array_push($fallas, $falla);
+    			
     			}
 			}	
 			catch (MY_BdExcepcion $e) {
@@ -446,6 +464,214 @@
 	        // return array('id' => $this->id, );
 	        return $this->estado->toJsonSerialize();
 	    }
+
+	    
+	    //Filtra las fallas que tienen estado Informado del servidor
+	    public function filtrar($calleDecodificada){
+	    	return $this->estado->filtrar($this,$calleDecodificada);
+	    }
+
+
+	    //Crea una falla nueva capturada en la calle y le asigna el estado
+	    // "Confirmado".
+
+	    //Retrona un array asociativo con los datos:
+	    //		-estado: codigo de error del problema o de la peticion OK
+	    //		-msg: informacion para ser usada en el campo 'infolog' de la respuesta.
+	    //		-dataFalla: Atributos de la falla subida(solamente idFalla)
+
+	   	public static function inicializarFallaAnonima($lat,$long,$nombreTipoFalla,$nombreTipoMaterial,$nombreCriticidad,$observacion,$tipoEstado,$tipoReparacion){
+
+        	log_message('debug','Dentro de inicializarFallaAnonima()...');
+        	$estadoPeticion = array(
+        		'estado' => FALLA_ANONIMA_INICIALIZADA_OK,
+        		'msg' => 'OK falla anonima generada'
+        		);
+        	$idFallaNueva = FALLA_INVALIDA;
+   			$rangoEstimado1 = $rangoEstimado2 =  $altura = FALLA_PHP_CALLE_NO_DISPONIBLE;
+            $calleSecundariaA = $calleSecundariaB = $calle = CALLE_NO_OBTENIDA;
+        	
+        	log_message('debug','$rangoEstimado1 tiene:');
+        	log_message('debug',$rangoEstimado1);
+        	log_message('debug','$rangoEstimado2 tiene:');
+        	log_message('debug',$rangoEstimado2);
+        		
+    		Direccion::estaCalleEnCiudad($lat,$long); 	   		
+   			try {
+   				//Si ocurrio un error de geocoding para la calle o la interseccion, se emplean datos invalidos.
+	            $arrDatos = Direccion::obtener_datos_direccion_v2($lat,$long);
+
+   			}catch (Geocoder\Exception\NoResult $e){
+	            $msgResult = "Consulta de geocoding sin resultados";
+	            CustomLogger::log($msgResult);
+	            $estadoPeticion = array(
+	                            'estado' => DIRECCION_PHP_PETICION_SIN_RESULTADOS,
+	                            'msg' => $msgResult );
+
+	        }catch (Geocoder\Exception\QuotaExceeded $e){
+	            $msgResult = "Cuota de consultas ofrecidas por el proveedor excedida";
+	            CustomLogger::log($msgResult);
+	            $estadoPeticion = array(  
+	                            'estado' => DIRECCION_PHP_QUOTA_EXCEDIDA,
+	                            'msg' => $msgResult );
+
+	        }catch (Geocoder\Exception\UnsupportedOperation $e){
+	            $msgResult = "Operacion no valida para el proveedor de geolocalizacion seleccionado";
+	            CustomLogger::log($msgResult);
+	            $estadoPeticion = array(
+	                            'estado' => DIRECCION_PHP_OPERACION_GEOCODING_NO_SOPORTADA,
+	                            'msg' => $msgResult );
+
+	        }catch (Geocoder\Exception\InvalidCredentials $e){
+	            $msgResult = "API KEY invalida";
+	            CustomLogger::log($msgResult);
+	            $estadoPeticion = array(
+	                            'estado' => DIRECCION_PHP_API_KEY_INVALIDA,
+	                            'msg' => $msgResult);
+
+	        }catch (Ivory\HttpAdapter\HttpAdapterException $e){
+	            $msgResult = "No se pudieron obtener las coordenadas de GoogleMaps. Timeout excedido.Intentelo de nuevo mas tarde.";
+	            CustomLogger::log($msgResult);
+	            log_message('debug',$msgResult);
+	            $estadoPeticion = array(
+	                            'estado' => DIRECCION_PHP_HTTP_ADAPTER_TIMEOUT_EXCEDIDO,
+	                            'msg' => $msgResult);
+	        }
+            
+            if ($arrDatos["estado"] == FALLA_PHP_PETICION_REST_OK) {
+   				log_message('debug',"Dentro del if con 'FALLA_PHP_PETICION_REST_OK' ");
+            	$calle= $arrDatos["calle"];
+            	//$altura= $arrDatos["altura"];
+            	$rangoEstimado1= $arrDatos["rangoEstimado1"]; 
+            	$rangoEstimado2= $arrDatos["rangoEstimado2"]; 
+            	$calleSecundariaA = $arrDatos["calleSecundariaA"];
+            	$calleSecundariaB = $arrDatos["calleSecundariaB"];
+   				
+   				log_message('debug',"calle: ");
+   				log_message('debug', $calle);
+   				log_message('debug',"rangoEstimado1: ");
+   				log_message('debug', $rangoEstimado1);
+   				log_message('debug',"rangoEstimado2: ");
+   				log_message('debug', $rangoEstimado2);
+   				log_message('debug',"calleSecundariaA: ");
+   				log_message('debug', $calleSecundariaA);
+   				log_message('debug',"calleSecundariaB: ");
+   				log_message('debug', $calleSecundariaB);
+   				log_message('debug',"");
+            }
+            
+            # Se busca si la calle esta cargada como calle primaria
+            # en la BD(sino esta se carga automaticamente en buscarCalle) y luego se instancia el obj. direccion de la falla, con:
+            #   - callePrincipal como la calle obtenida por medio de la api de Google
+            #   -calleSecundariaA y calleSecundariaB se obtienen por medio de la API de geonames, como la interseccion mas cercada a la calle donde se encuentra localizada la falla.
+
+            $datosDireccion = array('callePrincipal' =>$calle,
+                                    'calleSecundariaA' => $calleSecundariaA,
+                                    'calleSecundariaB' => $calleSecundariaB,
+                                    'altura' => $altura,
+                                    'rangoEstimado1' =>$rangoEstimado1,
+                                    'rangoEstimado2' =>$rangoEstimado2
+                                 	);
+            $dir = Direccion::insertarDireccion((object)$datosDireccion);
+			
+			#Se instancia el tipo de falla como "Bache".
+           	$tipoFalla = TipoFalla::getTipoFallaPorNombre($nombreTipoFalla);
+
+            #Se instancia el  tipo de material a la falla (Id=0 por defecto)
+            $tipoMaterial = TipoMaterial::getTipoDeMaterialPorNombre($nombreTipoMaterial);
+
+
+			#Se instancia la criticidad media(id=2 por defecto).
+           	$crit = Criticidad::getCriticidadPorNombre($nombreCriticidad);
+
+           	$tipoRep = TipoReparacion::getTipoReparacionPorNombre($tipoReparacion);
+
+           	log_message('debug',"Instanciando falla...");
+				//NOTA: El tipoReparacion se carga desde el sistema web, cuando la falla haya sido reparada.Como esta es una falla recien descubierta es una falla que no tiene un tipoReparacion asociado aun.
+            //Se instancia la falla
+            $falla = new Falla();
+            //$falla->id = $datos->id;
+			$falla->latitud = $lat;
+			$falla->longitud = $long;
+			$falla->direccion = $dir;
+			$falla->criticidad = $crit;
+			$falla->tipoFalla = $tipoFalla;
+			$falla->tipoMaterial = $tipoMaterial;
+			$falla->tipoReparacion = $tipoRep;
+
+			//Se guarda la Falla en BD y se le asigna el nuevo ID
+			$idFallaNueva = $falla->save();
+			$falla->id = $idFallaNueva;
+			log_message('debug','Falla nueva agregada con ID ');
+			log_message('debug',$idFallaNueva);
+			
+			log_message('debug','Datos asociados a la falla: ');
+			log_message('debug','idDireccion: ');
+			log_message('debug',$dir->id);
+			log_message('debug','idCriticidad: ');
+			log_message('debug',$crit->id);
+			log_message('debug','tipoFalla: ');
+			log_message('debug',$tipoFalla->id);
+			log_message('debug','++++++++++++++++++++++++++++++++++ ');
+
+			//Se asocia una observacion enviada por la appCliente
+			$dataObservacion = (object)(array(
+										'comentario' => $observacion, 
+										'nombreObservador' => NOMBRE_EMPLEADO_VIAL_DEFAULT, 
+										'emailObservador' => EMAIL_EMPLEADO_VIAL_DEFAULT 
+												)); 
+
+			$observacion = new Observacion($dataObservacion,date("Y-m-d H:i:s"));
+			$observacion->falla = $falla;
+			$observacion->save();
+			log_message('debug','Observacion Guardada!!!');
+		
+			//Se asocia el estado confirmado a la falla en BD
+			log_message('debug','Configurando el estado...');
+			$falla->estado = new Confirmado();
+			$falla->estado->falla = $falla;
+			$falla->estado->tipoEstado = TipoEstado::getTipoEstadoPorNombre($tipoEstado);
+			log_message('debug','Instanciado el estado...');
+			$falla->estado->id = $falla->estado->save();
+			log_message('debug','Guardado en BD estado!');
+			
+			log_message('debug','Asociando estado a falla...');
+			//Este metodo modifica la FallaEstadoModelo para
+			//mantener la secuencia de estados de una falla.
+			$idFallaEstado = $falla->asociarEstado();
+           	log_message('debug',"Falla nueva guardada!! ");
+           	log_message('debug',"idFallaEstado =  ");
+           	log_message('debug',$idFallaEstado);
+
+           	//Se agrega el idFallaNueva generado a la respuesta.
+           	$datosFallaNueva = array(
+            						'idFallaNueva' => $idFallaNueva
+            						);
+           	$estadoPeticion['dataFalla'] = $datosFallaNueva;
+            return $estadoPeticion;
+	   	}
+	 
+	 //Asocia una captura previamente almacenada en el servidor, a una falla existente. 
+	 public static function asociarCapturaAFalla($idFalla,$nombre_archivo){
+	 	log_message('debug', 'En asociarCapturaAFalla ...');
+	 	log_message('debug', 'idFalla: ');
+	 	log_message('debug', $idFalla);
+	 	log_message('debug', 'nombre_archivo: ');
+	 	log_message('debug', $nombre_archivo);
+	 	log_message('debug', '--------------------------------------------- ');
+        $multimediaCaptura = new Multimedia();
+        $multimediaCaptura->nombreArchivo = $nombre_archivo;
+        $id_nuevo_mult = $multimediaCaptura->save();
+
+        log_message('debug', 'Despues de guardar objeto MultimediaModelo ...');
+
+	 	log_message('debug','Guardando FallaMultimedia');
+        $obj_fallamult = new FallaMultimedia();
+        $obj_fallamult->idFalla = $idFalla;
+        $obj_fallamult->idMultimedia = $id_nuevo_mult;
+        $obj_fallamult->save();
+	 	log_message('debug', 'Fin de asociarCapturaAFalla ...');
+	 }
 
 	}
  ?>

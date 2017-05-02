@@ -18,7 +18,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+	//define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -38,7 +39,8 @@ if (defined('ENVIRONMENT'))
 	
 		case 'testing':
 		case 'production':
-			error_reporting(0);
+			//error_reporting(0);
+			error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 		break;
 
 		default:
@@ -193,12 +195,19 @@ if (defined('ENVIRONMENT'))
 
 /*
  * --------------------------------------------------------------------
+ * COMPOSER AUTOLOAD
+ * --------------------------------------------------------------------
+ */
+//require_once FCPATH.'geocoderPhp/vendor/autoload.php';
+/*
+ * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
  *
  * And away we go...
  *
  */
+
 require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */

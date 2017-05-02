@@ -16,6 +16,15 @@
 			$this->nombre= $datos->nombre;
 		}
 
+
+		public function getId(){
+			return $this->nombre;
+		}
+
+		public function getNombre(){
+			return $this->nombre;
+		}
+
 		static public function getInstancia($id)
 		{
 			$CI = &get_instance();
@@ -116,6 +125,56 @@
 			}
 			return $tiposMaterial;
 		}
+
+
+		//Retorna un JSON con el tipo de material y su
+		//tipo de criticidad asociado
+		//Formato de JSON
+ //[
+ //   {"idTipoMaterial": 1,"nombre":"Cemento", "listadoTFallas":[
+ //                                               { "idTFalla": 20,
+ //                                                   "nombre":"Bache"},
+ //                                               { "idTFalla": 30,
+ //                                                   "nombre":"Grieta"},
+ //                                               ...   
+ //                                              ]
+ //    }
+ // ]
+		public static function getTiposMaterialYCriticidad(){
+			require_once('CustomLogger.php');
+        	CustomLogger::log('Dentro de getTiposMaterialYCriticidad()...');
+	        $data = array();
+
+	        //Se obtienen todos los tipos de material y de ahi se calcula
+	        // el tipo de falla
+        	$tiposMaterial = TipoMaterial::getAll();
+	        foreach ($tiposMaterial as $tMaterial) {
+	            $idMat = $tMaterial->getId();
+	            $nombreMat = $tMaterial->getNombre();
+	            $tiposFallasAsociadas = TipoFalla::getTiposFallaPorMaterial($idMat);
+	            $arrTFallas = array();
+
+	            foreach ($tiposFallasAsociadas as $tFalla) {
+	                $idTFalla = $tFalla->getId();
+	                $nombre = $tFalla->getNombre();
+	                $dicTFallas = array(
+	                                    "idTFalla" =>$idTFalla ,
+	                                    "nombre" =>$nombre
+	                                     );
+	                array_push($arrTFallas, $dicTFallas);
+	            }
+
+	            array_push($data,array(
+	                                'idTipoMaterial' => $idMat, 
+	                                'nombre' =>$nombreMat, 
+	                                'listadoTFallas' => $arrTFallas
+	                                )
+	                        );
+	        }
+
+	      	return $data;
+		}
+
 
 	}
  ?>

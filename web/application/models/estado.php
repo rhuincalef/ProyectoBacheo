@@ -73,6 +73,17 @@
 		// 	return;
 		// }
 
+		//AGREGADO RODRIGO
+		//Conserva la falla solamente si esta informada 
+		public function filtrar()
+		{	
+			return NULL;
+		}
+
+		public function esCalleBuscada($falla,$calleDecodificada1){
+			return FALSE;
+		}
+
 	}
 
 	
@@ -252,6 +263,69 @@
 			return $validator->interpret($datos);
 		}
 
+		public function esCalleBuscada($falla,$calleDecodificada1){
+			$nombreCalle = strtolower($falla->direccion->getNombre());
+			$calleDecodificada = strtolower($calleDecodificada1);
+			//CustomLogger::log("nombreCalle: ".$nombreCalle);
+			//CustomLogger::log("calleDecodificada: ".$calleDecodificada);
+			//CustomLogger::log("strcmp($nombreCalle,$calleDecodificada) = ".strcmp($nombreCalle,$calleDecodificada) );
+			//CustomLogger::log("strlen(nombreCalle) = ". strlen( rtrim(ltrim($nombreCalle))));
+			//CustomLogger::log("strlen(calleDecodificada) = ". strlen($calleDecodificada));
+
+			//Se eliminan los espacios en blanco al inicio y al final de la calle enviada por parametro y la calle de la BD.
+			$cadTrimeada1 = rtrim(ltrim($nombreCalle));
+			$cadTrimeada2 = rtrim(ltrim($calleDecodificada));
+			CustomLogger::log("strcmp($cadTrimeada1,$cadTrimeada2) = ".strcmp($cadTrimeada1,$cadTrimeada2));
+
+			$result == FALSE;
+			if (strcmp($cadTrimeada1,$cadTrimeada2) == 0) {
+				$result = TRUE;
+			}
+			if ($result== TRUE) {
+				CustomLogger::log("retornando resultado TRUE");
+			}else{
+				CustomLogger::log("retornando resultado FALSE");
+			}
+			CustomLogger::log("-----------------------------------------");
+			return $result;
+		}
+		
+		// Este metodo filtra aquellas fallas informadas que  se situen
+		// sobre la calle enviada por el usuario.
+		public function filtrar($f,$calleDecodificada){
+			require_once('CustomLogger.php');
+        	CustomLogger::log('Dentro de filtrar para idFalla: '.$f->getId());
+        	
+			$array_falla = array();
+			//NOTA IMPORTANTE: Las calles informadas no tienen rangosEstimados, sino que la altura fue cargada desde la pagina web.
+        	if ( $this->esCalleBuscada($f,$calleDecodificada) == TRUE ) {
+	            $array_falla["id"] = $f->getId();
+	            $array_falla["calle"] = $f->direccion->getNombre();
+	            $array_falla["altura"] = $f->direccion->getAltura();
+        	}
+            return $array_falla;
+		}
+
+	
+
+
+
+		
+
+
+		//BACKUP! VERSION VIEJA QUE FILTRA TODAS LAS INFORMADAS.
+		//public function filtrar($f){
+		//	require_once('CustomLogger.php');
+        //	CustomLogger::log('Dentro de filtrar para idFalla: '.$f->getId());
+		//	$array_falla = array();
+        //    $array_falla["id"] = $f->getId();
+        //    $array_falla["calle"] = $f->direccion->getNombre();
+        //    $array_falla["altura"] = $f->direccion->getAltura();
+        //    return $array_falla;
+		//}
+
+
+
 	}
 
 	class Confirmado extends Estado
@@ -287,9 +361,15 @@
 
 		public function inicializarFalla($falla, $datos)
 		{
+			
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			CustomLogger::log('idCriticidad: '.$datos->idCriticidad);
+
+			
 			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
+			CustomLogger::log('idTipoReparacion: '.$datos->idTipoReparacion);
 			$falla->factorArea = $datos->areaAfectada;
+			CustomLogger::log('factorArea: '.$datos->factorArea);
 		}
 
 		public function to_array($falla)

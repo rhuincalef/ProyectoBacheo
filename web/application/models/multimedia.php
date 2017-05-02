@@ -50,6 +50,10 @@
 			Por ejemplo, recortarla.*/
 			
 		}
+
+
+
+
 	}
 
 	/**

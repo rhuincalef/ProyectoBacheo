@@ -10,6 +10,10 @@
 			
 		}
 
+		public function getNombre(){
+			return $this->nombre;
+		}
+		
 		private function inicializar($datos)
 		{
 			$this->id = $datos->id;
@@ -69,6 +73,30 @@
 			}
 			return $tiposEstado;
 		}
+
+
+		//AGREGADO RODRIGO
+		//Retorna el objeto TipoEstado dado su nombre
+		public static function getTipoEstadoPorNombre($nombreEst){
+			$CI = &get_instance();
+			$tiposEstado = TipoEstado::getAll();
+			$objTipoEstado = -1;
+			log_message('debug','En getTipoEstadoPorNombre()...');
+			log_message('debug','nombreEst enviado tiene: ');
+			log_message('debug',$nombreEst);
+			foreach ($tiposEstado as $tEstado) {
+				log_message('debug','Estado recorrido: ');
+				log_message('debug',$tEstado->getNombre());
+				log_message('debug','.................... ');
+				if ($tEstado->getNombre() == $nombreEst) {
+					log_message('debug','Encontrado estado!!');
+					$objTipoEstado = $tEstado;
+					break;
+				}
+			}
+			return $objTipoEstado;
+		}
+
 
 	}
 ?>

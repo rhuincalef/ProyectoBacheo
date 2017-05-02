@@ -1,14 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 //TODO Comentar! Clase de firephp utilizada para la depuración.
-/*
-if (defined('DIR_DEBUGGING') == FALSE) {
+/*if (defined('DIR_DEBUGGING') == FALSE) {
 	define("DIR_DEBUGGING","/var/www/html/repoProyectoBacheo/web/application/debugging/");
 	set_include_path(get_include_path() . PATH_SEPARATOR . DIR_DEBUGGING);
 }
 require_once('FirePHP.class.php');
 */
-
 
 class Publico extends Frontend_Controller
 {
@@ -29,14 +27,46 @@ class Publico extends Frontend_Controller
 
 		if(!$this->ion_auth->logged_in())
 		{
+			$firephp = FirePHP::getInstance(True);
+
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
 		    if (method_exists($invitado, $method)) {
+				$firephp->log("Es metodo de invitado!");
 				call_user_func_array(array(&$invitado,$method),$args);
 		    }else{
-		    	// Redirecciona a index
-		    	redirect('/', 'refresh');
-		    	return;
+		    	require_once(APPPATH."controllers/api_rest.php");
+
+		    	$firephp->log("Argumentos: ");
+		    	$firephp->log($args);
+
+		    	$api_rest = new Api_rest();
+		    	$metodo_1 = $method.'_post';
+				$firephp->log("Revisando api_rest _post...");
+				$firephp->log("metodo llamado: ");
+				$firephp->log($metodo_1);
+				$firephp->log(method_exists($api_rest, $metodo_1));
+				
+		    	if (method_exists($api_rest, $metodo_1)) {
+					$firephp->log("Subiendo capturas al servidor ...");
+					call_user_func_array(array(&$api_rest,$metodo_1),$args);
+				}else{
+					$metodo_1 = $method.'_get';
+					$firephp->log("Revisando api_rest _get...");
+					$firephp->log("metodo llamado: ");
+					$firephp->log($metodo_1);
+					$firephp->log(method_exists($api_rest, $metodo_1));
+					if (method_exists($api_rest, $metodo_1)) {
+						$firephp->log("Subiendo capturas al servidor ...");
+						call_user_func_array(array(&$api_rest,$metodo_1),$args);		
+					}else{
+						echo "REDIRECCIONE A INDEX<br>";
+				    	// Redirecciona a index
+				    	// redirect('/', 'refresh');
+				    	// return;						
+					}
+	
+				}
 		    }
 		}else{
 			require_once(APPPATH."controllers/privado.php");
@@ -51,6 +81,8 @@ class Publico extends Frontend_Controller
 
 	public function index()
 	{
+		$firephp = FirePHP::getInstance(True);
+		$firephp->log("Index()...");
 		
 		$data['logueado'] = $this->ion_auth->logged_in();
 		if ($data['logueado']){

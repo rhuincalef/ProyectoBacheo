@@ -1,13 +1,16 @@
 (function($) {
 	$(document).ready(function(){
 			
-		$("#inicioSesion").on("submit", function(evento){
+		//$("#inicioSesion").on("submit", 
+		$("#inicioSesion").submit(function (evento){
 			evento.preventDefault();
 			log('inside coolFunc', this, arguments);
 			// Get the form data.
 			var $form_inputs = $(this).find("input");
+			var $usuarioInput = $form_inputs[0];
+			var $passwordInput = $form_inputs[1];
 			// data = {'login_identity':'guille@gmail.com', 'login_password':'1234', 'remember_me':'1', 'login_user':'Submit'};
-			data = {"login_identity":$($form_inputs[0]).val(), "login_password":$($form_inputs[1]).val()}
+			data = {"login_identity":$($usuarioInput).val(), "login_password":$($passwordInput).val()}
 			var submit_url = $(this).attr("action")+"login";
 			$.ajax(
 			{
@@ -36,15 +39,6 @@
 				}
 			});
 		});
-		/*
-		$("#opcionInicioSesion").toggle(function(evento) {
-			evento.preventDefault();
-			if ($(this).hasClass('open')) {
-				
-			}
-		});
-		*/
-		
 
 		$("#cerrarSesion").click(function (evento) {
 			evento.preventDefault();
@@ -91,7 +85,6 @@
 
 })(jQuery);
 
-
 	function alertar(titulo,texto,tipo) {
 		var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};    	
 		var opts = {
@@ -109,7 +102,7 @@
 	function logearGraficamente(usuario) {
 		$("#opcionInicioSesion").addClass("hide");
 		$("#opcionSesion").removeClass("hide");
-		$("#opcionSesion .dropdown-toggle").prepend('<a href="">' + usuario + '</a>');
+		$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + '</a>');
 		$("#opcionInicioSesion").find("input").each(function (i, e) {
 			$(e).val('');
 		});

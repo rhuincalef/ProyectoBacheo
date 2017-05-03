@@ -42,7 +42,6 @@ $(document).ready(function(){
 		cargarMateriales();
 	});
 
-	arrayDOMElements = ["SELECT", "INPUT", "TEXTAREA"];
 });
 
 	

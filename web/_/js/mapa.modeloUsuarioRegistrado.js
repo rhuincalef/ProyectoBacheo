@@ -241,6 +241,11 @@ var request = {
 function trazarRuta() {
 	/* Ordenar */
 	console.log("trazarRuta")
+	if ($("#buscarCalleSideBar").val().length == 0) {
+		alertar("La Pucha","Debe ingresar una calle.","error");
+		return;
+	}
+	calle = $("#buscarCalleSideBar").val();
 	tiposFallasIds = [];
 	tiposEstadoIds = [];
 	$checkboxTiposFalla = $("#tipoFallaCheckbox").find("input");
@@ -265,7 +270,7 @@ function trazarRuta() {
 	$.post('getFallasPorCalle', 
 		//{"calle":"Gales", tiposFalla:JSON.stringify([1,2,3]), estados:JSON.stringify([1,2])},
 		//{"calle":"Gales", tiposFalla:JSON.stringify([1,2,3]), estados:JSON.stringify([1])},
-		{"calle":"Gales", tiposFalla:JSON.stringify(tiposFallasIds), estados:JSON.stringify(tiposEstadoIds)},
+		{"calle":calle, tiposFalla:JSON.stringify(tiposFallasIds), estados:JSON.stringify(tiposEstadoIds)},
 		function (data) {
 			fallas = JSON.parse(data);
 			getDirections(fallas);
@@ -395,6 +400,9 @@ $(document).ready(function(){
 	  }
 	});
 	$("#buscarCalleSideBar").geocomplete("autocomplete").setBounds(boundsTrelew);
+	$("#buscarCalleSideBar").bind("geocode:result", function(event, result){
+    	console.log(result);
+  	});
 
 	$("#trazarRuta").click(trazarRuta);
 	$("#limpiarRuta").click(limpiarRuta);
@@ -403,6 +411,8 @@ $(document).ready(function(){
 
 function cargarTiposFallaSideBarForm(argument) {
 	$tipoFallaCheckbox = $("#tipoFallaCheckbox");
+	$tipoFallaCheckbox.empty();
+	$("#seleccionarTipoFallaSideBar").unbind("click");
 	tiposFalla = GestorMateriales.diccionarioTiposFalla;
 	$.each(tiposFalla, function (index, tipoFalla) {
 		label = $('<div class="form-check"><input class="form-check-input" type="checkbox" value="'+tipoFalla.id+'"><label class="form-check-label">'+tipoFalla.nombre+'</label></div>');
@@ -445,6 +455,8 @@ function cargarTiposFallaSideBarForm(argument) {
 
 function cargarTiposEstadoSideBarForm() {
 	$tipoEstadoCheckbox = $("#tipoEstadoCheckbox");
+	$tipoEstadoCheckbox.empty();
+	$("#seleccionarTipoEstadoSideBar").unbind("click");
 	tiposEstado = GestorMateriales.obtenerTiposEstado();
 	$.each(tiposEstado, function (index, tipoEstado) {
 		label = $('<div class="form-check"><input class="form-check-input" type="checkbox" value="'+tipoEstado.id+'"><label class="form-check-label">'+tipoEstado.nombre+'</label></div>');

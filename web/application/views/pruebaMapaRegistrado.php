@@ -179,7 +179,7 @@
 				                      <input type="checkbox" value="remember-me"> Recordar
 				                    </label>
 				                  </div> -->
-				                  <button class="btn btn-lg btn-primary btn-block inicioSesion" type="submit">Entrar</button>
+				                  <button class="btn btn-lg btn-primary btn-block inicioSesion">Entrar</button>
 				                </form>
 				              </div>
 				          </div>

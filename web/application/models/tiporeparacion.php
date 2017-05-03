@@ -42,6 +42,8 @@
 
 		static public function getTipoDeReparacion($id)
 		{
+			CustomLogger::log('En getTipoDeReparacion() con id: ');
+			CustomLogger::log($id);
 			$CI = &get_instance();
 			$datos = $CI->TipoReparacionModelo->get($id);
 			$tipoReparacion = new TipoReparacion();

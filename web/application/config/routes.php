@@ -95,11 +95,46 @@ $route['create_user'] = 'publico/create_user';
 $route['obtenerDatosVisualizacion/(\d+)'] = "publico/obtenerDatosVisualizacion/$1";
 
 
+// Ruta REST para la subida de archivos desde la appCliente
+// $route['restapi/upload_pcd'] = "publico/prueba";
+// $route['restapi/upload_pcd/id/(\d+)/nombre/(:any)'] = "publico/subir_pcd/id/$1/nombre/$2/format/json";
+$route['restapi/verificar_falla'] = "publico/verificar_falla/format/json";
+$route['restapi/upload_pcd'] = "publico/subir_pcd/format/json";
+
+$route['restapi/obtener_informados/calle/(:any)'] = "publico/obtener_informados/calle/$1/format/json";
+
+//$route['restapi/obtener_informados/calle/([\w]+)'] = "publico/obtener_informados/calle/$1/format/json";
+
+
+$route['restapi/obtener_datos_direccion/latitud/(:any)/longitud/(:any)'] = "publico/obtener_datos_direccion/latitud/$1/longitud/$2/format/json";
+
+
+$route['restapi/es_calle_valida/latitud/(:any)/longitud/(:any)'] = "publico/es_calle_valida/latitud/$1/longitud/$2/format/json";
+
+$route['restapi/prueba'] = "publico/prueba/";
+
+$route['restapi/obtener_interseccion/latitud/(:any)/longitud/(:any)'] = "publico/obtener_interseccion/latitud/$1/longitud/$2/format/json";
+
+
+$route['restapi/obtener_info_adicional'] = "publico/obtener_info_adicional/format/json";
+
+
+
+$route['restapi/obtener_props_confirmadas'] = "publico/obtener_props_confirmadas/format/json";
+
+
+
+//$route['restapi/obtener_datos_direccion/latitud/(\d+).(\d+)/longitud/(\d+).(\d+)'] = 
+//	"publico/prueba";
+
+
 
 // Utilizacion
 //"application/helpers/generar_csv_php/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp
 // Ruta que genera el csv con una descripcion.
 // $route['generarDescripcion/(\d+)/(\s+)'] = "publico/generarDescripcion/$1/$2";
+
+
 
 
 

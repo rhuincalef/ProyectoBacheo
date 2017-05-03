@@ -44,7 +44,8 @@ $config['index_page'] = '';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'AUTO';
+// $config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -127,7 +128,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-?';
 
 
 /*
@@ -182,7 +183,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,7 +194,7 @@ $config['log_threshold'] = 0;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
 
 /*
 |--------------------------------------------------------------------------
@@ -385,6 +386,13 @@ $config['subfijo_csv_info'] = '_info.csv';
 $config['img_default'] = 'img_default.png' ;
 // TODO: Descomentar esto si se desea emplear la imagen
 // $config['subfijo_img'] = '.png' ;
+
+
+
+
+// Reverse geocoding.
+$config['mapquest_app_key'] = 'U2qSKeiAHza7GxFNOYZbFqilGVrsX6Ww';
+
 
 
 

@@ -17,6 +17,14 @@
 			
 		}
 
+		
+		public function getId(){
+			return $this->id;
+		}
+		
+		public function getNombre(){
+			return $this->nombre;
+		}
 
 		private function inicializar($datos)
 		{
@@ -25,6 +33,7 @@
 			$this->influencia = $datos->influencia;
 			$this->idMultimedia = $datos->idMultimedia;
 		}
+
 
 		static public function getInstancia($id)
 		{
@@ -268,6 +277,169 @@
 			// $CI->utiles->debugger($tipoFalla->criticidades);
 			return $tipoFalla;
 		}
+
+		//AGREGADO RODRIGO
+		public static function getTipoFallaPorNombre($nombre){
+			$CI = &get_instance();
+			$datos = $CI->TipoFallaModelo->get_by(array('nombre' => $nombre));
+			$tipoFalla = new TipoFalla();
+			$tipoFalla->inicializar($datos);
+			return $tipoFalla;
+		}
+
+		//AGREGADO RODRIGO
+		//Retorna el tipo de reparacion y el tipo de material
+		//asociado con un tipo de falla.
+		// FORMATO DEL JSON RETORNADO -->
+#listadoTiposFalla = [
+# 	{
+# 	"clave": "tipoFalla",
+# 	"valor": "Bache",
+# 	"colPropsAsociadas": [
+#			 		{"clave": "tipoReparacion", "valor":"Sellado"},
+#			 		{"clave": "tipoReparacion", "valor":"Cementado"},
+#			 		{"clave": "tipoMaterial", "valor":"Pavimento asfaltico"]},
+#			 		{"clave": "tipoMaterial", "valor":"Cemento"},
+#			 		...
+#					]
+#	},
+# 	...	
+#]
+		public static function getTiposAsociados(){
+			require_once('CustomLogger.php');
+			$data = array();
+			$tiposFalla = TipoFalla::getTiposFalla();
+        	CustomLogger::log('Obtenidos todos los tipos de fallas...');
+        	CustomLogger::log($tiposFalla);
+        	try {
+
+				foreach ($tiposFalla as $tFalla) {
+						CustomLogger::log('Iterando el tipoFalla con id: ');
+	        			CustomLogger::log($tFalla->id);
+						$propsTipoFalla = array();
+						$getIdsReparacion = array(
+												'clase' =>'TipoFallaTipoReparacion' ,
+												'metodo' => 'getIdsReparacion' ,
+												'nombreId' => 'idTipoReparacion',
+												'args' => array($tFalla->id)
+												 );
+
+
+						$getInstanciaReparacion = array(
+												'clase' =>'TipoReparacion' ,
+												'metodo' => 'getTipoDeReparacion'
+												 );
+						$tiposReparacionAsociados = TipoFalla::getObjectArrayById($getIdsReparacion,$getInstanciaReparacion);
+
+						TipoFalla::asociarPropiedades($propsTipoFalla,$tiposReparacionAsociados,'tipoReparacion');
+
+						CustomLogger::log('tiposReparacionAsociados es: ');
+						CustomLogger::log($propsTipoFalla);
+						CustomLogger::log('++++++++++++++++++++++++++++++++');
+
+						
+
+						CustomLogger::log('propsTipoFalla despues de obtener datos tipoReparacion es: ');
+						CustomLogger::log($propsTipoFalla);
+
+						$getIdsTipoMaterial = array(
+												'clase' =>'TipoMaterialTipoFalla' ,
+												'metodo' => 'getIdsMaterial' ,
+												'nombreId' => 'idTipoMaterial',
+												'args' => array($tFalla->id)
+												 );
+
+
+						$getInstanciaMaterial = array(
+												'clase' =>'TipoMaterial' ,
+												'metodo' => 'getTipoMaterial'
+												 );
+
+						
+						$tipoMaterialAsociados = TipoFalla::getObjectArrayById($getIdsTipoMaterial,$getInstanciaMaterial);
+
+						TipoFalla::asociarPropiedades($propsTipoFalla,$tipoMaterialAsociados,'tipoMaterial');
+
+						$elem1 = array(
+									'clave' => 'tipoFalla',
+									'valor' => $tFalla->nombre,
+									'colPropsAsociadas' => $propsTipoFalla
+							 );
+						array_push($data,$elem1);
+	        		
+				} //Fin foreach
+			} catch (MY_BdExcepcion $e) {
+				CustomLogger::log('Error MY_BdExcepcion ocurrida: ');
+				CustomLogger::log($e);						
+			}finally {
+				return $data;
+			}
+		}
+
+		public static function asociarPropiedades(&$data,$arreglo,$nombreClave){
+			CustomLogger::log('En asociarPropiedades()');
+			CustomLogger::log('arreglo tiene:');
+			CustomLogger::log($arreglo);
+
+			foreach ($arreglo as $elem) {
+				CustomLogger::log('Iterando elemento: ');
+				CustomLogger::log($elem);
+				CustomLogger::log('------------------------------ ');
+				$a = array(
+							'clave' => $nombreClave,
+							'valor' => $elem->nombre
+					 ); 
+				array_push($data, $a);
+			}
+			CustomLogger::log('data tiene:');
+			CustomLogger::log($data);
+			CustomLogger::log('Fin de asociarPropiedades');
+		}
+
+
+		//Obtiene un array de objetos dada una funcion enviada por parametro
+		public static function getObjectArrayById($getIds,$getInstancia){
+			CustomLogger::log('En getObjectArrayById()....');
+			
+			$objs = array();
+			if (is_callable($getIds["clase"], $getIds["metodo"])) {
+		        $objs = call_user_func_array(array($getIds["clase"], $getIds["metodo"]), $getIds["args"]);
+		        
+				CustomLogger::log('los objs leidos son');
+				CustomLogger::log($objs);
+				CustomLogger::log('.......................');
+				CustomLogger::log($objs[1]->{$getIds["nombreId"]});
+				CustomLogger::log('----------------------------');
+		    }else {
+		        throw new Exception('Error en tipoFalla.getIdsArray - ' . $getIds["clase"] . '::' . $getIds["metodo"]);
+		    }
+
+			$tiposAsociados = array();		    
+			foreach ($objs as $obj) {
+				CustomLogger::log('Dentro del foreach ids ...');
+				if (is_callable($getInstancia["clase"], $getInstancia["metodo"])) {
+		        	$tipoObjeto = call_user_func_array(
+		        								array($getInstancia["clase"], $getInstancia["metodo"]),
+		        										array(
+		        											$obj->{$getIds["nombreId"]}
+		        											)
+
+		        									);
+
+		        	CustomLogger::log('Instanciado objeto: ');
+		        	CustomLogger::log($tipoObjeto);
+					array_push($tiposAsociados, $tipoObjeto);
+				}else {
+		        throw new Exception('Error en tipoFalla.getIdsArray - ' . $getInstancia["clase"] . '::' . $getInstancia["metodo"]);
+		    	}
+			} //Fin de foreach 
+			CustomLogger::log('Fin de getObjectArrayById()....');
+			return $tiposAsociados;
+		}
+
+
+		
+
 
 	}
  ?>

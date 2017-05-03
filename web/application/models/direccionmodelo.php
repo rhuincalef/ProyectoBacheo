@@ -14,7 +14,9 @@
 							array('idCallePrincipal' => $direccion->callePrincipal->id,
 								'altura' => $direccion->altura,
 								'idCalleSecundariaA' => $direccion->calleSecundariaA->id,
-								'idCalleSecundariaB' => $direccion->calleSecundariaB->id
+								'idCalleSecundariaB' => $direccion->calleSecundariaB->id,
+								'rangoestimado1' => $direccion->rangoestimado1,
+								'rangoestimado2' => $direccion->rangoestimado2
 								)
 							);
 			return $this->db->insert_id();
@@ -30,10 +32,13 @@
 		    // foreach ($datos as $column => $value) {
 		        // $this->db->like("LOWER($column)", strtolower($value));
 	        $query = $this->db->get_where($this->table_name, array('idCallePrincipal' => $datos->idCallePrincipal,
-																	'altura' => $datos->altura,
-																	'idCalleSecundariaA' => $datos->idCalleSecundariaA,
-																	'idCalleSecundariaB' => $datos->idCalleSecundariaB
-																	)
+				'altura' => $datos->altura,
+				//AGREGADO RODRIGO
+				'rangoestimado1' => $datos->rangoEstimado1,
+				'rangoestimado2' => $datos->rangoEstimado2,
+				'idCalleSecundariaA' => $datos->idCalleSecundariaA,
+				'idCalleSecundariaB' => $datos->idCalleSecundariaB
+				)
 	        );
 		    // }
 		    // $query = $this->db->get($this->table_name);

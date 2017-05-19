@@ -88,12 +88,10 @@ $firephp = FirePHP::getInstance(true);
 					?> </td>
 				</tr>
 				<tr>
-					<td> Fecha Ultimo Estado </td>
+					<td> Fecha último estado </td>
 					<td id="campoFechaEstado"> <?php $estadoActual = json_decode($estado);
 					echo $estadoActual->fecha;?> </td>
-					<td></td>
-				</tr>	
-
+				</tr>
 			</table>
 
 		</div>
@@ -112,8 +110,8 @@ $firephp = FirePHP::getInstance(true);
             	echo '</div>';
             	echo '<div id="contenedorFormulario" class="oculto">';
             		echo '<form role="form" method="post" action="'.$this->config->base_url().'index.php/cambiarEstadoBache">';
-            		echo '<div id="formularioEspecificacionesTecnicas" class="form-group selectFormulario">';
-						echo '<div id="contenedorEstado" class="oculto selectFormulario">';
+            		echo '<div id="formularioEspecificacionesTecnicas" class="form-group">';
+						echo '<div id="contenedorEstado" class="oculto">';
 						if (!strcmp($estadoActual->tipoEstado->nombre, "Informado")) {
 							//require_once 'bacheAConfirmado.php';
 							$this->load->view('bacheAConfirmado.php');
@@ -130,8 +128,8 @@ $firephp = FirePHP::getInstance(true);
 					/* End contenedorEstado div */
 					/* End formularioEspecificacionesTecnicas div */
 					echo '</div>';
-						echo '<textarea class="form-control selectFormulario" maxlength="100" placeholder="Descripcion" name="descripcion"></textarea>';
-        				echo '<button id="registrarEstadoBache" class="btn btn-primary" style="width: 83.4%; margin-top:2em;"> Confirmar</button>';
+						echo '<textarea class="form-control" maxlength="100" placeholder="Descripcion" name="descripcion"></textarea>';
+        				echo '<button id="registrarEstadoBache" class="btn btn-primary" style="width: 100%; margin-top:2em;"> Confirmar</button>';
         			echo "</form>";
 				echo '</div>';
 				/* End contenedorFormulario div */

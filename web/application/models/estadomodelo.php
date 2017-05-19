@@ -44,5 +44,16 @@
 			return $this->db->insert_id();
 		}
 
+		public function saveReparando($estado)
+		{
+			$this->db->insert($this->table_name,
+							array(  'idFalla' => $estado->falla->id,
+									'idUsuario' => $estado->usuario,
+									'idTipoEstado' => $estado->tipoEstado->id,
+									'monto' => $estado->montoEstimado,
+									'fechaFinReparacionEstimada' => $estado->fechaFinReparacionEstimada)
+							);
+			return $this->db->insert_id();
+		}
 	}
  ?>

@@ -5,6 +5,8 @@
 		var $falla;
 		var $nombre;
 		var $unidadMedida;
+		// Utilizado a partir del estado EnReaparacion
+		var $valor;
 		
 		function __construct()
 		{
@@ -59,5 +61,9 @@
 			return $arrayTiposAtributos;
 		}
 
+		public function getValor()
+		{
+			return $this->valor;
+		}
+
 	}
- ?>

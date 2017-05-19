@@ -25,8 +25,10 @@ $(document).ready(function(){
 			Bache.cambiarReparando();
 		}
 		if ("Reparando"==nuevoEstado) {
-			Bache.cambiarReparado();
+			alertar("Error!", "Falta implementación", "error");
+			//Bache.cambiarReparado();
 		}
+		window.location.reload();
 	});
 
 	$("#enviarObservacion").click(function(){
@@ -40,6 +42,9 @@ $(document).ready(function(){
 	Bacheo.init();
 	$('.tabInfo li:eq(1)').click(function(){
 		cargarMateriales();
+	});
+	$('.tabInfo li').not(':eq(1)').click(function() {
+		$(":checkbox").prop("checked", false);
 	});
 
 });
@@ -173,6 +178,4 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var opcion = new Option(elemento.nombre, elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
-	//$opcionesCriticidades.prop("disabled",true);
-	checkFormulario();
 }

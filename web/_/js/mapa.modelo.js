@@ -114,12 +114,19 @@ var Bacheo = (function(){
 		console.log(datos);
 		// var estado = JSON.parse(datos.estado);
 		// if (datos.hasOwnProperty("informado")) {
+			console.log("datos.estado");
+			console.log(typeof(datos.estado));
 		if (datos.estado=="Informado") {
 			var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
 			
-		}else{
-			var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-			
+		}
+		else {
+			if (datos.estado=="Confirmado") {
+				var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+			}
+			else {
+				var icono = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+			}
 		}
 		var marcador = new google.maps.Marker({
 			position: datos.posicion,

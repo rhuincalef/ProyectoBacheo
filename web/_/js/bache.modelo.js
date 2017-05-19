@@ -6,6 +6,7 @@ Bache = (function () {
 		var baseUrl = "";
 		var estado = {};
 		var tiposEstado = {};
+		var monto = 0;
 
 	var init = function (){
 		estado = JSON.parse($("#estadoBache").text());
@@ -31,7 +32,8 @@ Bache = (function () {
 			var latlon = new google.maps.LatLng(latitud, longitud);
 			var latLongCenter = new google.maps.LatLng(otroLat, longitud);
 			var mapOptions = {
-			          center: latLongCenter,
+			          //center: latLongCenter,
+			          center: latlon,
 			          zoom: 16,
 			          mapTypeControl: false,
 			          mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -174,12 +176,16 @@ Bache = (function () {
 		datos.estado = {};
 		datos.estado.montoEstimado = parseFloat($("#montoEstimado").val());
 		datos.estado.fechaFinReparacionEstimada = $("#fechaFin").val();
+		//datos.estado.observacion = $("#contenedorFormulario").find("textarea").val();
+		console.log(datos);
 		$.post(baseUrl+"inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
 				datos = JSON.parse(data);
 				if (datos.codigo == 200) {
 					alertar("Exito!",datos.mensaje,"success");
+					setTimeout(3000);
+					//window.location.reload();
 				}else{
 					alertar("Error!",datos.mensaje,"error");
 				}
@@ -188,6 +194,9 @@ Bache = (function () {
 
 	var cambiarReparado = function() {
 		// Descripcion, montoReal, fechaFinReparacionReal
+		var datos = {};
+		datos.falla = {};
+		datos.falla.id = idBache;
 	}
 
 	return{

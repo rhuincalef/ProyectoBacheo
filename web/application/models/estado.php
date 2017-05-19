@@ -201,8 +201,10 @@
 			$falla->observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
 			$falla->observacion->falla = $falla;
 			$falla->observacion->save();
-			$tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
-			$falla->tipoReparacion = $tipoReparacion;
+			if (property_exists($datos, 'reparacion')) {
+				$tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+				$falla->tipoReparacion = $tipoReparacion;
+			}
 
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->id = $nuevoEstado->save();
@@ -221,7 +223,7 @@
             "imagenes"=> $falla->obtenerImagenes(),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
-            "estado" => "Informado",
+            "estado" => get_class($this),
             "posicion" => array($falla->latitud, $falla->longitud),
             // "estado" => json_encode($falla->estado),
             );
@@ -311,7 +313,6 @@
             return $array_falla;
 		}
 
-
 	}
 
 	class Confirmado extends Estado
@@ -363,9 +364,13 @@
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
 			CustomLogger::log('idCriticidad: '.$datos->idCriticidad);
 
-			
-			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
-			CustomLogger::log('idTipoReparacion: '.$datos->idTipoReparacion);
+			if ($datos->idTipoReparacion!=NULL) {
+				CustomLogger::log('idTipoReparacion: '.gettype($datos->idTipoReparacion));
+				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
+			}
+			else {
+				$falla->tipoReparacion = "No espe";
+			}
 			$falla->factorArea = $datos->areaAfectada;
 			CustomLogger::log('factorArea: '.$datos->factorArea);
 		}
@@ -382,7 +387,7 @@
             // "imagenes"=> $this->obtenerImagenes($idBache)
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => $falla->tipoFalla->nombre,
-            "estado" => "Confirmado",
+            "estado" => get_class($this),
             // "estado" => json_encode($falla->estado),
             );
             return $datos;
@@ -393,22 +398,16 @@
 			/*
 				Datos para Reparando: 
 					- monto
-
 					- fechaFinReparacionEstimada
-				
-			$nuevoEstado = new Reparando();
-			$nuevoEstado->falla = $falla;
-			$nuevoEstado->id = $nuevoEstado->save();
-			return $nuevoEstado;
 			*/
 			$nuevoEstado = new Reparando();
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->usuario = $usuario->id;
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
-			$nuevoEstado->fechaFinReparacionEstimada = $datos->estado->fechaFinReparacionEstimada;
-			// $nuevoEstado->id = $nuevoEstado->save();
+			$fechaFinReparacionEstimada = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionEstimada));
+			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
+			$nuevoEstado->id = $nuevoEstado->saveReparando();
 			return $nuevoEstado;
-
 		}
 
 		public function validarDatos($datos)
@@ -440,7 +439,7 @@
 
 		static public function getInstancia($datos)
 		{
-			$estado = new Informado();
+			$estado = new Reparando();
 			$estado->inicializar($datos);
 			return $estado;
 		}
@@ -452,5 +451,44 @@
 			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
+		public function saveReparando()
+		{
+			$CI = &get_instance();
+			return $CI->EstadoModelo->saveReparando($this);
+		}
+
+		public function inicializarFalla($falla, $datos)
+		{
+			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			CustomLogger::log('idCriticidad: '.$datos->idCriticidad);
+
+			
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
+			CustomLogger::log('idTipoReparacion: '.$datos->idTipoReparacion);
+			$falla->factorArea = $datos->areaAfectada;
+			CustomLogger::log('factorArea: '.$datos->factorArea);
+			$falla->atributos = Falla::getAtributos($falla->id);
+			return;
+		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => $falla->criticidad->nombre,
+            // "imagenes"=> $this->obtenerImagenes($idBache)
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => $falla->tipoFalla->nombre,
+            "estado" => get_class($this),
+            'montoCalculado' => $falla->calcularMonto(),
+            // "estado" => json_encode($falla->estado),
+            );
+			CustomLogger::log('Monto Calculado: '.$falla->calcularMonto());
+            return $datos;
+		}
+
 	}
-?>

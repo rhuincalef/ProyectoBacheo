@@ -84,8 +84,10 @@
 	        	-->
 	        	 <form class="navbar-form navbar-left" role="search" style="width: 100%;">
 					<div class="form-group" style="width: 100%; display: block;">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-search"></i></span>
 						<input id="buscarCalleSideBar" type="text small" placeholder="9 de Julio" style="height: 2em; height: 2em; float: left; width: 100%;" />
-						<div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></div>
+					</div>
 						<!--
 						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 						-->

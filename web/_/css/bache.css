@@ -158,3 +158,8 @@
  width:100%;
  border-top:1px solid gray;
 }
+
+#contenedorEstado {
+    display: inline-grid;
+    width: 100%;
+}

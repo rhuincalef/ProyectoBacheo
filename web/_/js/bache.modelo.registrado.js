@@ -99,4 +99,5 @@ $(document).ready(function(){
     $(":checkbox").checkboxpicker();
     $(":checkbox").prop("checked", false);
     $(":checkbox").checkboxpicker().change(checkFormulario);
+    checkFormulario();
 });

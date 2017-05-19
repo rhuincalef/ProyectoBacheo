@@ -318,8 +318,9 @@ class Privado extends CI_Controller
 			$user = $this->ion_auth->user()->row();
 			if ($falla->estado->validarDatos($datos))
 			{
-			$this->utiles->debugger("Válido");
+			$this->utiles->debugger("Válido!!!");
 				$falla->cambiarEstado($datos->datos, $usuario);
+				$this->db->trans_commit();
 				echo json_encode(array('codigo' => 200, 'mensaje' => "Pasa validación....", 'valor' =>""));
 			}
 			else

@@ -42,6 +42,7 @@ $(document).ready(function(){
 	Bacheo.init();
 	$('.tabInfo li:eq(1)').click(function(){
 		cargarMateriales();
+		$(this).unbind('click');
 	});
 	$('.tabInfo li').not(':eq(1)').click(function() {
 		$(":checkbox").prop("checked", false);
@@ -178,4 +179,5 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var opcion = new Option(elemento.nombre, elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
+	checkFormulario();
 }

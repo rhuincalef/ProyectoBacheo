@@ -4,12 +4,12 @@
 		//$("#inicioSesion").on("submit", 
 		$("#inicioSesion").submit(function (evento){
 			evento.preventDefault();
+			evento.stopImmediatePropagation();
 			log('inside coolFunc', this, arguments);
 			// Get the form data.
 			var $form_inputs = $(this).find("input");
 			var $usuarioInput = $form_inputs[0];
 			var $passwordInput = $form_inputs[1];
-			// data = {'login_identity':'guille@gmail.com', 'login_password':'1234', 'remember_me':'1', 'login_user':'Submit'};
 			data = {"login_identity":$($usuarioInput).val(), "login_password":$($passwordInput).val()}
 			var submit_url = $(this).attr("action")+"login";
 			$.ajax(
@@ -17,11 +17,9 @@
 				url: submit_url,
 				type: 'POST',
 				data: data,
-				// data: form_data,
-				success:function(arguments)
+				success:function(datos)
 				{
-					response = $.parseJSON(arguments);
-					
+					response = $.parseJSON(datos);
 					// If the returned login value successul.
 					if (response.status == "OK")
 					{
@@ -82,8 +80,12 @@
 
 	});
 
-
 })(jQuery);
+
+	function capitalize(s) {
+	    // returns the first letter capitalized + the string from index 1 and out aka. the rest of the string
+	    return s[0].toUpperCase() + s.substr(1);
+	}
 
 	function alertar(titulo,texto,tipo) {
 		var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};    	
@@ -102,7 +104,8 @@
 	function logearGraficamente(usuario) {
 		$("#opcionInicioSesion").addClass("hide");
 		$("#opcionSesion").removeClass("hide");
-		$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + '</a>');
+		$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + capitalize(usuario) + '</a>');
+		//$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + '</a>');
 		$("#opcionInicioSesion").find("input").each(function (i, e) {
 			$(e).val('');
 		});

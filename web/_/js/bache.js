@@ -42,6 +42,7 @@ $(document).ready(function(){
 	Bacheo.init();
 	$('.tabInfo li:eq(1)').click(function(){
 		cargarMateriales();
+		checkFormulario();
 		$(this).unbind('click');
 	});
 	$('.tabInfo li').not(':eq(1)').click(function() {
@@ -128,7 +129,7 @@ function cargarMateriales () {
 	var materiales = GestorMateriales.obtenerArregloMateriales();
 	var keysMateriales = Object.keys(materiales);
 	$(keysMateriales).each(function(indice,elemento){
-		var opcion = new Option(materiales[elemento].nombre,materiales[elemento].id,true,true);
+		var opcion = new Option(capitalize(materiales[elemento].nombre),materiales[elemento].id,true,true);
 		$(opcion).click(function(){
 			cargarTiposFalla(materiales[elemento].fallas);
 		});
@@ -143,7 +144,7 @@ function cargarTiposFalla(fallas){
 	var $opcionesFallas = $('#tipoFalla');
 	$opcionesFallas.empty();
 	$(fallas).each(function(indice,elemento){
-		var opcion = new Option(elemento.nombre,elemento.id,true,true);
+		var opcion = new Option(capitalize(elemento.nombre),elemento.id,true,true);
 	    $(opcion).click(function(){
 	    	cargarOpcionesFalla(elemento.atributos,elemento.reparaciones,elemento.criticidades);
 	    });
@@ -158,7 +159,7 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	$contenedorAtributos.empty();
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
-		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+elemento.nombre+'</label>'));
+		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+capitalize(elemento.nombre)+'</label>'));
 		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" value="0.5"/>'));
 		//$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado form-desactivado" value="0.5" disabled=""/>'));
 		$contenedorAtributos.append($unDiv);
@@ -168,7 +169,7 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
-	    var opcion = new Option(reparaciones[elemento].nombre,reparaciones[elemento].id,true,true);
+	    var opcion = new Option(capitalize(reparaciones[elemento].nombre),reparaciones[elemento].id,true,true);
 	    $opcionesReparacion.append(opcion);
 	  });
 	$contenedorAtributos.append($opcionesReparacion);
@@ -176,8 +177,8 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	var $opcionesCriticidades = $('#criticidad');
 	$opcionesCriticidades.empty();
 	$(criticidades).each(function(indice, elemento){
-		var opcion = new Option(elemento.nombre, elemento.id, true, true);
+		var opcion = new Option(capitalize(elemento.nombre), elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
-	checkFormulario();
+	//checkFormulario();
 }

@@ -335,40 +335,6 @@ function buscarFallasCalle(event) {
 
 $(document).ready(function(){
 
-	Bacheo.myDropzone = 4;
-	Dropzone.options.imagenesForm = {
-		paramName: "file", // The name that will be used to transfer the file
-		maxFilesize: 5, // MB
-		maxFiles:8, //Cantidad maxima de archivos para admitir dentro de dropzone
-		autoProcessQueue:false,
-		parallelUploads:8,
-		maxFiles: 5,
-		acceptedFiles: "image/*",
-		dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
-
-		init: function() {
-		  Bacheo.myDropzone = this;
-		  this.on("addedfile", function(file) {
-		    // Create the remove button
-		    var removeButton = Dropzone.createElement("<button>Remove file</button>");
-		    // Capture the Dropzone instance as closure.
-		    var _this = this;
-		    // Listen to the click event
-		    removeButton.addEventListener("click", function(e) {
-		      // Make sure the button click doesn't submit the form:
-		      e.preventDefault();
-		      e.stopPropagation();
-		      // Remove the file preview.
-		      _this.removeFile(file);
-		      // If you want to the delete the file on the server as well,
-		      // you can do the AJAX request here.
-		    });
-		    // Add the button to the file preview element.
-		    file.previewElement.appendChild(removeButton);
-		  });
-		}
-	};
-
     $("#buscarFallasCalle").click(buscarFallasCalle);
 
     $(".dropdown-menu-side-bar li").click(function( event ) {

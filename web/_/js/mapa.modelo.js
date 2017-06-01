@@ -159,8 +159,8 @@ var Bacheo = (function(){
 
 
 	function guardarImagenes(idBache) {
-		var direccion = "./index.php/inicio/subirImagen/"+idBache;
-		Bacheo.myDropzone.options.url = "./index.php/inicio/subirImagen/"+idBache;
+		var direccion = "./index.php/subirImagen/"+idBache;
+		Bacheo.myDropzone.options.url = "./index.php/subirImagen/"+idBache;
         console.log("Se inicializo el formulario con el script de carga de imagenes.");
 		Bacheo.myDropzone.processQueue();
 	}
@@ -202,7 +202,7 @@ var Bacheo = (function(){
 	                	datos = $.parseJSON(respuestaServidor.valor);
 	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
 	    				cargarMarcador(datos);
-//	    				guardarImagenes(datos.id);
+	    				guardarImagenes(datos.id);
 						alertar("Exito!","Bache notificado con exito","success");
 						$("#formularioBache")[0].reset();
 
@@ -327,7 +327,7 @@ var Bacheo = (function(){
 	                	datos = $.parseJSON(respuestaServidor.valor);
 	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
 	    				cargarMarcador(datos);
-//	    				guardarImagenes(datos.id);
+	    				guardarImagenes(datos.id);
 						alertar("Exito!","Bache notificado con exito","success");
 						$("#formularioBache")[0].reset();
 
@@ -354,39 +354,5 @@ return{
 	agregarAnonimo:agregarAnonimo,
 	init:inicializar
 }
-
-Bacheo.myDropzone = 4;
-Dropzone.options.imagenesForm = {
-	paramName: "file", // The name that will be used to transfer the file
-	maxFilesize: 5, // MB
-	maxFiles:8, //Cantidad maxima de archivos para admitir dentro de dropzone
-	autoProcessQueue:false,
-	parallelUploads:8,
-	maxFiles: 5,
-	acceptedFiles: "image/*",
-	dictDefaultMessage: "Arrastrar las imagenes aqui o click para agregarlas",
-
-	init: function() {
-	  Bacheo.myDropzone = this;
-	  this.on("addedfile", function(file) {
-	    // Create the remove button
-	    var removeButton = Dropzone.createElement("<button>Remove file</button>");
-	    // Capture the Dropzone instance as closure.
-	    var _this = this;
-	    // Listen to the click event
-	    removeButton.addEventListener("click", function(e) {
-	      // Make sure the button click doesn't submit the form:
-	      e.preventDefault();
-	      e.stopPropagation();
-	      // Remove the file preview.
-	      _this.removeFile(file);
-	      // If you want to the delete the file on the server as well,
-	      // you can do the AJAX request here.
-	    });
-	    // Add the button to the file preview element.
-	    file.previewElement.appendChild(removeButton);
-	  });
-	}
-};
 
 }());

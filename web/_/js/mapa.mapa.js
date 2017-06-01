@@ -42,12 +42,10 @@ function inicializar(){
     return;
   }
   Bacheo.init($("#canvasMapa"));
-
   var boundsTrelew = new google.maps.LatLngBounds(
     new google.maps.LatLng(-43.230650145567985, -65.37500381469727),
     new google.maps.LatLng(-43.28790660359147, -65.25123596191406)
   );
-
   $("#buscarCalle").geocomplete({
     map: $("#canvasMapa").gmap3("get"),
     country: 'ar',
@@ -56,7 +54,7 @@ function inicializar(){
       postal_code:'9100'
     }
   });
-
+  $("#seleccionarCalle").click(bindearEventoClick);
   $("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
   $("#opcionAgregar").click(function(){
     inicializarFormularioBache();     

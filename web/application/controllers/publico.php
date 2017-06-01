@@ -441,4 +441,15 @@ class Publico extends Frontend_Controller
 		return;
 	}
 
+	//Metodo del controlador que ataja la subida de imagenes
+	//al servidor.	
+	// http://localhost/gitBaches/ProyectoBacheo/web/
+	public function subirImagen($idBache){
+		$this->utiles->debugger($_FILES);
+		/*
+		$this->load->model("Multimedia");
+		$this->Multimedia->subirImagen($idBache);
+		*/
+	}
+
 }

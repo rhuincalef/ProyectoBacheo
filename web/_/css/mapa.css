@@ -85,7 +85,10 @@
 }
 
 .derechoAmpliado{
+	/*
 	width: 58% !important
+	*/
+	width: 99% !important
 }
 
 .informacionBache{

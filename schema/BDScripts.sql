@@ -136,6 +136,8 @@ CREATE TABLE "DireccionModelo"
   altura integer NOT NULL,
   "idCalleSecundariaA" integer,
   "idCalleSecundariaB" integer,
+  rangoestimado1 integer,
+  rangoestimado2 integer,
 
 --  CONSTRAINT pk_id_direccion PRIMARY KEY ("idCallePrincipal","altura"),
   CONSTRAINT pk_id_direccion PRIMARY KEY (id),

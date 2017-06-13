@@ -1,14 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-//TODO Comentar! Clase de firephp utilizada para la depuración.
-/*if (defined('DIR_DEBUGGING') == FALSE) {
-	define("DIR_DEBUGGING","/var/www/html/repoProyectoBacheo/web/application/debugging/");
-	set_include_path(get_include_path() . PATH_SEPARATOR . DIR_DEBUGGING);
-}
-require_once('FirePHP.class.php');
-*/
-
-
 //include 'ChromePhp.php';
 
 class Publico extends Frontend_Controller
@@ -30,8 +21,6 @@ class Publico extends Frontend_Controller
 
 		if(!$this->ion_auth->logged_in())
 		{
-			//$firephp = FirePHP::getInstance(True);
-
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
 		    if (method_exists($invitado, $method)) {

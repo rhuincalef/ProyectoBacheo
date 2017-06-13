@@ -229,6 +229,9 @@ class Falla implements JsonSerializable {
 		$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
 		// TipoMaterial se obtiene a traves del Tipo de Falla
 		$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
+		/* Agregado... Feo... */
+		$datos->direccion->rangoEstimado1 = 0;
+		$datos->direccion->rangoEstimado2 = 0;
 		$falla->direccion = $falla->insertarDireccion($datos->direccion);
 		// A partir de aca cambia
 		$falla->id = $falla->saveAnonimo();

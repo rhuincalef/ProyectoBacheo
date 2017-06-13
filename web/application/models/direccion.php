@@ -84,21 +84,6 @@
 				//AGREGADO RODRIGO
 				$buscar->rangoestimado1 = $datosDireccion->rangoEstimado1;
 				$buscar->rangoestimado2 = $datosDireccion->rangoEstimado2;
-
-				log_message('debug',"Dentro de Direccion.insertarDireccion()... ");
-				log_message('debug',"datosDireccion->rangoEstimado1: ");
-				log_message('debug',$datosDireccion->rangoEstimado1);
-				log_message('debug',"datosDireccion->rangoEstimado2: ");
-				log_message('debug',$datosDireccion->rangoEstimado2);
-				
-				log_message('debug',"buscar->callePrincipal->id: ");
-				log_message('debug',$buscar->callePrincipal->id);
-				log_message('debug','buscar->rangoestimado1: ');
-				log_message('debug',$buscar->rangoestimado1);
-				log_message('debug','buscar->rangoestimado2: ');
-				log_message('debug',$buscar->rangoestimado2);
-				
-
 				$datos = $CI->DireccionModelo->get_by($buscar);
 				$direccion->inicializar($datos);
 				log_message('debug',"Inicializando direccion guardada anteriormente... ");
@@ -108,21 +93,10 @@
 				//AGREGADO RODRIGO
 				$direccion->rangoestimado1 = $datosDireccion->rangoEstimado1;
 				$direccion->rangoestimado2 = $datosDireccion->rangoEstimado2;
-
 				$direccion->callePrincipal = $callePrincipal;
 				$direccion->calleSecundariaA = $calleSecundariaA;
 				$direccion->calleSecundariaB = $calleSecundariaB;
-
-				
 				$direccion->id = $direccion->save();
-				log_message('debug',"Direccion nueva salvada con los valores:");
-				log_message('debug',"direccion->altura: ");
-				log_message('debug',$direccion->altura);
-				log_message('debug',"direccion->rangoestimado1: ");
-				log_message('debug',$direccion->rangoestimado1);
-				log_message('debug',"direccion->rangoestimado2: ");
-				log_message('debug',$direccion->rangoestimado2);
-				
 			}finally{
 				return $direccion;
 			}

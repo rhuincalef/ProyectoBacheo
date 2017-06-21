@@ -111,4 +111,3 @@ class Invitado extends CI_Controller {
 	}
 
 }
-?>

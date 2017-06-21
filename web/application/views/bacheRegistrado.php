@@ -1,15 +1,3 @@
-
-<?php 
-//TODO Comentar! Clase de firephp utilizada para la depuración.
-if (defined('DIR_DEBUGGING') == FALSE) {
-	define("DIR_DEBUGGING","/var/www/html/repoProyectoBacheo/web/application/debugging/");
-	set_include_path(get_include_path() . PATH_SEPARATOR . DIR_DEBUGGING);
-}
-require_once('FirePHP.class.php');
-$firephp = FirePHP::getInstance(true);
-
-?>
-
 <div class="oculto">
 	<label id="idBache"><?php echo $id; ?></label>
 	<label id="titulo"><?php echo $titulo; ?></label>
@@ -129,7 +117,7 @@ $firephp = FirePHP::getInstance(true);
 					/* End formularioEspecificacionesTecnicas div */
 					echo '</div>';
 						echo '<textarea class="form-control" maxlength="100" placeholder="Descripcion" name="descripcion"></textarea>';
-        				echo '<button id="registrarEstadoBache" class="btn btn-primary" style="width: 100%; margin-top:2em;"> Confirmar</button>';
+        				echo '<button id="registrarEstadoBache" class="btn btn-primary" type="submit" style="width: 100%; margin-top:2em;"> Confirmar</button>';
         			echo "</form>";
 				echo '</div>';
 				/* End contenedorFormulario div */

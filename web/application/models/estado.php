@@ -305,6 +305,12 @@
         	
 			$array_falla = array();
 			//NOTA IMPORTANTE: Las calles informadas no tienen rangosEstimados, sino que la altura fue cargada desde la pagina web.
+			/*
+			TODO: por lo que se modifica, todas las fallas tienen rangos estimados.
+			Este método debería ser $falla->esInformada().
+			return $falla;
+			El estado de la Falla conoce como se debe parsear a json la falla.
+			*/
         	if ( $this->esCalleBuscada($f,$calleDecodificada) == TRUE ) {
 	            $array_falla["id"] = $f->getId();
 	            $array_falla["calle"] = $f->direccion->getNombre();

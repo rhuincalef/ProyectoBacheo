@@ -39,7 +39,6 @@ class Multimedia
 		$CI = &get_instance();
 		$this->id = $CI->MultimediaModelo->save($this);
 		$this->accion();
-		$CI->MultimediaModelo->update($this);
 		return $this->id;
 	}
 
@@ -49,6 +48,14 @@ class Multimedia
 /*		Utilizado para realizar alguna accion con el objeto multimedia.
 		Por ejemplo, recortarla.*/
 		
+	}
+
+	public function crearDirectorio($nombreDir)
+	{
+		$CI = &get_instance();
+		if(!is_dir($nombreDir)){ 
+		    mkdir($nombreDir, 0777, true);
+		} 
 	}
 
 }
@@ -119,6 +126,7 @@ class ImagenMultimedia extends Multimedia
 		$nombreArchivo = $directorio.'/'.$this->nombreArchivo.'.jpeg';
 		imagejpeg($imagen_destino_r, $nombreArchivo, $this->calidad);
 		$this->nombreArchivo = $nombreArchivo;
+		$CI->MultimediaModelo->update($this);
 	}
 
 	public function setNombreArchivo($nombre)
@@ -134,53 +142,30 @@ class ImagenMultimedia extends Multimedia
 class Imagen extends Multimedia
 {
 
+	function __construct($idBache, $nombre, $fuente, $destino)
+	{
+		$this->fuente = $fuente;
+		$this->nombreArchivo = $nombre;
+		$this->idBache = $idBache;
+		$this->destino = $destino;
+		$directorio = $idBache + $destino;
+	}
+
 	protected function accion()
 	{
 		$CI = &get_instance();
-		$CI->utiles->debugger($CI->config->item('upload_path'));
+		$nombreDir = getcwd() . '/' . $this->destino . '/' . $this->idBache;
+		$anterior = umask();
+        umask(0);
+		if(!is_dir($nombreDir)){ 
+		    if(!mkdir($nombreDir, 0777, true)) {
+		        $CI->utiles->debugger('Fallo al crear las carpetas...');
+		    }
+		}
+		umask($anterior);
+		move_uploaded_file($this->fuente, $nombreDir . '/' . $this->nombreArchivo);
+		// asociar_con_falla
+		$CI->FallaMultimediaModelo->save2($this);
 		return $idBache;
 	}
 }
-
-//Esta funcion permite subr una imagen enviada desde el cliente.
-    /*function subirImagen($idBache){
-        $firephp->log("El directorio actual: ".getcwd());
-        $ds = "/";
-        $storeFolder = '../../imgSubidas';
-        if (!empty($_FILES)) {    
-            // $firephp->log('Files --> :'.$path = $_FILES['file']['name']);
-            $firephp->log($_FILES['file']['name']);
-            $tempFile = $_FILES['file']['tmp_name'];      
-            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
-            $name = $_FILES['file']['name'];
-            $targetFile =  $targetPath.$name;
-            
-            $firephp->log("tempFile -->$tempFile");
-            $firephp->log("targetFile -->$targetFile");
-            //$firephp->log($_FILES["file"]);
-            //$firephp->log('asdsadasddasd asdasdsads');
-            //move_uploaded_file("/home/pablo/Documentos/ProyectosWeb/ProyectoBacheo/web/application/models/../../imgSubidas/",$targetFile); 
-            move_uploaded_file($tempFile,$targetFile);
-            $firephp->log("Se almaceno la imagen correctamente!");
-            // $firephp->log("resultado");
-            // $firephp->log($r);
-            $path = $_FILES['file']['name'];
-            $firephp->log('El path es: '.$path);    
-            $ext = pathinfo($path, PATHINFO_EXTENSION);
-            $firephp->log('La extension es: '.$ext);    
-            $datosMultimedia=array(
-                'idBache' =>intval($idBache),
-                'nombre' =>strval($_FILES['file']['name']),
-                'tipo' =>strval($ext),
-                'ruta' =>strval($targetPath)
-                );
-            $firephp->log("Los datos que se insertarán en la tabla multimedia son:");
-            $firephp->log($datosMultimedia);
-            $firephp->log("-----------------------------------------------------:");
-            //Se carga el modelo para subir la imagen            
-            $this->load->model('Multimedia','multimedia');
-            $this->multimedia->insert($datosMultimedia);
-            $firephp->log("Se insertaron correctamente los datos en la BD!");
-        }
-        return $idBache;
-    }*/

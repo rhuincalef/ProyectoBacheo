@@ -430,15 +430,20 @@ class Publico extends Frontend_Controller
 		return;
 	}
 
-	//Metodo del controlador que ataja la subida de imagenes
-	//al servidor.	
-	// http://localhost/gitBaches/ProyectoBacheo/web/
+	// Metodo del controlador que ataja la subida de imagenes
+	// al servidor.	
+	// http://baseurl/subirImagen/id
 	public function subirImagen($idBache){
-		$this->utiles->debugger($_FILES);
-		/*
-		$this->load->model("Multimedia");
-		$this->Multimedia->subirImagen($idBache);
-		*/
+		$this->utiles->debugger("Subiendo imagen!");
+		if (empty($_FILES)) {
+			return;
+		}
+		//$this->db->trans_begin();
+		$falla = Falla::getInstancia($idBache);
+		$imagen = new Imagen($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_path'));
+		$imagen->falla = $falla;
+		$imagen->save();
+		//$this->db->trans_rollback();
 	}
 
 }

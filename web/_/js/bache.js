@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	debug();
 	Bache.init();
 	$( "#fechaFin").datepicker();
 	$( "#fechaFinReal").datepicker();
@@ -28,7 +27,7 @@ $(document).ready(function(){
 			alertar("Error!", "Falta implementación", "error");
 			//Bache.cambiarReparado();
 		}
-		window.location.reload();
+		//window.location.reload();
 	});
 
 	$("#enviarObservacion").click(function(){
@@ -160,7 +159,7 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
 		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+capitalize(elemento.nombre)+'</label>'));
-		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" value="0.5"/>'));
+		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" required="" placeholder="0.5"/>'));
 		//$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado form-desactivado" value="0.5" disabled=""/>'));
 		$contenedorAtributos.append($unDiv);
 	});
@@ -180,5 +179,4 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var opcion = new Option(capitalize(elemento.nombre), elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
-	//checkFormulario();
 }

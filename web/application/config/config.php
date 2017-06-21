@@ -370,7 +370,10 @@ $config['proxy_ips'] = '';
 |
 */
 
-$config['upload_path'] = './_/img/Multimedias';
+// Tener en cuenta de habilitar los permisos necesarios (recursivamente) en la subida de
+// los diferentes tipos de archivos
+// Constantes para resolver la subida de archivos de fallas
+$config['upload_path'] = '_/Multimedias';
 
 
 

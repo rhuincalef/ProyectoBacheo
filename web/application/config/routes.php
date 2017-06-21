@@ -49,7 +49,6 @@ $route['logout'] = 'publico/logout';
 $route['creacionTipoFalla'] = 'publico/creacionTipoFalla';
 
 $route['get(TiposDeMateriales)'] = 'privado/get$1';
-// $route['get(TipoDeMaterial|TipoDeReparacion)/(\d+)'] = 'privado/get$1/$2';
 $route['get(TipoMaterial|TipoDeReparacion)/(\d+)'] = 'publico/get$1/$2';
 
 /*{3,6}     Between 3 and 6 of characters, tener en cuenta*/
@@ -65,7 +64,6 @@ $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$
 
 
 
-// $route['crearFallaAnonima'] = 'invitado/crearFallaAnonima/$1';
 $route['crearFallaAnonima'] = 'publico/crearFallaAnonima/$1';
 
 
@@ -78,14 +76,13 @@ $route['gety/(TipoFalla)/(\d+)'] = 'publico/gety/$1/$2';
 
 $route['getTiposReparacionPorIDs'] = 'publico/getPorIds/TipoReparacion';
 $route['getTiposFallaPorIDs'] = 'publico/getTiposFallaPorIDs';
-// $route['getCriticidadesPorIDs'] = 'publico/getCriticidadesPorIDs';
 $route['getBaches'] = 'publico/getBaches';
 $route['inicio/getBache/id/(\d+)'] = 'publico/getFalla/$1';
 
 $route['obtenerObservaciones/(\d+)'] = 'publico/obtenerObservaciones/$1';
 $route['asociarObservacion'] = 'publico/asociarObservacion';
 $route['inicio/cambiarEstadoBache'] = 'publico/modificarEstado';
-$route['subirImagen'] = 'publico/subirImagen';
+$route['subirImagen/(\d+)'] = 'publico/subirImagen/$1';
 
 
 $route['registrarUsuario'] = 'publico/registrarUsuario';

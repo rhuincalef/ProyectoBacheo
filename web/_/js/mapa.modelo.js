@@ -159,8 +159,8 @@ var Bacheo = (function(){
 
 
 	function guardarImagenes(idBache) {
-		var direccion = "./index.php/subirImagen/"+idBache;
-		Bacheo.myDropzone.options.url = "./index.php/subirImagen/"+idBache;
+		var direccion = "subirImagen/"+idBache;
+		Bacheo.myDropzone.options.url = "subirImagen/"+idBache;
         console.log("Se inicializo el formulario con el script de carga de imagenes.");
 		Bacheo.myDropzone.processQueue();
 	}

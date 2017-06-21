@@ -8,14 +8,14 @@ class MultimediaModelo extends MY_Model
 		$this->table_name = get_class($this);
 	}
 
-	public function getAll($idFalla)
+	public function get($idMultimedia)
 	{
-		$query = $this->db->get_where('MultimediaModelo', array('idFalla' => $idFalla));
+		$query = $this->db->get_where($this->table_name, array('id' => $idMultimedia));
 		if (empty($query->result()))
 		{
 			throw new MY_BdExcepcion('Sin resultados');
 		}
-		return $query->result();
+		return $query->result()[0];
 	}
 
 	public function save($multimedia)

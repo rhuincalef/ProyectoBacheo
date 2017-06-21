@@ -85,7 +85,7 @@ Bache = (function () {
 			var $indicadores = $("#carousel-indicators");
 			$indicadores.empty();
 			for (var i = 0; rutasImagenes.length > i; i++){
-					$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i]+'"></div>');
+					$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i].nombreArchivo+'"></div>');
 					$indicadores.append('<li data-target="#carousel-example-generic" data-slide-to="'+(i)+'"></li>');
 					if(i==0){
 						$($indicadores.children()[0]).addClass("active");

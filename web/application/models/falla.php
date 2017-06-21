@@ -198,8 +198,12 @@ class Falla implements JsonSerializable {
 
 	public function obtenerImagenes()
 	{
-		/*$imagenes = Multimedia::getAll($this->id);
-		return $imagenes;*/
+		$fallaMultimedia = FallaMultimedia::getAll($this->id);
+		$imagenes = array();
+		foreach ($fallaMultimedia as $value) {
+			array_push($imagenes, Multimedia::get($value->idMultimedia));
+		}
+		return $imagenes;
 	}
 
 	// Metodo llamado por el formulario de twitter para obtener los comentarios de un bache.

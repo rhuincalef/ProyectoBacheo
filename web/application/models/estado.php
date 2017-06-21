@@ -220,7 +220,7 @@
             "alturaCalle" => $falla->direccion->altura,
             "calle" => $falla->direccion->getNombre(),
             "criticidad" => "No se especifica en Informado",
-            "imagenes"=> $falla->obtenerImagenes(),
+            "imagenes"=> json_encode($falla->obtenerImagenes()),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
@@ -390,7 +390,7 @@
             "alturaCalle" => $falla->direccion->altura,
             "calle" => $falla->direccion->callePrincipal->nombre,
             "criticidad" => ucfirst($falla->criticidad->nombre),
-            // "imagenes"=> $this->obtenerImagenes($idBache)
+            "imagenes"=> json_encode($falla->obtenerImagenes()),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
@@ -486,7 +486,7 @@
             "alturaCalle" => $falla->direccion->altura,
             "calle" => $falla->direccion->callePrincipal->nombre,
             "criticidad" => ucfirst($falla->criticidad->nombre),
-            // "imagenes"=> $this->obtenerImagenes($idBache)
+            "imagenes"=> json_encode($falla->obtenerImagenes()),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),

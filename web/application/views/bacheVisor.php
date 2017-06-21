@@ -56,8 +56,6 @@
 
 <!-- Se carga el thumnail por javascript -->
 <?php
-	$firephp->fb("En bache.php, idfalla = ". $id);
-	$firephp->fb("");
 	echo "<script type='text/javascript'>";
 	echo "window.nameSpaceThumbnail.configurar_thumbnail( '".base_url("/_/img/res/generandoArchivos.svg")."' );";
 	echo "window.nameSpaceThumbnail.solicitarDatos('".$id."','".base_url()."');";

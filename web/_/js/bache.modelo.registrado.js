@@ -99,5 +99,12 @@ $(document).ready(function(){
     $(":checkbox").checkboxpicker();
     $(":checkbox").prop("checked", false);
     $(":checkbox").checkboxpicker().change(checkFormulario);
-    //checkFormulario();
+    $('.tabInfo li:eq(1)').click(function(){
+        cargarMateriales();
+        checkFormulario();
+        $(this).unbind('click');
+    });
+    $('.tabInfo li').not(':eq(1)').click(function() {
+        $(":checkbox").prop("checked", false);
+    });
 });

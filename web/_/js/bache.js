@@ -4,8 +4,13 @@ $(document).ready(function(){
 	$( "#fechaFinReal").datepicker();
 
 	url = $('#baseUrlBache').text();
+	imgUrl = $('#imgUrl').text();
+	console.log('Ruta img');
+	console.log(imgUrl);
 	imagenesBache = $('#imagenesBache').text();
-	// Bache.cargarImagenes(url, );
+	console.log('imagenesBache');
+	console.log(imagenesBache);
+	Bache.cargarImagenes(imgUrl, JSON.parse(imagenesBache));
 	Bache.redimensionarImg();
 
 	Bache.comentarios();
@@ -39,15 +44,6 @@ $(document).ready(function(){
 
 	/* Mis aportes....................*/
 	Bacheo.init();
-	$('.tabInfo li:eq(1)').click(function(){
-		cargarMateriales();
-		checkFormulario();
-		$(this).unbind('click');
-	});
-	$('.tabInfo li').not(':eq(1)').click(function() {
-		$(":checkbox").prop("checked", false);
-	});
-
 });
 
 	

@@ -30,4 +30,14 @@ class FallaMultimediaModelo extends MY_Model
 		return $this->db->insert_id();
 	}
 
+	public function getAll($idFalla)
+	{
+		$query = $this->db->get_where($this->table_name, array('idFalla' => $idFalla));
+		if (empty($query->result()))
+		{
+			throw new MY_BdExcepcion('Sin resultados');
+		}
+		return $query->result();
+	}
+
 }

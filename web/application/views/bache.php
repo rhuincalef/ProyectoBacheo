@@ -17,6 +17,7 @@ $firephp = FirePHP::getInstance(true);
 	<label id="latBache"><?php echo $latitud; ?></label>
 	<label id="imagenesBache"><?php echo $imagenes; ?></label>
 	<label id="baseUrlBache"><?php echo $this->config->base_url();?></label>
+	<label id="imgUrl"><?php echo $this->config->base_url($this->config->item('upload_path') . '/' . $id . '/');?></label>
 	<label id="estadoBache"><?php echo $estado;?></label>
 	<label id="tiposEstadoBache"><?php echo $tiposEstado;?></label>
 	<label id="logueado"><?php echo $logueado?></label>

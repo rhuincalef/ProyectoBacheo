@@ -202,13 +202,11 @@ class Privado extends CI_Controller
 				redirect('/', 'refresh');
 				return;
 			}
-
 			$this->output->enable_profiler(FALSE);
 			$bache['logueado'] = $this->ion_auth->logged_in();
 			$bache['usuario'] = $this->ion_auth->user()->row()->username;
-			$bache['admin'] = $this->ion_auth->is_admin(); 
+			$bache['admin'] = $this->ion_auth->is_admin();
 			//$this->template->build_page("bache",$bache);
-
 			$this->template->build_page("bacheRegistrado",$bache);
 		}
 

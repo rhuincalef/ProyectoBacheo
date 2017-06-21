@@ -25,13 +25,12 @@ class Multimedia
 		return $multimedia;
 	}
 
-	static public function getAll($idFalla)
+	static public function get($idMultimedia)
 	{
 		$CI = &get_instance();
-		$multimedias = array();
-		$datos = $CI->MultimediaModelo->getAll($idFalla);
-		$multimedias = array_map(function($obj){ return Multimedia::getInstacia($obj); },$datos);
-		return $multimedias;
+		$datos = $CI->MultimediaModelo->get($idMultimedia);
+		$multimedia = Multimedia::getInstacia($datos);
+		return $multimedia;
 	}
 
 	public function save()

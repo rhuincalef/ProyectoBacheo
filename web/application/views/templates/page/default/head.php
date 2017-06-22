@@ -40,8 +40,10 @@
 	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>
 		<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/noscroll.css">
 
-
 	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script>
+	    <!-- Se carga lib de image-scale -->
+	    <script src="<?php echo $this->config->base_url(); ?>_/js/image-scale/image-scale.js"></script>	    
+	    
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>	    
 		<script>
 			CODIGO_EXITO = 200;

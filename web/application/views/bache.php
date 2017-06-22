@@ -40,6 +40,7 @@ $firephp = FirePHP::getInstance(true);
 			 
 			    </div>
 			    <!-- <div class="item">
+			      <img src="<?php echo $this->config->base_url(); ?>_/img/img404.jpg" width="325px" alt="">
 			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache2.jpg" width="325px"  alt="">
 			    </div> -->
 			    
@@ -55,7 +56,7 @@ $firephp = FirePHP::getInstance(true);
 	</div>
 	
 	<ul class="nav nav-tabs tabInfo" role="tablist">
-	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
+	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Básica</a></li>
 	  <?php 
             if ($logueado) {
              echo '<li><a href="#estado" role="tab" data-toggle="tab">Estado de Falla</a></li>';

@@ -43,7 +43,7 @@
 	</div>
 	
 	<ul class="nav nav-tabs tabInfo" role="tablist">
-	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Basica</a></li>
+	  <li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Básica</a></li>
       <li><a href="#estado" role="tab" data-toggle="tab">Estado de Falla</a></li>
 	  <li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
 	  <li><a href='#visor' role='tab' data-toggle='tab'>Visor nube de puntos</a></li>

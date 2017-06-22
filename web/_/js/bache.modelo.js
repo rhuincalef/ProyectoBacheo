@@ -15,12 +15,10 @@ Bache = (function () {
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
 		baseUrl = $("#baseUrlBache").text();
-		console.log(baseUrl);
-
+		//console.log(baseUrl);
 		logueado= parseInt($("#logueado").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
-
 		var otroLat = latitud-0.0025;
 	
 		if (logueado) {
@@ -85,7 +83,7 @@ Bache = (function () {
 			var $indicadores = $("#carousel-indicators");
 			$indicadores.empty();
 			for (var i = 0; rutasImagenes.length > i; i++){
-					$contenedor.append('<div class="item"><img src="'+urlBase+rutasImagenes[i].nombreArchivo+'"></div>');
+					$contenedor.append('<div class="item"><img class="scale" src="'+urlBase+rutasImagenes[i].nombreArchivo+'"></div>');
 					$indicadores.append('<li data-target="#carousel-example-generic" data-slide-to="'+(i)+'"></li>');
 					if(i==0){
 						$($indicadores.children()[0]).addClass("active");
@@ -97,32 +95,9 @@ Bache = (function () {
 	}
 
 	var redimensionarImg = function() {
-	//		325 x 244
-		var $img = $('.item img');
-		$img.each(function (i, e) {
-			if(e.width > e.height)
-			{
-				var temporal = e.width / e.height;
-				e.width = 325;
-				// $(e).css({'width':'325px'});
-				e.height = 325 / temporal;
-				temporal = 325 / temporal;
-				// $(e).css({'height':temporal});
-				temporal = (244 - e.height) / 2;
-	//			$(e).css({'marginTop':temporal+'px', 'marginBottom':temporal+'px'});
-				temporal = temporal+'px';
-	//			$(e).css({'marginBottom':temporal});
-
-	var $divPadre = $(e).parent();
-
-			}else{
-				var temporal = e.height / e.width;
-				$(e).css({'height':'244px'});
-				$(e).css({'width': 244/temporal});
-				temporal = (325 - e.width) / 2;
-				$(e).css({'marginRight':temporal+'px', 'marginLeft':temporal+'px'});
-			}
-		});
+		$(".scale").css({width: '15em', height: '15em'});
+		$(".scale").imageScale({scale: 'fill', rescaleOnResize: true});
+		return;
 	}
 	
 	var cambiarEstado = function(nuevoEstado){

@@ -2,17 +2,11 @@ $(document).ready(function(){
 	Bache.init();
 	$( "#fechaFin").datepicker();
 	$( "#fechaFinReal").datepicker();
-
 	url = $('#baseUrlBache').text();
 	imgUrl = $('#imgUrl').text();
-	console.log('Ruta img');
-	console.log(imgUrl);
 	imagenesBache = $('#imagenesBache').text();
-	console.log('imagenesBache');
-	console.log(imagenesBache);
 	Bache.cargarImagenes(imgUrl, JSON.parse(imagenesBache));
 	Bache.redimensionarImg();
-
 	Bache.comentarios();
     $("#botonTwitter").click(function(){
     	Bache.comentarTwitter();
@@ -34,14 +28,11 @@ $(document).ready(function(){
 		}
 		//window.location.reload();
 	});
-
 	$("#enviarObservacion").click(function(){
 		Bache.comentar();
 	});
 	$("#formularioComentario")[0].reset();
-	
 	setInterval("Bache.comentarios();",30000);
-
 	/* Mis aportes....................*/
 	Bacheo.init();
 });
@@ -156,11 +147,9 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var $unDiv = $('<div/>');
 		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+capitalize(elemento.nombre)+'</label>'));
 		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" required="" placeholder="0.5"/>'));
-		//$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado form-desactivado" value="0.5" disabled=""/>'));
 		$contenedorAtributos.append($unDiv);
 	});
 	$contenedorAtributos.append($('<label class="control-label col-sm-10 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
-	//var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado form-desactivado" disabled=""></select>');
 	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){

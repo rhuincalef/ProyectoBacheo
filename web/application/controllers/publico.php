@@ -436,8 +436,10 @@ class Publico extends Frontend_Controller
 	public function subirImagen($idBache){
 		$this->utiles->debugger("Subiendo imagen!");
 		if (empty($_FILES)) {
+		$this->utiles->debugger("empty _FILES!");
 			return;
 		}
+		$this->utiles->debugger("a guardar!");
 		//$this->db->trans_begin();
 		$falla = Falla::getInstancia($idBache);
 		$imagen = new Imagen($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_path'));

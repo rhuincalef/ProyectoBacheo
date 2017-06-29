@@ -198,10 +198,14 @@ class Falla implements JsonSerializable {
 
 	public function obtenerImagenes()
 	{
-		$fallaMultimedia = FallaMultimedia::getAll($this->id);
-		$imagenes = array();
-		foreach ($fallaMultimedia as $value) {
-			array_push($imagenes, Multimedia::get($value->idMultimedia));
+		try {
+			$fallaMultimedia = FallaMultimedia::getAll($this->id);
+			$imagenes = array();
+			foreach ($fallaMultimedia as $value) {
+				array_push($imagenes, Multimedia::get($value->idMultimedia));
+			}
+		} catch (MY_BdExcepcion $e) {
+			return array();
 		}
 		return $imagenes;
 	}
@@ -702,6 +706,10 @@ class Falla implements JsonSerializable {
 
     public function calcularMonto()
     {
+    	/* TODO: $this->tipoReparacion valor puede ser null hasta reparando */
+    	if (property_exists($this, 'tipoReparacion')) {
+    		return 0;
+    	}
     	$costoReparacion = $this->tipoReparacion->getCosto();
     	$valorAtributos = array();
     	foreach ($this->atributos as $atributo) {

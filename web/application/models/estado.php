@@ -120,63 +120,63 @@
 			return;
 		}
 
+		/*
+			Datos para Confirmado: 
+				- latitud, longitud y factorArea
+					latitud y longitud se obtuvieron al informar la Falla
+					"falla": {"influencia":2, "factorArea": .2}
+
+				- tipoMaterial: se obtiene a través del tipo de falla
+
+				- tipoFalla (id)
+					"tipoFalla": {"id": 5}
+
+				- criticidad
+					"criticidad": {"id": 9}
+
+				(direccion No va, se obtuvo al informar la Falla)
+				- direccion (callePrincipal, calleSecundariaA, calleSecundariaB y altura)
+					"direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
+
+				- observacion (comentario, -- email y usuario se obtienen de la sesion--)
+					"observacion": {"comentario": "comentario falla"}
+
+				- atributos (array -- es variable, depende del tipo de falla --)
+					"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}]
+
+		{
+			"datos":{
+				"falla": {"id": 1, "factorArea": .2},
+				"observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
+				"tipoFalla": {"id": 88},
+				"criticidad": {"id": 71},
+				"observacion": {"comentario":""}
+				"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
+				"reparacion": {"id":1}
+				"fechaFin":"",
+				"tipoObstruccion":"Parcial",
+				"montoEstimado":""
+			}
+			Probar:..........
+			$.post(
+				"http://localhost/web/index.php/inicio/cambiarEstadoBache",
+				{"datos" : JSON.stringify(
+					{
+						"falla" : {"id": 1, "factorArea": .2},
+						"criticidad" : {"id": 1},
+						"observacion": {"comentario": "comentario falla"},
+						"atributos": [{"id": 1, "valor": '5'},{"id": 2,"valor": '4'}, {"id": 3, "valor": '2'}],
+					}
+				)},
+				function (data) {
+							
+							alertar("Exito!","El bache ha cambiado de estado","success");
+					}	
+			);
+		}
+		*/
 		public function cambiar($falla, $datos=array(), $usuario)
 		{
-			/*
-				Datos para Confirmado: 
-					- latitud, longitud y factorArea
-						latitud y longitud se obtuvieron al informar la Falla
-						"falla": {"influencia":2, "factorArea": .2}
-
-					- tipoMaterial: se obtiene a través del tipo de falla
-
-					- tipoFalla (id)
-						"tipoFalla": {"id": 5}
-
-					- criticidad
-						"criticidad": {"id": 9}
-
-					(direccion No va, se obtuvo al informar la Falla)
-					- direccion (callePrincipal, calleSecundariaA, calleSecundariaB y altura)
-						"direccion": {"altura": 150,"callePrincipal": "calleP", "calleSecundariaA": "calleSA", "calleSecundariaB": "calleSB"}
-
-					- observacion (comentario, -- email y usuario se obtienen de la sesion--)
-						"observacion": {"comentario": "comentario falla"}
-
-					- atributos (array -- es variable, depende del tipo de falla --)
-						"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}]
-
-			{
-				"datos":{
-					"falla": {"id": 1, "factorArea": .2},
-					"observacion": {"comentario": "comentario falla", "nombreObservador": "Pepe", "emailObservador": "pepe@pepe.com"},
-					"tipoFalla": {"id": 88},
-					"criticidad": {"id": 71},
-					"observacion": {"comentario":""}
-					"atributos": [{"id": 9, "valor": '5'},{"id": 10,"valor": '4'}],
-					"reparacion": {"id":1}
-					"fechaFin":"",
-					"tipoObstruccion":"Parcial",
-					"montoEstimado":""
-				}
-				Probar:..........
-				$.post(
-					"http://localhost/web/index.php/inicio/cambiarEstadoBache",
-					{"datos" : JSON.stringify(
-						{
-							"falla" : {"id": 1, "factorArea": .2},
-							"criticidad" : {"id": 1},
-							"observacion": {"comentario": "comentario falla"},
-							"atributos": [{"id": 1, "valor": '5'},{"id": 2,"valor": '4'}, {"id": 3, "valor": '2'}],
-						}
-					)},
-					function (data) {
-								
-								alertar("Exito!","El bache ha cambiado de estado","success");
-						}	
-				);
-			}
-			*/
 			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
 			$nuevoEstado = new Confirmado();
 			$datos->observacion->nombreObservador = $usuario->nombre;
@@ -391,6 +391,7 @@
             "calle" => $falla->direccion->callePrincipal->nombre,
             "criticidad" => ucfirst($falla->criticidad->nombre),
             "imagenes"=> json_encode($falla->obtenerImagenes()),
+            'montoCalculado' => $falla->calcularMonto(),
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),

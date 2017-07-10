@@ -3,7 +3,6 @@ var GestorMaterialesRegistrado = (function (Module) {
     var diccionarioCriticidades = {};
     Module.diccionarioCriticidades = diccionarioCriticidades; 
     Module.obtenerCriticidades = function obtenerCriticidades(idCriticidades,arregloCriticidades) {
-        // another method!
         var criticidadesAPedir = [];
         if (idCriticidades == undefined) {
         	return diccionarioCriticidades;
@@ -18,7 +17,7 @@ var GestorMaterialesRegistrado = (function (Module) {
         	return;
         }
         baseUrl = $("#baseUrlBache").text();
-        $.post(baseUrl+"publico/getCriticidadesPorIDs",{"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
+        $.post(baseUrl+"publico/getCriticidadesPorIDs", {"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
         	var datos = JSON.parse(data);
         	var tipos = JSON.parse(datos.valor);
         	$(tipos).each(function(indice,elemento){
@@ -100,7 +99,7 @@ $(document).ready(function(){
     $(":checkbox").prop("checked", false);
     $(":checkbox").checkboxpicker().change(checkFormulario);
     $('.tabInfo li:eq(1)').click(function(){
-        cargarMateriales();
+        Bache.cargarFormulario();
         checkFormulario();
         $(this).unbind('click');
     });

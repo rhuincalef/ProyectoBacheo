@@ -309,8 +309,7 @@ class Privado extends CI_Controller
 			$usuario->nombre = $user->username;
 			$usuario->email = $user->email;
 			$this->utiles->debugger("datos");
-			// $this->utiles->debugger($datos);
-
+			$this->utiles->debugger($datos->datos);
 			$this->db->trans_begin();
 			$falla = Falla::getInstancia($datos->datos->falla->id);
 			$user = $this->ion_auth->user()->row();
@@ -337,6 +336,8 @@ class Privado extends CI_Controller
 		public function getCriticidadesPorIDs()
 		{
 			$arregloIDsCriticidades = json_decode($this->input->post('arregloIDsCriticidades'));
+			$this->utiles->debugger('arregloIDsCriticidades');
+			$this->utiles->debugger($arregloIDsCriticidades);
 			$criticidades = array();
 			try {
 				foreach ($arregloIDsCriticidades as $key => $value) {

@@ -5,10 +5,11 @@
 	<input id="montoEstimado" placeholder="10" class="form-control" type="number" name="montoEstimado" step="any" min="0"/>
 	
 </div>
+<label class="control-label col-sm-10" for="tipoReparacion"> Tipo de reparación seleccionado: <?php echo $tipoReparacion->nombre; ?></label>
 <label class="control-label col-sm-10" for="tipoReparacion"> Tipo de reparación</label>
 <div class="input-group">
-    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-	<select id="tipoReparacion" placeholder="" class="form-control" name="montoEstimado"></select>	
+    <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
+	<select id="tipoReparacion" placeholder="" class="form-control" name="tipoReparacion"></select>	
 </div>
 <label class="control-label col-sm-10" for="fechaFin"> Fecha fin reparación estimada</label>
 <div class="input-group">

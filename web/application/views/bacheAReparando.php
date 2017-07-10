@@ -4,6 +4,7 @@
     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
     <input id="montoReal" type="number" min="0" step="any" name="montoReal" placeholder="120" class="form-control"/>
 </div>
+<label class="control-label" for="montoReal">Fecha de finalización reparación estimada</label>
 <div class="input-group">
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
     <input id="fechaFinReal" placeholder="<?php date("Y-m-d"); ?>" class="form-control" type="text"/>

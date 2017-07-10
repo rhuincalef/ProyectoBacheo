@@ -15,7 +15,6 @@ Bache = (function () {
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
 		baseUrl = $("#baseUrlBache").text();
-		//console.log(baseUrl);
 		logueado= parseInt($("#logueado").text());
 		latitud = parseFloat($("#latBache").text());
 		longitud = parseFloat($("#longBache").text());
@@ -76,8 +75,11 @@ Bache = (function () {
 			comentarios();
 		});
 	}
+
 	var cargarImagenes = function(urlBase,rutasImagenes) {
+		$("#carousel-example-generic").hide();
 		if(rutasImagenes.length >0){
+			$("#carousel-example-generic").show();
 			var $contenedor = $("#carousel");
 			$contenedor.empty();
 			var $indicadores = $("#carousel-indicators");
@@ -118,6 +120,8 @@ Bache = (function () {
 		datos.material.id = parseInt($("#material option:selected").val());
 		datos.criticidad = {};
 		datos.criticidad.id = parseInt($("#criticidad").val());
+		console.log('datos.criticidad.id');
+		console.log(datos.criticidad.id);
 		// Por cada atributo
 		datos.atributos = [];
 		inputsAtributos = $("#contenedorAtributosFalla input");
@@ -127,8 +131,10 @@ Bache = (function () {
 			atributo.valor = parseFloat(elemento.value);
 			datos.atributos.push(atributo);
 		});
-		datos.reparacion = {};
-		datos.reparacion.id = parseInt($("#tipoReparacion option:selected").val());
+		if (parseInt($("#tipoReparacion option:selected").val())!=0) {
+			datos.reparacion = {};
+			datos.reparacion.id = parseInt($("#tipoReparacion option:selected").val());
+		}
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
@@ -174,6 +180,43 @@ Bache = (function () {
 		datos.falla.id = idBache;
 	}
 
+	var cargarFormAEnReparacion = function() {
+		$.post(baseUrl+"publico/get/Falla/"+idBache,function(data){
+			var falla = JSON.parse(data).valor;
+			console.log(falla);
+			fallas = GestorMateriales.diccionarioTiposFalla;
+			$select = $("#tipoReparacion");
+			var opcion = new Option("No especificada",0,true,true);
+			$select.append(opcion);
+			for(var key in fallas){
+				if (fallas[key].id == falla.tipoFalla.id) {
+					var keysReparaciones = Object.keys(fallas[key].reparaciones);
+					$(keysReparaciones).each(function(indice,elemento){
+						var opcion = new Option(capitalize(fallas[key].reparaciones[indice].nombre),fallas[key].reparaciones[indice].id,true,true);
+						$select.append(opcion);
+					});
+				}
+			}
+			$select.val(0);
+		});
+		console.log("Hacer algo para completar el formulario!!!");
+	}
+
+	var cargarFormAReparado = function() {
+		console.log("Hacer algo para completar el formulario!!!");
+		$("#tipoReparacion");
+	}
+
+	var cargarFormulario = function() {
+		console.log(estado.tipoEstado.nombre);
+		if (estado.tipoEstado.nombre=="Informado")
+			cargarMateriales();
+		if (estado.tipoEstado.nombre=="Confirmado")
+			cargarFormAEnReparacion();
+		if (estado.tipoEstado.nombre=="Reparando")
+			cargarFormAReparado();
+	}
+
 	return{
 		init:init,
 		comentarios:comentarios,
@@ -183,7 +226,8 @@ Bache = (function () {
 		comentarTwitter:comentarTwitter,
 		cambiarEstado:cambiarEstado,
 		cambiarReparando:cambiarReparando,
-		cambiarReparado:cambiarReparado
+		cambiarReparado:cambiarReparado,
+		cargarFormulario:cargarFormulario
 	}
 }());
 
@@ -192,7 +236,6 @@ var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
-/*	var diccionarioCriticidades = {};*/
 	
 	var agregarMaterial = function(datos){
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
@@ -253,40 +296,12 @@ var GestorMateriales = (function(){
 		});
 	};
 
-/*
-	var obtenerCriticidades = function(idCriticidades,arregloCriticidades){
-		var criticidadesAPedir = [];
-		if (idCriticidades == undefined) {
-			return diccionarioCriticidades;
-		};
-		idCriticidades.map(function(k,v){
-			if(diccionarioCriticidades.hasOwnProperty(k))
-				arregloCriticidades.push(diccionarioCriticidades[k]);
-			else
-				criticidadesAPedir.push(k);
-		});
-		if (criticidadesAPedir.length==0) {
-			return;
-		}
-		baseUrl = $("#baseUrlBache").text();
-		$.post(baseUrl+"index.php/publico/getCriticidadesPorIDs",{"arregloIDsCriticidades":JSON.stringify(criticidadesAPedir)}, function(data){
-			var datos = JSON.parse(data);
-			var tipos = JSON.parse(datos.valor);
-			$(tipos).each(function(indice,elemento){
-				criticidad = {"id":elemento.id, "nombre":elemento.nombre, "descripcion":elemento.descripcion};
-				diccionarioCriticidades[criticidad.id] = criticidad;
-				arregloCriticidades.push(criticidad);
-    		});
-		});
-	};
-*/
 	return{
 		agregarMaterial:agregarMaterial,
 		diccionarioTiposFalla:diccionarioTiposFalla,
 		materiales:diccionarioMateriales,
 		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
-		//obtenerCriticidades:obtenerCriticidades,
 		obtenerReparaciones:obtenerReparaciones
 	}
 }());
@@ -297,15 +312,12 @@ var TipoFalla = function(datos){
 		this.nombre = datos.nombre;
 		this.influencia = datos.influencia;
 		this.atributos = [];
-		// this.criticidades = datos.criticidades;
-		//this.criticidades = [];
 		this.reparaciones = [];
 		this.multimedia = null;
 		var _this = this;
 
 		console.log(datos);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
-		//GestorMateriales.obtenerCriticidades(datos.criticidades,_this.criticidades);
 
 		baseUrl = $("#baseUrlBache").text();
 		$.post(baseUrl+"publico/getTiposAtributo", {"idTipos":JSON.stringify(datos.atributos)}, function(data) {

@@ -136,8 +136,8 @@ function cargarTiposFalla(fallas){
 	    });
 	    $opcionesFallas.append(opcion);
 	});
-	$('#tipoFalla').val(fallas[0].id);
 	cargarOpcionesFalla(fallas[0].atributos,fallas[0].reparaciones, fallas[0].criticidades);
+	$opcionesFallas.val(fallas[0].id);
 }
 
 function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
@@ -151,13 +151,15 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	});
 	$contenedorAtributos.append($('<label class="control-label col-sm-10 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
 	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
+	var opcion = new Option("No especificada",0,true,true);
+	$opcionesReparacion.append(opcion);
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
 	    var opcion = new Option(capitalize(reparaciones[elemento].nombre),reparaciones[elemento].id,true,true);
 	    $opcionesReparacion.append(opcion);
 	  });
 	$contenedorAtributos.append($opcionesReparacion);
-
+	$opcionesReparacion.val(0);
 	var $opcionesCriticidades = $('#criticidad');
 	$opcionesCriticidades.empty();
 	$(criticidades).each(function(indice, elemento){

@@ -57,7 +57,7 @@ $route['getCriticidades'] = 'publico/getCriticidades';
 $route['getLazyTiposFalla/(\d+)'] = 'publico/getLazyTiposFalla/$1';
 
 // Restringir a los necesarios
-$route['get/(TipoReparacion|Criticidad|TipoMaterial)/(\d+)'] = 'publico/get/$1/$2';
+$route['get/(TipoReparacion|Criticidad|TipoMaterial|Falla)/(\d+)'] = 'publico/get/$1/$2';
 //$route['getAll/(TipoReparacion|Criticidad|TipoMaterial)'] = 'publico/getAll/$1';
 $route['getAll/(TipoReparacion|Criticidad|TipoMaterial|TipoEstado)'] = 'publico/getAll/$1';
 $route['crear/(TipoReparacion|TipoFalla|TipoMaterial|Falla)'] = 'publico/crear/$1';

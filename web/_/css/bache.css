@@ -163,3 +163,19 @@
     display: inline-grid;
     width: 100%;
 }
+
+#ui-datepicker-div {
+    background: #ccc;
+}
+
+.ui-datepicker .ui-datepicker-header {
+    background: #47a447;
+}
+
+.ui-state-default {
+    background: #47a447 !important;
+}
+
+.ui-icon .ui-icon-circle-triangle-e {
+    background: #000;
+}

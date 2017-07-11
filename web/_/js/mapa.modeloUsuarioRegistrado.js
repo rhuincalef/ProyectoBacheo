@@ -210,12 +210,15 @@ function recolectarFalla(){
 	// datos.tipoFalla = $formulario["tipoFalla"].value;
 	datos.tipoFalla = {};
 	datos.tipoFalla.id = $formulario["tipoFalla"].value;
-	// datos.observacion = $formulario["descripcion"].value;
-	datos.observacion = {};
-	datos.observacion.comentario = $formulario["descripcion"].value;
-	datos.falla.factorArea = parseInt(($formulario["factorArea"].value));
-	datos.reparacion = {};
-	datos.reparacion.id = parseInt($formulario["tipoReparacion"].value);
+	if ($formulario["descripcion"].value.length != 0) {	
+		datos.observacion = {};
+		datos.observacion.comentario = $formulario["descripcion"].value;
+	}
+	datos.falla.factorArea = parseFloat(($formulario["factorArea"].value));
+	if (parseInt($formulario["tipoReparacion"].value) != 0) {
+		datos.reparacion = {};
+		datos.reparacion.id = parseInt($formulario["tipoReparacion"].value);
+	}
 	datos.criticidad = {};
 	datos.criticidad.id = parseInt($formulario["criticidad"].value);
 	var arregloAtributos = $("#contenedorAtributosFalla").find("input");

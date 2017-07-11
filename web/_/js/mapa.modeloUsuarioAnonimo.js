@@ -35,10 +35,12 @@ function recolectarFalla(){
 	datos.direccion.altura = $formulario["altura"].value;
 	datos.tipoFalla = {};
 	datos.tipoFalla.id = $formulario["tipoFalla"].value;
-	datos.observacion = {};
-	datos.observacion.nombreObservador = "Anonimo";
-	datos.observacion.emailObservador = "anonimo@mail.com";
-	datos.observacion.comentario = $formulario["descripcion"].value;
+	if ($('#formularioBache textarea').val().length != 0) {
+		datos.observacion = {};
+		datos.observacion.nombreObservador = "Anónimo";
+		datos.observacion.emailObservador = "anonimo@mail.com";
+		datos.observacion.comentario = $formulario["descripcion"].value;
+	}
 	// Bacheo.Anonimo
 	Bacheo.agregarAnonimo(datos);
 

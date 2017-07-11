@@ -106,4 +106,15 @@ $(document).ready(function(){
     $('.tabInfo li').not(':eq(1)').click(function() {
         $(":checkbox").prop("checked", false);
     });
+    /*
+    $('#sandbox-container .input-append.date').datepicker({
+        clearBtn: true,
+        language: "es",
+        daysOfWeekDisabled: "0,6",
+        daysOfWeekHighlighted: "1,2,3,4,5",
+        calendarWeeks: true,
+        todayHighlight: true,
+        toggleActive: true
+    });
+    */
 });

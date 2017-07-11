@@ -91,5 +91,7 @@ function guardarBache(){
   var calle = $formulario["calle"].value;
   var altura = parseInt($formulario["altura"].value);
   var criticidad = parseInt($formulario["criticidad"].value);
-  var descripcion = $formulario["descripcion"].value;
+  if ($('#formularioBache textarea').val().length != 0) {
+    var descripcion = $formulario["descripcion"].value;
+  }
 }

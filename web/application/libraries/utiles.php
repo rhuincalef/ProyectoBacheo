@@ -48,7 +48,7 @@
 		public function interpret($datos)
 		{
 			$nombre = $this->nombre;
-			$interpretado = true;
+			$interpretado = 1;
 
 			if (!property_exists($datos, $nombre)) {
 				return 0;

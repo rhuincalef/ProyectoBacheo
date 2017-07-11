@@ -145,19 +145,19 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 	$contenedorAtributos.empty();
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
-		$unDiv.append($('<label class="control-label col-sm-4 itemFormularioEstado">'+capitalize(elemento.nombre)+'</label>'));
+		$unDiv.append($('<label class="control-label itemFormularioEstado">'+capitalize(elemento.nombre)+'</label>'));
 		$unDiv.append($('<input type="number" propId="'+elemento.id+'" step="0.1" min="0" class="form-control selectFormulario itemFormularioEstado" required="" placeholder="0.5"/>'));
 		$contenedorAtributos.append($unDiv);
 	});
-	$contenedorAtributos.append($('<label class="control-label col-sm-10 itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
-	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control col-sm-4 itemFormularioEstado"></select>');
+	$contenedorAtributos.append($('<label class="control-label itemFormularioEstado" for="tipoReparacion"> Tipo de Reparación</label>'));
+	var $opcionesReparacion = $('<select id="tipoReparacion" name="tipoReparacion" class="form-control itemFormularioEstado"></select>');
 	var opcion = new Option("No especificada",0,true,true);
 	$opcionesReparacion.append(opcion);
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
-	    var opcion = new Option(capitalize(reparaciones[elemento].nombre),reparaciones[elemento].id,true,true);
-	    $opcionesReparacion.append(opcion);
-	  });
+		var opcion = new Option(capitalize(reparaciones[elemento].nombre),reparaciones[elemento].id,true,true);
+		$opcionesReparacion.append(opcion);
+	});
 	$contenedorAtributos.append($opcionesReparacion);
 	$opcionesReparacion.val(0);
 	var $opcionesCriticidades = $('#criticidad');

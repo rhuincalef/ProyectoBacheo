@@ -141,7 +141,7 @@ class Falla implements JsonSerializable {
 		$terminal4 = new NumericTerminalExpression("id", 'int', false);
 		$noTerminalFalla = new AndExpression(array($terminal1, $terminal2, $terminal3, $terminal4), "falla");
 
-		$terminal1 = new StringTerminalExpression("comentario", "", true);
+		$terminal1 = new StringTerminalExpression("comentario", "");
 		$noTerminalObservacion = new AndExpression(array($terminal1), "observacion");
 
 		$terminal1 = new NumericTerminalExpression("id", 'int', true);
@@ -150,7 +150,7 @@ class Falla implements JsonSerializable {
 		$terminal1 = new NumericTerminalExpression("id", 'int', true);
 		$noTerminalCriticidad = new AndExpression(array($terminal1), "criticidad");
 
-		$terminal1 = new NumericTerminalExpression("id", 'int', true);
+		$terminal1 = new NumericTerminalExpression("id", 'int');
 		$noTerminalReparacion = new AndExpression(array($terminal1), "reparacion");
 
 		$terminal1 = new NumericTerminalExpression("id", 'int', true);
@@ -165,7 +165,7 @@ class Falla implements JsonSerializable {
 /*
 		$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion, $noTerminaTipolFalla, $noTerminaCriticidad, $noTerminalAtributo), "datos");
 */
-		$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminaTipoFalla, $noTerminalCriticidad, $noTerminalDireccion, $noTerminalReparacion, $noTerminalAtributo), "datos");
+		$validator = new AndExpression(array($noTerminalFalla, $noTerminaTipoFalla, $noTerminalCriticidad, $noTerminalDireccion, $noTerminalAtributo), "datos");
 		return $validator->interpret($datos);
 	}
 
@@ -178,9 +178,9 @@ class Falla implements JsonSerializable {
 		$terminal2 = new NumericTerminalExpression("longitud", "double", "true");
 		$noTerminalFalla = new AndExpression(array($terminal1, $terminal2), "falla");
 
-		$terminal1 = new StringTerminalExpression("comentario", "", "true");
-		$terminal2 = new StringTerminalExpression("nombreObservador", "", "true");
-		$terminal3 = new StringTerminalExpression("emailObservador", "", "true");
+		$terminal1 = new StringTerminalExpression("comentario", "");
+		$terminal2 = new StringTerminalExpression("nombreObservador", "");
+		$terminal3 = new StringTerminalExpression("emailObservador", "");
 		$noTerminalObservacion = new AndExpression(array($terminal1, $terminal2, $terminal3), "observacion");
 
 		$terminal1 = new NumericTerminalExpression("id", "int", "true");
@@ -192,7 +192,8 @@ class Falla implements JsonSerializable {
 		$terminal4 = new StringTerminalExpression("calleSecundariaB", "", "true");
 		$noTerminalDireccion = new AndExpression(array($terminal1, $terminal2, $terminal3, $terminal4), "direccion");
 
-		$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion, $noTerminaTipolFalla), "datos");
+		//$validator = new AndExpression(array($noTerminalFalla, $noTerminalObservacion, $noTerminalDireccion, $noTerminaTipolFalla), "datos");
+		$validator = new AndExpression(array($noTerminalFalla, $noTerminalDireccion, $noTerminaTipolFalla), "datos");
 		return $validator->interpret($datos);
 	}
 
@@ -229,7 +230,6 @@ class Falla implements JsonSerializable {
 	{
 		$CI = &get_instance();
 		$CI->utiles->debugger("crearFallaAnonima");
-		
 		$falla = new Falla();
 		$falla->latitud = $datos->falla->latitud;
 		$falla->longitud = $datos->falla->longitud;
@@ -243,9 +243,12 @@ class Falla implements JsonSerializable {
 		$falla->direccion = $falla->insertarDireccion($datos->direccion);
 		// A partir de aca cambia
 		$falla->id = $falla->saveAnonimo();
-		$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
-		$observacion->falla = $falla;
-		$observacion->save();
+		if (property_exists($datos, 'observacion'))
+		{
+			$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
+			$observacion->falla = $falla;
+			$observacion->save();
+		}
 		$falla->estado = new Informado();
 		$falla->estado->falla = $falla;
 		$falla->estado->id = $falla->estado->save();
@@ -291,21 +294,26 @@ class Falla implements JsonSerializable {
 		// TipoReparacion se obtiene a traves del Tipo de Falla
 		// Se establece más tarde en el próximo estado
 		$falla->direccion = $falla->insertarDireccion($datos->direccion);
-		// $falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
-		$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+		if (property_exists($datos, 'reparacion'))
+		{
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+		}
 		$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 		$falla->observaciones = array();
 		// TODO: Ver donde acomodarlo mejor
 		$user = $CI->ion_auth->user()->row();
-		$datos->observacion->nombreObservador = $user->username;
-		$datos->observacion->emailObservador = $user->email;
-		// 
-		$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
-		array_push($falla->observaciones, $observacion);
 		$falla->direccion = $falla->insertarDireccion($datos->direccion);
 		$falla->id = $falla->save();
-		$observacion->falla = $falla;
-		$observacion->save();
+		// 
+		if (property_exists($datos, 'observacion'))
+		{
+			$datos->observacion->nombreObservador = $user->username;
+			$datos->observacion->emailObservador = $user->email;
+			$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
+			array_push($falla->observaciones, $observacion);
+			$observacion->falla = $falla;
+			$observacion->save();
+		}
 		// TipoAtributo
 		$falla->atributos = array_map(function ($atributo)
 		{
@@ -341,19 +349,25 @@ class Falla implements JsonSerializable {
 		// TipoMaterial se obtiene a traves del Tipo de Falla
 		$falla->tipoMaterial = $falla->tipoFalla->getMaterial();
 		// TipoReparacion se obtiene a traves del Tipo de Falla
-		$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+		if (property_exists($datos, 'reparacion'))
+		{
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->reparacion->id);
+		}
 		$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 		// Observacion
 		$falla->observaciones = array();
 		// TODO: Ver donde acomodarlo mejor
 		$user = $CI->ion_auth->user()->row();
-		$datos->observacion->nombreObservador = $user->username;
-		$datos->observacion->emailObservador = $user->email;
-		// 
-		$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
-		$observacion->falla = $falla;
-		$observacion->save();
-		array_push($falla->observaciones, $observacion);
+		if (property_exists($datos, 'observacion'))
+		{
+			$datos->observacion->nombreObservador = $user->username;
+			$datos->observacion->emailObservador = $user->email;
+			// 
+			$observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
+			$observacion->falla = $falla;
+			$observacion->save();
+			array_push($falla->observaciones, $observacion);
+		}
 		// TipoAtributo
 		$falla->atributos = array_map(function ($atributo)
 		{

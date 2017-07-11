@@ -53,7 +53,7 @@ Bache = (function () {
 
 	
 	var comentarios = function() {
-		var url = baseUrl+"index.php/obtenerObservaciones/" + idBache;
+		var url = baseUrl+"publico/obtenerObservaciones/" + idBache;
 		$.get(url, function( data ) {
 				cargarComentarios(JSON.parse(data));
 		});
@@ -109,8 +109,10 @@ Bache = (function () {
 		datos.falla.factorArea = parseFloat($("#factorArea").val());
 		datos.tipoFalla = {};
 		datos.tipoFalla.id = parseInt($("#tipoFalla option:selected").val());
-		datos.observacion = {}
-		datos.observacion.comentario = $('#contenedorFormulario textarea').val();
+		if ($('#formularioBache textarea').val().length != 0) {
+			datos.observacion = {}
+			datos.observacion.comentario = $('#formularioBache textarea').val();
+		}
 		datos.fecha = $("#fechaFin").val();
 		datos.monto = $("#montoEstimado").val();
 
@@ -120,8 +122,6 @@ Bache = (function () {
 		datos.material.id = parseInt($("#material option:selected").val());
 		datos.criticidad = {};
 		datos.criticidad.id = parseInt($("#criticidad").val());
-		console.log('datos.criticidad.id');
-		console.log(datos.criticidad.id);
 		// Por cada atributo
 		datos.atributos = [];
 		inputsAtributos = $("#contenedorAtributosFalla input");

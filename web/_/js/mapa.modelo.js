@@ -187,7 +187,8 @@ var Bacheo = (function(){
 //	var guardarMarcador = function(calle,altura,descripcion,objetoFalla){
 	var guardarMarcador = function(datosFalla){
 		var datos={};
-		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
+		//if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
+		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura))
 			return;
 		obtenerLatLng(datosFalla.direccion.callePrincipal,datosFalla.direccion.altura,function (posicion){
 			datosFalla.falla.latitud = posicion.lat();

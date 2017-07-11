@@ -8,9 +8,9 @@
 <div class="input-group">
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
     <input id="fechaFinReal" placeholder="<?php date("Y-m-d"); ?>" class="form-control" type="text"/>
-</div> 
+</div>
 <!--
-    <div class="input-append date">
+    <div class="sandbox-container input-append date">
       <input type="text" class="span2"><span class="add-on"><i class="icon-th"></i></span>
     </div>
         $('#sandbox-container .input-append.date').datepicker({

@@ -23,7 +23,6 @@
 			$this->nombre = $args[0];
 			$this->descripcion = $args[1];
 			$this->ponderacion = $args[2];
-
 		}
 
 		private function inicializar($datos)
@@ -35,13 +34,11 @@
 
 		static public function getInstancia($id)
 		{
-
 			$CI = &get_instance();
 			$criticidad = new Criticidad();
 			$datos = $CI->CriticidadModelo->get($id);
 			$criticidad->inicializar($datos);		
 			return $criticidad;
-
 		}
 
 		// static public function getCriticidades()
@@ -50,7 +47,6 @@
 			$CI = &get_instance();
 			$criticidades = array();
 			try {
-				// $datos = $CI->CriticidadModelo->getCriticidades();
 				$datos = $CI->CriticidadModelo->get_all();
     			foreach ($datos as $row)
     			{
@@ -71,8 +67,9 @@
 
 		static public function getCriticidadPorNombre($nombre)
 		{
+			log_message('debug', 'getCriticidadPorNombre');
+			log_message('debug', "$nombre");
 			$CI = &get_instance();
-			// $datos = $CI->CriticidadModelo->getCriticidadPorNombre($nombre);
 			$datos = $CI->CriticidadModelo->get_by(array('nombre' => $nombre));
 			$criticidad = new Criticidad();
 			$criticidad->inicializar($datos);
@@ -114,5 +111,5 @@
 			}
 			return $arrayCriticidades;
 		}
+
 	}
- ?>

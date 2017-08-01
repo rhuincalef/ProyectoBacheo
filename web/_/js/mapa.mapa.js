@@ -59,10 +59,49 @@ function inicializar(){
   $("#opcionAgregar").click(function(){
     inicializarFormularioBache();     
   });
+  $("#verReparadas").click(function(e) {
+    e.preventDefault();
+    alertar("La Pucha!","Ver fallas reparadas.","error");
+    /*
+    for (var i = 0; i < Bacheo.marcadores.length; i++) {
+      console.log(i);
+      console.log(Bacheo.marcadores[i]);
+      Bacheo.marcadores[i].marker.setMap(null);
+      Bacheo.marcadoresVisualizados.push(Bacheo.marcadores[i]);
+    }
+    */
+    //Bacheo.marcadores = [];
+    //Bacheo.marcadores.length = 0;
+    console.log(Bacheo.marcadores);
+    Bacheo.arrayCluster.map(function(cluster, i) {
+      cluster.clearMarkers();
+    });
+    Bacheo.marcadoresReparados.map(function(marcador, i) {
+      // body...
+      console.log(i);
+      marcador.agregarAMapa($("#canvasMapa").gmap3("get"));
+    });
+    /*
+    if (this.estado!="Reparado") {
+      var marcador = new google.maps.Marker({
+        position: datos.posicion,
+        map: mapa,
+        title: datos.titulo,
+        icon: icono
+      });
+      marcador.id = this.id;
+      this.marker = marcador;
+      google.maps.event.addListener(marcador,"click", function(){
+        window.open("index.php/inicio/getBache/id/"+marcador.id);
+      });
+    }
+    */
+    /*
+    Deshabilitar filtro de fallas que trabajan con estados que no sea reprado.
+    */
+    return false;
+  });
 }
-
-
-
 
 function bindearEventoClick(e){
 e.preventDefault();
@@ -83,7 +122,6 @@ function capturarCoordenadasBache(e){
   var $altura = $('form[id="formularioBache"]')[0]["altura"];
   Bacheo.obtenerCalle(e.latLng,$calle,$altura);
 }
-
 
 function guardarBache(){
   var $formulario = $('form[id="formularioBache"]')[0];

@@ -13,14 +13,12 @@ function inicializarFormularioBache(){
 	    });
 	    $opcionesFalla.append(opcion);
 	  });
-//	var $divSelect = $('<div id="contenedorSelect" class="input-group tipoFalla"/>');
-	$divSelect.append($('<label class="form-control campoDerecho derechoAmpliado">Tipo de Falla</label>'));
+	$divSelect.append($('<label class="label label-primary form-control campoDerecho derechoAmpliado">Tipo de Falla</label>'));
 	$divSelect.append($opcionesFalla);
 	$("#modaInfoBacheAceptar").unbind();
 	$("#modaInfoBacheAceptar").click(function(){
 		recolectarFalla();
 	});
-
 };
 
 // Bacheo.agregarMarcador

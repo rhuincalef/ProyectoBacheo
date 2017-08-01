@@ -11,8 +11,7 @@
 		var $calleSecundariaB;
 		//AGREGADO RODRIGO
 		var $rangoEstimado1;
-		var $rangoEstimado2;
-		
+		var $rangoEstimado2;		
 		
 		function __construct()
 		{
@@ -41,8 +40,8 @@
 			$this->calleSecundariaA = Calle::getInstancia($datos->idCalleSecundariaA);
 			$this->calleSecundariaB = Calle::getInstancia($datos->idCalleSecundariaB);
 			//AGREGADO RODRIGO
-			$this->rangoEstimado1 = $datos->rangoEstimado1;
-			$this->rangoEstimado2 = $datos->rangoEstimado2;
+			$this->rangoEstimado1 = $datos->rangoestimado1;
+			$this->rangoEstimado2 = $datos->rangoestimado2;
 		}
 
 		static public function getInstancia($id)
@@ -82,6 +81,8 @@
 				$buscar->idCalleSecundariaB = $calleSecundariaB->id;
 				$buscar->altura = $datosDireccion->altura;
 				//AGREGADO RODRIGO
+				log_message('debug', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+				log_message('debug', "$datosDireccion->rangoEstimado1");
 				$buscar->rangoestimado1 = $datosDireccion->rangoEstimado1;
 				$buscar->rangoestimado2 = $datosDireccion->rangoEstimado2;
 				$datos = $CI->DireccionModelo->get_by($buscar);
@@ -115,9 +116,8 @@
 
 		//Agregado Rodrigo
 		public function getRangosEstimados(){
-			return array($this->rangoEstimado1,$this->rangoEstimado2);
-		}
-		
+			return array($this->rangoEstimado1, $this->rangoEstimado2);
+		}		
 
 		//Obtiene la calle, rangoEstimado1-rangoEstimado2, y calleSecundariaA y calleSecundariaB y retorna un array con esa data. 
 	    public static function obtener_datos_direccion_v2($lat,$long){
@@ -191,8 +191,6 @@
 	        return $dataCalle;
 	    }
 
-
-
 	    //AGREGADO RODRIGO
 	    // PRUEBA WEB CON --> http://mygeoposition.com/
 
@@ -219,8 +217,8 @@
 	        CustomLogger::log(APP_CLIENTE_ID);
 	       
 			require_once(GEONAMES_BASE_PATH.AUTO_LOAD_NAME_COMPOSER);
-			require_once(GEONAMES_BASE_PATH.MODULE_GEONAMES_PATH);
-			require_once(GEONAMES_BASE_PATH.MODULE_RESPONSE_PATH);
+			//require_once(GEONAMES_BASE_PATH.MODULE_GEONAMES_PATH);
+			//require_once(GEONAMES_BASE_PATH.MODULE_RESPONSE_PATH);
 
 	    	$client = new \spacedealer\geonames\api\Geonames(APP_CLIENTE_ID);
 	    	$msg = "";
@@ -282,7 +280,6 @@
 			}
 	    }
 
-
 	    //Verifica si lat y long son validas contra una regex
 	    public static function esLatLongValida($lat,$lng){
 	    	if (!preg_match(REGEX_LAT_LONG, $lat)) {
@@ -293,9 +290,6 @@
 	            throw new ExcepcionLatLng('Invalid longitude');
 	        }
 	    }
-
-
-
 
 	    //Retorna TRUE si las coordenadas de la la calle pertenecen a una calle dentro de la ciudad de TW.
 	    //URL de prueba  para Trelew-->
@@ -314,7 +308,6 @@
 	    // 6. $ cd geocoder 
 	    // 7. sudo chmod -R 777 vendor/
 	    // 4. $ composer require willdurand/geocoder
-
 	    public static function estaCalleEnCiudad($lat,$long){
 			require_once('CustomLogger.php');
 			CustomLogger::log('Dentro de es_calle_valida()...');
@@ -361,4 +354,3 @@
 		}
 
 	}
- ?>

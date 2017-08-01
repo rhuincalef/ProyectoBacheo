@@ -19,8 +19,6 @@
     padding-top: 20%;
     width: 30%;
 }
-      
-
 
 .especificacionesBache{
 	float: left;
@@ -44,6 +42,7 @@
     margin-right: 9%;
     margin-top: 2%;
 }
+
 .avatar{
     margin-left: 5%;
     background:url("../img/avatar.png");
@@ -52,6 +51,7 @@
     padding-left: 36px;
     height: 24px;
 }
+
 .comentarioIndividual{
     margin-left: 2%;
     border-radius: 6px;
@@ -63,8 +63,7 @@
     margin-left: 2%;
     margin-right: 2%;
     overflow-y: scroll;
-    width: 90%;
-    
+    width: 90%;    
 }
 
 .formularioComentario{
@@ -167,7 +166,6 @@
 #ui-datepicker-div {
     background: #ccc;
 }
-
 .ui-datepicker .ui-datepicker-header {
     background: #47a447;
 }

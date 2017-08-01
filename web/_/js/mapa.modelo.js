@@ -34,7 +34,6 @@ var GestorMateriales = (function(){
 		return diccionarioMateriales;
 	};
 
-
 	var obtenerFallas = function(idFallas,arregloTipos){
 		var tiposAPedir = [];
 		if(idFallas == undefined){
@@ -59,7 +58,6 @@ var GestorMateriales = (function(){
     		});
 		});
 
-
 	};
 
 	return{
@@ -71,7 +69,6 @@ var GestorMateriales = (function(){
 		obtenerReparaciones:obtenerReparaciones
 	}
 }());
-
 
 var TipoReparacion = function(datos){
 		this.id = datos.id;
@@ -93,12 +90,14 @@ var Material = function(datos){
 		return this;
 	};
 
-
 var Bacheo = (function(){
 	var materiales = [];
 	var criticidadImagen = [];
 	var marcadores = [];
+	var marcadoresVisualizados = [];
+	var marcadoresReparados = [];
 	var cluster;
+	var arrayCluster = [];
 
 	if (typeof google != 'undefined')
 	{
@@ -111,14 +110,13 @@ var Bacheo = (function(){
 	Marcador = function(datos, mapa){
 		this.id = datos.id;
 		this.criticidad = datos.criticidad;
+		this.estado = datos.estado;
+		this.posicion = datos.posicion;
 		console.log(datos);
-		// var estado = JSON.parse(datos.estado);
-		// if (datos.hasOwnProperty("informado")) {
-			console.log("datos.estado");
-			console.log(typeof(datos.estado));
+		console.log("datos.estado");
+		console.log(typeof(datos.estado));
 		if (datos.estado=="Informado") {
 			var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
-			
 		}
 		else {
 			if (datos.estado=="Confirmado") {
@@ -128,19 +126,39 @@ var Bacheo = (function(){
 				var icono = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
 			}
 		}
+		this.icono = icono
+		if (this.estado!="Reparado") {
+			/*
+			var marcador = new google.maps.Marker({
+				position: datos.posicion,
+				map: mapa,
+				title: datos.titulo,
+				icon: icono
+			});
+			marcador.id = this.id;
+			this.marker = marcador;
+			google.maps.event.addListener(marcador,"click", function(){
+				window.open("index.php/inicio/getBache/id/"+marcador.id);
+			});
+			*/
+			this.agregarAMapa(mapa);
+		}
+		return this;
+	}
+
+	Marcador.prototype.agregarAMapa = function (mapa) {
 		var marcador = new google.maps.Marker({
-			position: datos.posicion,
+			position: this.posicion,
 			map: mapa,
-			title: datos.titulo,
-			icon: icono
+			title: this.titulo,
+			icon: this.icono
 		});
 		marcador.id = this.id;
 		this.marker = marcador;
 		google.maps.event.addListener(marcador,"click", function(){
 			window.open("index.php/inicio/getBache/id/"+marcador.id);
 		});
-		return this;
-	};
+	}
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
@@ -153,10 +171,14 @@ var Bacheo = (function(){
 	var cargarMarcador = function(datos){
 		var $mapa = $("#canvasMapa").gmap3("get");
 		var marcador = new Marcador(datos,$mapa);
-		marcadores.push(marcador);
-		cluster.addMarker(marcador.marker,true);
+		if (datos.estado != "Reparado") {
+			marcadores.push(marcador);
+			cluster.addMarker(marcador.marker,true);
+			return;
+		}
+		marcadoresReparados.push(marcador);
+		return;
 	}
-
 
 	function guardarImagenes(idBache) {
 		var direccion = "subirImagen/"+idBache;
@@ -164,7 +186,6 @@ var Bacheo = (function(){
         console.log("Se inicializo el formulario con el script de carga de imagenes.");
 		Bacheo.myDropzone.processQueue();
 	}
-
 
 	function datosValidos (calle, altura, descripcion) {
 		var patron = /(\w+)\s*(\w+)/;
@@ -198,7 +219,6 @@ var Bacheo = (function(){
 	            {"datos": JSON.stringify(datosFalla)},
 	            function(data) {
 	                var respuestaServidor = $.parseJSON(data);
-	                // if(respuestaServidor.estado > -1){
 	                if(respuestaServidor.codigo == 200){
 	                	datos = $.parseJSON(respuestaServidor.valor);
 	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
@@ -270,6 +290,7 @@ var Bacheo = (function(){
 
 		  var map = $contenedor.gmap3("get");
 		  cluster = new MarkerClusterer(map,marcadores);
+		  arrayCluster.push(cluster);
 		  traerBaches();
 	}
 
@@ -293,12 +314,10 @@ var Bacheo = (function(){
 
 	function obtenerMateriales() {
 		$.get( "getAlly/TipoMaterial", function(data) {
-		// $.get( "index.php/publico/getAlly/TipoMaterial", function(data) {
 			console.log(data);
 			var datos = JSON.parse(data);
 			if(datos.codigo ==200){
 				$(JSON.parse(datos.valor)).each(function(indice,elemento){
-	//    			materiales.push({"id":elemento.id,"elemento":new Material(elemento)});
 	    			GestorMateriales.agregarMaterial(elemento);
 	    		});
 				console.log(datos.mensaje);
@@ -350,9 +369,13 @@ return{
 	agregarMarcador:guardarBache,
 	generarMapa:mapa,
 	marcadores:marcadores,
+	cluster:cluster,
+	marcadoresVisualizados:marcadoresVisualizados,
 	obtenerCalle:obtenerCalle,
 	prueba:guardarMarcador,
 	agregarAnonimo:agregarAnonimo,
+	arrayCluster:arrayCluster,
+	marcadoresReparados:marcadoresReparados,
 	init:inicializar
 }
 

@@ -1,8 +1,7 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
  
 class Pcd_upload_model extends CI_Model
 {
-
 
      public static function generarCsv($dir,$nombre_archivo,$content) {
         $data_array = explode("\n",$content);
@@ -10,14 +9,14 @@ class Pcd_upload_model extends CI_Model
         foreach ($data_array as $record){
             $csv.= $record."\n"; //Append data to csv
         }           
-        $ruta = $_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/".$dir."/".$nombre_archivo;
+        //$ruta = $_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/".$dir."/".$nombre_archivo;
+        $ruta = "web/".$dir."/".$nombre_archivo;
         // Se appendea la data al archivo si ya existe en el servidor.
         $csv_handler = fopen ($ruta,'a+');
         $res = fwrite ($csv_handler,$csv);
         fclose ($csv_handler);
         return $res;
     } 
-
 
     //Crea un directorio con permisos de escritura dado por parametro
     public static function  crearDir($upload_path){
@@ -27,8 +26,6 @@ class Pcd_upload_model extends CI_Model
         //chmod($upload_path, 0777);
         umask($anterior);
     }
-
-
 
     // Almacena el .csv en la carpeta de la falla,inserta la tupla en Multimedia, y retorna TRUE si se pudo realizar y FALSE en caso contrario.
     // NOTA IMPORTANTE: La peticion se debe hacer con el siguiente JSON PARA QUE FUNCIONE:
@@ -141,40 +138,42 @@ class Pcd_upload_model extends CI_Model
 
     }
 
-
     public function subir_archivo($carpetaFalla){
-
+        $CI = &get_instance();
         log_message('debug', "Iniciando subir_archivo()... ");
-        $PCD_UPLOAD_FOLDER = "_/dataMultimedia/".$carpetaFalla;
+        $PCD_UPLOAD_FOLDER = getcwd() . '/' . $CI->config->item('pcd_dir').$carpetaFalla;
         //Se obtiene la instancia de la falla en el servidor, y se  
-        // $falla = Falla::getInstancia($id);
-        
         // Leer archivos enviados (desde $_FILES) por POST desde CI -->
         // https://www.codeigniter.com/userguide2/libraries/file_uploading.html
-        $config['upload_path'] = $_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/".$PCD_UPLOAD_FOLDER."/";
-        $this->crearDir($config['upload_path']);
-        
-        //$config['allowed_types'] = '*';
+        $config['upload_path'] = $PCD_UPLOAD_FOLDER."/";
+        $this->crearDir($PCD_UPLOAD_FOLDER);
         $config['allowed_types'] = 'text|txt|csv';
         $config['overwrite'] = FALSE;
         $config['max_size'] = '0';
-
         // Se inicializa la libreria upload con los valores de configuracion. 
         $this->load->library('upload',$config);
         $this->upload->initialize($config);
 
-
         log_message('debug', '$config["upload_path"] construido es ...');
-        log_message('debug', $config['upload_path']);
+        //log_message('debug', $config['upload_path']);
+        log_message('debug', $PCD_UPLOAD_FOLDER);
+        log_message('debug', '$_FILES["file"]');
+        $dump = print_r($_FILES, true);
+        log_message('debug', $dump);
         $archivosSubidos = array();
         //Se recorre el array de archivos enviados en $_FILES
         foreach($_FILES as $nombre_archivo=>$dataArchActual){
+            log_message('debug', '$_FILES');
+            log_message('debug', $nombre_archivo);
+            log_message('debug', $dataArchActual['name']);
+            log_message('debug', $dataArchActual['tmp_name']);
             if ($this->upload->do_upload($nombre_archivo) ) {
                 $res = TRUE;
                 log_message('debug', 'HECHO EL UPLOAD! ');
             }else{
                 $res = FALSE;
                log_message('debug', 'ERROR EN UPLOAD! ');
+               log_message('debug', $this->upload->display_errors());
             }
             log_message('debug', "config.file_name tiene: ");
             log_message('debug',  $this->upload->data()["file_name"]);
@@ -182,12 +181,11 @@ class Pcd_upload_model extends CI_Model
             log_message('debug',  $this->upload->data()['file_type'] );
             log_message('debug', "config.file_size (Kb) tiene: ");
             log_message('debug',  $this->upload->data()['file_size'] );
-            array_push($archivosSubidos, $nombre_archivo);
+            array_push($archivosSubidos, $this->upload->data()["full_path"]);
         }
         log_message('debug', "Fin de subir_archivo()... ");
         return $archivosSubidos;
     }
-
 
     # Retorna solo las fallas con estado "informada".
     # NOTA: La herramienta de debugging envia los msg del servidor en las  cabeceras HTTP, desactivar el debugging del lado del server cuando se pruebe este metodo con la app, sino produce error de cabecera muy larga con requests.   
@@ -196,12 +194,10 @@ class Pcd_upload_model extends CI_Model
         CustomLogger::log('EN Pcd_upload_model.obtener_informados()...');
         
         log_message('debug', 'EN Pcd_upload_model.obtener_informados()...');
-        
         $calleDecodificada = urldecode($calle);
         log_message('debug', "la calle convertida es: ");
         log_message('debug', $calleDecodificada);
         log_message('debug', "--------------+++++++-------------------");
-
         $fallas = Falla::getAll();
         $codigo = 300;
         $mensaje = "No hay elementos para mostrar";
@@ -225,10 +221,4 @@ class Pcd_upload_model extends CI_Model
         return $respuesta;
     }
 
-
-
-    
 }
-
-
-?>

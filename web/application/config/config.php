@@ -194,7 +194,8 @@ $config['log_threshold'] = 4;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
+//$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
+$config['log_path'] = '/home/manjaro-guille/mis_proyectos/ProyectoBacheo/web/_/dataMultimedia/';
 
 /*
 |--------------------------------------------------------------------------
@@ -381,8 +382,8 @@ $config['upload_path'] = '_/Multimedias';
 
 // Constantes para resolver la visualizacion en WebGL
 // $config['main_dir_web_app'] = "/web";
-$config['path_web'] = "/repoProyectoBacheo/web/";
-$config['pcd_dir'] = 'dataMultimedia/';
+$config['path_web'] = "/web/";
+$config['pcd_dir'] = '_/dataMultimedia/';
 $config['dir_csv'] = 'csv_temp/';
 $config['subfijo_csv_pc'] = '_pc.csv' ;
 $config['subfijo_csv_info'] = '_info.csv';

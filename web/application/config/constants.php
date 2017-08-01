@@ -66,13 +66,16 @@ define('APP_CLIENTE_ID', 'appclientetw'); // Displayed to users
 define('AUTO_LOAD_NAME_COMPOSER','vendor/autoload.php');
 
 //Constantes de geonames
-define('GEONAMES_BASE_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/geonames-api/");
+//define('GEONAMES_BASE_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/geonames-api/");
+define('GEONAMES_BASE_PATH',"geonames-api/");
 define('MODULE_GEONAMES_PATH','src/Geonames.php');
 define('MODULE_RESPONSE_PATH','src/Response.php');
 
 //Constantes para geocoderPhp
-define('GEOCODER_PHP_BASE_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/geocoderPhp/");
-define('MODELS_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/application/models/");
+//define('GEOCODER_PHP_BASE_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/geocoderPhp/");
+define('GEOCODER_PHP_BASE_PATH',"geocoderPhp/");
+define('MODELS_PATH',"application/models/");
+//define('MODELS_PATH',$_SERVER['DOCUMENT_ROOT']."/repoProyectoBacheo/web/application/models/");
 
 define('MODULE_CURL_ADAPTER_HTTP','vendor/egeloen/http-adapter/src/CurlHttpAdapter.php');
 define('MODULE_EXCEPCION_LAT_LONG','ExcepcionLatLng.php');
@@ -128,6 +131,8 @@ define('FALLA_INVALIDA',-13);
 define('NOMBRE_EMPLEADO_VIAL_DEFAULT','Empleado vial');
 define('EMAIL_EMPLEADO_VIAL_DEFAULT','municipalidad.tw@gmail.com');
 define('CALLE_NO_OBTENIDA','Calle no calculada');
+
+define('pcd_dir_subida','_/dataMultimedia/');
 
 
 

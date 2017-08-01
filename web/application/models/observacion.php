@@ -51,8 +51,12 @@
 		{
 			$CI = &get_instance();
 			$observaciones = array();
-			$datos = $CI->ObservacionModelo->getAll($idFalla);
-			$observaciones = array_map(function($obj){ return Observacion::getInstacia($obj); },$datos);
+			try {
+				$datos = $CI->ObservacionModelo->getAll($idFalla);
+				$observaciones = array_map(function($obj){ return Observacion::getInstacia($obj); },$datos);
+			} catch (Exception $e) {
+				return $observaciones;
+			}
 			return $observaciones;
 		}
 

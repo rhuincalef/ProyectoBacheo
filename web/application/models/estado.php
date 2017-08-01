@@ -71,7 +71,7 @@
 
 		//AGREGADO RODRIGO
 		//Conserva la falla solamente si esta informada 
-		public function filtrar()
+		public function filtrar($f,$calleDecodificada)
 		{	
 			return NULL;
 		}
@@ -175,8 +175,6 @@
 		{
 			// Por ahora se asume que no se cambia el tipo de falla al confirmar.
 			$nuevoEstado = new Confirmado();
-			$datos->observacion->nombreObservador = $usuario->nombre;
-			$datos->observacion->emailObservador = $usuario->email;
 			$nuevoEstado->usuario = $usuario->id;
 			$CI = &get_instance();
 			$falla->factorArea = $datos->falla->factorArea;
@@ -194,6 +192,8 @@
 			// Por cada tipo de atributo se establece una entrada en la tabla FallaTipoAtributoModelo
 			$falla->asociarAtributos();
 			if (property_exists($datos, 'observacion')) {
+				$datos->observacion->nombreObservador = $usuario->nombre;
+				$datos->observacion->emailObservador = $usuario->email;
 				$falla->observacion = new Observacion($datos->observacion, date("Y-m-d H:i:s"));
 				$falla->observacion->falla = $falla;
 				$falla->observacion->save();
@@ -264,7 +264,7 @@
 			$terminal2 = new NumericTerminalExpression("valor", "double", "true");
 			$noTerminalAtributo = new AndExpression(array($terminal1, $terminal2), "atributos");
 
-			$validator = new AndExpression(array($noTerminalFalla, $noTerminalCriticidad, $noTerminalObservacion, $noTerminalAtributo), "datos");
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalCriticidad, $noTerminalAtributo), "datos");
 			return $validator->interpret($datos);
 		}
 
@@ -484,9 +484,110 @@
             //"observaciones"=>$this->obtenerObservaciones($idBache)
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
-            'tipoFalla' => json_encode($falla->tipoFalla),
+            'tipoFalla' => $falla->tipoFalla,
             'montoCalculado' => $falla->calcularMonto(),
             // "estado" => json_encode($falla->estado),
+            );
+            return $datos;
+		}
+
+		public function cambiar($falla, $datos=array(), $usuario)
+		{
+			/*
+				Datos para Reparando: 
+					- montoReal
+					- fechaFinReparacionReal
+			*/
+			$nuevoEstado = new Reparado();
+			$nuevoEstado->falla = $falla;
+			$nuevoEstado->usuario = $usuario->id;
+			$nuevoEstado->montoReal = $datos->estado->montoReal;
+			$fechaFinReparacionReal = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionReal));
+			$nuevoEstado->fechaFinReparacionReal = $fechaFinReparacionReal;
+			$CI = &get_instance();
+			$CI->utiles->debugger('AAAAAAA...');
+			$CI->utiles->debugger($datos->estado->idTipoReparacion);
+			
+			$nuevoEstado->falla->tipoReparacion = TipoReparacion::getInstancia($datos->estado->idTipoReparacion);
+			$CI->utiles->debugger($nuevoEstado->tipoReparacion);
+			$nuevoEstado->id = $nuevoEstado->saveReparado();
+			$nuevoEstado->falla->actualizarReparacion();
+			return $nuevoEstado;
+		}
+
+		public function validarDatos($datos)
+		{
+			$CI = &get_instance();
+			$CI->utiles->debugger("validarDatos");
+			$terminal1 = new NumericTerminalExpression("id", "int", "true");
+			$noTerminalFalla = new AndExpression(array($terminal1), "falla");
+
+			$terminal1 = new NumericTerminalExpression("montoReal", "double", "true");
+			$terminal2 = new StringTerminalExpression("fechaFinReparacionReal", "", "true");
+			$terminal3 = new NumericTerminalExpression("idTipoReparacion", "int", "true");
+			$noTerminalEstado = new AndExpression(array($terminal1, $terminal2, $terminal3), "estado");
+
+			$validator = new AndExpression(array($noTerminalFalla, $noTerminalEstado), "datos");
+			return $validator->interpret($datos);
+		}
+
+	}
+
+	/**
+	* 
+	*/
+	class Reparado extends Estado
+	{
+		
+		function __construct()
+		{
+			parent::__construct();
+			$this->tipoEstado = TipoEstado::getTipoEstado(get_class($this));
+		}
+
+		static public function getInstancia($datos)
+		{
+			$estado = new Reparado();
+			$estado->inicializar($datos);
+			return $estado;
+		}
+
+		protected function inicializar($datos)
+		{
+			$this->id = $datos->id;
+			$this->falla = $datos->idFalla;
+		}
+
+		public function saveReparado()
+		{
+			$CI = &get_instance();
+			return $CI->EstadoModelo->saveReparado($this);
+		}
+
+		public function inicializarFalla($falla, $datos)
+		{
+			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
+			$falla->factorArea = $datos->areaAfectada;
+			$falla->atributos = Falla::getAtributos($falla->id);
+			return;
+		}
+
+		public function to_array($falla)
+		{
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => ucfirst($falla->criticidad->nombre),
+            "imagenes"=> json_encode($falla->obtenerImagenes()),
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => ucfirst($falla->tipoFalla->nombre),
+            "estado" => get_class($this),
+            'tipoFalla' => $falla->tipoFalla,
+            'montoCalculado' => $falla->calcularMonto(),
             );
             return $datos;
 		}

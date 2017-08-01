@@ -58,13 +58,6 @@
                 <input name="file" type="file" multiple />
               </div>
           </form>
-
-          <!-- <form id="my-awesome-dropzone" action="../inicio/subirImagen/62" class="dropzone cargarImagenes">  
-              <div class="dropzone-previews"></div>
-              <div class="fallback"> 
-                <input name="file" type="file" multiple />
-              </div>
-          </form> -->
  
         </div>
 

@@ -24,9 +24,9 @@ function inicializarFormularioBache(){
 		var indice = $(this).val() - 1;
 		cargarTiposFalla(materiales[indice].fallas);
 	});
-	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Tipo de Material</label>'));
+	$divSelect.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Tipo de Material</label>'));
 	$divSelect.append($opcionesMaterial);
-	$divSelect.append($('<label class="campoIzquierdo izquierdoReducido">Factor Área (%)</label>'));
+	$divSelect.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Factor Área (%)</label>'));
 	$divSelect.append('<input class="form-control campoDerecho derechoAmpliado" name="factorArea" id="factorArea" type="number" step="any" min="0"/>');
 
 	$divSelect.append($('<div id="contenedorSelectFallas" class="input-group" style="width:100%;"/>'));
@@ -137,7 +137,7 @@ var TipoFalla = function(datos){
 function cargarTiposFalla(fallas){
 	var $divSelectFallas = $("#contenedorSelectFallas");
 	$divSelectFallas.empty();
-	$divSelectFallas.append($('<label class="campoIzquierdo izquierdoReducido">Tipo de Falla</label>'));
+	$divSelectFallas.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Tipo de Falla</label>'));
 	var $opcionesFallas = $('<select class="form-control campoDerecho derechoAmpliado" name="tipoFalla" id="tipoFalla"/>');
 	$(fallas).each(function(indice,elemento){
 		var opcion = new Option(elemento.nombre,elemento.id,true,true);
@@ -163,14 +163,14 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 	$contenedorAtributos.empty();
 	$(atributos).each(function(indice,elemento){
 		var $unDiv = $('<div/>');
-		$unDiv.append($('<label class="campoIzquierdo izquierdoReducido">'+elemento.nombre+'</label>'));
+		$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">'+elemento.nombre+'</label>'));
 		$unDiv.append($('<input type="text" propId="'+elemento.id+'" step="any" min="0" class="campoDerecho derechoAmpliado bfh-number"/>'));
 		$contenedorAtributos.append($unDiv);
 	});
 	
 	var $unDiv = $('<div/>');
 	//$unDiv = $("#contenedorAtributosFalla");
-	$unDiv.append($('<label class="campoIzquierdo izquierdoReducido">Reparación</label>'));
+	$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Reparación</label>'));
 	var $opcionesReparacion = $('<select class="form-control campoDerecho derechoAmpliado" name="tipoReparacion" id="tipoReparacion"/>');
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
@@ -182,7 +182,7 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 
 	var $unDiv = $('<div/>');
 	// var $unDiv = $("#contenedorAtributosFalla");
-	$unDiv.append($('<label class="campoIzquierdo izquierdoReducido">Criticidades</label>'));
+	$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Criticidades</label>'));
 	var $opcionesCriticidades = $('<select class="form-control campoDerecho derechoAmpliado" name="criticidad" id="criticidad"/>');
 	$opcionesCriticidades.empty();
 	$(criticidades).each(function(indice, elemento){
@@ -308,15 +308,11 @@ function getDirections(fallas) {
 	directionsService.route(request, function(response, status) {
 	    if (status == google.maps.DirectionsStatus.OK) {
 	        directionsDisplay.setMap($("#canvasMapa").gmap3("get"));
-	        //directionsDisplay.setPanel($("#panel_ruta").get(0));
 	        directionsDisplay.setDirections(response);
 	    } else {
 	    		alertar("laPucha","No existen rutas entre ambos puntos","error");
-	            //alert("No existen rutas entre ambos puntos");
 	    }
 	});
-	/*
-	*/
 }
 
 function limpiarRuta() {

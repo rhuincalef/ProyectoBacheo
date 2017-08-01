@@ -21,16 +21,11 @@
 			    <!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li> -->
 			  </ol>
 
-			 
 			  <div id="carousel" class="carousel-inner">
 			    <div class="item active">
 			      <img src="<?php echo $this->config->base_url(); ?>_/img/img404.jpg" width="325px" alt="">
 			 
 			    </div>
-			    <!-- <div class="item">
-			      <img src="<?php echo $this->config->base_url(); ?>_/img/bache2.jpg" width="325px"  alt="">
-			    </div> -->
-			    
 			  </div>
 
         </div>

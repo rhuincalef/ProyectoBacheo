@@ -86,9 +86,6 @@
                       }
                       echo '<script type="text/javascript"> logearGraficamente("'.$usuario.'");</script>';
                   }?>
-
-
-
                   <li class="divider"></li>
                   <li><a id="cerrarSesion" href="#"><i class="fa fa-lock"> </i> Cerrar Sesión</a></li>
                 </ul>

@@ -199,16 +199,7 @@ class Falla implements JsonSerializable {
 
 	public function obtenerImagenes()
 	{
-		try {
-			$fallaMultimedia = FallaMultimedia::getAll($this->id);
-			$imagenes = array();
-			foreach ($fallaMultimedia as $value) {
-				array_push($imagenes, Multimedia::get($value->idMultimedia));
-			}
-		} catch (MY_BdExcepcion $e) {
-			return array();
-		}
-		return $imagenes;
+		return Imagen::getAll($this);
 	}
 
 	// Metodo llamado por el formulario de twitter para obtener los comentarios de un bache.
@@ -546,7 +537,10 @@ class Falla implements JsonSerializable {
 		                    'msg' => $msgResult);
 		}
 
-		if ($arrDatos["estado"] == FALLA_PHP_PETICION_REST_OK) {
+		log_message('debug', 'arrDaaaaatosososo');
+		log_message('debug', $arrDatos["estado"]);
+		//if ($arrDatos["estado"] == FALLA_PHP_PETICION_REST_OK) {
+		if ($arrDatos["estado"] == DIRECCION_PHP_PETICION_GEOCODING_OK) {
 				log_message('debug',"Dentro del if con 'FALLA_PHP_PETICION_REST_OK' ");
 			$calle= $arrDatos["calle"];
 			//$altura= $arrDatos["altura"];
@@ -581,18 +575,23 @@ class Falla implements JsonSerializable {
 		                        'rangoEstimado2' =>$rangoEstimado2
 		                     	);
 		$dir = Direccion::insertarDireccion((object)$datosDireccion);
+		log_message('debug',"Paso insertarDireccion...");
 
 		#Se instancia el tipo de falla como "Bache".
 			$tipoFalla = TipoFalla::getTipoFallaPorNombre($nombreTipoFalla);
+		log_message('debug',"Paso getTipoFallaPorNombre...");
 
 		#Se instancia el  tipo de material a la falla (Id=0 por defecto)
 		$tipoMaterial = TipoMaterial::getTipoDeMaterialPorNombre($nombreTipoMaterial);
+		log_message('debug',"Paso getTipoDeMaterialPorNombre...");
 
 
 		#Se instancia la criticidad media(id=2 por defecto).
 		$crit = Criticidad::getCriticidadPorNombre($nombreCriticidad);
+		log_message('debug',"Paso getCriticidadPorNombre...");
 
 		$tipoRep = TipoReparacion::getTipoReparacionPorNombre($tipoReparacion);
+		log_message('debug',"Paso getTipoReparacionPorNombre...");
 
 		log_message('debug',"Instanciando falla...");
 		//NOTA: El tipoReparacion se carga desde el sistema web, cuando la falla haya sido reparada.Como esta es una falla recien descubierta es una falla que no tiene un tipoReparacion asociado aun.
@@ -669,8 +668,14 @@ class Falla implements JsonSerializable {
 		log_message('debug', '--------------------------------------------- ');
 		$multimediaCaptura = new Multimedia();
 		$multimediaCaptura->nombreArchivo = $nombre_archivo;
+		$array_file_name = explode('.', $nombre_archivo);
+		$extension = end($array_file_name);
+		//$multimediaCaptura->extension = $extension;
+		$multimediaCaptura->extension = 'csv';
+		$multimediaCaptura->falla = Falla::getInstancia($idFalla);
 		$id_nuevo_mult = $multimediaCaptura->save();
 
+/*
 		log_message('debug', 'Despues de guardar objeto MultimediaModelo ...');
 
 			log_message('debug','Guardando FallaMultimedia');
@@ -679,6 +684,7 @@ class Falla implements JsonSerializable {
 		$obj_fallamult->idMultimedia = $id_nuevo_mult;
 		$obj_fallamult->save();
 		log_message('debug', 'Fin de asociarCapturaAFalla ...');
+		*/
 	}
 
     public function esCalle($calle)
@@ -744,6 +750,12 @@ class Falla implements JsonSerializable {
     		array_push($arrayAtributos, $atributo);
     	}
     	return $arrayAtributos;
+    }
+
+    public function actualizarReparacion()
+    {
+    	$CI = &get_instance();
+    	$datos = $CI->FallaModelo->actualizarPor(array('idTipoReparacion' => $this->tipoReparacion->id));
     }
 
 }

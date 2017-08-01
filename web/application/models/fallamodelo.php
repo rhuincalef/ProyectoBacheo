@@ -106,4 +106,9 @@ class FallaModelo extends MY_Model {
 		return $query->result();
 	}
 
+	public function actualizarPor($value='')
+	{
+		$this->db->update($this->table_name, $value);
+	}
+
 }

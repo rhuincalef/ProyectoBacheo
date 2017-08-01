@@ -167,6 +167,7 @@ CREATE TABLE "MultimediaModelo"
 --  "idFalla" integer NOT NULL,
   id serial NOT NULL,
   "nombreArchivo" character varying NOT NULL,
+  extension character varying NOT NULL,
   CONSTRAINT pk_id_multimedia PRIMARY KEY (id)
 /*  CONSTRAINT pk_id_multimedia PRIMARY KEY ("idFalla","nombreArchivo"),
   CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
@@ -302,7 +303,8 @@ CREATE TABLE "EstadoModelo"
   "idFalla" integer,
   "idUsuario" integer,
   "idTipoEstado" integer,
-  monto double precision,
+  "montoEstimado" double precision,
+  "montoReal" double precision,
   "fechaFinReparacionReal" timestamp,
   "fechaFinReparacionEstimada" timestamp,
   CONSTRAINT pk_id_estado PRIMARY KEY (id),

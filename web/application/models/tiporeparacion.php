@@ -52,6 +52,8 @@ class TipoReparacion
 
 	static public function getTipoReparacionPorNombre($nombre)
 	{
+		log_message('debug', "getTipoReparacionPorNombre");
+		log_message('debug', "$nombre");
 		$CI = &get_instance();
 		$CI->utiles->debugger($nombre);
 		$datos = $CI->TipoReparacionModelo->getTipoDeReparacionPorNombre($nombre);

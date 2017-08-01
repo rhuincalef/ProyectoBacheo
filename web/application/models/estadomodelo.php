@@ -50,10 +50,26 @@
 							array(  'idFalla' => $estado->falla->id,
 									'idUsuario' => $estado->usuario,
 									'idTipoEstado' => $estado->tipoEstado->id,
-									'monto' => $estado->montoEstimado,
+									'montoEstimado' => $estado->montoEstimado,
 									'fechaFinReparacionEstimada' => $estado->fechaFinReparacionEstimada)
 							);
 			return $this->db->insert_id();
 		}
+
+		public function saveReparado($estado)
+		{
+			$this->db->insert($this->table_name,
+							array(  'idFalla' => $estado->falla->id,
+									'idUsuario' => $estado->usuario,
+									'idTipoEstado' => $estado->tipoEstado->id,
+									'montoEstimado' => $estado->montoEstimado,
+									'montoReal' => $estado->montoReal,
+									'fechaFinReparacionEstimada' => $estado->fechaFinReparacionEstimada,
+									'fechaFinReparacionReal' => $estado->fechaFinReparacionReal
+									)
+							);
+			return $this->db->insert_id();
+		}
+
 	}
- ?>
+ 

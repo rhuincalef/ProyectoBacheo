@@ -29,14 +29,18 @@ class DireccionModelo extends MY_Model
 	 */
 	public function get_by($datos)
 	{
+		log_message('debug', '$datos.......');
+		log_message('debug', "$datos->idCallePrincipal");
+		log_message('debug', "$datos->altura");
+		log_message('debug', "$datos->rangoestimado1");
 		$this->utiles->debugger($datos->idCallePrincipal);
 	    // foreach ($datos as $column => $value) {
 	        // $this->db->like("LOWER($column)", strtolower($value));
         $query = $this->db->get_where($this->table_name, array('idCallePrincipal' => $datos->idCallePrincipal,
 			'altura' => $datos->altura,
 			//AGREGADO RODRIGO
-			'rangoestimado1' => $datos->rangoEstimado1,
-			'rangoestimado2' => $datos->rangoEstimado2,
+			'rangoestimado1' => $datos->rangoestimado1,
+			'rangoestimado2' => $datos->rangoestimado2,
 			'idCalleSecundariaA' => $datos->idCalleSecundariaA,
 			'idCalleSecundariaB' => $datos->idCalleSecundariaB
 			)

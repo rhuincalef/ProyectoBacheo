@@ -1,11 +1,33 @@
 $(document).ready(function(){
+	// ----------------- DEFINICIÓN DE IDIOMA ----------------------
+	// Recurso original:
+	// http://reviblog.net/2014/01/07/jquery-ui-datepicker-poner-el-calendario-en-espanol-euskera-o-cualquier-otro-idioma/
+	$.datepicker.regional['es'] = {
+	  closeText: 'Cerrar',
+	  prevText: '<Ant',
+	  nextText: 'Sig>',
+	  currentText: 'Hoy',
+	  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+	  monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+	  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+	  dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+	  dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+	  weekHeader: 'Sm',
+	  dateFormat: 'dd/mm/yy',
+	  firstDay: 1,
+	  isRTL: false,
+	  showMonthAfterYear: false,
+	  yearSuffix: ''
+	};
+	$.datepicker.setDefaults($.datepicker.regional['es']);
+
 	Bache.init();
 	$( "#fechaFin").datepicker();
 	$( "#fechaFinReal").datepicker();
 	url = $('#baseUrlBache').text();
 	imgUrl = $('#imgUrl').text();
 	imagenesBache = $('#imagenesBache').text();
-	Bache.cargarImagenes(imgUrl, JSON.parse(imagenesBache));
+	Bache.cargarImagenes(url, JSON.parse(imagenesBache));
 	Bache.redimensionarImg();
 	Bache.comentarios();
     $("#botonTwitter").click(function(){
@@ -23,8 +45,8 @@ $(document).ready(function(){
 			Bache.cambiarReparando();
 		}
 		if ("Reparando"==nuevoEstado) {
-			alertar("Error!", "Falta implementación", "error");
-			//Bache.cambiarReparado();
+			Bache.cambiarReparado();
+			//alertar("Error!", "Falta implementación", "error");
 		}
 		//window.location.reload();
 	});
@@ -37,7 +59,6 @@ $(document).ready(function(){
 	Bacheo.init();
 });
 
-	
 function cargarComentarios(comentarios) {
 	$comentarios = $('<div id="comentarios" class="divComentarios"></div>');
 	$("#observaciones").empty();
@@ -76,31 +97,19 @@ function inArray(elem,array)
 }
 
 function estadoBache(estado, tiposEstado){
+	console.log("estado");
+	console.log(estado);
 	var indice = parseInt(inArray(estado.tipoEstado, tiposEstado));
-	var valFin = (indice+1) % (tiposEstado.length) + 1;
-	if(valFin == 0){
-		valFin = 4;
-		tiposEstado.push(tiposEstado[0]);
+	if (estado.tipoEstado.nombre=="Reparado") {
+		$($(".nav.nav-tabs.tabInfo").children()[1]).hide()
+	/*
+		$("#tabEstado").hide();
+		$("#tabReparado").show();
+	*/
+		return;
 	}
-	$("#nombreEstado").text("Estado de Falla: "+tiposEstado[indice].nombre);
-	indice = indice + 1;
-	$('#cambiarEstado').text('Cambiar estado a: '+tiposEstado[indice].nombre);
-	$("#contenedorControladorEstado").append('<div id="slider" class="controlEstado"></div>');
-	$( "#slider" ).slider({
-		value:parseInt(indice),
-		min: parseInt(indice),
-		max: valFin,
-		step: 1,
-		slide: function( event, ui ) {
-			var indiceCarga = ui.value;
-			$("#cambiarEstado").empty();
-			$("#cambiarEstado").text("Cambiar estado a: "+tiposEstado[indiceCarga].nombre);
-			cargarFormularioTecnico(indiceCarga);
-		}
-	});
 	cargarFormularioTecnico(indice);
 }
-
 
 function cargarFormularioTecnico (estado) {
 	var $form = $("#formularioEspecificacionesTecnicas");

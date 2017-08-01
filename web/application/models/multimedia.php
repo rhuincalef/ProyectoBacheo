@@ -5,6 +5,7 @@ class Multimedia
 	// var $falla;
 	var $id;
 	var $nombreArchivo;
+	var $extension;
 	
 	function __construct()
 	{
@@ -13,9 +14,9 @@ class Multimedia
 
 	private function inicializar($datos)
 	{
-		// $this->falla = Falla::getInstacia($datos->idFalla);;
 		$this->id = $datos->id;
 		$this->nombreArchivo = $datos->nombreArchivo;
+		$this->extension = $datos->extension;
 	}
 
 	static public function getInstacia($datos)
@@ -35,18 +36,21 @@ class Multimedia
 
 	public function save()
 	{
+		/* Do something. */
 		$CI = &get_instance();
+		//$this->accion();
 		$this->id = $CI->MultimediaModelo->save($this);
-		$this->accion();
+		// asociar_con_falla
+		$CI->FallaMultimediaModelo->save2($this);
 		return $this->id;
 	}
 
 	protected function accion()
-	{
-		
-/*		Utilizado para realizar alguna accion con el objeto multimedia.
-		Por ejemplo, recortarla.*/
-		
+	{		
+		/*		
+		Utilizado para realizar alguna accion con el objeto multimedia.
+		Por ejemplo, recortarla.
+		*/
 	}
 
 	public function crearDirectorio($nombreDir)
@@ -133,6 +137,14 @@ class ImagenMultimedia extends Multimedia
 		$this->nombreArchivo = $nombre;
 	}
 
+	public function save()
+	{
+		$CI = &get_instance();
+		$this->id = $CI->MultimediaModelo->save($this);
+		$this->accion();
+		return $this->id;
+	}
+
 }
 
 /**
@@ -140,14 +152,11 @@ class ImagenMultimedia extends Multimedia
 */
 class Imagen extends Multimedia
 {
+	var $extension;
 
-	function __construct($idBache, $nombre, $fuente, $destino)
+	function __construct()
 	{
-		$this->fuente = $fuente;
-		$this->nombreArchivo = $nombre;
-		$this->idBache = $idBache;
-		$this->destino = $destino;
-		$directorio = $idBache + $destino;
+
 	}
 
 	protected function accion()
@@ -163,8 +172,48 @@ class Imagen extends Multimedia
 		}
 		umask($anterior);
 		move_uploaded_file($this->fuente, $nombreDir . '/' . $this->nombreArchivo);
+		$this->nombreArchivo = $this->destino . '/' . $this->idBache. '/' .$this->nombreArchivo;
+		return $idBache;
+	}
+
+	public function inicializar($idBache, $nombre, $fuente, $destino)
+	{
+		$this->fuente = $fuente;
+		$this->nombreArchivo = $nombre;
+		$this->idBache = $idBache;
+		$this->destino = $destino;
+	}
+
+	public function setType($type)
+	{
+		$this->extension = $type;
+	}
+
+	public function save()
+	{
+		$CI = &get_instance();
+		$this->accion();
+		$this->id = $CI->MultimediaModelo->save($this);
 		// asociar_con_falla
 		$CI->FallaMultimediaModelo->save2($this);
-		return $idBache;
+		return $this->id;
+	}
+
+	static public function getAll($falla)
+	{
+		$imagenes = array();
+		$CI = &get_instance();
+		try {
+			$fallaMultimedia = $CI->FallaMultimedia::getAll($falla->getId());
+			foreach ($fallaMultimedia as $value){
+				$multim = Multimedia::get($value->idMultimedia);
+				if (preg_match('/png|PNG|jpeg|JPEG|gif|GIF|jpg|JPG/', $multim->extension, $matches)) {
+					array_push($imagenes, $multim);
+				}
+			}
+		} catch (MY_BdExcepcion $e) {
+			return array();
+		}
+		return $imagenes;
 	}
 }

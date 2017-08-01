@@ -20,7 +20,10 @@ class MultimediaModelo extends MY_Model
 
 	public function save($multimedia)
 	{
-		$this->db->insert($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo));
+		$this->db->insert($this->table_name, 
+			array('nombreArchivo' => $multimedia->nombreArchivo,
+				  'extension' => $multimedia->extension)
+			);
 		return $this->db->insert_id();
 	}
 

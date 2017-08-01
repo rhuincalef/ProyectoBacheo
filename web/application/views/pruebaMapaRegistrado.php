@@ -138,6 +138,7 @@
 				            echo '<a id="menu-toggle" href="#menu-toggle" hidden="true">';
 				            echo '<i class="fa fa-list-ul" aria-hidden="true">';
 				            echo "</i> Sidebar</a>";
+				            echo "</li>";
 				            */
 				            echo "<script>";
 				            echo '$("#menu-toggle").click(function(e) {';
@@ -145,14 +146,14 @@
 				            echo '$("#wrapper").toggleClass("toggled");';
 				            echo "});";
 				            echo "</script>";
-				            echo "</li>";
 				          }
 				    ?>
 				      <li><a href="<?php echo $this->config->base_url();?>"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
 				      <li class="dropdown">
 				        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-map-marker"></i> Baches<b class="caret"></b></a>
 				        <ul class="dropdown-menu">
-				          <li id="opcionAgregar" ><a><i class="fa fa-plus-circle"> </i> Agregar</a></li>
+				          <li id="opcionAgregar"><a href="#"><i class="fa fa-plus-circle"> </i> Agregar</a></li>
+				          <li><a id="verReparadas" href="#"><i class="fa fa-eye"> </i> Fallas reparadas</a></li>
 				        </ul>
 				      </li>
 				    </ul>

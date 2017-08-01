@@ -67,27 +67,6 @@ class Publico extends Frontend_Controller
 		}
 	}
 
-
-
-	// --------------------------------------------------------------------
-/*
-	public function index()
-	{
-		//$firephp = FirePHP::getInstance(True);
-		//$firephp->log("Index()...");
-		
-		$data['logueado'] = $this->ion_auth->logged_in();
-		if ($data['logueado']){
-			$data['usuario'] = $this->ion_auth->user()->row()->username;
-			$data['admin'] = $this->ion_auth->is_admin();
-			require_once(APPPATH."controllers/privado.php");
-			$privado = new Privado();
-			$privado->index($data);
-		}else{
-			$this->template->build_page("mapa",$data);
-		}
-	}
-*/
 	public function getObservaciones($idFalla)
 	{
 		try{
@@ -129,7 +108,7 @@ class Publico extends Frontend_Controller
 
 	public function getEstado($idFalla){
 		try {
-			$estado = Estado::getEstadoActual($idFalla);
+				$estado = Estado::getEstadoActual($idFalla);
 			echo json_encode($estado);
 		} catch (MY_BdExcepcion $e) {
 			echo "Ha ocurrido un error";
@@ -434,15 +413,17 @@ class Publico extends Frontend_Controller
 	// al servidor.	
 	// http://baseurl/subirImagen/id
 	public function subirImagen($idBache){
-		$this->utiles->debugger("Subiendo imagen!");
 		if (empty($_FILES)) {
-		$this->utiles->debugger("empty _FILES!");
+			$this->utiles->debugger("empty _FILES!");
 			return;
 		}
-		$this->utiles->debugger("a guardar!");
 		//$this->db->trans_begin();
 		$falla = Falla::getInstancia($idBache);
-		$imagen = new Imagen($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_path'));
+		$imagen = new Imagen();
+		$imagen->inicializar($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_path'));
+		$array_file_name = explode('.', $_FILES['file']['name']);
+		$extension = end($array_file_name);
+		$imagen->setType($extension);
 		$imagen->falla = $falla;
 		$imagen->save();
 		//$this->db->trans_rollback();

@@ -115,16 +115,21 @@ var Bacheo = (function(){
 		console.log(datos);
 		console.log("datos.estado");
 		console.log(typeof(datos.estado));
-		if (datos.estado=="Informado") {
-			var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
-		}
-		else {
-			if (datos.estado=="Confirmado") {
-				var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-			}
-			else {
-				var icono = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
-			}
+		switch(datos.estado) {
+			case "Informado":
+				var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
+				break;
+			case "Confirmado":
+				var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png" ;
+				break;
+			case "Reparando":
+				var icono = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png" ;
+				break;
+			case "Reparado":
+				var icono = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" ;
+				break;
+			default:
+				console.log("No se encuentra el estado de la falla a visualizar!!!");
 		}
 		this.icono = icono
 		if (this.estado!="Reparado") {
@@ -183,7 +188,7 @@ var Bacheo = (function(){
 	function guardarImagenes(idBache) {
 		var direccion = "subirImagen/"+idBache;
 		Bacheo.myDropzone.options.url = "subirImagen/"+idBache;
-        console.log("Se inicializo el formulario con el script de carga de imagenes.");
+        console.log("Se inicializó el formulario con el script de carga de imágenes.");
 		Bacheo.myDropzone.processQueue();
 	}
 
@@ -195,7 +200,7 @@ var Bacheo = (function(){
 		};
 		patron =  /^(?:\+|-)?\d+$/;
 		if (!patron.exec(altura)){
-			alertar("Oups!","El parametro del campo 'Altura' contiene errores","error");
+			alertar("Oups!","El parámetro del campo 'Altura' contiene errores","error");
 			return false;
 		};
 		return true;
@@ -308,7 +313,7 @@ var Bacheo = (function(){
 				dato.estado = falla.estado;
 				cargarMarcador(dato);
 			});
-			alertar("Carga Completa","se concluyo la carga de los baches","success");
+			alertar("Carga Completa","Se concluyó la carga de los baches","success");
 		});
 	}
 
@@ -329,7 +334,7 @@ var Bacheo = (function(){
 	}
 
 	function agregarAnonimo(datosFalla) {
-		console.log("Agregar Falla Anonima");
+		console.log("Agregar Falla Anónima");
 		console.log(datosFalla);
 		var datos={};
 		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
@@ -348,7 +353,7 @@ var Bacheo = (function(){
 	                	datos.posicion = new google.maps.LatLng(parseFloat(datos.latitud),parseFloat(datos.longitud));
 	    				cargarMarcador(datos);
 	    				guardarImagenes(datos.id);
-						alertar("Exito!","Bache notificado con exito","success");
+						alertar("Éxito!","Bache notificado con éxito","success");
 						$("#formularioBache")[0].reset();
 
 	    			}else{

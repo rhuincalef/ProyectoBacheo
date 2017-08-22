@@ -333,9 +333,7 @@ function buscarFallasCalle(event) {
 }
 
 $(document).ready(function(){
-
     $("#buscarFallasCalle").click(buscarFallasCalle);
-
     $(".dropdown-menu-side-bar li").click(function( event ) {
     	event.preventDefault();
     	var $target = $( event.currentTarget );

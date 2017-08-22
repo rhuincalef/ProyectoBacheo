@@ -59,46 +59,42 @@ function inicializar(){
   $("#opcionAgregar").click(function(){
     inicializarFormularioBache();     
   });
+  $("#verReparadas").addClass('reparados');
   $("#verReparadas").click(function(e) {
     e.preventDefault();
-    alertar("La Pucha!","Ver fallas reparadas.","error");
-    /*
-    for (var i = 0; i < Bacheo.marcadores.length; i++) {
-      console.log(i);
-      console.log(Bacheo.marcadores[i]);
-      Bacheo.marcadores[i].marker.setMap(null);
-      Bacheo.marcadoresVisualizados.push(Bacheo.marcadores[i]);
-    }
-    */
-    //Bacheo.marcadores = [];
-    //Bacheo.marcadores.length = 0;
-    console.log(Bacheo.marcadores);
-    Bacheo.arrayCluster.map(function(cluster, i) {
-      cluster.clearMarkers();
-    });
-    Bacheo.marcadoresReparados.map(function(marcador, i) {
-      // body...
-      console.log(i);
-      marcador.agregarAMapa($("#canvasMapa").gmap3("get"));
-    });
-    /*
-    if (this.estado!="Reparado") {
-      var marcador = new google.maps.Marker({
-        position: datos.posicion,
-        map: mapa,
-        title: datos.titulo,
-        icon: icono
+    if ($("#verReparadas").hasClass('reparados')) {
+      alertar("La Pucha!","Ver fallas reparadas.","error");
+      $("#verReparadas").removeClass('reparados');
+      console.log(Bacheo.marcadores);
+      Bacheo.arrayCluster.map(function(cluster, i) {
+        cluster.clearMarkers();
       });
-      marcador.id = this.id;
-      this.marker = marcador;
-      google.maps.event.addListener(marcador,"click", function(){
-        window.open("index.php/inicio/getBache/id/"+marcador.id);
+      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"));
+      Bacheo.marcadoresReparados.map(function(marcador, i) {
+        console.log(i);
+        marcador.agregarAMapa($("#canvasMapa").gmap3("get"));
+        cluster.addMarker(marcador.marker, true);
       });
+      Bacheo.arrayCluster.push(cluster);
+      $("#verReparadas").empty();
+      $("#verReparadas").append('<i class="fa fa-eye"> </i>Fallas no reparadas');
+    } else {
+      alertar("La Pucha!","Ver fallas no reparadas.","error");
+      $("#verReparadas").addClass('reparados');
+      console.log(Bacheo.marcadoresReparados);
+      Bacheo.arrayCluster.map(function(cluster, i) {
+        cluster.clearMarkers();
+      });
+      $("#verReparadas").empty();
+      $("#verReparadas").append('<i class="fa fa-eye"> </i>Fallas reparadas');
+      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"));
+      Bacheo.marcadores.map(function(marcador, i) {
+        console.log(i);
+        marcador.agregarAMapa($("#canvasMapa").gmap3("get"));
+        cluster.addMarker(marcador.marker, true);
+      });
+      Bacheo.arrayCluster.push(cluster);
     }
-    */
-    /*
-    Deshabilitar filtro de fallas que trabajan con estados que no sea reprado.
-    */
     return false;
   });
 }

@@ -45,6 +45,7 @@ class Invitado extends CI_Controller {
 
 		$this->output->enable_profiler(FALSE);
 		$bache['logueado'] = FALSE;
+		$this->template->template_name = "invitado";
 		$this->template->build_page("bache",$bache);
 		
 

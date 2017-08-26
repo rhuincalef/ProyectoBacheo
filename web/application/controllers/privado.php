@@ -16,13 +16,12 @@ class Privado extends CI_Controller
 
 	public function index()
 	{
-		
 		$data['logueado'] = $this->ion_auth->logged_in();
 		$data['usuario'] = $this->ion_auth->user()->row()->username;
 		$data['admin'] = $this->ion_auth->is_admin();
 		//$this->template->build_page("mapaRegistrado",$data);
 		$this->template->template_name = "mapa";
-		$this->template->build_page("pruebaMapaRegistrado",$data);
+		$this->template->build_page("mapaRegistrado",$data);
 	}
 
 
@@ -73,13 +72,6 @@ class Privado extends CI_Controller
 
 
 	// --------------------------------------------------------------------
-	
-	public function index1($data){
-		if ($this->ion_auth->logged_in()){
-			$this->template->build_page("mapaRegistrado",$data);
-		}		
-	}
-
 	public function creacionTipoFalla()
 	{
 		$data['logueado'] = $this->ion_auth->logged_in();

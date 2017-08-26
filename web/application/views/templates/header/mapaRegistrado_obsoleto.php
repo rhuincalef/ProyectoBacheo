@@ -7,5 +7,3 @@
 <script src="<?php echo $this->config->base_url(); ?>_/js/mapa.mapa.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/jquery.geocomplete.min.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>_/js/libs/dropZone/dropzone.js"></script>
-<!--
--->

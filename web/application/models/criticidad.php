@@ -30,6 +30,7 @@
 			$this->id = $datos->id;		
 			$this->nombre = $datos->nombre;
 			$this->descripcion = $datos->descripcion;
+			$this->ponderacion = $datos->ponderacion;
 		}
 
 		static public function getInstancia($id)
@@ -41,7 +42,6 @@
 			return $criticidad;
 		}
 
-		// static public function getCriticidades()
 		static public function getAll()
 		{
 			$CI = &get_instance();

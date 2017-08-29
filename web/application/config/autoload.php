@@ -112,9 +112,9 @@ $autoload['language'] = array();
 */
 
 //$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo","TipoEstado","TipoEstadoModelo","Estado","EstadoModelo","TipoRotura","TipoRoturaModelo","TipoMaterial","TipoMaterialModelo","Material","MaterialModelo");
-$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo","TipoEstado","TipoEstadoModelo","Estado","EstadoModelo","TipoMaterial","TipoMaterialModelo", "TipoReparacion", "TipoReparacionModelo", "TipoFalla", "TipoFallaModelo", "TipoAtributo", "TipoAtributoModelo",
+$autoload['model'] = array('CriticidadModelo',"Criticidad","CalleModelo","Calle","DireccionModelo","Direccion","Falla","FallaModelo", "Observacion", "ObservacionModelo","Multimedia","MultimediaModelo","TipoEstado","TipoEstadoModelo","Estado","EstadoModelo","TipoMaterial","TipoMaterialModelo", "TipoReparacion", "TipoReparacionModelo", "TipoFalla", "TipoFallaModelo","TipoAtributo", "TipoAtributoModelo",
 	"FallaMultimedia","FallaMultimediaModelo","TipoFallaTipoReparacion",
-	"TipoFallaTipoReparacionModelo","TipoMaterialTipoFalla","TipoMaterialTipoFallaModelo");
+	"TipoFallaTipoReparacionModelo","TipoMaterialTipoFalla","TipoMaterialTipoFallaModelo","TipoFallaCriticidad","TipoFallaCriticidadModelo");
 
 
 /* End of file autoload.php */

@@ -1,6 +1,6 @@
 /* inicializarFormularioBache: Funcion encargada de renderizar los elementos del formulario
  * segun coresponde a un usuario registrado																		*/
-function inicializarFormularioBache(){
+function inicializarFormularioBache() {
   	Bacheo.myDropzone.removeAllFiles();
 	$("#informacionBache").modal("toggle");
 	var $divSelect = $("#contenedorSelect");
@@ -82,7 +82,6 @@ var GestorMaterialesRegistrado = (function (Module) {
         		$(tipos).each(function(indice,elemento){
 	        		estado = {"id":elemento.id, "nombre":elemento.nombre};
 	        		diccionarioTiposEstado[estado.id] = estado;
-	        		//arregloCriticidades.push(estado);
         		});
     		});
     		return diccionarioTiposEstado;
@@ -134,7 +133,7 @@ var TipoFalla = function(datos){
 
 /* cargarTiposFalla: Obtiene y completa la parte del formulario encargada de presentar los diferentes tipos
  * de falla registrados en el sistema																		*/
-function cargarTiposFalla(fallas){
+function cargarTiposFalla(fallas) {
 	var $divSelectFallas = $("#contenedorSelectFallas");
 	$divSelectFallas.empty();
 	$divSelectFallas.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Tipo de Falla</label>'));
@@ -158,7 +157,7 @@ function cargarTiposFalla(fallas){
 
 /* cargarOpcionesFalla: Agrega al formulario los campos a llenar correspondientes a las propiedades del tipo 
  * de falla especificado en la casilla de seleccion de Tipo de Falla										*/
-function cargarOpcionesFalla(atributos,reparaciones, criticidades){
+function cargarOpcionesFalla(atributos,reparaciones, criticidades) {
 	var $contenedorAtributos = $("#contenedorAtributosFalla");
 	$contenedorAtributos.empty();
 	$(atributos).each(function(indice,elemento){
@@ -169,7 +168,6 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 	});
 	
 	var $unDiv = $('<div/>');
-	//$unDiv = $("#contenedorAtributosFalla");
 	$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Reparación</label>'));
 	var $opcionesReparacion = $('<select class="form-control campoDerecho derechoAmpliado" name="tipoReparacion" id="tipoReparacion"/>');
 	var keysReparaciones = Object.keys(reparaciones);
@@ -181,7 +179,6 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 	$contenedorAtributos.append($unDiv);
 
 	var $unDiv = $('<div/>');
-	// var $unDiv = $("#contenedorAtributosFalla");
 	$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Criticidades</label>'));
 	var $opcionesCriticidades = $('<select class="form-control campoDerecho derechoAmpliado" name="criticidad" id="criticidad"/>');
 	$opcionesCriticidades.empty();
@@ -195,7 +192,7 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades){
 
 
 // Bacheo.agregarMarcador
-function recolectarFalla(){
+function recolectarFalla() {
 	var datos = {};
 	datos.falla = {};
 	datos.direccion = {};
@@ -204,10 +201,8 @@ function recolectarFalla(){
 	datos.direccion.calleSecundariaA = "No tenemos como obtenerlo!!!";
 	datos.direccion.calleSecundariaB = "No tenemos como obtenerlo!!!";
 	datos.direccion.altura = $formulario["altura"].value;
-	// datos.tipoMaterial = $formulario["tipoMaterial"].value;
 	datos.tipoMaterial = {};
 	datos.tipoMaterial.id = parseInt($formulario["tipoMaterial"].value);
-	// datos.tipoFalla = $formulario["tipoFalla"].value;
 	datos.tipoFalla = {};
 	datos.tipoFalla.id = $formulario["tipoFalla"].value;
 	if ($formulario["descripcion"].value.length != 0) {	
@@ -283,7 +278,6 @@ function trazarRuta() {
 
 function getDirections(fallas) {
 	console.log("fallas");
-	//console.log(fallas[0]);
 	console.log(typeof(fallas));
 	if (fallas.length == 0) {
 		alertar("laPucha","No existen fallas.","error");

@@ -387,7 +387,7 @@ $config['pcd_dir'] = '_/dataMultimedia/';
 $config['dir_csv'] = '';
 $config['subfijo_csv_pc'] = '_pc.csv' ;
 $config['subfijo_csv_info'] = '_info.csv';
-$config['img_default'] = 'img_default.png' ;
+$config['img_default'] = '_/img/res/img_default.png' ;
 // TODO: Descomentar esto si se desea emplear la imagen
 // $config['subfijo_img'] = '.png' ;
 

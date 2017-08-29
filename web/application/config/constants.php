@@ -130,7 +130,7 @@ define('FALLA_INVALIDA',-13);
 //Constantes para el comentario por default que se inserta en la BD
 define('NOMBRE_EMPLEADO_VIAL_DEFAULT','Empleado vial');
 define('EMAIL_EMPLEADO_VIAL_DEFAULT','municipalidad.tw@gmail.com');
-define('CALLE_NO_OBTENIDA','Calle no calculada');
+define('CALLE_NO_OBTENIDA','No tenemos como obtenerlo!!!');
 
 define('pcd_dir_subida','_/dataMultimedia/');
 

@@ -38,29 +38,31 @@ class Privado extends CI_Controller
 
 	// Metodo para generar el .csv a partir del csv y la imagen
 	public function obtenerDatosVisualizacion($idFalla){
-		require_once("FirePHP.class.php");
-		$firephp = FirePHP::getInstance(true);
-		$firephp->log("EN obtenerDatosVisualizacion!!");
 		$this->load->helper('url');
 		$CI = &get_instance();
-
-		$dir_raiz = base_url().'_/';
+		$dir_raiz = base_url();
 		$dir_csv = $dir_raiz.$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
+		$CI->utiles->debugger('dir_csv');
+		$CI->utiles->debugger($dir_csv);
 		$valores= array();
-
-		$dir_local = $_SERVER['DOCUMENT_ROOT'].$CI->config->item('path_web')."_/".$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
-		// $firephp->log("Root dir: ".$dir_local);
-		// $firephp->log("Es dir?:". is_dir($dir_local));
-		if (is_dir($dir_local)) {			
-			$pc_csv =  $idFalla.$CI->config->item('subfijo_csv_pc');
-			$info_csv = $idFalla.$CI->config->item('subfijo_csv_info');
+		$dir_local = $_SERVER['DOCUMENT_ROOT'].$CI->config->item('path_web').$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
+		$CI->utiles->debugger('dir_local');
+		$CI->utiles->debugger($dir_local);
+		if (is_dir($dir_local)) {
 			$img_default = $CI->config->item('img_default');
+			$nombre = '';
+			foreach (glob($dir_local."*.csv") as $nombre_fichero) {
+			    $CI->utiles->debugger($nombre_fichero);
+			    $array_nombre = explode('/', $nombre_fichero);
+			    $nombre = $array_nombre[count($array_nombre)-1];
+			}
 			$valores= array(
 				'estado' => 200,
 				'raiz_tmp' => $dir_csv,
-				'csv_nube' => $pc_csv ,
+				//'csv_nube' => $pc_csv ,
+				'csv_nube' => $nombre ,
 				'imagen' => $img_default,
-				'info_csv' => $info_csv );
+				'info_csv' => $nombre );
 		}else{
 			$valores=array(
 				'estado' =>400,

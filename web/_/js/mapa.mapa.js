@@ -62,8 +62,9 @@ function inicializar(){
   $("#verReparadas").addClass('reparados');
   $("#verReparadas").click(function(e) {
     e.preventDefault();
+    $("#verReparadas").empty();
     if ($("#verReparadas").hasClass('reparados')) {
-      alertar("La Pucha!","Ver fallas reparadas.","error");
+      alertar("Fallas","Ver fallas reparadas.","informar");
       $("#verReparadas").removeClass('reparados');
       console.log(Bacheo.marcadores);
       Bacheo.arrayCluster.map(function(cluster, i) {
@@ -76,17 +77,15 @@ function inicializar(){
         cluster.addMarker(marcador.marker, true);
       });
       Bacheo.arrayCluster.push(cluster);
-      $("#verReparadas").empty();
-      $("#verReparadas").append('<i class="fa fa-eye"> </i>Fallas no reparadas');
+      $("#verReparadas").append('<i class="fa fa-eye"></i> Fallas no reparadas');
     } else {
-      alertar("La Pucha!","Ver fallas no reparadas.","error");
+      alertar("Fallas","Ver fallas no reparadas.","informar");
       $("#verReparadas").addClass('reparados');
       console.log(Bacheo.marcadoresReparados);
       Bacheo.arrayCluster.map(function(cluster, i) {
         cluster.clearMarkers();
       });
-      $("#verReparadas").empty();
-      $("#verReparadas").append('<i class="fa fa-eye"> </i>Fallas reparadas');
+      $("#verReparadas").append('<i class="fa fa-eye"></i> Fallas reparadas');
       cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"));
       Bacheo.marcadores.map(function(marcador, i) {
         console.log(i);

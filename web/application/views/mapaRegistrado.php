@@ -52,8 +52,6 @@
 	        				</button>
 	        				<ul class="dropdown-menu dropdown-menu-side-bar" role="menu">
 								<li><a href="#">Filtrado de fallas por calle</a></li>
-								<li><a href="#">Another item</a></li>
-								<li><a href="#">This is a longer item that will not fit properly</a></li>
 							</ul>
 	        			</div>
 	        		</div>

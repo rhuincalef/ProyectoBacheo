@@ -42,7 +42,7 @@
       parsearDatos = function(idFalla,json_final,urlBase){
         // Peticiones del json.
         csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
-        imagen = json_final["raiz_tmp"]+json_final["imagen"];
+        imagen = json_final["imagen"];
         path_csv =json_final["raiz_tmp"]+json_final["info_csv"];
         
         // Se parsea el csv con la descripcion
@@ -86,7 +86,7 @@
 
         // Incluir un metodo en el controlador privado para generar la vista
         // que renderiza el webGL.
-        $("#imagenThumb").attr("src",imagen);
+        $("#imagenThumb").attr("src",urlBase+imagen);
         // $("#botonVisualizador").attr("href","app/views/viewer.php?c=" + idFalla);
 
 

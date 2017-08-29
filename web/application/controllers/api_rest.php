@@ -178,4 +178,14 @@ class Api_rest extends REST_Controller {
         echo json_encode($data);
     }
 
+    #AGREGADO PARA AUTCOMPLETADO DE appCliente
+    public function obtener_sugerencias_calle_get(){
+        require_once('CustomLogger.php');
+        log_message('debug', 'Dentro de obtener_sugerencias_calle_get()..... ');
+        $calle = $this->get('calle');
+        $cantMaxSugerencias = $this->get('cantmaxsugerencias');
+        $sugerencias = Calle::buscarSugerenciasCalles($calle,$cantMaxSugerencias);
+        echo json_encode($sugerencias);
+    }
+
 }

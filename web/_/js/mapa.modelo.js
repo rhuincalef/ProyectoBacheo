@@ -3,13 +3,13 @@ var GestorMateriales = (function(){
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
 	
-	var agregarMaterial = function(datos){
+	var agregarMaterial = function(datos) {
 		if(diccionarioMateriales.hasOwnProperty(datos.id))
 			return diccionarioMateriales[datos.id];
 		diccionarioMateriales[datos.id] = new Material(datos);
 	};
 
-	var obtenerReparaciones = function(idReparaciones,arregloReparaciones){
+	var obtenerReparaciones = function(idReparaciones,arregloReparaciones) {
 		var reparacionesAPedir = [];
 		idReparaciones.map(function(k,v){
 			if(diccionarioTiposReparacion.hasOwnProperty(k))
@@ -30,11 +30,11 @@ var GestorMateriales = (function(){
 		});
 	};
 
-	var obtenerArregloMateriales = function(){
+	var obtenerArregloMateriales = function() {
 		return diccionarioMateriales;
 	};
 
-	var obtenerFallas = function(idFallas,arregloTipos){
+	var obtenerFallas = function(idFallas,arregloTipos) {
 		var tiposAPedir = [];
 		if(idFallas == undefined){
 			return diccionarioTiposFalla;
@@ -60,7 +60,7 @@ var GestorMateriales = (function(){
 
 	};
 
-	return{
+	return {
 		agregarMaterial:agregarMaterial,
 		diccionarioTiposFalla:diccionarioTiposFalla,
 		materiales:diccionarioMateriales,
@@ -107,7 +107,7 @@ var Bacheo = (function(){
 /* Marcador: Objeto que representa la información básica del bache a mostrar en la páguina principal,
  * Es creado cuando desde el servidor se indica que el bache fue agregado de manera correcta, o al
  * obtener los datos del servidor (carga inicial)														*/
-	Marcador = function(datos, mapa){
+	Marcador = function(datos, mapa) {
 		this.id = datos.id;
 		this.criticidad = datos.criticidad;
 		this.estado = datos.estado;
@@ -133,19 +133,6 @@ var Bacheo = (function(){
 		}
 		this.icono = icono
 		if (this.estado!="Reparado") {
-			/*
-			var marcador = new google.maps.Marker({
-				position: datos.posicion,
-				map: mapa,
-				title: datos.titulo,
-				icon: icono
-			});
-			marcador.id = this.id;
-			this.marker = marcador;
-			google.maps.event.addListener(marcador,"click", function(){
-				window.open("index.php/inicio/getBache/id/"+marcador.id);
-			});
-			*/
 			this.agregarAMapa(mapa);
 		}
 		return this;
@@ -167,13 +154,13 @@ var Bacheo = (function(){
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/
-	var guardarBache = function(datos){
+	var guardarBache = function(datos) {
 		guardarMarcador(datos);
 	}
 
 /* cargarMarcador: Funcion en encargada de cargar un marcador para ser visualizado en el mapa.
  * Es utilizada por la carga inicial, al obtener los datos desde el servidor							*/
-	var cargarMarcador = function(datos){
+	var cargarMarcador = function(datos) {
 		var $mapa = $("#canvasMapa").gmap3("get");
 		var marcador = new Marcador(datos,$mapa);
 		if (datos.estado != "Reparado") {
@@ -213,7 +200,6 @@ var Bacheo = (function(){
 //	var guardarMarcador = function(calle,altura,descripcion,objetoFalla){
 	var guardarMarcador = function(datosFalla){
 		var datos={};
-		//if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura, datosFalla.observacion))
 		if (!datosValidos(datosFalla.direccion.callePrincipal, datosFalla.direccion.altura))
 			return;
 		obtenerLatLng(datosFalla.direccion.callePrincipal,datosFalla.direccion.altura,function (posicion){
@@ -256,7 +242,7 @@ var Bacheo = (function(){
 /* obtenerCalle: obtiene, dada una coordenada, la calle mas cercana a la que puede pertenecer, y el
  * rango de numeros en que dicha coordenada puede encontrarse y coloca dichos valores en las
  * variables "calle" y "altura", que corresponden a los inputs de igual nombre del formulario			*/
-	function obtenerCalle(latlng,calle,altura){
+	function obtenerCalle(latlng,calle,altura) {
 		geocoder.geocode({'latLng': latlng}, function(results, status) {
 		    if (status == google.maps.GeocoderStatus.OK) {
 		    	console.log(results[0]);
@@ -278,7 +264,7 @@ var Bacheo = (function(){
 
 /* mapa: Funcion que renderiza un mapa GoogleMap en el contenedor especificado, centrandolo en la 
  * ciudad de Trelew 																					*/
-	var mapa = function($contenedor){
+	var mapa = function($contenedor) {
 		  $contenedor.gmap3({
 		    map:{
 		     	options:{
@@ -364,13 +350,13 @@ var Bacheo = (function(){
 		});
 	}
 
-	var inicializar = function($contenedor){
+	var inicializar = function($contenedor) {
 		mapa($contenedor);
 		obtenerMateriales();
 	};
 /* return no es una funcion!: publica los métodos y propiedades que se puedan acceder, con el nombre
  * especificado 																						*/
-return{
+return {
 	agregarMarcador:guardarBache,
 	generarMapa:mapa,
 	marcadores:marcadores,

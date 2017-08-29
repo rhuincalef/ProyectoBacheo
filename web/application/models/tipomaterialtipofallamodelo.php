@@ -9,8 +9,6 @@
 
 		//Retorna los idsReparacion segun un tipoIdFalla
 		public function getIdsMaterial($idFalla){
-			//require_once('CustomLogger.php');
-			//CustomLogger::log('En getIdsMaterial()...');
 			$rows = $this->get_all();
 			$data = array();
 			foreach ($rows as $row) {
@@ -18,10 +16,18 @@
 					array_push($data,$row);
 				}
 			}
-			//CustomLogger::log('Resultados de getIdsMaterial(): ');
-			//CustomLogger::log($data);
 			return $data;
 		}
+
+		//Retorna un array de ids TipoFalla-TipoMaterial
+        public function getMaterialesAsociados($idTipoFalla)
+        {
+            $query = $this->db->get_where('TipoMaterialTipoFallaModelo', array('idTipoFalla' => $idTipoFalla));
+            if (empty($query->result())) {
+             throw new MY_BdExcepcion('Sin resultados de criticidad');
+            }
+            return $query->result();
+        }
 
 }
 

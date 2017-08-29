@@ -16,13 +16,6 @@
             <ul class="nav navbar-nav">
               <li><a href="<?php echo $this->config->base_url();?>"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
             </ul>
-
-             <form class="navbar-form navbar-left" role="search">
-              <div class="form-group cuadroBusqueda">
-                <input id="buscarCalle" type="text" placeholder="">
-                <i class="fa fa-search"></i>
-              </div>
-            </form>
             <ul class="nav navbar-nav navbar-right">
               <li id="opcionInicioSesion" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i> Iniciar Sesión <b class="caret"></b></a>
@@ -39,7 +32,6 @@
                       </div>
                   </div>
                 </li>
-          
               </ul>
               </li>
               <li id="opcionSesion" class="dropdown hide">

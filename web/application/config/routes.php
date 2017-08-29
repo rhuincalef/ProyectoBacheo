@@ -102,10 +102,7 @@ $route['restapi/upload_pcd'] = "publico/subir_pcd/format/json";
 $route['restapi/obtener_informados/calle/(:any)'] = "publico/obtener_informados/calle/$1/format/json";
 
 //$route['restapi/obtener_informados/calle/([\w]+)'] = "publico/obtener_informados/calle/$1/format/json";
-
-
 $route['restapi/obtener_datos_direccion/latitud/(:any)/longitud/(:any)'] = "publico/obtener_datos_direccion/latitud/$1/longitud/$2/format/json";
-
 
 $route['restapi/es_calle_valida/latitud/(:any)/longitud/(:any)'] = "publico/es_calle_valida/latitud/$1/longitud/$2/format/json";
 
@@ -113,28 +110,17 @@ $route['restapi/prueba'] = "publico/prueba/";
 
 $route['restapi/obtener_interseccion/latitud/(:any)/longitud/(:any)'] = "publico/obtener_interseccion/latitud/$1/longitud/$2/format/json";
 
-
 $route['restapi/obtener_info_adicional'] = "publico/obtener_info_adicional/format/json";
-
-
 
 $route['restapi/obtener_props_confirmadas'] = "publico/obtener_props_confirmadas/format/json";
 
-
-
-//$route['restapi/obtener_datos_direccion/latitud/(\d+).(\d+)/longitud/(\d+).(\d+)'] = 
-//	"publico/prueba";
-
-
+#AGREGADO PARA AUTOCOMPLETADO
+$route['restapi/obtener_sugerencias_calle/calle/(:any)/cantmaxsugerencias/(:any)'] = "publico/obtener_sugerencias_calle/calle/$1/cantmaxsugerencias/$2/format/json";
 
 // Utilizacion
 //"application/helpers/generar_csv_php/generar_csv.php?idFalla="+idFalla+"&raizTmp="+json_estado.raiz_tmp
 // Ruta que genera el csv con una descripcion.
 // $route['generarDescripcion/(\d+)/(\s+)'] = "publico/generarDescripcion/$1/$2";
-
-
-
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

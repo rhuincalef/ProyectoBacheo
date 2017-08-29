@@ -149,7 +149,8 @@
             worker: true,
             step: function(row) {
               var line = row.data[0];
-              if (line.length != 6) return;
+              //if (line.length != 6) return;
+              if (line.length != 6 && line.length != 3) return;
 
               // Point
               var x = parseFloat(line[0]);
@@ -163,9 +164,13 @@
               if(z<min_z) min_z = z;
               webGL.vertices.push(new THREE.Vector3(x, y, z));
 
-              // Color
-              var color = 'rgb(' + line[3] + ',' + line[4] + ',' + line[5] + ')';
-              webGL.colores.push(new THREE.Color(colorToHex(color)));
+              if (line.length == 6) {
+                // Color
+                var color = 'rgb(' + line[3] + ',' + line[4] + ',' + line[5] + ')';
+                webGL.colores.push(new THREE.Color(colorToHex(color)));
+              } else {
+                webGL.colores.push(new THREE.Color(colorToHex('rgb(255,0,0)')));
+              } 
 
               // freq++;
               // if (freq > 2000) {

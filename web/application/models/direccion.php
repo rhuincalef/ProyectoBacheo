@@ -80,6 +80,11 @@
 				$buscar->idCalleSecundariaA = $calleSecundariaA->id;
 				$buscar->idCalleSecundariaB = $calleSecundariaB->id;
 				$buscar->altura = $datosDireccion->altura;
+				if ($datosDireccion->altura < 0) {
+					$buscar->altura = $datosDireccion->rangoEstimado1;
+				}else{
+					$buscar->altura = $datosDireccion->altura;
+				}
 				//AGREGADO RODRIGO
 				log_message('debug', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 				log_message('debug', "$datosDireccion->rangoEstimado1");
@@ -90,7 +95,11 @@
 				log_message('debug',"Inicializando direccion guardada anteriormente... ");
 			} catch (MY_BdExcepcion $e) {
 				log_message('debug',"Excepcion en Direccion.insertarDireccion().Insertando nuevo elemento direccion en BD...");
-				$direccion->altura = $datosDireccion->altura;
+				if ($datosDireccion->altura < 0) {
+					$direccion->altura = $datosDireccion->rangoEstimado1;
+				}else{
+					$direccion->altura = $datosDireccion->altura;
+				}
 				//AGREGADO RODRIGO
 				$direccion->rangoestimado1 = $datosDireccion->rangoEstimado1;
 				$direccion->rangoestimado2 = $datosDireccion->rangoEstimado2;

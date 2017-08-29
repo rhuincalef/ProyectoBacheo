@@ -125,7 +125,8 @@
 
         
         // Init the geometry
-        webGL.pointSize = 0.015;
+        //webGL.pointSize = 0.015;
+        webGL.pointSize = 0.01;
         // webGL.geometry = new THREE.Geometry({dynamic:true});
         // webGL.material = new THREE.ParticleBasicMaterial({size:webGL.pointSize, vertexColors:true});
 

@@ -26,28 +26,21 @@
 
 	<!-- Contenedor para renderizar la nube con webGL -->
 	<div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;" >
-		<button id="boton-info"   data-toggle="collapse"   data-target="#datos-falla"   type="button" 
-		class="btn btn-primary boton-personalizado btn-lg ">Info
-			<span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-		</button>
-		<!-- Boton de regreso -->
-		<button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button" 
-		class="btn btn-primary boton-personalizado btn-lg ">Regresar </button>
-		<div id ="error-alert" style="display:none; ">Error al cargar el csv remoto</div>
-
+		<div class="row">
+			<button id="boton-info"   data-toggle="collapse"   data-target="#datos-falla" type="button" 
+			class="btn btn-primary boton-personalizado btn-lg">Info
+				<span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+			</button>
+			<!-- Boton de regreso -->
+			<button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button" 
+			class="btn btn-primary boton-personalizado btn-lg ">Regresar </button>
+			<div id ="error-alert" style="display:none; ">Error al cargar el csv remoto</div>
+		</div>
 		<!-- Barra de progreso activada por .js -->
 		<!-- <div id="progressbar-container" class="progress progress-striped" style="position:absolute;left:10px !important; z-index:999999; width:50%; top:50%;">
 			<div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">3%</div>
 		</div> -->
 	</div>
-
-	<!--Separador -->
-	<div class="row" style="text-align:center;">
-		<div class="col-lg-12 col-sm-12 col-xs-12">
-			<hr>
-		</div>
-	</div>
-
 	<!-- Tabla donde se muestra la info de la falla. -->
 	<!-- <div id = "datos-falla" style="width:300px;"></div> -->
 

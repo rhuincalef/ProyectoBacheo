@@ -700,14 +700,17 @@ class Falla implements JsonSerializable {
     static public function getFallasPorTipoFalla($idTipoFalla)
     {
     	$CI = &get_instance();
+    	$idsFalla = array();
     	try {	    		
 			$idsFalla = $CI->FallaModelo->getFallasPorTipoFalla($idTipoFalla);
+			$CI->utiles->debugger($idsFalla);
     	} catch (MY_BdExcepcion $e) {
     		$idsFalla = array();
     	}
 		$fallas = array();
 		foreach ($idsFalla as $key => $value) {
-			array_push($fallas, Falla::getInstancia($value->id));
+    	$fallita = Falla::getInstancia($value->id);
+			array_push($fallas, $fallita);
 		}
 		return $fallas;
     }

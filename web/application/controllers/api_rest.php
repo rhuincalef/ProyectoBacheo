@@ -87,9 +87,7 @@ class Api_rest extends REST_Controller {
             ];
             $this->response($message,PETICION_REST_FALLO);
         }
-
     }
-
 
     //Obtiene las fallas informadas y las retorna en un array asociativo
     //TODO: Modificar appCliente para que si el codigo de respuesta es 
@@ -128,13 +126,11 @@ class Api_rest extends REST_Controller {
         echo json_encode($respuesta);
     }
 
-
     //Prueba con Belgrano -->
     // http://localhost/repoProyectoBacheo/web/restapi/obtener_interseccion/latitud/-43.269823/longitud/-65.287003
     //
     // Respuesta -->
-    //{"estado":0,"mensaje":"OK","datos":{"calle1":"Belgrano","calle2":"E. Owen","distancia":40}}
-    
+    //{"estado":0,"mensaje":"OK","datos":{"calle1":"Belgrano","calle2":"E. Owen","distancia":40}}    
     public function obtener_interseccion_get(){
         require_once('CustomLogger.php');
         CustomLogger::log('EN obtener_interseccion()...');
@@ -151,7 +147,6 @@ class Api_rest extends REST_Controller {
     }
 
     // http://localhost/repoProyectoBacheo/web/restapi/es_calle_valida/latitud/-43.2613433/longitud/-65.2985527
-
     public function es_calle_valida_get(){
         require_once('CustomLogger.php');
         CustomLogger::log('Dentro de es_calle_valida_get()...');
@@ -167,7 +162,6 @@ class Api_rest extends REST_Controller {
         $data = TipoMaterial::getTiposMaterialYCriticidad();
         echo json_encode($data);
     }
-
 
     # URL DE PRUEBA-->
     # http://localhost/repoProyectoBacheo/web/restapi/obtener_props_confirmadas 

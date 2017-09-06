@@ -193,7 +193,7 @@
         // Se oculta la imagen
         $("#cargando-gif").fadeOut();
         $("#containerWebGL").fadeIn();
-        $("#boton-info").fadeIn();
+        //$("#boton-info").fadeIn();
 
         // Build the scene
         var geometry = new THREE.Geometry({dynamic:true});
@@ -218,6 +218,10 @@
         pointcloudLoaded = true;
         render();
         animate();
+        $('canvas').css({'border':'1px solid'});
+        $('canvas').css({'border-radius':'10px'});
+        $('canvas').css({'border-color':'rgb(0, 93, 179)'});
+        $('canvas').css({'margin-top':'1em'});
       }
 
       // Funciones de asociacion de eventos de zoom con el canvas.

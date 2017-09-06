@@ -361,9 +361,6 @@ class Publico extends Frontend_Controller
 		$calle = $this->input->post('calle');
 		$idsTiposFalla = json_decode($this->input->post('tiposFalla'));
 		$idsEstadoFalla = json_decode($this->input->post('estados'));
-		/*
-		$this->utiles->debugger(boolval(in_array(-1,$idsTiposFalla)));
-		*/
 		$fallasPorTipoFalla = array();
 		/* Si el valor en idsTiposFalla es -1 se debe obtener las fallas por todos los
 		   tipos de fallas */
@@ -375,7 +372,8 @@ class Publico extends Frontend_Controller
 			}
 		}
 		foreach ($idsTiposFalla as $value) {
-			$fallasPorTipoFalla = $fallasPorTipoFalla + Falla::getFallasPorTipoFalla($value);
+			$mini_fallas = Falla::getFallasPorTipoFalla($value);
+			$fallasPorTipoFalla = array_merge($fallasPorTipoFalla, $mini_fallas);
 		}
 		$fallasPorCalle = array_filter($fallasPorTipoFalla,
 			function ($falla) use ($calle)

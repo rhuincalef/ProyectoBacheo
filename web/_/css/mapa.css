@@ -133,3 +133,9 @@
 	border-width: 0.5px;
 	border-color: rgba(0, 0, 0, 0.25);
 }
+
+.dropzone .dz-default.dz-message {
+	background-size: 60% 70%;
+	background-position-x: 40% !important;
+	background-position-y: 40% !important;
+}

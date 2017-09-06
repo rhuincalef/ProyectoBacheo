@@ -62,7 +62,7 @@
 
 		public function esCalle($calle)
 		{
-			return !strcmp($this->nombre, $calle);
+			return !strcmp(strtolower($this->nombre), strtolower($calle));
 		}
 
 		#AGREGADO PARA AUTOCOMPLETADO CON appCliente        

@@ -11,7 +11,6 @@ class Privado extends CI_Controller
 		// Se quitan los delimitadores que devuelven los mensajes como <p/>
 		$this->ion_auth->set_message_delimiters('', '');
 		$this->ion_auth->set_error_delimiters('', '');
-		// $this->load->helper('url');
 	}
 
 	public function index()
@@ -131,7 +130,6 @@ class Privado extends CI_Controller
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
 			$this->utiles->debugger("return");
 			$this->utiles->debugger($object);
-
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => json_encode($object)));
 			// Por ahora siempre deshacemos
 			// $this->db->trans_rollback();
@@ -188,20 +186,24 @@ class Privado extends CI_Controller
 		public function getFalla($id)
 		{
 			$get = $this->uri->uri_to_assoc();
-			$falla = Falla::getInstancia($id);
-			$bache = $falla->to_array();
-			$bache['estado'] = json_encode($falla->estado);
-			$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
-			if (!isset($bache)) {
-				redirect('/', 'refresh');
-				return;
+			try {
+				$falla = Falla::getInstancia($id);
+				$bache = $falla->to_array();
+				$bache['estado'] = json_encode($falla->estado);
+				$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
+				if (!isset($bache)) {
+					redirect('/', 'refresh');
+					return;
+				}
+				$this->output->enable_profiler(FALSE);
+				$bache['logueado'] = $this->ion_auth->logged_in();
+				$bache['usuario'] = $this->ion_auth->user()->row()->username;
+				$bache['admin'] = $this->ion_auth->is_admin();
+				$this->template->template_name = "bache";
+				$this->template->build_page("bacheRegistrado",$bache);
+			} catch (Exception $e) {
+				redirect(base_url().'errori/error_404', 'refresh');
 			}
-			$this->output->enable_profiler(FALSE);
-			$bache['logueado'] = $this->ion_auth->logged_in();
-			$bache['usuario'] = $this->ion_auth->user()->row()->username;
-			$bache['admin'] = $this->ion_auth->is_admin();
-			//$this->template->build_page("bache",$bache);
-			$this->template->build_page("bacheRegistrado",$bache);
 		}
 
 		public function asociarObservacion(){

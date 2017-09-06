@@ -26,29 +26,27 @@ class Invitado extends CI_Controller {
 		}
 
 	}
-	 
 
 	public function getFalla($id)
 	{
-		// AGREGADO RODRIGO
 		$this->load->helper('url');
-
 		$get = $this->uri->uri_to_assoc();
-		$falla = Falla::getInstancia($id);
-		$bache = $falla->to_array();
-		$bache['estado'] = json_encode($falla->estado);
-		$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
-		if (!isset($bache)) {
-			redirect('/', 'refresh');
-			return;
+		try {
+			$falla = Falla::getInstancia($id);
+			$bache = $falla->to_array();
+			$bache['estado'] = json_encode($falla->estado);
+			$bache['tiposEstado'] = json_encode(TipoEstado::getAll());
+			if (!isset($bache)) {
+				redirect('/', 'refresh');
+				return;
+			}
+			$this->output->enable_profiler(FALSE);
+			$bache['logueado'] = FALSE;
+			$this->template->template_name = "invitado";
+			$this->template->build_page("bache",$bache);
+		} catch (Exception $e) {
+			redirect(base_url().'errori/error_404', 'refresh');
 		}
-
-		$this->output->enable_profiler(FALSE);
-		$bache['logueado'] = FALSE;
-		$this->template->template_name = "invitado";
-		$this->template->build_page("bache",$bache);
-		
-
 	}
 
 	public function asociarObservacion(){

@@ -244,6 +244,7 @@ function trazarRuta() {
 		return;
 	}
 	calle = $("#buscarCalleSideBar").val();
+	calle = calle.split(',')[0];
 	tiposFallasIds = [];
 	tiposEstadoIds = [];
 	$checkboxTiposFalla = $("#tipoFallaCheckbox").find("input");
@@ -417,6 +418,7 @@ function cargarTiposEstadoSideBarForm() {
 	tiposEstado = GestorMateriales.obtenerTiposEstado();
 	$.each(tiposEstado, function (index, tipoEstado) {
 		label = $('<div class="form-check"><input class="form-check-input" type="checkbox" value="'+tipoEstado.id+'"><label class="form-check-label">'+tipoEstado.nombre+'</label></div>');
+		//label = $('<div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" value="'+tipoEstado.id+'"/>'+tipoEstado.nombre+'</label></div>');
 		$tipoEstadoCheckbox.append(label);
 		$(label).find("input").change(function() {
 			checkedState = $(this).prop("checked");

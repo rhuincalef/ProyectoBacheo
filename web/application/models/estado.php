@@ -282,7 +282,7 @@
 			$cadTrimeada2 = rtrim(ltrim($calleDecodificada));
 			CustomLogger::log("strcmp($cadTrimeada1,$cadTrimeada2) = ".strcmp($cadTrimeada1,$cadTrimeada2));
 
-			$result == FALSE;
+			$result = FALSE;
 			if (strcmp($cadTrimeada1,$cadTrimeada2) == 0) {
 				$result = TRUE;
 			}

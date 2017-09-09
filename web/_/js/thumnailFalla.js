@@ -5,39 +5,83 @@
         console.log(msg);
       }
 
-      nameSpaceThumbnail.solicitarDatos = function (idFalla,urlBase){
-      var url_nube = urlBase+"index.php/obtenerDatosVisualizacion/"+idFalla;
-      debug("Ruta de la peticion cgi -->");
-      debug(url_nube);
-      $.ajax({
-          url: url_nube,
-          success:function(data,status,jqhxr){
-                debug('Peticion realizada!');
-                debug(jqhxr.responseText);
-                var json_estado = JSON.parse(jqhxr.responseText);
-                if (json_estado.estado == 400){
-                  debug("Ha ocurrido un error en el servidor -->");
-                  debug(json_estado.error);
-                  nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
-                  return;
-                }else{
-                  debug('Los datos capturados desde el server fueron -->');
-                  debug(json_estado);
-                  debug('------------------------------------------------');
-                  parsearDatos(idFalla,json_estado,urlBase);
+      nameSpaceThumbnail.solicitarCapturas = function (idFalla,urlBase){
+        var url_nube = urlBase+ "index.php/obtenerDatosVisualizacion/"+idFalla;
+
+        $.ajax({
+            url: url_nube,
+            success:function(data,status,jqhxr){
+                  debug('Peticion realizada!');
+                  debug(jqhxr.responseText);
+                  var json_estado = JSON.parse(jqhxr.responseText);
+                  if (json_estado.estado == 400){
+                    debug("Ha ocurrido un error en el servidor -->");
+                    debug(json_estado.error);
+                    nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
+                    return;
+                  }else{
+                    debug('Los datos capturados desde el server fueron -->');
+                    debug(json_estado);
+                    debug('------------------------------------------------');
+                    inicializarVisoresCaptura(idFalla,json_estado,urlBase);
+                    //parsearDatos(idFalla,json_estado,urlBase);
+                  }
+                  
+            },
+            error: function(data,textoErr,jqhxr){
+                  // a = '{"estado":402,"datos": {},"error":"Error al escribir la imagen"}';
+                  // JSON.parse(a);
+                  debug('Error en la solicitud 1-->');
+                  debug(data);
+                  var json1 = JSON.parse(data.responseText);
+                  nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json1.error);
                 }
-                
-          },
-          error: function(data,textoErr,jqhxr){
-                // a = '{"estado":402,"datos": {},"error":"Error al escribir la imagen"}';
-                // JSON.parse(a);
-                debug('Error en la solicitud 1-->');
-                debug(data);
-                var json1 = JSON.parse(data.responseText);
-                nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json1.error);
-              }
-            });
+              });
       }
+
+      inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase){
+        console.debug("EN inicializarVisoresCaptura()");
+        console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
+        for (var i = 0; i < jsonCapturas["nombresCapturas"].length; i++) {
+          console.debug('jsonCapturas["nombresCapturas"] ');
+          nombreCap = jsonCapturas["nombresCapturas"][i];
+          console.debug(nombreCap);
+          contenidoThumnail = "<div id = " + "'" + nombreCap + "'" + " class='col-lg-4 col-sm-4 col-xs-6'>";
+          contenidoThumnail +=  '<div class="thumbnail" > \
+                                    <div class="caption" > \
+                                      <div id="descripcion" > \
+                                      </div> \
+                                      <p> <a id="botonVisualizador" class="btn btn-lg btn-primary" style="display:none;">Ver</a> \
+                                      </p> \
+                                  </div> \
+                                    <img id ="imagenThumb" class="img-responsive"></img> \
+                                  </div> \
+                                  <!-- Imagen que se muestra cuando se carga el csv desde el servidor -->\
+                                    <img id="cargando-gif"></img>\
+                               </div>';
+
+          $('#containerThumnail').append(contenidoThumnail);
+          $('#containerThumnail').append();
+
+          containerWebGL = '<!-- Contenedor para renderizar la captura '+ nombreCap + ' webGL -->\
+            <div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;" >\
+            \
+              <div class="row">\
+                <!-- Boton de regreso --> \
+                <button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button"  \
+                      class="btn btn-primary boton-personalizado btn-lg ">Regresar </button> \
+                <div id ="error-alert" style="display:none; ">Error al cargar la captura remota ' + nombreCap+ '</div> \
+              </div> \
+            </div>'; 
+          $('#'+nombreCap).append(containerWebGL);
+          //Se esconden el gif de carga y el canvas para renderizar WebGL
+          $('#'+nombreCap).find("#containerWebGL").hide();
+          $('#'+nombreCap).find('#cargando-gif').hide();
+      }
+    }
+
+
+
 
       parsearDatos = function(idFalla,json_final,urlBase){
         // Peticiones del json.
@@ -72,16 +116,15 @@
             }
         );
         $("#imagenThumb").attr("src",rutaImg);
-        $(".thumbnail").find('.caption').slideUp(250);
-          
+        $(".thumbnail").find('.caption').slideUp(250);      
       }
 
       // Configura el thumbnail para el caso de exito.
       mostrar_texto_thumnail = function(idFalla,titulo,descripcion,imagen,urlPcFile,urlBase){
         debug("En mostrar texto thumbnail!");
-        $("#descripcion").attr("class", "texto-exito");
-        $("#descripcion").append("<h2>"+titulo+"</h2>");
-        $("#descripcion").append("<h4>"+descripcion+"</h4>");
+        //$("#descripcion").attr("class", "texto-exito");
+        //$("#descripcion").append("<h2>"+titulo+"</h2>");
+        //$("#descripcion").append("<h4>"+descripcion+"</h4>");
         $("#botonVisualizador").attr("style","display:inline;");
 
         // Incluir un metodo en el controlador privado para generar la vista

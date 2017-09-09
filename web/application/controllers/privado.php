@@ -25,21 +25,13 @@ class Privado extends CI_Controller
 
 
 
-	// Metodo csv de descripcion
-	// public function generarDescripcion($idFalla,$carpetaFalla){
-	// 	$this->load->library('GeneradorCsv');
-	// 	// $this->load->library('ExcepcionPHP');
-	// 	$g = new GeneradorCsv();
-	// 	echo $g->generar($idFalla,$carpetaFalla);
-	// }
-
-
-
-	// Metodo para generar el .csv a partir del csv y la imagen
+	// Obtiene la coleccion de datos para la captura con la extension
+	// EXT_CAPTURA_DEFAULT (.pcd) 
 	public function obtenerDatosVisualizacion($idFalla){
-		$this->load->helper('url');
 		$CI = &get_instance();
+		$this->load->helper('url');
 		$dir_raiz = base_url();
+
 		$dir_csv = $dir_raiz.$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
 		$CI->utiles->debugger('dir_csv');
 		$CI->utiles->debugger($dir_csv);
@@ -47,25 +39,41 @@ class Privado extends CI_Controller
 		$dir_local = $_SERVER['DOCUMENT_ROOT'].$CI->config->item('path_web').$CI->config->item("pcd_dir").$idFalla."/".$CI->config->item('dir_csv');
 		$CI->utiles->debugger('dir_local');
 		$CI->utiles->debugger($dir_local);
+
+
 		if (is_dir($dir_local)) {
 			$img_default = $CI->config->item('img_default');
-			$nombre = '';
-			foreach (glob($dir_local."*.csv") as $nombre_fichero) {
+			$colCapturas = array();
+			foreach (glob($dir_local.EXT_CAPTURA_DEFAULT) as $nombre_fichero) {
+				$nombre = '';
 			    $CI->utiles->debugger($nombre_fichero);
 			    $array_nombre = explode('/', $nombre_fichero);
 			    $nombre = $array_nombre[count($array_nombre)-1];
+			    array_push($colCapturas,$nombre);
 			}
-			$valores= array(
+			
+			//BACKUP!
+			// Ejemplo de salida -->
+			//{"estado":200,"raiz_tmp":"http:\/\/localhost\/web\/_\/dataMultimedia\/1\/","csv_nube":"infoMitre_2.csv","imagen":"_\/img\/res\/img_default.png","info_csv":"infoMitre_2.csv"}
+			/*$valores= array(
 				'estado' => 200,
 				'raiz_tmp' => $dir_csv,
-				//'csv_nube' => $pc_csv ,
 				'csv_nube' => $nombre ,
 				'imagen' => $img_default,
 				'info_csv' => $nombre );
+			 */
+			$CI->utiles->debugger('capturas leidas -->');
+			$CI->utiles->debugger($colCapturas);
+
+			$valores= array(
+				'estado' => 200,
+				'dirRaizCapturas' => $dir_csv,
+				'nombresCapturas' => $colCapturas
+				);
 		}else{
 			$valores=array(
 				'estado' =>400,
-				'error' => 'No existe una captura de la falla para visualizar'
+				'error' => 'No existen capturas asociadas a la falla para visualizar'
 				);
 		}
 			echo json_encode($valores);

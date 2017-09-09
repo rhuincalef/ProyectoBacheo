@@ -135,6 +135,11 @@ define('CALLE_NO_OBTENIDA','No tenemos como obtenerlo!!!');
 define('pcd_dir_subida','_/dataMultimedia/');
 
 
+//Extension por defecto por la que se listan las fallas 
+//define('EXT_CAPTURA_DEFAULT','*.pcd');
+define('EXT_CAPTURA_DEFAULT','*.csv');
+
+
 
 
 

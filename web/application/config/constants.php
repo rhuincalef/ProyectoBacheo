@@ -135,6 +135,15 @@ define('CALLE_NO_OBTENIDA','No tenemos como obtenerlo!!!');
 define('pcd_dir_subida','_/dataMultimedia/');
 
 
+//Constantes para los gifs por defecto para la carga, error y fondo de thumbnail de visor de fallas.
+
+define('URL_IMG_THUMBNAIL_CARGA', "/_/img/res/generandoArchivos.svg");
+define('URL_IMG_THUMBNAIL_ERROR', "/_/img/res/errorInterno.png");
+define('URL_IMG_THUMBNAIL_FONDO', "/_/img/res/img_default_thumbnail_falla.png");
+
+
+
+
 //Extension por defecto por la que se listan las fallas 
 //define('EXT_CAPTURA_DEFAULT','*.pcd');
 define('EXT_CAPTURA_DEFAULT','*.csv');

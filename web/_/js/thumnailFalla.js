@@ -4,10 +4,24 @@
       debug = function (msg){
         console.log(msg);
       }
+      nameSpaceThumbnail.imgThumbCarga = undefined ;
+      nameSpaceThumbnail.imgThumbError = undefined ;
+      nameSpaceThumbnail.imgThumbFondo = undefined ;
+
+      nameSpaceThumbnail.inicializarImgs = function(imgCarga,imgError,imgFondo){
+        nameSpaceThumbnail.imgThumbCarga = imgCarga
+        nameSpaceThumbnail.imgThumbError = imgError
+        nameSpaceThumbnail.imgThumbFondo = imgFondo
+        console.debug("Inicializadas las imgs asociadas a thumbnails!");
+        console.debug("Imagen de carga: " + nameSpaceThumbnail.imgThumbCarga);
+        console.debug("Imagen de error: " + nameSpaceThumbnail.imgThumbError);
+        console.debug("Imagen de fondo: " + nameSpaceThumbnail.imgThumbFondo);
+      
+      }
 
       nameSpaceThumbnail.solicitarCapturas = function (idFalla,urlBase){
         var url_nube = urlBase+ "index.php/obtenerDatosVisualizacion/"+idFalla;
-
+        console.debug("En solicitarCapturas()...");
         $.ajax({
             url: url_nube,
             success:function(data,status,jqhxr){
@@ -23,8 +37,11 @@
                     debug('Los datos capturados desde el server fueron -->');
                     debug(json_estado);
                     debug('------------------------------------------------');
-                    inicializarVisoresCaptura(idFalla,json_estado,urlBase);
+                    inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
+                    console.debug("---> json_estado: ");
+                    console.debug(json_estado);
                     //parsearDatos(idFalla,json_estado,urlBase);
+                    
                   }
                   
             },
@@ -39,29 +56,71 @@
               });
       }
 
-      inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase){
+
+      // Configura el comportamiento del thumnail.
+      //nameSpaceThumbnail.configurar_thumbnail = function(rutaImg){
+      configurar_thumbnail = function(rutaImg,nombreCap){
+        //[ "infoMitre_1.csv", "infoMitre_2.csv" ]
+        console.debug("En configurar_thumbnail " + nombreCap);
+        //$("[rel='tooltip']").tooltip();
+        $('#'+nombreCap).find(".thumbnail").hover(
+            function(){
+              $(this).find('.caption').slideDown(350); //.fadeIn(250)
+            },
+            function(){
+              $(this).find('.caption').slideUp(250); //.fadeOut(205)
+            }
+        );
+        $('#'+nombreCap).find("#imagenThumb").attr("src",rutaImg);
+        $('#'+nombreCap).find(".thumbnail").find('.caption').slideUp(250);      
+        console.debug("Finalizo configuracion de thumbnail");
+        
+        /*
+        //BACKUP! 
+        $("[rel='tooltip']").tooltip();
+        $('.thumbnail').hover(
+            function(){
+              $(this).find('.caption').slideDown(350); //.fadeIn(250)
+            },
+            function(){
+              $(this).find('.caption').slideUp(250); //.fadeOut(205)
+            }
+        );
+        $("#imagenThumb").attr("src",rutaImg);
+        $(".thumbnail").find('.caption').slideUp(250);  */
+      }
+
+
+      inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase,fullDirCaptura){
+        debugger;
         console.debug("EN inicializarVisoresCaptura()");
         console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
+
         for (var i = 0; i < jsonCapturas["nombresCapturas"].length; i++) {
           console.debug('jsonCapturas["nombresCapturas"] ');
-          nombreCap = jsonCapturas["nombresCapturas"][i];
+          //nombreCap = jsonCapturas["nombresCapturas"][i];
+          //Se deja solamente el nombre como identificador
+          nombreCap = jsonCapturas["nombresCapturas"][i].split(".")[0];
           console.debug(nombreCap);
-          contenidoThumnail = "<div id = " + "'" + nombreCap + "'" + " class='col-lg-4 col-sm-4 col-xs-6'>";
-          contenidoThumnail +=  '<div class="thumbnail" > \
-                                    <div class="caption" > \
-                                      <div id="descripcion" > \
-                                      </div> \
-                                      <p> <a id="botonVisualizador" class="btn btn-lg btn-primary" style="display:none;">Ver</a> \
-                                      </p> \
-                                  </div> \
-                                    <img id ="imagenThumb" class="img-responsive"></img> \
-                                  </div> \
-                                  <!-- Imagen que se muestra cuando se carga el csv desde el servidor -->\
-                                    <img id="cargando-gif"></img>\
-                               </div>';
+          //containerThumbnail = '<div id = ' + '"' + nombreCap + '"' + ' class="col-lg-4 col-sm-4 col-xs-6">';
+          thumbnail = '<div id=' + '"' + nombreCap + '">';
+          thumbnail += '<div class="thumbnail" > \
+                                                  \
+                          <div class="caption" > \
+                            <div id="descripcion" > \
+                            </div> \
+                              <p> <a id="botonVisualizador" class="btn btn-lg btn-primary" style="display:none;">Ver</a> \
+                              </p> \
+                            </div> \
+                            <img id ="imagenThumb" class="img-responsive"></img> \
+                          </div> \
+                          \
+                        <!-- Imagen que se muestra cuando se carga el csv desde el servidor -->\
+                          <img id="cargando-gif"></img>\
+                          \
+                     </div>';
 
-          $('#containerThumnail').append(contenidoThumnail);
-          $('#containerThumnail').append();
+          $('#containerThumbnail').append(thumbnail);
 
           containerWebGL = '<!-- Contenedor para renderizar la captura '+ nombreCap + ' webGL -->\
             <div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;" >\
@@ -75,14 +134,62 @@
             </div>'; 
           $('#'+nombreCap).append(containerWebGL);
           //Se esconden el gif de carga y el canvas para renderizar WebGL
-          $('#'+nombreCap).find("#containerWebGL").hide();
-          $('#'+nombreCap).find('#cargando-gif').hide();
+          //$('#'+nombreCap).find("#containerWebGL").hide();
+          //$('#'+nombreCap).find('#cargando-gif').hide();
+          $("#"+nombreCap).children("#containerWebGL").hide();
+          $('#'+nombreCap).children('#cargando-gif').hide();
+          console.debug("fullDirCaptura: " + fullDirCaptura);
+          //Se configura el thumbnail por defecto
+          console.debug("Configurando el thumbnail...  ");
+          debugger;
+          configurar_thumbnail(fullDirCaptura,nombreCap);
+          //(idFalla,titulo,descripcion,imagen,urlPcFile,
+          // urlBase,capturaActual)
+          fullNameCaptura = jsonCapturas["nombresCapturas"][i];
+          mostrar_texto_thumnail(idFalla,capturaActual,capturaActual,
+                                  nameSpaceThumbnail.imgThumbFondo,
+                                  capturaActual,
+                                  urlBase,
+                                  nombreCap
+                                  );
+
       }
+
     }
 
+      /* Ej. de json_final -->
+       { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
+            nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
+      parsearDatos = function(idFalla,json_final,urlBase){
+        console.debug("json_final tiene:");
+        console.debug(json_final);
+        console.debug("");
+        for (var i = 0; i < json_final["nombresCapturas"].length ; i++) {
+            capturaActual = json_final["nombresCapturas"][i];
+            fullPathCaptura = json_final["dirRaizCapturas"] + capturaActual;
+            imagen = nameSpaceThumbnail.imgThumbFondo;
+            debugger;
+            // Se parsea el csv con la descripcion
+            Papa.parse(fullPathCaptura, {
+                download: true,
+                step: function(row){
+                },
+                complete: function(results, file) {
+                  debugger;
+                  mostrar_texto_thumnail(idFalla,results.data[0][0],
+                                            results.data[1][0],imagen,urlBase,capturaActual);
+                },
+                error: function(err, file, inputElem, reason){
+                    nameSpaceThumbnail.mostrar_error_thumnail(urlBase,"Error en PapaParse: "+err,capturaActual);
+                  }
+                });
+
+            }
+      }
 
 
-
+      /*
+      //BACKUP!
       parsearDatos = function(idFalla,json_final,urlBase){
         // Peticiones del json.
         csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
@@ -102,61 +209,91 @@
           }
         });
       }
+       */
 
-
-      // Configura el comportamiento del thumnail.
-      nameSpaceThumbnail.configurar_thumbnail = function(rutaImg){
-        $("[rel='tooltip']").tooltip();
-        $('.thumbnail').hover(
-            function(){
-              $(this).find('.caption').slideDown(350); //.fadeIn(250)
-            },
-            function(){
-              $(this).find('.caption').slideUp(250); //.fadeOut(205)
-            }
-        );
-        $("#imagenThumb").attr("src",rutaImg);
-        $(".thumbnail").find('.caption').slideUp(250);      
-      }
 
       // Configura el thumbnail para el caso de exito.
-      mostrar_texto_thumnail = function(idFalla,titulo,descripcion,imagen,urlPcFile,urlBase){
+      mostrar_texto_thumnail = function(idFalla,titulo,descripcion,
+                                          imagen,urlPcFile,urlBase,
+                                          capturaActual){
+        debugger;
         debug("En mostrar texto thumbnail!");
         //$("#descripcion").attr("class", "texto-exito");
         //$("#descripcion").append("<h2>"+titulo+"</h2>");
         //$("#descripcion").append("<h4>"+descripcion+"</h4>");
-        $("#botonVisualizador").attr("style","display:inline;");
+        //$("#botonVisualizador").attr("style","display:inline;");
+
+
+        $("#"+capturaActual).find("#botonVisualizador").attr("style","display:inline;");
 
         // Incluir un metodo en el controlador privado para generar la vista
         // que renderiza el webGL.
-        $("#imagenThumb").attr("src",urlBase+imagen);
-        // $("#botonVisualizador").attr("href","app/views/viewer.php?c=" + idFalla);
+        $("#"+capturaActual).find("#imagenThumb").attr("src",urlBase+imagen);
 
-
+        /*
         var imagen_carga = urlBase+"_/img/res/generandoArchivos.svg";
         $("#botonVisualizador").on("click",function(){
-            // AL clickear se carga el canvas y el contenedor webGL
+             AL clickear se carga el canvas y el contenedor webGL
             inicializar_canvas(urlPcFile,imagen_carga);
+        }); */
         
-        });
-        $("#boton-volver").on("click",function(){
+        var imagen_carga = nameSpaceThumbnail.imgThumbCarga;
+        $("#"+capturaActual).find("#botonVisualizador").on("click",function(){
             // AL clickear se carga el canvas y el contenedor webGL
-            restaurar_thumbnail();
+            //inicializar_canvas(urlPcFile,imagen_carga,capturaActual);
+            alert("Se cargo el canvas!!!!");
         });
+        
+        // AL clickear se carga el canvas y el contenedor webGL
+        $("#boton-volver").on("click",function(){
+            restaurar_thumbnail(capturaActual);
+        });
+        
+      }
 
-
+      mostrar_notificacion_exito = function(){
         $.notify({
               title: '<strong>Ok </strong>',
               message: "Datos para visualizacion generados correctamente"
             },
             {
               type: 'success'
-        });        
+        });
       }
 
+      mostrar_notificacion_error = function(msgError){
+        $.notify({
+              title: '<strong>Error en el servidor: </strong>',
+              message: msgError
+            },
+            {
+              type: 'danger'
+        });
+      }
+
+
+      // Este metodo oculta el thumbnail y muestra el contenido del canvas del webGL
+      inicializar_canvas = function(urlPcFile,imagenCarga,capturaActual){
+        $("#"+capturaActual).find("#containerThumbnail").fadeOut();
+        $("#"+capturaActual).find("#cargando-gif").attr("src",imagenCarga);
+        $("#"+capturaActual).find("#cargando-gif").fadeIn();
+        webGL.iniciarWebGL(urlPcFile);
+      }
+
+      // Oculta el canvas y restaura el thumbnail.
+      restaurar_thumbnail = function(capturaActual){
+        $("#"+capturaActual).find("#containerWebGL").fadeOut();
+        webGL.resetear_canvas(); 
+        $("#"+capturaActual).find("#boton-info").fadeOut();
+        $("#"+capturaActual).find("#containerThumbnail").fadeIn();
+      }
+
+
+      /*
+      //BACKUP
       // Este metodo oculta el thumbnail y muestra el contenido del canvas del webGL
       inicializar_canvas = function(urlPcFile,imagenCarga){
-        $("#containerThumnail").fadeOut();
+        $("#containerThumbnail").fadeOut();
         $("#cargando-gif").attr("src",imagenCarga);
         $("#cargando-gif").fadeIn();
         webGL.iniciarWebGL(urlPcFile);
@@ -167,21 +304,22 @@
         $("#containerWebGL").fadeOut();
         webGL.resetear_canvas(); 
         $("#boton-info").fadeOut();
-        $("#containerThumnail").fadeIn();
-      }
+        $("#containerThumbnail").fadeIn();
+      }*/
+
 
       // Genera un alert para el thumnail
-      nameSpaceThumbnail.mostrar_error_thumnail = function (urlBase,msgError){
-        $.notify({
-              title: '<strong>Error en el servidor: </strong>',
-              message: msgError
-            },
-            {
-              type: 'danger'
-        });
+      nameSpaceThumbnail.mostrar_error_thumnail = function (urlBase,msgError,capturaActual){
+        $("#"+capturaActual).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbError);
+        $("#"+capturaActual).find("#descripcion").attr("class","texto-error");
+        $("#"+capturaActual).find("#descripcion").append("Archivo de captura "+ capturaActual+" no encontrado");
+        mostrar_notificacion_error(msgError);
+        /*
+        //BACKUP
         $("#imagenThumb").attr("src",urlBase+"_/img/res/errorInterno.png");
         $("#descripcion").attr("class","texto-error");
-        $("#descripcion").append("Archivo no encontrado");
+        $("#descripcion").append("Archivo no encontrado");*/
+
       }
 
 }(window.nameSpaceThumbnail = window.nameSpaceThumbnail || {},jQuery));

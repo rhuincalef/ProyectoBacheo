@@ -32,10 +32,14 @@
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/notify/bootstrap-notify.js?>"></script> 
 
 	    <!-- Se cargan las librerias para la generacion de la imagen y 
-	    la descripcion del thumnail. -->
+	    la descripcion del thumnail para visores del bache -->
 	   
 	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/inicializador_webGL.js"></script>
-	    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/errorThumbnail.css">
+	    <!-- <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/errorThumbnail.css"> -->
+
+
+	    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/estilosThumbnailVisores.css">
+
 	    <script type='text/javascript' src="<?php echo $this->config->base_url(); ?>_/js/conversorJs.js" ></script>
 	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>
 		<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/noscroll.css">

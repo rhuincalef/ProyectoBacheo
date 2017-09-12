@@ -1,3 +1,7 @@
+/*
+    Estilos del thumbnail y sus elementos asociados
+*/
+
 .texto-error {
 	text-align:center !important;
 	padding-top:40% !important;
@@ -10,16 +14,10 @@
 	font-weight: bold;
 	font-size: 15px;
 }
-p#contBoton {
-	margin-top:30%;
-}
 
-a#botonVisualizador {
-	margin-left: -10px;
-	position: relative;
-	/*margin-left: 40%;*/
-}
-
+/*
+    Estilos del thumbnail principal
+*/
 .thumbnail {
     position:relative;
     overflow:hidden;
@@ -39,6 +37,25 @@ a#botonVisualizador {
     color:#fff !important;
     z-index:2;
 }
+
+/*
+    Estilos de los botones que se muestran junto con la descripcion del 
+    thumbnail.
+*/
+p#contBoton {
+	margin-top:30%;
+}
+
+a#botonVisualizador {
+	margin-left: -10px;
+	position: relative;
+	/*margin-left: 40%;*/
+}
+
+
+
+
+
 
 
 

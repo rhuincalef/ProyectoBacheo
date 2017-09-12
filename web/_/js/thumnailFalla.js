@@ -75,19 +75,6 @@
         $('#'+nombreCap).find(".thumbnail").find('.caption').slideUp(250);      
         console.debug("Finalizo configuracion de thumbnail");
         
-        /*
-        //BACKUP! 
-        $("[rel='tooltip']").tooltip();
-        $('.thumbnail').hover(
-            function(){
-              $(this).find('.caption').slideDown(350); //.fadeIn(250)
-            },
-            function(){
-              $(this).find('.caption').slideUp(250); //.fadeOut(205)
-            }
-        );
-        $("#imagenThumb").attr("src",rutaImg);
-        $(".thumbnail").find('.caption').slideUp(250);  */
       }
 
 
@@ -145,18 +132,42 @@
           configurar_thumbnail(fullDirCaptura,nombreCap);
           //(idFalla,titulo,descripcion,imagen,urlPcFile,
           // urlBase,capturaActual)
-          fullNameCaptura = jsonCapturas["nombresCapturas"][i];
-          mostrar_texto_thumnail(idFalla,capturaActual,capturaActual,
+          //fullNameCaptura = jsonCapturas["nombresCapturas"][i];
+          /*mostrar_texto_thumnail(idFalla,
+                                  fullNameCaptura,
+                                  fullNameCaptura,
                                   nameSpaceThumbnail.imgThumbFondo,
-                                  capturaActual,
+                                  nombreCap,
                                   urlBase,
                                   nombreCap
-                                  );
+                                  ); */
+        debugger;
+        var titulo = nombreCap;
+        var descripcion = jsonCapturas["nombresCapturas"][i];
+        //Se termina de configurar la descripcion del thumbnail
+        $("#"+nombreCap).find("#descripcion").attr("class", "texto-exito");
+        $("#"+nombreCap).find("#descripcion").append("<h2>"+titulo+"</h2>");
+        $("#"+nombreCap).find("#descripcion").append("<h4>"+descripcion+"</h4>");
+        $("#"+nombreCap).find("#botonVisualizador").attr("style","display:inline;");
+
+        // Incluir un metodo en el controlador privado para generar la vista
+        // que renderiza el webGL.
+        $("#"+nombreCap).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbFondo);
+        
+        var imagen_carga = nameSpaceThumbnail.imgThumbCarga;
+        $("#"+nombreCap).find("#botonVisualizador").on("click",function(){
+            // AL clickear se carga el canvas y el contenedor webGL
+            //inicializar_canvas(urlPcFile,imagen_carga,capturaActual);
+            alert("Se cargo el canvas!!!!");
+        });
+        // AL clickear se carga el canvas y el contenedor webGL
+        $("#boton-volver").on("click",function(){
+            restaurar_thumbnail(nombreCap);
+        });
 
       }
 
     }
-
       /* Ej. de json_final -->
        { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
             nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
@@ -211,16 +222,18 @@
       }
        */
 
-
+       /*
       // Configura el thumbnail para el caso de exito.
       mostrar_texto_thumnail = function(idFalla,titulo,descripcion,
-                                          imagen,urlPcFile,urlBase,
+                                          imagenURL,urlPcFile,urlBase,
                                           capturaActual){
         debugger;
         debug("En mostrar texto thumbnail!");
-        //$("#descripcion").attr("class", "texto-exito");
-        //$("#descripcion").append("<h2>"+titulo+"</h2>");
-        //$("#descripcion").append("<h4>"+descripcion+"</h4>");
+        $("#descripcion").attr("class", "texto-exito");
+        $("#descripcion").append("<h2>"+titulo+"</h2>");
+
+
+        $("#descripcion").append("<h4>"+descripcion+"</h4>");
         //$("#botonVisualizador").attr("style","display:inline;");
 
 
@@ -228,14 +241,7 @@
 
         // Incluir un metodo en el controlador privado para generar la vista
         // que renderiza el webGL.
-        $("#"+capturaActual).find("#imagenThumb").attr("src",urlBase+imagen);
-
-        /*
-        var imagen_carga = urlBase+"_/img/res/generandoArchivos.svg";
-        $("#botonVisualizador").on("click",function(){
-             AL clickear se carga el canvas y el contenedor webGL
-            inicializar_canvas(urlPcFile,imagen_carga);
-        }); */
+        $("#"+capturaActual).find("#imagenThumb").attr("src",imagenURL);
         
         var imagen_carga = nameSpaceThumbnail.imgThumbCarga;
         $("#"+capturaActual).find("#botonVisualizador").on("click",function(){
@@ -249,7 +255,7 @@
             restaurar_thumbnail(capturaActual);
         });
         
-      }
+      }*/
 
       mostrar_notificacion_exito = function(){
         $.notify({

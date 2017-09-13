@@ -361,13 +361,15 @@
       restaurarCanvas = function(archCaptura){
         console.debug("Restaurando canvas");
         debugger;
+        var contenedorCanvas = $("#"+archCaptura).find("#canvasWebGL");
+        contenedorCanvas.empty();
         //webGL.resetear_canvas();
 
         //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
         // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
-        var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
+        /*var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
         canvasWebGL.attr("style","background-color: white; height:0px;");
-
+        */
       }
 
       // Oculta el canvas y restaura el thumbnail.

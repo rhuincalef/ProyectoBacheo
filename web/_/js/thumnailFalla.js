@@ -7,15 +7,20 @@
       nameSpaceThumbnail.imgThumbCarga = undefined ;
       nameSpaceThumbnail.imgThumbError = undefined ;
       nameSpaceThumbnail.imgThumbFondo = undefined ;
+      nameSpaceThumbnail.dirRaizCapturas = undefined;
+      nameSpaceThumbnail.EXTENSION_CAPTURA = undefined;
 
-      nameSpaceThumbnail.inicializarImgs = function(imgCarga,imgError,imgFondo){
-        nameSpaceThumbnail.imgThumbCarga = imgCarga
-        nameSpaceThumbnail.imgThumbError = imgError
-        nameSpaceThumbnail.imgThumbFondo = imgFondo
+      nameSpaceThumbnail.inicializarImgs = function(imgCarga,imgError,imgFondo,extCaptura){
+        nameSpaceThumbnail.imgThumbCarga = imgCarga;
+        nameSpaceThumbnail.imgThumbError = imgError;
+        nameSpaceThumbnail.imgThumbFondo = imgFondo;
+        nameSpaceThumbnail.EXTENSION_CAPTURA = extCaptura;
+
         console.debug("Inicializadas las imgs asociadas a thumbnails!");
         console.debug("Imagen de carga: " + nameSpaceThumbnail.imgThumbCarga);
         console.debug("Imagen de error: " + nameSpaceThumbnail.imgThumbError);
         console.debug("Imagen de fondo: " + nameSpaceThumbnail.imgThumbFondo);
+        console.debug("Extension captura: " + nameSpaceThumbnail.EXTENSION_CAPTURA);
       
       }
 
@@ -28,6 +33,7 @@
                   debug('Peticion realizada!');
                   debug(jqhxr.responseText);
                   var json_estado = JSON.parse(jqhxr.responseText);
+                  //debugger;
                   if (json_estado.estado == 400){
                     debug("Ha ocurrido un error en el servidor -->");
                     debug(json_estado.error);
@@ -77,11 +83,16 @@
         
       }
 
-
+      /* Ej. de json_final -->
+       { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
+            nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
       inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase,fullDirCaptura){
         //debugger;
         console.debug("EN inicializarVisoresCaptura()");
         console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
+        
+        nameSpaceThumbnail.dirRaizCapturas = jsonCapturas["dirRaizCapturas"];
+        console.debug("dirRaizCapturas: " + nameSpaceThumbnail.dirRaizCapturas);
 
         for (var i = 0; i < jsonCapturas["nombresCapturas"].length; i++) {
           console.debug('jsonCapturas["nombresCapturas"] ');
@@ -164,7 +175,8 @@
               console.debug("Se cargo el canvas!!!!");
               inicializar_canvas($(this),
                                   jsonCapturas["dirRaizCapturas"] + jsonCapturas["nombresCapturas"][i],
-                                  nameSpaceThumbnail.imgThumbCarga);
+                                  nameSpaceThumbnail.imgThumbCarga,
+                                  jsonCapturas["dirRaizCapturas"]);
 
           });
           // AL clickear se carga el canvas y el contenedor webGL
@@ -287,15 +299,20 @@
 
 
 
-      cargarVisualizador = function(archCaptura){
+      cargarVisualizador = function(archCaptura,divContenedorThumbnail){
         console.debug("Cargando los datos del visualizador para la falla: " + archCaptura);
-        //TODO: ACA SE DEBE INVOCAR  A incializador_webGL.js!!!
+        //TODO: ACA SE DEBE INVOCAR  A incializador_webGLPCD.js!!!
+        //debugger;
+        var urlCaptura = nameSpaceThumbnail.dirRaizCapturas + divContenedorThumbnail.attr("id") + nameSpaceThumbnail.EXTENSION_CAPTURA;
+        console.debug("URL de la captura: " + urlCaptura);
+        var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL");
 
+        webGL.iniciarWebGL(urlCaptura,webGLCanvas);
 
         //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
         // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
-        var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
-        canvasWebGL.attr("style","background-color: red; height:500px;");
+        /*var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
+        canvasWebGL.attr("style","background-color: red; height:500px;");*/
       }
 
 
@@ -304,7 +321,7 @@
       expandirThumbnail = function(divContenedorThumbnail){
         debugger;
         console.debug("Expandiendo el thumbnail");
-        cargarVisualizador(divContenedorThumbnail.attr("id"));
+        cargarVisualizador(divContenedorThumbnail.attr("id"),divContenedorThumbnail);
 
         divContenedorThumbnail.find("#cargando-gif").fadeOut();
         divContenedorThumbnail.find("#containerWebGL").show();
@@ -313,8 +330,9 @@
       }
 
       // Este metodo oculta el thumbnail y muestra el contenido del canvas del webGL
-      inicializar_canvas = function(botonVisualizador,urlPcFile,imagenCarga){
-        debugger;
+      inicializar_canvas = function(botonVisualizador,urlPcFile,
+                                      imagenCarga,dirRaizCapturas){
+        
         //divContenedorThumbnail es <div> principal que contiene la falla
         var divContenedorThumbnail = botonVisualizador.parents(".thumbnail").parent();
         divContenedorThumbnail.find(".thumbnail").fadeOut();
@@ -337,7 +355,6 @@
           expandirThumbnail(capturaActual);
         },delay_carga_canvas);
         */
-        //webGL.iniciarWebGL(urlPcFile);
       }
 
       //Resetea los valores del canvas que hagan falta

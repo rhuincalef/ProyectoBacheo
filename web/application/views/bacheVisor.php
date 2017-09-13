@@ -19,7 +19,8 @@
 	echo "<script type='text/javascript'>";
 
 	//imgCarga,imgError,imgFondo
-	echo "window.nameSpaceThumbnail.inicializarImgs('". base_url(URL_IMG_THUMBNAIL_CARGA) ."','". base_url(URL_IMG_THUMBNAIL_ERROR) ."','". base_url(URL_IMG_THUMBNAIL_FONDO) ."'); ";
+	echo "window.nameSpaceThumbnail.inicializarImgs('". base_url(URL_IMG_THUMBNAIL_CARGA) ."','". base_url(URL_IMG_THUMBNAIL_ERROR) ."','". base_url(URL_IMG_THUMBNAIL_FONDO) ."','".EXTENSION_CAPTURA ."'); ";
+
 	echo "window.nameSpaceThumbnail.solicitarCapturas(".$id.",'".base_url()."');";
 
 	echo "</script>";

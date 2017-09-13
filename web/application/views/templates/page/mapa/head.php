@@ -28,27 +28,29 @@
 	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrSwzqn60EgqwOk7a9U68PlLHqT8LtsBI&libraries=places"></script>
 
 
-
-	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script>
+	    <!--
+	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script> -->
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/header.js"></script>	    
 		
 	    <!-- Carga de las librerias para webGL -->
-
+<!--
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/webgl-detector.js"></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/three.min.js "></script>
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/papaparse.min.js"></script>
-	    <script src="<?php echo $this->config->base_url(); ?>_/js/notify/bootstrap-notify.js?>"></script> 
+	    <script src="<?php echo $this->config->base_url(); ?>_/js/notify/bootstrap-notify.js?>"></script> --> 
 
 	    <!-- Se cargan las librerias para la generacion de la imagen y 
 	    la descripcion del thumnail. -->
-	   
-	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/inicializador_webGL.js"></script>
-	    <!--<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/errorThumbnail.css">-->
+	   <!--
+	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/inicializador_webGLDSADSADADADAAAAA.js"></script>
 
 	    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/estilosThumbnailVisores.css">
 
 	    <script type='text/javascript' src="<?php echo $this->config->base_url(); ?>_/js/conversorJs.js" ></script>
-	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>
+	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>-->
+
+
+
 		<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/noscroll.css">
 
 

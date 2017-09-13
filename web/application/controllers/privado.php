@@ -44,7 +44,8 @@ class Privado extends CI_Controller
 		if (is_dir($dir_local)) {
 			$img_default = $CI->config->item('img_default');
 			$colCapturas = array();
-			foreach (glob($dir_local.EXT_CAPTURA_DEFAULT) as $nombre_fichero) {
+			//foreach (glob($dir_local.EXT_CAPTURA_DEFAULT) as $nombre_fichero) {
+			foreach (glob($dir_local."*".EXTENSION_CAPTURA) as $nombre_fichero) {
 				$nombre = '';
 			    $CI->utiles->debugger($nombre_fichero);
 			    $array_nombre = explode('/', $nombre_fichero);

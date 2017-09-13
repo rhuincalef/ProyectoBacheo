@@ -142,10 +142,8 @@ define('URL_IMG_THUMBNAIL_ERROR', "/_/img/res/errorInterno.png");
 define('URL_IMG_THUMBNAIL_FONDO', "/_/img/res/img_default_thumbnail_falla.png");
 
 
-
-
 //Extension por defecto por la que se listan las fallas 
-define('EXT_CAPTURA_DEFAULT','*.pcd');
+//define('EXT_CAPTURA_DEFAULT','*.pcd');
 //define('EXT_CAPTURA_DEFAULT','*.csv');
 
 //define('EXTENSION_CAPTURA','.pcd');

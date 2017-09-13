@@ -12,10 +12,23 @@
     webGL.renderer = undefined;
     webGL.nombreCaptura = undefined;
 
+    //Proporcion del tamaño total de la ventana que el canvas ocupara
+    // en porcentajes con rango [0,1]
+    webGL.PROPORCION_ANCHO = 0.9;
+    webGL.PROPORCION_ALTO = 0.75;
+    //Tamanio por defecto del canvas para renderizar WebGL
+    webGL.ANCHO_CANVAS_DEFAULT = window.innerWidth * webGL.PROPORCION_ANCHO;
+    webGL.ALTURA_CANVAS_DEFAULT = window.innerHeight * webGL.PROPORCION_ALTO;
+
       onWindowResize = function () {
-        webGL.camera.aspect = window.innerWidth / window.innerHeight;
+        //BACKUP!
+        //webGL.camera.aspect = window.innerWidth / window.innerHeight;
+        webGL.camera.aspect = (window.innerWidth * webGL.PROPORCION_ANCHO )/ (window.innerHeight * webGL.PROPORCION_ALTO);
         webGL.camera.updateProjectionMatrix();
-        webGL.renderer.setSize( window.innerWidth, window.innerHeight );
+        //BACKUP!
+        //webGL.renderer.setSize( window.innerWidth, window.innerHeight );
+        webGL.renderer.setSize( window.innerWidth * webGL.PROPORCION_ANCHO,
+                                    window.innerHeight * webGL.PROPORCION_ALTO );
         webGL.controls.handleResize();
       }
       
@@ -84,7 +97,11 @@
 
         webGL.renderer = new THREE.WebGLRenderer( { antialias: true } );
         webGL.renderer.setPixelRatio( window.devicePixelRatio );
-        webGL.renderer.setSize( window.innerWidth, window.innerHeight );
+        //BACKUP!
+        //webGL.renderer.setSize( window.innerWidth, window.innerHeight );
+        debugger;
+        webGL.renderer.setSize( webGL.ANCHO_CANVAS_DEFAULT,
+                                    webGL.ALTURA_CANVAS_DEFAULT);
         document.body.appendChild( webGL.renderer.domElement );
 
         var loader = new THREE.PCDLoader();

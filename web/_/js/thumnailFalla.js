@@ -24,6 +24,45 @@
       
       }
 
+      mostrar_notificacion_exito = function(){
+        $.notify({
+              title: '<strong>Ok: </strong>',
+              message: "Datos para visualizacion generados correctamente"
+            },
+            {
+              type: 'success'
+        });
+      }
+
+
+
+      mostrar_notificacion_error = function(msgError){
+        $.notify({
+              title: '<strong>Error en el servidor: </strong>',
+              message: msgError
+            },
+            {
+              type: 'danger'
+        });
+      }
+
+      mostrar_notificacion_warning = function(mensajeWarning){
+       $.notify({
+              title: '<strong>Carga de fallas inconclusa: </strong>',
+              message: mensajeWarning
+            },
+            {
+              //type: 'notice'
+              type: 'info'
+        });
+       //debugger;
+      }
+
+
+      /* Ej. de json_final -->
+       { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
+            nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
+
       nameSpaceThumbnail.solicitarCapturas = function (idFalla,urlBase){
         var url_nube = urlBase+ "index.php/obtenerDatosVisualizacion/"+idFalla;
         console.debug("En solicitarCapturas()...");
@@ -37,6 +76,30 @@
                   if (json_estado.estado == 400){
                     debug("Ha ocurrido un error en el servidor -->");
                     debug(json_estado.error);
+                    //nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
+                    mostrar_notificacion_error(json_estado.error);
+                    return;
+                  }
+
+                  if (json_estado.nombresCapturas.length == 0) {
+                    mostrar_notificacion_warning("No existen archivos de captura asociados a la falla");
+                  }
+
+                  if(json_estado.estado == 200){
+                    mostrar_notificacion_exito();
+                    debug('Los datos capturados desde el server fueron -->');
+                    debug(json_estado);
+                    debug('------------------------------------------------');
+                    inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
+                    console.debug("---> json_estado: ");
+                    console.debug(json_estado); 
+                  }
+
+                  /*
+                  //BACKUP!
+                  if (json_estado.estado == 400){
+                    debug("Ha ocurrido un error en el servidor -->");
+                    debug(json_estado.error);
                     nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
                     return;
                   }else{
@@ -45,10 +108,8 @@
                     debug('------------------------------------------------');
                     inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
                     console.debug("---> json_estado: ");
-                    console.debug(json_estado);
-                    //parsearDatos(idFalla,json_estado,urlBase);
-                    
-                  }
+                    console.debug(json_estado); 
+                  }*/
                   
             },
             error: function(data,textoErr,jqhxr){
@@ -131,32 +192,19 @@
               </div> \
               \
               <div class="row">\
-                <div id="canvasWebGL"></div>\
+                <div id="canvasWebGL"></div> \
               </div>\
             </div>'; 
 
           $('#'+nombreCap).append(containerWebGL);
+
           //Se esconden el gif de carga y el canvas para renderizar WebGL
-          //$('#'+nombreCap).find("#containerWebGL").hide();
-          //$('#'+nombreCap).find('#cargando-gif').hide();
           $("#"+nombreCap).children("#containerWebGL").hide();
           $('#'+nombreCap).children('#cargando-gif').hide();
           console.debug("fullDirCaptura: " + fullDirCaptura);
           //Se configura el thumbnail por defecto
           console.debug("Configurando el thumbnail...  ");
-          //debugger;
           configurar_thumbnail(fullDirCaptura,nombreCap);
-          //(idFalla,titulo,descripcion,imagen,urlPcFile,
-          // urlBase,capturaActual)
-          //fullNameCaptura = jsonCapturas["nombresCapturas"][i];
-          /*mostrar_texto_thumnail(idFalla,
-                                  fullNameCaptura,
-                                  fullNameCaptura,
-                                  nameSpaceThumbnail.imgThumbFondo,
-                                  nombreCap,
-                                  urlBase,
-                                  nombreCap
-                                  ); */
           //debugger;
           var titulo = nombreCap;
           var descripcion = jsonCapturas["nombresCapturas"][i];
@@ -188,115 +236,6 @@
       }
 
     }
-      /* Ej. de json_final -->
-       { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
-            nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
-      parsearDatos = function(idFalla,json_final,urlBase){
-        console.debug("json_final tiene:");
-        console.debug(json_final);
-        console.debug("");
-        for (var i = 0; i < json_final["nombresCapturas"].length ; i++) {
-            capturaActual = json_final["nombresCapturas"][i];
-            fullPathCaptura = json_final["dirRaizCapturas"] + capturaActual;
-            imagen = nameSpaceThumbnail.imgThumbFondo;
-            //debugger;
-            // Se parsea el csv con la descripcion
-            Papa.parse(fullPathCaptura, {
-                download: true,
-                step: function(row){
-                },
-                complete: function(results, file) {
-                  //debugger;
-                  mostrar_texto_thumnail(idFalla,results.data[0][0],
-                                            results.data[1][0],imagen,urlBase,capturaActual);
-                },
-                error: function(err, file, inputElem, reason){
-                    nameSpaceThumbnail.mostrar_error_thumnail(urlBase,"Error en PapaParse: "+err,capturaActual);
-                  }
-                });
-
-            }
-      }
-
-
-      /*
-      //BACKUP!
-      parsearDatos = function(idFalla,json_final,urlBase){
-        // Peticiones del json.
-        csv_nube = json_final["raiz_tmp"]+json_final["csv_nube"];
-        imagen = json_final["imagen"];
-        path_csv =json_final["raiz_tmp"]+json_final["info_csv"];
-        
-        // Se parsea el csv con la descripcion
-        Papa.parse(path_csv, {
-            download: true,
-            complete: function(results, file) {
-              mostrar_texto_thumnail(idFalla,results.data[0][0],
-                                        results.data[1][0],imagen,csv_nube,urlBase);
-
-        },
-        error: function(err, file, inputElem, reason){
-            nameSpaceThumbnail.mostrar_error_thumnail(urlBase,"Error en PapaParse: "+err);
-          }
-        });
-      }
-       */
-
-       /*
-      // Configura el thumbnail para el caso de exito.
-      mostrar_texto_thumnail = function(idFalla,titulo,descripcion,
-                                          imagenURL,urlPcFile,urlBase,
-                                          capturaActual){
-        //debugger;
-        debug("En mostrar texto thumbnail!");
-        $("#descripcion").attr("class", "texto-exito");
-        $("#descripcion").append("<h2>"+titulo+"</h2>");
-
-
-        $("#descripcion").append("<h4>"+descripcion+"</h4>");
-        //$("#botonVisualizador").attr("style","display:inline;");
-
-
-        $("#"+capturaActual).find("#botonVisualizador").attr("style","display:inline;");
-
-        // Incluir un metodo en el controlador privado para generar la vista
-        // que renderiza el webGL.
-        $("#"+capturaActual).find("#imagenThumb").attr("src",imagenURL);
-        
-        var imagen_carga = nameSpaceThumbnail.imgThumbCarga;
-        $("#"+capturaActual).find("#botonVisualizador").on("click",function(){
-            // AL clickear se carga el canvas y el contenedor webGL
-            //inicializar_canvas(urlPcFile,imagen_carga,capturaActual);
-            alert("Se cargo el canvas!!!!");
-        });
-        
-        // AL clickear se carga el canvas y el contenedor webGL
-        $("#boton-volver").on("click",function(){
-            restaurar_thumbnail(capturaActual);
-        });
-        
-      }*/
-
-      mostrar_notificacion_exito = function(){
-        $.notify({
-              title: '<strong>Ok </strong>',
-              message: "Datos para visualizacion generados correctamente"
-            },
-            {
-              type: 'success'
-        });
-      }
-
-      mostrar_notificacion_error = function(msgError){
-        $.notify({
-              title: '<strong>Error en el servidor: </strong>',
-              message: msgError
-            },
-            {
-              type: 'danger'
-        });
-      }
-
 
 
       cargarVisualizador = function(archCaptura,divContenedorThumbnail){
@@ -308,11 +247,6 @@
         //var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL");
         var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL").get(0);
         webGL.iniciarWebGL(urlCaptura,webGLCanvas);
-
-        //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
-        // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
-        /*var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
-        canvasWebGL.attr("style","background-color: red; height:500px;");*/
       }
 
 
@@ -344,17 +278,6 @@
         console.debug("Expandiendo thumbnail de la falla: " + divContenedorThumbnail);  
         expandirThumbnail(divContenedorThumbnail);
 
-        /*
-        var delay_carga_canvas = 2000;
-        setTimeout(function(){
-          debugger;
-          var idCapturaActual = capturaActual.parents(".thumbnail").parent().attr("id");
-          
-
-          console.debug("Expandiendo thumbnail de la falla: " + capturaActual);  
-          expandirThumbnail(capturaActual);
-        },delay_carga_canvas);
-        */
       }
 
       //Resetea los valores del canvas que hagan falta
@@ -365,11 +288,6 @@
         contenedorCanvas.empty();
         //webGL.resetear_canvas();
 
-        //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
-        // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
-        /*var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
-        canvasWebGL.attr("style","background-color: white; height:0px;");
-        */
       }
 
       // Oculta el canvas y restaura el thumbnail.
@@ -385,44 +303,16 @@
         divContenedorWebGL.find(".thumbnail").show();
         divContenedorWebGL.css("width","30%");
 
-        //$("#"+capturaActual).find("#boton-info").fadeOut();
-        //$("#"+capturaActual).find("#containerThumbnail").fadeIn();
       }
-
-
-
 
       /*
-      //BACKUP
-      // Este metodo oculta el thumbnail y muestra el contenido del canvas del webGL
-      inicializar_canvas = function(urlPcFile,imagenCarga){
-        $("#containerThumbnail").fadeOut();
-        $("#cargando-gif").attr("src",imagenCarga);
-        $("#cargando-gif").fadeIn();
-        webGL.iniciarWebGL(urlPcFile);
-      }
-
-      // Oculta el canvas y restaura el thumbnail.
-      restaurar_thumbnail = function(){
-        $("#containerWebGL").fadeOut();
-        webGL.resetear_canvas(); 
-        $("#boton-info").fadeOut();
-        $("#containerThumbnail").fadeIn();
-      }*/
-
-
       // Genera un alert para el thumnail
       nameSpaceThumbnail.mostrar_error_thumnail = function (urlBase,msgError,capturaActual){
+        
         $("#"+capturaActual).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbError);
         $("#"+capturaActual).find("#descripcion").attr("class","texto-error");
         $("#"+capturaActual).find("#descripcion").append("Archivo de captura "+ capturaActual+" no encontrado");
         mostrar_notificacion_error(msgError);
-        /*
-        //BACKUP
-        $("#imagenThumb").attr("src",urlBase+"_/img/res/errorInterno.png");
-        $("#descripcion").attr("class","texto-error");
-        $("#descripcion").append("Archivo no encontrado");*/
-
-      }
+      }*/
 
 }(window.nameSpaceThumbnail = window.nameSpaceThumbnail || {},jQuery));

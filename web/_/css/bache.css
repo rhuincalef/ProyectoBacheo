@@ -178,3 +178,19 @@
 .ui-icon .ui-icon-circle-triangle-e {
     background: #000;
 }
+
+.font-size-crit {
+    font-size: 2em;
+}
+
+.color-crit-bajo {
+    color: #21C3E8;
+}
+
+.color-crit-medio {
+    color: #F2F939;
+}
+
+.color-crit-alto {
+    color: #FF0000;
+}

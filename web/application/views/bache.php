@@ -25,7 +25,7 @@
 	</div>
 	<!-- end imagenesCarrucel -->
 	<div class="jumbotron personalizacionJumbotron">
-        <h1>#Falla<?php echo $id; ?></h1>
+        <h1><i class="fa cf-bache"></i> #Falla<?php echo $id; ?></h1>
 	</div>
 	<ul class="nav nav-tabs tabInfo" role="tablist">
 		<li class="active"><a href="#especificaciones" role="tab" data-toggle="tab">Especificación Básica</a></li>
@@ -35,36 +35,13 @@
 	<div class="tab-content	">
 	  <div class="tab-pane active" id="especificaciones">
 	  	<div id="canvasMapa" class="contenedorMapa"></div>
-			<div class="especificacionesBache">
-				<h1>Especificación de Falla</h1>
-				<table class="table table-hover">
-					<tr>
-						<td> Tipo de falla </td>
-						<td> <?php echo $titulo;?> </td>
-					</tr>
-					<tr>
-						<td> Criticidad </td>
-						<td> <?php echo $criticidad;?> </td>
-					</tr>
-					<tr>
-						<td> Dirección </td>
-						<td><?php echo $calle;?> - <?php echo $alturaCalle;?></td>
-					</tr>
-					<tr>
-						<td> Estado </td>
-						<td id="campoEstadoBache"> <?php $estadoActual = json_decode($estado);
-						echo $estadoActual->tipoEstado->nombre;
-						?> </td>
-					</tr>
-					<tr>
-						<td> Fecha último estado </td>
-						<td id="campoFechaEstado"> <?php $estadoActual = json_decode($estado);
-						echo $estadoActual->fecha;?> </td>
-						<td></td>
-					</tr>
-				</table>
-			</div>
-	  	</div>
+	  	<div class="especificacionesBache">
+			<h1>Especificación de Falla</h1>
+		  	<?php
+				$this->load->view('especificacionesFallas.php');
+			?>
+		</div>
+	  </div>
 		  <div class="tab-pane" id="social">
 		  		<div id="observaciones"> 
 		  			<h1>Comentarios</h1>

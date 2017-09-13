@@ -36,7 +36,7 @@
             ?>
               <li><a href="<?php echo $this->config->base_url();?>"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-map-marker"></i> Baches<b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa cf-bache"></i> Baches<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li id="opcionAgregar" ><a><i class="fa fa-plus-circle"> </i> Agregar</a></li>
                 </ul>

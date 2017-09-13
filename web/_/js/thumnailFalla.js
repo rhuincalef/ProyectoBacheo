@@ -79,7 +79,7 @@
 
 
       inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase,fullDirCaptura){
-        debugger;
+        //debugger;
         console.debug("EN inicializarVisoresCaptura()");
         console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
 
@@ -90,7 +90,7 @@
           nombreCap = jsonCapturas["nombresCapturas"][i].split(".")[0];
           console.debug(nombreCap);
           //containerThumbnail = '<div id = ' + '"' + nombreCap + '"' + ' class="col-lg-4 col-sm-4 col-xs-6">';
-          thumbnail = '<div id=' + '"' + nombreCap + '">';
+          thumbnail = '<div id=' + '"' + nombreCap + '" class="divContainerThumbnail">';
           thumbnail += '<div class="thumbnail" > \
                                                   \
                           <div class="caption" > \
@@ -110,15 +110,20 @@
           $('#containerThumbnail').append(thumbnail);
 
           containerWebGL = '<!-- Contenedor para renderizar la captura '+ nombreCap + ' webGL -->\
-            <div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;" >\
-            \
+            <!-- <div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;"> --> \
+            <div id="containerWebGL" >\
               <div class="row">\
                 <!-- Boton de regreso --> \
                 <button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button"  \
                       class="btn btn-primary boton-personalizado btn-lg ">Regresar </button> \
                 <div id ="error-alert" style="display:none; ">Error al cargar la captura remota ' + nombreCap+ '</div> \
               </div> \
+              \
+              <div class="row">\
+                <div id="canvasWebGL"></div>\
+              </div>\
             </div>'; 
+
           $('#'+nombreCap).append(containerWebGL);
           //Se esconden el gif de carga y el canvas para renderizar WebGL
           //$('#'+nombreCap).find("#containerWebGL").hide();
@@ -128,7 +133,7 @@
           console.debug("fullDirCaptura: " + fullDirCaptura);
           //Se configura el thumbnail por defecto
           console.debug("Configurando el thumbnail...  ");
-          debugger;
+          //debugger;
           configurar_thumbnail(fullDirCaptura,nombreCap);
           //(idFalla,titulo,descripcion,imagen,urlPcFile,
           // urlBase,capturaActual)
@@ -141,29 +146,32 @@
                                   urlBase,
                                   nombreCap
                                   ); */
-        debugger;
-        var titulo = nombreCap;
-        var descripcion = jsonCapturas["nombresCapturas"][i];
-        //Se termina de configurar la descripcion del thumbnail
-        $("#"+nombreCap).find("#descripcion").attr("class", "texto-exito");
-        $("#"+nombreCap).find("#descripcion").append("<h2>"+titulo+"</h2>");
-        $("#"+nombreCap).find("#descripcion").append("<h4>"+descripcion+"</h4>");
-        $("#"+nombreCap).find("#botonVisualizador").attr("style","display:inline;");
+          //debugger;
+          var titulo = nombreCap;
+          var descripcion = jsonCapturas["nombresCapturas"][i];
+          //Se termina de configurar la descripcion del thumbnail
+          $("#"+nombreCap).find("#descripcion").attr("class", "texto-exito");
+          $("#"+nombreCap).find("#descripcion").append("<h2>"+titulo+"</h2>");
+          $("#"+nombreCap).find("#descripcion").append("<h4>"+descripcion+"</h4>");
+          $("#"+nombreCap).find("#botonVisualizador").attr("style","display:inline;");
 
-        // Incluir un metodo en el controlador privado para generar la vista
-        // que renderiza el webGL.
-        $("#"+nombreCap).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbFondo);
-        
-        var imagen_carga = nameSpaceThumbnail.imgThumbCarga;
-        $("#"+nombreCap).find("#botonVisualizador").on("click",function(){
-            // AL clickear se carga el canvas y el contenedor webGL
-            //inicializar_canvas(urlPcFile,imagen_carga,capturaActual);
-            alert("Se cargo el canvas!!!!");
-        });
-        // AL clickear se carga el canvas y el contenedor webGL
-        $("#boton-volver").on("click",function(){
-            restaurar_thumbnail(nombreCap);
-        });
+          // Incluir un metodo en el controlador privado para generar la vista
+          // que renderiza el webGL.
+          $("#"+nombreCap).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbFondo);
+          
+          $("#"+nombreCap).find("#botonVisualizador").on("click",function(){
+              // AL clickear se carga el canvas y el contenedor webGL
+              console.debug("Se cargo el canvas!!!!");
+              inicializar_canvas($(this),
+                                  jsonCapturas["dirRaizCapturas"] + jsonCapturas["nombresCapturas"][i],
+                                  nameSpaceThumbnail.imgThumbCarga);
+
+          });
+          // AL clickear se carga el canvas y el contenedor webGL
+          //$("#boton-volver").on("click",function(){
+          $("#"+nombreCap).find("#boton-volver").on("click",function(){
+              restaurar_thumbnail($(this));
+          });
 
       }
 
@@ -179,14 +187,14 @@
             capturaActual = json_final["nombresCapturas"][i];
             fullPathCaptura = json_final["dirRaizCapturas"] + capturaActual;
             imagen = nameSpaceThumbnail.imgThumbFondo;
-            debugger;
+            //debugger;
             // Se parsea el csv con la descripcion
             Papa.parse(fullPathCaptura, {
                 download: true,
                 step: function(row){
                 },
                 complete: function(results, file) {
-                  debugger;
+                  //debugger;
                   mostrar_texto_thumnail(idFalla,results.data[0][0],
                                             results.data[1][0],imagen,urlBase,capturaActual);
                 },
@@ -227,7 +235,7 @@
       mostrar_texto_thumnail = function(idFalla,titulo,descripcion,
                                           imagenURL,urlPcFile,urlBase,
                                           capturaActual){
-        debugger;
+        //debugger;
         debug("En mostrar texto thumbnail!");
         $("#descripcion").attr("class", "texto-exito");
         $("#descripcion").append("<h2>"+titulo+"</h2>");
@@ -278,21 +286,91 @@
       }
 
 
+
+      cargarVisualizador = function(archCaptura){
+        console.debug("Cargando los datos del visualizador para la falla: " + archCaptura);
+        //TODO: ACA SE DEBE INVOCAR  A incializador_webGL.js!!!
+
+
+        //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
+        // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
+        var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
+        canvasWebGL.attr("style","background-color: red; height:500px;");
+      }
+
+
+
+      // Se expande el visualizador a un tamaño
+      expandirThumbnail = function(divContenedorThumbnail){
+        debugger;
+        console.debug("Expandiendo el thumbnail");
+        cargarVisualizador(divContenedorThumbnail.attr("id"));
+
+        divContenedorThumbnail.find("#cargando-gif").fadeOut();
+        divContenedorThumbnail.find("#containerWebGL").show();
+        divContenedorThumbnail.css("width","100%");
+
+      }
+
       // Este metodo oculta el thumbnail y muestra el contenido del canvas del webGL
-      inicializar_canvas = function(urlPcFile,imagenCarga,capturaActual){
-        $("#"+capturaActual).find("#containerThumbnail").fadeOut();
-        $("#"+capturaActual).find("#cargando-gif").attr("src",imagenCarga);
-        $("#"+capturaActual).find("#cargando-gif").fadeIn();
-        webGL.iniciarWebGL(urlPcFile);
+      inicializar_canvas = function(botonVisualizador,urlPcFile,imagenCarga){
+        debugger;
+        //divContenedorThumbnail es <div> principal que contiene la falla
+        var divContenedorThumbnail = botonVisualizador.parents(".thumbnail").parent();
+        divContenedorThumbnail.find(".thumbnail").fadeOut();
+        divContenedorThumbnail.find(".thumbnail").hide();
+
+        divContenedorThumbnail.find("#cargando-gif").attr("src",imagenCarga);
+        divContenedorThumbnail.find("#cargando-gif").fadeIn();
+        //var idCapturaActual = divContenedorThumbnail.parents(".thumbnail").parent().attr("id");
+        console.debug("Expandiendo thumbnail de la falla: " + divContenedorThumbnail);  
+        expandirThumbnail(divContenedorThumbnail);
+
+        /*
+        var delay_carga_canvas = 2000;
+        setTimeout(function(){
+          debugger;
+          var idCapturaActual = capturaActual.parents(".thumbnail").parent().attr("id");
+          
+
+          console.debug("Expandiendo thumbnail de la falla: " + capturaActual);  
+          expandirThumbnail(capturaActual);
+        },delay_carga_canvas);
+        */
+        //webGL.iniciarWebGL(urlPcFile);
+      }
+
+      //Resetea los valores del canvas que hagan falta
+      restaurarCanvas = function(archCaptura){
+        console.debug("Restaurando canvas");
+        debugger;
+        //webGL.resetear_canvas();
+
+        //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
+        // QUE SIMBOLIZAN LA INICIALIZACION DEL CANVAS DE WEBGL!!
+        var canvasWebGL = $("#"+archCaptura).find("#canvasWebGL");
+        canvasWebGL.attr("style","background-color: white; height:0px;");
+
       }
 
       // Oculta el canvas y restaura el thumbnail.
-      restaurar_thumbnail = function(capturaActual){
-        $("#"+capturaActual).find("#containerWebGL").fadeOut();
-        webGL.resetear_canvas(); 
-        $("#"+capturaActual).find("#boton-info").fadeOut();
-        $("#"+capturaActual).find("#containerThumbnail").fadeIn();
+      restaurar_thumbnail = function(botonVolver){
+        debugger;
+        var divContenedorWebGL = botonVolver.parents("#containerWebGL").parent();
+        var archCaptura = divContenedorWebGL.attr("id");
+        restaurarCanvas(archCaptura); 
+
+        //Se oculta el canvas de webGL y se muestra el thumbnail de nuevo
+        divContenedorWebGL.find("#containerWebGL").hide();
+        divContenedorWebGL.find(".thumbnail").fadeIn();
+        divContenedorWebGL.find(".thumbnail").show();
+        divContenedorWebGL.css("width","30%");
+
+        //$("#"+capturaActual).find("#boton-info").fadeOut();
+        //$("#"+capturaActual).find("#containerThumbnail").fadeIn();
       }
+
+
 
 
       /*

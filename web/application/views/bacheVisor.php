@@ -8,7 +8,8 @@
 	</div>
 
 	<!-- Contenedor para el thumnail -->
-	<div id = "containerThumbnail" class="row"></div> 
+	<div id = "containerThumbnail" class="row"></div>
+	
 	
 <!-- Fin del div de tabbed panel -->
 </div> 

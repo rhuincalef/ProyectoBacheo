@@ -15,14 +15,33 @@
 	font-size: 15px;
 }
 
+.texto-exito div > *{
+    margin-top:1%;
+}
+
+
+
+
+
 /*
     Estilos del thumbnail principal
 */
+
+.divContainerThumbnail {
+    width: 30%;
+}
+
+
+
 .thumbnail {
     position:relative;
     overflow:hidden;
 }
+
  
+/*
+    Contenedor del boton + titulo + descripcion.
+*/
 .caption {
     position:absolute;
     top:0;
@@ -32,10 +51,16 @@
     width:100%;
     height:100%;
     padding:2%;
+    /*padding: 10% !important;*/
     display: none;
     text-align:center;
     color:#fff !important;
     z-index:2;
+}
+
+/*.caption div > *{*/
+.caption div + *{
+    margin-top:20%;
 }
 
 /*

@@ -10,6 +10,7 @@
     webGL.controls = undefined;
     webGL.scene = undefined;
     webGL.renderer = undefined;
+    webGL.nombreCaptura = undefined;
 
       onWindowResize = function () {
         webGL.camera.aspect = window.innerWidth / window.innerHeight;
@@ -17,9 +18,11 @@
         webGL.renderer.setSize( window.innerWidth, window.innerHeight );
         webGL.controls.handleResize();
       }
-
-      /*function keyboard ( ev ) {
-        var ZaghettoMesh = scene.getObjectByName( "Zaghetto.pcd" );
+      
+      keyboard = function( ev ) {
+        debugger;
+        //var ZaghettoMesh = webGL.scene.getObjectByName( "Zaghetto.pcd" );
+        var ZaghettoMesh = webGL.scene.getObjectByName( webGL.nombreCaptura );
         switch ( ev.key || String.fromCharCode( ev.keyCode || ev.charCode ) ) {
           case '+':
             ZaghettoMesh.material.size*=1.2;
@@ -34,7 +37,7 @@
             ZaghettoMesh.material.needsUpdate = true;
             break;
         }
-      }*/
+      }
 
       animate = function() {
         requestAnimationFrame( animate );
@@ -57,9 +60,13 @@
 
         webGL.controls = new THREE.TrackballControls( webGL.camera );
 
-        webGL.controls.rotateSpeed = 2.0;
-        webGL.controls.zoomSpeed = 0.3;
+        //webGL.controls.rotateSpeed = 2.0;
+        //webGL.controls.zoomSpeed = 0.3;
+        //webGL.controls.panSpeed = 0.2;
+        webGL.controls.rotateSpeed = 2.5;
+        webGL.controls.zoomSpeed = 0.75;
         webGL.controls.panSpeed = 0.2;
+
 
         webGL.controls.noZoom = false;
         webGL.controls.noPan = false;
@@ -98,23 +105,17 @@
         webGL.stats = new Stats();
         webGL.container.appendChild( webGL.stats.dom );
 
-        /*
-        webGL.container = document.createElement( 'div' );
-        document.body.appendChild( webGL.container );
-        webGL.container.appendChild( renderer.domElement );
-
-        stats = new Stats();
-        webGL.container.appendChild( stats.dom );*/
-
         window.addEventListener( 'resize', onWindowResize, false );
 
-        //window.addEventListener('keypress', keyboard);
+        window.addEventListener('keypress', keyboard);
       }
 
 
       webGL.iniciarWebGL = function(urlCaptura,contenedorWebGL){
         debugger;  
         init(urlCaptura,contenedorWebGL);
+        var componentesURL= urlCaptura.split("/");
+        webGL.nombreCaptura = componentesURL[componentesURL.length-1];
         animate();
       }
 

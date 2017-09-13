@@ -305,8 +305,8 @@
         //debugger;
         var urlCaptura = nameSpaceThumbnail.dirRaizCapturas + divContenedorThumbnail.attr("id") + nameSpaceThumbnail.EXTENSION_CAPTURA;
         console.debug("URL de la captura: " + urlCaptura);
-        var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL");
-
+        //var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL");
+        var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL").get(0);
         webGL.iniciarWebGL(urlCaptura,webGLCanvas);
 
         //TODO:BORRAR ESTAS LINEAS DE INICIALIZACION DEL CANVAS,
@@ -322,7 +322,7 @@
         debugger;
         console.debug("Expandiendo el thumbnail");
         cargarVisualizador(divContenedorThumbnail.attr("id"),divContenedorThumbnail);
-
+        
         divContenedorThumbnail.find("#cargando-gif").fadeOut();
         divContenedorThumbnail.find("#containerWebGL").show();
         divContenedorThumbnail.css("width","100%");

@@ -40,7 +40,7 @@
         requestAnimationFrame( animate );
         webGL.controls.update();
         webGL.renderer.render( webGL.scene, webGL.camera );
-        stats.update();
+        webGL.stats.update();
       }
 
       init = function(urlCaptura,canvasWebGL){

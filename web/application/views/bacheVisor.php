@@ -9,6 +9,18 @@
 
 	<!-- Contenedor para el thumnail -->
 	<div id = "containerThumbnail" class="row"></div>
+
+	<!-- Contenido con los comandos del visor de capturas -->
+	
+	<div id="ayudaVisor" class="panel panel-primary containerAyuda" >
+		<div class="panel-heading">Comandos del visor de fallas <button id="botonCerrar" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+		<div class="panel-body">
+    		<p class="parrafoPanel" > <strong>c : </strong> Cambiar entre distintos colores del panel</p>
+    		<p class="parrafoPanel"> <strong> + : </strong> Aumentar el tamanio de los puntos de la captura </p>
+    		<p class="parrafoPanel"> <strong> - : </strong> Disminuir el tamanio de los puntos de la captura </p>
+    		<p class="parrafoPanel"> <strong> Manter presionado Click : </strong> Desplazar la camara desde donde se percibe la captura </p>
+  		</div>
+	</div>
 	
 	
 <!-- Fin del div de tabbed panel -->

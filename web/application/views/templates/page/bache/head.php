@@ -30,6 +30,8 @@
 	    <!--
 	    <script src="<?php echo $this->config->base_url(); ?>_/js/webgl-detector.js"></script>-->
 
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/estiloPanelAyudaVisor.css">
+
 
 	    <!--three.modules.js-->
 

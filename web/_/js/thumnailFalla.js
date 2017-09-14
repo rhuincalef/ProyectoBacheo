@@ -10,6 +10,16 @@
       nameSpaceThumbnail.dirRaizCapturas = undefined;
       nameSpaceThumbnail.EXTENSION_CAPTURA = undefined;
 
+      inicializarAyuda = function(contenedorVisor){
+        debugger;
+        $("#ayudaVisor").fadeOut();
+        $("#botonCerrar").on("click",function(){
+          debugger;
+          $("#ayudaVisor").fadeOut();
+        });
+      }
+
+
       nameSpaceThumbnail.inicializarImgs = function(imgCarga,imgError,imgFondo,extCaptura){
         nameSpaceThumbnail.imgThumbCarga = imgCarga;
         nameSpaceThumbnail.imgThumbError = imgError;
@@ -21,8 +31,9 @@
         console.debug("Imagen de error: " + nameSpaceThumbnail.imgThumbError);
         console.debug("Imagen de fondo: " + nameSpaceThumbnail.imgThumbFondo);
         console.debug("Extension captura: " + nameSpaceThumbnail.EXTENSION_CAPTURA);
-      
       }
+
+
 
       mostrar_notificacion_exito = function(){
         $.notify({
@@ -151,6 +162,11 @@
         //debugger;
         console.debug("EN inicializarVisoresCaptura()");
         console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
+
+        //Se inicializan los botones de ayuda asociados a la ayuda una unica vez
+        inicializarAyuda();
+
+
         
         nameSpaceThumbnail.dirRaizCapturas = jsonCapturas["dirRaizCapturas"];
         console.debug("dirRaizCapturas: " + nameSpaceThumbnail.dirRaizCapturas);
@@ -185,10 +201,16 @@
             <!-- <div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;"> --> \
             <div id="containerWebGL" >\
               <div class="row">\
+              \
+              <button id="botonAyudaVisor"  type="button"  \
+                      class="btn btn-primary boton-personalizado btn-lg "> Ayuda visor</button>\
+                      \
                 <!-- Boton de regreso --> \
                 <button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button"  \
-                      class="btn btn-primary boton-personalizado btn-lg ">Regresar </button> \
+                      class="btn btn-primary boton-personalizado btn-lg "> Regresar </button> \
+                \
                 <div id ="error-alert" style="display:none; ">Error al cargar la captura remota ' + nombreCap+ '</div> \
+                \
               </div> \
               \
               <div class="row">\
@@ -232,6 +254,12 @@
           $("#"+nombreCap).find("#boton-volver").on("click",function(){
               restaurar_thumbnail($(this));
           });
+
+          $("#"+nombreCap).find("#botonAyudaVisor").on("click",function(){
+              debugger;
+              $("#ayudaVisor").fadeIn();
+          });
+
 
       }
 

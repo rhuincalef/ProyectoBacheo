@@ -1,0 +1,25 @@
+/*
+	Clase que define los estilos del panel de ayuda para los comandos del visor
+*/
+
+.containerAyuda {
+	position:fixed;
+	right:0%;
+	top:5%; 
+}
+
+.parrafoPanel {
+	color:#428bca;
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,11 +11,9 @@
       nameSpaceThumbnail.EXTENSION_CAPTURA = undefined;
 
       inicializarAyuda = function(contenedorVisor){
-        debugger;
-        $("#ayudaVisor").fadeOut();
+        $("#ayudaVisor").animate({width: 'hide'});
         $("#botonCerrar").on("click",function(){
-          debugger;
-          $("#ayudaVisor").fadeOut();
+          $("#ayudaVisor").animate({width: 'hide'});
         });
       }
 
@@ -83,7 +81,6 @@
                   debug('Peticion realizada!');
                   debug(jqhxr.responseText);
                   var json_estado = JSON.parse(jqhxr.responseText);
-                  //debugger;
                   if (json_estado.estado == 400){
                     debug("Ha ocurrido un error en el servidor -->");
                     debug(json_estado.error);
@@ -104,24 +101,7 @@
                     inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
                     console.debug("---> json_estado: ");
                     console.debug(json_estado); 
-                  }
-
-                  /*
-                  //BACKUP!
-                  if (json_estado.estado == 400){
-                    debug("Ha ocurrido un error en el servidor -->");
-                    debug(json_estado.error);
-                    nameSpaceThumbnail.mostrar_error_thumnail(urlBase,json_estado.error);
-                    return;
-                  }else{
-                    debug('Los datos capturados desde el server fueron -->');
-                    debug(json_estado);
-                    debug('------------------------------------------------');
-                    inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
-                    console.debug("---> json_estado: ");
-                    console.debug(json_estado); 
-                  }*/
-                  
+                  }                  
             },
             error: function(data,textoErr,jqhxr){
                   // a = '{"estado":402,"datos": {},"error":"Error al escribir la imagen"}';
@@ -140,7 +120,6 @@
       configurar_thumbnail = function(rutaImg,nombreCap){
         //[ "infoMitre_1.csv", "infoMitre_2.csv" ]
         console.debug("En configurar_thumbnail " + nombreCap);
-        //$("[rel='tooltip']").tooltip();
         $('#'+nombreCap).find(".thumbnail").hover(
             function(){
               $(this).find('.caption').slideDown(350); //.fadeIn(250)
@@ -159,7 +138,6 @@
        { estado: 200, dirRaizCapturas: "http://localhost/web/_/dataMultimedia/1/",
             nombresCapturas: ["infoMitre_1","infoMitre_2"] } */
       inicializarVisoresCaptura = function(idFalla,jsonCapturas,urlBase,fullDirCaptura){
-        //debugger;
         console.debug("EN inicializarVisoresCaptura()");
         console.debug("Coleccion : " + jsonCapturas["nombresCapturas"]);
 
@@ -227,7 +205,6 @@
           //Se configura el thumbnail por defecto
           console.debug("Configurando el thumbnail...  ");
           configurar_thumbnail(fullDirCaptura,nombreCap);
-          //debugger;
           var titulo = nombreCap;
           var descripcion = jsonCapturas["nombresCapturas"][i];
           //Se termina de configurar la descripcion del thumbnail
@@ -250,14 +227,12 @@
 
           });
           // AL clickear se carga el canvas y el contenedor webGL
-          //$("#boton-volver").on("click",function(){
           $("#"+nombreCap).find("#boton-volver").on("click",function(){
               restaurar_thumbnail($(this));
           });
 
           $("#"+nombreCap).find("#botonAyudaVisor").on("click",function(){
-              debugger;
-              $("#ayudaVisor").fadeIn();
+              $("#ayudaVisor").animate({width: 'show'});
           });
 
 
@@ -268,11 +243,8 @@
 
       cargarVisualizador = function(archCaptura,divContenedorThumbnail){
         console.debug("Cargando los datos del visualizador para la falla: " + archCaptura);
-        //TODO: ACA SE DEBE INVOCAR  A incializador_webGLPCD.js!!!
-        //debugger;
         var urlCaptura = nameSpaceThumbnail.dirRaizCapturas + divContenedorThumbnail.attr("id") + nameSpaceThumbnail.EXTENSION_CAPTURA;
         console.debug("URL de la captura: " + urlCaptura);
-        //var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL");
         var webGLCanvas = divContenedorThumbnail.find("#canvasWebGL").get(0);
         webGL.iniciarWebGL(urlCaptura,webGLCanvas);
       }
@@ -281,7 +253,6 @@
 
       // Se expande el visualizador a un tamaño
       expandirThumbnail = function(divContenedorThumbnail){
-        debugger;
         console.debug("Expandiendo el thumbnail");
         cargarVisualizador(divContenedorThumbnail.attr("id"),divContenedorThumbnail);
         
@@ -302,7 +273,6 @@
 
         divContenedorThumbnail.find("#cargando-gif").attr("src",imagenCarga);
         divContenedorThumbnail.find("#cargando-gif").fadeIn();
-        //var idCapturaActual = divContenedorThumbnail.parents(".thumbnail").parent().attr("id");
         console.debug("Expandiendo thumbnail de la falla: " + divContenedorThumbnail);  
         expandirThumbnail(divContenedorThumbnail);
 
@@ -311,16 +281,12 @@
       //Resetea los valores del canvas que hagan falta
       restaurarCanvas = function(archCaptura){
         console.debug("Restaurando canvas");
-        debugger;
         var contenedorCanvas = $("#"+archCaptura).find("#canvasWebGL");
         contenedorCanvas.empty();
-        //webGL.resetear_canvas();
-
       }
 
       // Oculta el canvas y restaura el thumbnail.
       restaurar_thumbnail = function(botonVolver){
-        debugger;
         var divContenedorWebGL = botonVolver.parents("#containerWebGL").parent();
         var archCaptura = divContenedorWebGL.attr("id");
         restaurarCanvas(archCaptura); 
@@ -332,15 +298,5 @@
         divContenedorWebGL.css("width","30%");
 
       }
-
-      /*
-      // Genera un alert para el thumnail
-      nameSpaceThumbnail.mostrar_error_thumnail = function (urlBase,msgError,capturaActual){
-        
-        $("#"+capturaActual).find("#imagenThumb").attr("src",nameSpaceThumbnail.imgThumbError);
-        $("#"+capturaActual).find("#descripcion").attr("class","texto-error");
-        $("#"+capturaActual).find("#descripcion").append("Archivo de captura "+ capturaActual+" no encontrado");
-        mostrar_notificacion_error(msgError);
-      }*/
 
 }(window.nameSpaceThumbnail = window.nameSpaceThumbnail || {},jQuery));

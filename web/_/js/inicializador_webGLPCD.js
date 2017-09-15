@@ -25,7 +25,8 @@
     webGL.DESPLAZAMIENTO_ATRAS = 2;
     webGL.DESPLAZAMIENTO_ADELANTE = (-1) * webGL.DESPLAZAMIENTO_ATRAS;
     
-    webGL.ROTACION_DERECHA = 0.1;
+    //Grados de rotacion
+    webGL.ROTACION_DERECHA = 30;
     webGL.ROTACION_IZQUIERDA = (-1) * webGL.ROTACION_DERECHA;
     
     webGL.LIMITE_MAXIMO_ROTACION_DER = 1.0;
@@ -33,12 +34,8 @@
 
 
       onWindowResize = function () {
-        //BACKUP!
-        //webGL.camera.aspect = window.innerWidth / window.innerHeight;
         webGL.camera.aspect = (window.innerWidth * webGL.PROPORCION_ANCHO )/ (window.innerHeight * webGL.PROPORCION_ALTO);
         webGL.camera.updateProjectionMatrix();
-        //BACKUP!
-        //webGL.renderer.setSize( window.innerWidth, window.innerHeight );
         webGL.renderer.setSize( window.innerWidth * webGL.PROPORCION_ANCHO,
                                     window.innerHeight * webGL.PROPORCION_ALTO );
         webGL.controls.handleResize();
@@ -46,7 +43,6 @@
       
       keyboard = function( ev ) {
         debugger;
-        //var ZaghettoMesh = webGL.scene.getObjectByName( "Zaghetto.pcd" );
         var ZaghettoMesh = webGL.scene.getObjectByName( webGL.nombreCaptura );
         switch ( ev.key || String.fromCharCode( ev.keyCode || ev.charCode ) ) {
           case '+':
@@ -72,36 +68,18 @@
             break;
         case 'ArrowRight':
             // Rotar la camara hacia la derecha(+)
-            // Rango de [-1,1] de rotacion
-            /*if ((webGL.camera.up.y + webGL.ROTACION_DERECHA) > webGL.LIMITE_MAXIMO_ROTACION_DER ) {
-                webGL.camera.up.y = Math.PI / 90;
-            }else{
-                webGL.camera.up.y += webGL.ROTACION_DERECHA;
-            }*/
-            webGL.camera.up.y += Math.PI / 270;
+            gradosZ = (webGL.ROTACION_DERECHA *Math.PI) /180;
+            ZaghettoMesh.rotateZ(gradosZ);
             break; 
-        case 'ArrowLeft':    
+        case 'ArrowLeft':
             //Rotar la camara hacia la izquierda(-)
-            /*if ((webGL.camera.up.y + webGL.ROTACION_IZQUIERDA) < webGL.LIMITE_MAXIMO_ROTACION_IZQ ) {
-                webGL.camera.up.y = 1;
-            }else{
-                webGL.camera.up.y += webGL.ROTACION_IZQUIERDA;
-            }*/
-            webGL.camera.up.y += webGL.ROTACION_IZQUIERDA;
+            gradosZ = (webGL.ROTACION_IZQUIERDA *Math.PI) /180;
+            ZaghettoMesh.rotateZ(gradosZ); 
             break;
         }
         
       }
 
-      /*
-      mouseUp = function(ev){
-        var camara = webGL.camera;
-        if (ev.shiftKey) {
-            console.debug("Se presiono mouse con SHIFT!!!");
-            debugger;
-        }
-      }
-      */
 
       animate = function() {
         requestAnimationFrame( animate );
@@ -148,18 +126,19 @@
 
         webGL.renderer = new THREE.WebGLRenderer( { antialias: true } );
         webGL.renderer.setPixelRatio( window.devicePixelRatio );
-        //BACKUP!
-        //webGL.renderer.setSize( window.innerWidth, window.innerHeight );
-        //debugger;
+
         webGL.renderer.setSize( webGL.ANCHO_CANVAS_DEFAULT,
                                     webGL.ALTURA_CANVAS_DEFAULT);
         document.body.appendChild( webGL.renderer.domElement );
 
         var loader = new THREE.PCDLoader();
-        //loader.load( './models/pcd/Zaghetto.pcd', function ( mesh ) {
         loader.load( urlCaptura, function ( mesh ) {
 
           webGL.scene.add( mesh );
+          // Esta linea es la que centra la geometria de la malla de 
+          // la captura segun la boundingbox de la escena, posicionandola
+          // en el origen.           
+          mesh.geometry.center();
           var center = mesh.geometry.boundingSphere.center;
           webGL.controls.target.set( center.x, center.y, center.z);
           webGL.controls.update();
@@ -167,7 +146,6 @@
         } );
 
         webGL.container = canvasWebGL;
-        //document.body.appendChild( webGL.container );
         webGL.container.appendChild( webGL.renderer.domElement );
 
         webGL.stats = new Stats();

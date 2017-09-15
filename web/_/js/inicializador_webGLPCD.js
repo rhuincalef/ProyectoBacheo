@@ -79,7 +79,7 @@
                 webGL.camera.up.y += webGL.ROTACION_DERECHA;
             }*/
             webGL.camera.up.y += Math.PI / 270;
-            break;
+            break; 
         case 'ArrowLeft':    
             //Rotar la camara hacia la izquierda(-)
             /*if ((webGL.camera.up.y + webGL.ROTACION_IZQUIERDA) < webGL.LIMITE_MAXIMO_ROTACION_IZQ ) {

@@ -479,7 +479,9 @@ class Falla implements JsonSerializable {
     //		-estado: codigo de error del problema o de la peticion OK
     //		-msg: informacion para ser usada en el campo 'infolog' de la respuesta.
     //		-dataFalla: Atributos de la falla subida(solamente idFalla)
-	public static function inicializarFallaAnonima($lat,$long,$nombreTipoFalla,$nombreTipoMaterial,$nombreCriticidad,$observacion,$tipoEstado,$tipoReparacion){
+	//
+	//public static function inicializarFallaAnonima($lat,$long,$nombreTipoFalla,$nombreTipoMaterial,$nombreCriticidad,$observacion,$tipoEstado,$tipoReparacion){
+	public static function inicializarFallaAnonima($lat,$long,$nombreTipoFalla,$nombreTipoMaterial,$nombreCriticidad,$observacion,$tipoEstado){
 
 		log_message('debug','Dentro de inicializarFallaAnonima()...');
 		$estadoPeticion = array(
@@ -590,8 +592,8 @@ class Falla implements JsonSerializable {
 		$crit = Criticidad::getCriticidadPorNombre($nombreCriticidad);
 		log_message('debug',"Paso getCriticidadPorNombre...");
 
-		$tipoRep = TipoReparacion::getTipoReparacionPorNombre($tipoReparacion);
-		log_message('debug',"Paso getTipoReparacionPorNombre...");
+		//$tipoRep = TipoReparacion::getTipoReparacionPorNombre($tipoReparacion);
+		//log_message('debug',"Paso getTipoReparacionPorNombre...");
 
 		log_message('debug',"Instanciando falla...");
 		//NOTA: El tipoReparacion se carga desde el sistema web, cuando la falla haya sido reparada.Como esta es una falla recien descubierta es una falla que no tiene un tipoReparacion asociado aun.
@@ -604,7 +606,7 @@ class Falla implements JsonSerializable {
 		$falla->criticidad = $crit;
 		$falla->tipoFalla = $tipoFalla;
 		$falla->tipoMaterial = $tipoMaterial;
-		$falla->tipoReparacion = $tipoRep;
+		//$falla->tipoReparacion = $tipoRep;
 
 		//Se guarda la Falla en BD y se le asigna el nuevo ID
 		$idFallaNueva = $falla->save();
@@ -670,8 +672,9 @@ class Falla implements JsonSerializable {
 		$multimediaCaptura->nombreArchivo = $nombre_archivo;
 		$array_file_name = explode('.', $nombre_archivo);
 		$extension = end($array_file_name);
-		//$multimediaCaptura->extension = $extension;
-		$multimediaCaptura->extension = 'csv';
+		
+		//$multimediaCaptura->extension = 'csv';
+		$multimediaCaptura->extension = FORMATO_ARCHIVO_CAPTURA;
 		$multimediaCaptura->falla = Falla::getInstancia($idFalla);
 		$id_nuevo_mult = $multimediaCaptura->save();
 

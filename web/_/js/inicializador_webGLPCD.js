@@ -20,6 +20,18 @@
     webGL.ANCHO_CANVAS_DEFAULT = window.innerWidth * webGL.PROPORCION_ANCHO;
     webGL.ALTURA_CANVAS_DEFAULT = window.innerHeight * webGL.PROPORCION_ALTO;
 
+
+    //Constantes de los controles del visor
+    webGL.DESPLAZAMIENTO_ATRAS = 2;
+    webGL.DESPLAZAMIENTO_ADELANTE = (-1) * webGL.DESPLAZAMIENTO_ATRAS;
+    
+    webGL.ROTACION_DERECHA = 0.1;
+    webGL.ROTACION_IZQUIERDA = (-1) * webGL.ROTACION_DERECHA;
+    
+    webGL.LIMITE_MAXIMO_ROTACION_DER = 1.0;
+    webGL.LIMITE_MAXIMO_ROTACION_IZQ = 0.0;
+
+
       onWindowResize = function () {
         //BACKUP!
         //webGL.camera.aspect = window.innerWidth / window.innerHeight;
@@ -49,8 +61,47 @@
             ZaghettoMesh.material.color.setHex(Math.random()*0xffffff);
             ZaghettoMesh.material.needsUpdate = true;
             break;
+        case 'ArrowUp':
+            //Trasladar la camara 2.4 unidades ( "-" hacia adelante, "+" hacia atras)
+            ev.preventDefault();
+            webGL.camera.translateZ(webGL.DESPLAZAMIENTO_ADELANTE);    
+            break;
+        case 'ArrowDown':
+            ev.preventDefault();
+            webGL.camera.translateZ(webGL.DESPLAZAMIENTO_ATRAS);
+            break;
+        case 'ArrowRight':
+            // Rotar la camara hacia la derecha(+)
+            // Rango de [-1,1] de rotacion
+            /*if ((webGL.camera.up.y + webGL.ROTACION_DERECHA) > webGL.LIMITE_MAXIMO_ROTACION_DER ) {
+                webGL.camera.up.y = Math.PI / 90;
+            }else{
+                webGL.camera.up.y += webGL.ROTACION_DERECHA;
+            }*/
+            webGL.camera.up.y += Math.PI / 270;
+            break;
+        case 'ArrowLeft':    
+            //Rotar la camara hacia la izquierda(-)
+            /*if ((webGL.camera.up.y + webGL.ROTACION_IZQUIERDA) < webGL.LIMITE_MAXIMO_ROTACION_IZQ ) {
+                webGL.camera.up.y = 1;
+            }else{
+                webGL.camera.up.y += webGL.ROTACION_IZQUIERDA;
+            }*/
+            webGL.camera.up.y += webGL.ROTACION_IZQUIERDA;
+            break;
+        }
+        
+      }
+
+      /*
+      mouseUp = function(ev){
+        var camara = webGL.camera;
+        if (ev.shiftKey) {
+            console.debug("Se presiono mouse con SHIFT!!!");
+            debugger;
         }
       }
+      */
 
       animate = function() {
         requestAnimationFrame( animate );
@@ -60,7 +111,7 @@
       }
 
       init = function(urlCaptura,canvasWebGL){
-        debugger;
+        //debugger;
         console.debug("En inicializador_webGLPCD.js");
 
         webGL.scene = new THREE.Scene();
@@ -99,7 +150,7 @@
         webGL.renderer.setPixelRatio( window.devicePixelRatio );
         //BACKUP!
         //webGL.renderer.setSize( window.innerWidth, window.innerHeight );
-        debugger;
+        //debugger;
         webGL.renderer.setSize( webGL.ANCHO_CANVAS_DEFAULT,
                                     webGL.ALTURA_CANVAS_DEFAULT);
         document.body.appendChild( webGL.renderer.domElement );
@@ -125,11 +176,15 @@
         window.addEventListener( 'resize', onWindowResize, false );
 
         window.addEventListener('keypress', keyboard);
+
+        //window.addEventListener('mouseup', mouseUp);
+        //window.addEventListener('click', mouseUp);
+        //$(canvasWebGL).mouseup(mouseUp);
       }
 
 
       webGL.iniciarWebGL = function(urlCaptura,contenedorWebGL){
-        debugger;  
+        //debugger;  
         init(urlCaptura,contenedorWebGL);
         var componentesURL= urlCaptura.split("/");
         webGL.nombreCaptura = componentesURL[componentesURL.length-1];

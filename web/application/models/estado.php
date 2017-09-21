@@ -43,7 +43,7 @@
 		{
 			$CI = &get_instance();
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			// $CI->utiles->debugger($datos);
+			//$CI->utiles->debugger($datos);
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
@@ -179,8 +179,13 @@
 			$CI = &get_instance();
 			$falla->factorArea = $datos->falla->factorArea;
 			// Buscar Material por si lo cambian
+			if ($datos->material->id!=$falla->tipoMaterial->id) {
+				$falla->tipoMaterial = TipoMaterial::getInstancia($datos->material->id);
+			}
 			// Buscar TipoFalla por si la cambian
-			// $falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla);
+			if ($datos->tipoFalla->id!=$falla->tipoFalla->id) {
+				$falla->tipoFalla = TipoFalla::getInstancia($datos->tipoFalla->id);
+			}
 			$falla->criticidad = Criticidad::getInstancia($datos->criticidad->id);
 			// TipoAtributo
 			$falla->atributos = array_map(function ($atributo)
@@ -363,15 +368,13 @@
 		public function inicializarFalla($falla, $datos)
 		{
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			CustomLogger::log('idCriticidad: '.gettype($datos->idCriticidad));
+			//CustomLogger::log('idCriticidad: '.gettype($datos->idCriticidad));
 			if ($datos->idTipoReparacion!=NULL) {
-				CustomLogger::log('idTipoReparacion: '.gettype($datos->idTipoReparacion));
+				//CustomLogger::log('idTipoReparacion: '.gettype($datos->idTipoReparacion));
 				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			}
-			else {
-				$falla->tipoReparacion = "No espe";
-			}
 			$falla->factorArea = $datos->areaAfectada;
+			$falla->atributos = Falla::getAtributos($falla->id);
 		}
 
 		public function to_array($falla)
@@ -389,6 +392,7 @@
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
             'tipoFalla' => $falla->tipoFalla,
+            'tipoReparacion' => $falla->getTipoReparacion(),
             // "estado" => json_encode($falla->estado),
             );
             return $datos;
@@ -403,10 +407,27 @@
 			*/
 			$nuevoEstado = new Reparando();
 			$nuevoEstado->falla = $falla;
+			$CI = &get_instance();
 			$nuevoEstado->usuario = $usuario->id;
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
+			// TODO: verificar fecha mayor a dia de hoy... Seria genial si es calculada a partir del tipo de reparacion...
 			$fechaFinReparacionEstimada = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionEstimada));
 			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
+			//TODO: verque el tipo de reparacion exista y pertenezca al tipo de falla...
+			$arrayTipoReparacion = $falla->tipoFalla->getTiposDeReparacion();
+			$existeTipoReparacion = false;
+			foreach ($arrayTipoReparacion as $tipoReparacion) {
+				if ($tipoReparacion->id == $datos->falla->tipoReparacion) {
+					$existeTipoReparacion = true;
+				}
+			}
+			if ($existeTipoReparacion != true) {
+				return null;
+			}
+			if ($datos->falla->tipoReparacion != $falla->tipoReparacion->id) {
+				$nuevoEstado->falla->tipoReparacion = TipoReparacion::getInstancia($datos->falla->tipoReparacion);
+				$nuevoEstado->falla->actualizarReparacion();
+			}
 			$nuevoEstado->id = $nuevoEstado->saveReparando();
 			return $nuevoEstado;
 		}
@@ -449,6 +470,9 @@
 		{
 			$this->id = $datos->id;
 			$this->falla = $datos->idFalla;
+			$CI = &get_instance();
+			$this->monto =$datos->montoEstimado;
+			$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
 			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
@@ -461,11 +485,7 @@
 		public function inicializarFalla($falla, $datos)
 		{
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			/* TODO: Lo que sigue no puede suceder en este estado */
-			if (property_exists($datos, 'reparacion')) {			
-				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
-				CustomLogger::log('idTipoReparacion: '.$datos->idTipoReparacion);
-			}
+			$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			$falla->factorArea = $datos->areaAfectada;
 			$falla->atributos = Falla::getAtributos($falla->id);
 			return;
@@ -485,7 +505,9 @@
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
             'tipoFalla' => $falla->tipoFalla,
+            'tipoReparacion' => $falla->getTipoReparacion(),
             'montoCalculado' => $falla->calcularMonto(),
+            'fechaFinReparacionEstimada' => $this->fechaFinReparacionEstimada,
             // "estado" => json_encode($falla->estado),
             );
             return $datos;
@@ -502,16 +524,12 @@
 			$nuevoEstado->falla = $falla;
 			$nuevoEstado->usuario = $usuario->id;
 			$nuevoEstado->montoReal = $datos->estado->montoReal;
+			// TODO: tener en cuenta que la fecha ingresada en reparacion real sea mayor a la fecha estimada...
 			$fechaFinReparacionReal = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionReal));
 			$nuevoEstado->fechaFinReparacionReal = $fechaFinReparacionReal;
-			$CI = &get_instance();
-			$CI->utiles->debugger('AAAAAAA...');
-			$CI->utiles->debugger($datos->estado->idTipoReparacion);
-			
-			$nuevoEstado->falla->tipoReparacion = TipoReparacion::getInstancia($datos->estado->idTipoReparacion);
-			$CI->utiles->debugger($nuevoEstado->tipoReparacion);
+			//$nuevoEstado->falla->tipoReparacion = TipoReparacion::getInstancia($datos->estado->idTipoReparacion);
 			$nuevoEstado->id = $nuevoEstado->saveReparado();
-			$nuevoEstado->falla->actualizarReparacion();
+			//$nuevoEstado->falla->actualizarReparacion();
 			return $nuevoEstado;
 		}
 
@@ -524,8 +542,7 @@
 
 			$terminal1 = new NumericTerminalExpression("montoReal", "double", "true");
 			$terminal2 = new StringTerminalExpression("fechaFinReparacionReal", "", "true");
-			$terminal3 = new NumericTerminalExpression("idTipoReparacion", "int", "true");
-			$noTerminalEstado = new AndExpression(array($terminal1, $terminal2, $terminal3), "estado");
+			$noTerminalEstado = new AndExpression(array($terminal1, $terminal2), "estado");
 
 			$validator = new AndExpression(array($noTerminalFalla, $noTerminalEstado), "datos");
 			return $validator->interpret($datos);

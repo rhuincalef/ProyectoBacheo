@@ -143,6 +143,7 @@ var Bacheo = (function(){
 			position: this.posicion,
 			map: mapa,
 			title: this.titulo,
+			animation: google.maps.Animation.DROP,
 			icon: this.icono
 		});
 		marcador.id = this.id;
@@ -151,6 +152,7 @@ var Bacheo = (function(){
 			window.open("index.php/inicio/getBache/id/"+marcador.id);
 		});
 	}
+
 
 /* guardarBache: Funcion encargada de obtener los datos del formulario y desencadenar el guardado de un
  * nuevo Bache 																							*/

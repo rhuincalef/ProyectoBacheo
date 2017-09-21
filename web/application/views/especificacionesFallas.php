@@ -10,8 +10,8 @@
 		case 'Bajo':
 			echo '<i class="fa cf-peligro color-crit-bajo font-size-crit"></i> '.$criticidad;
 			break;
-			echo '<i class="fa cf-peligro color-crit-medio font-size-crit"></i> '.$criticidad;
 		case 'Medio':
+			echo '<i class="fa cf-peligro color-crit-medio font-size-crit"></i> '.$criticidad;
 			break;
 		case 'Alto':
 			echo '<i class="fa cf-peligro color-crit-alto font-size-crit"></i> '.$criticidad;

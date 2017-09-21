@@ -169,6 +169,16 @@
 			$CI->utiles->debugger($this->multimedia);
 		}
 
+		public function getTiposDeReparacion()
+		{
+			$arrayIDReparaciones = TipoFallaTipoReparacion::getIdsReparacion($this->id);
+			$reparaciones = array();
+			foreach ($arrayIDReparaciones as $value) {
+				array_push($reparaciones, TipoReparacion::getInstancia($value->idTipoReparacion));
+			}
+			return $reparaciones;
+		}
+
 		// deprecated
 		static public function datosCrearValidos($datos)
 		{

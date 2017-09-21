@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header tituloFormularioBache">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Información sobre Bache</h4>
+        <h4 class="modal-title">Información sobre Falla</h4>
       </div>
 
         <div class="contenedorCampos">
@@ -12,7 +12,7 @@
               <button id="seleccionarCalle" type='button' class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
               <input name="altura" type="numeric" class="form-control campoDerecho" placeholder="Altura">
               <div id="contenedorSelect" class="input-group tipoFalla"></div>
-              <textarea name="descripcion" placeholder="Observacion" maxlength="100" class="form-control campoDescripcion"></textarea>
+              <textarea name="descripcion" placeholder="Observación" maxlength="100" class="form-control campoDescripcion"></textarea>
           </form> 
           <form id="imagenesForm" action="./index.php/inicio/subirImagen/21" class="dropzone cargarImagenes">
               <div class="dropzone-previews"></div>

@@ -1,3 +1,4 @@
+<div class="modal"><!-- Place at bottom of page --></div>
 <div class="oculto">
 	<label id="idBache"><?php echo $id; ?></label>
 	<label id="titulo"><?php echo $titulo; ?></label>
@@ -50,7 +51,7 @@
 		    echo '<div class="tab-pane" id="estado">';
 		    	echo '<h1 id="nombreEstado" >Estado de Falla:  </h1>';
 		    	echo '<div class="contenedorControles">';
-		    		echo '<h2 id="cambiarEstado" >Cambiar estado a:  </h2>';
+		    		echo '<h2 id="cambiarEstado">Cambiar estado a:  </h2>';
 		    	echo '</div>';
 		   		echo '<div class="contenedorControles">';
 		    		echo '<div class="col-sm-5">

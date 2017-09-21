@@ -117,9 +117,6 @@ Bache = (function () {
 			datos.observacion = {}
 			datos.observacion.comentario = $('#contenedorFormulario').find('textarea').val();
 		}
-		datos.fecha = $("#fechaFin").val();
-		datos.monto = $("#montoEstimado").val();
-
 		/* Mis aportes............*/
 		// Se envia id material por si se lo desea cambiar
 		datos.material = {};
@@ -139,11 +136,15 @@ Bache = (function () {
 			datos.reparacion = {};
 			datos.reparacion.id = parseInt($("#tipoReparacion option:selected").val());
 		}
+		$(".modal").show();
 		$.post(baseUrl+"index.php/inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
 				datos = JSON.parse(data);
 				if (datos.codigo == 200) {
+					setTimeout(3000);
+					$(".modal").hide();
+					window.location.reload();
 					alertar("Exito!",datos.mensaje,"success");
 				}else{
 					alertar("Error!",datos.mensaje,"error");
@@ -164,16 +165,24 @@ Bache = (function () {
 		if ($('#contenedorFormulario').find('textarea').val().length != 0) {
 			datos.estado.observacion = $('#contenedorFormulario').find('textarea').val();
 		}
-		console.log(datos);
+		tipoReparacionValor = parseInt($('#tipoReparacion').val());
+		if (tipoReparacionValor == 0) {
+			alertar("Error!","Debe ingresar un tipo de reparación!","error");
+			return;
+		}
+		datos.falla.tipoReparacion = tipoReparacionValor;
+		$('.modal').show();
 		$.post(baseUrl+"inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
 				datos = JSON.parse(data);
 				if (datos.codigo == 200) {
-					alertar("Exito!",datos.mensaje,"success");
+					$(".modal").hide();
 					setTimeout(3000);
-					//window.location.reload();
+					window.location.reload();
+					alertar("Exito!",datos.mensaje,"success");
 				}else{
+					$(".modal").hide();
 					alertar("Error!",datos.mensaje,"error");
 				}
 		});
@@ -185,26 +194,31 @@ Bache = (function () {
 		datos.falla = {};
 		datos.estado = {};
 		datos.falla.id = idBache;
+		if ($("#montoReal").val()==0 || $("#montoReal").val()=="" ) {
+			alertar("Error!","Debe ingresar el monto real","error");
+			return;
+		}
 		datos.estado.montoReal = parseFloat($("#montoReal").val());
+		if ($("#fechaFinReal").val()=="") {
+			alertar("Error!","Debe ingresar una fecha de finalización","error");
+			return;
+		}
 		datos.estado.fechaFinReparacionReal = $("#fechaFinReal").val();
 		if ($('#contenedorFormulario').find('textarea').length != 0) {
 			datos.estado.observacion = $('#contenedorFormulario').find('textarea').val();
 		}
-		if (parseInt($("#tipoReparacion").val())==0) {
-			alertar("Error!",'Debe ingresar una reparación valida.',"error");
-			return;
-		}
-		datos.estado.idTipoReparacion = parseInt($("#tipoReparacion").val());
-		console.log(datos);
+		$(".modal").show();
 		$.post(baseUrl+"inicio/cambiarEstadoBache",
 			{'datos':JSON.stringify(datos)},
 		 	function (data) {
 				datos = JSON.parse(data);
 				if (datos.codigo == 200) {
-					alertar("Exito!",datos.mensaje,"success");
+					$(".modal").hide();
 					setTimeout(3000);
-					//window.location.reload();
+					window.location.reload();
+					alertar("Exito!",datos.mensaje,"success");
 				}else{
+					$(".modal").hide();
 					alertar("Error!",datos.mensaje,"error");
 				}
 		});
@@ -213,32 +227,43 @@ Bache = (function () {
 	var cargarFormAEnReparacion = function() {
 		$.post(baseUrl+"publico/get/Falla/"+idBache,function(data){
 			var falla = JSON.parse(data).valor;
-			console.log(falla);
-			fallas = GestorMateriales.diccionarioTiposFalla;
+			fallas = GestorMateriales.tiposFalla;
 			$select = $("#tipoReparacion");
 			var opcion = new Option("No especificada",0,true,true);
 			$select.append(opcion);
-			key = falla.tipoFalla.id;
-			var keysReparaciones = Object.keys(fallas[key].reparaciones);
+			var key = falla.tipoFalla.id;
+			var keysReparaciones = [];
+			var idTipoFalla = 0;
+			for (var i = 0; i < fallas.length; i++) {
+				if (fallas[i].id==key) {
+					for (var j = 0; j < fallas[i].reparaciones.length; j++) {
+						//console.log(fallas[i].reparaciones[j].id);
+						keysReparaciones.push(fallas[i].reparaciones[j].id);
+					}
+					indexTipoFalla = i;
+					break;
+				}
+			}
 			$(keysReparaciones).each(function(indice,elemento){
-				var opcion = new Option(capitalize(fallas[key].reparaciones[indice].nombre),fallas[key].reparaciones[indice].id,true,true);
+				var opcion = new Option(capitalize(fallas[indexTipoFalla].reparaciones[indice].nombre),fallas[indexTipoFalla].reparaciones[indice].id,true,true);
 				$select.append(opcion);
 			});
-			$select.val(0);
+			if (falla.tipoReparacion=='No espe')
+				$select.val(0);
+			else
+				$select.val(falla.tipoReparacion.id);
+			$select.val(falla.tipoReparacion.id);
 		});
-		console.log("Hacer algo para completar el formulario!!!");
 	}
 
 	var cargarFormAReparado = function() {
-		console.log("Hacer algo para completar el formulario!!!");
 		$.post(baseUrl+"publico/get/Falla/"+idBache,function(data){
 			var falla = JSON.parse(data).valor;
-			console.log(falla);
 			fallas = GestorMateriales.diccionarioTiposFalla;
 			$select = $("#tipoReparacion");
 			var opcion = new Option("No especificada",0,true,true);
 			$select.append(opcion);
-			key = falla.tipoFalla.id;
+			key = falla.tipoFalla.nombre;
 			var keysReparaciones = Object.keys(fallas[key].reparaciones);
 			$(keysReparaciones).each(function(indice,elemento){
 				var opcion = new Option(capitalize(fallas[key].reparaciones[indice].nombre),fallas[key].reparaciones[indice].id,true,true);
@@ -275,6 +300,7 @@ Bache = (function () {
 // Ver donde poner lo que sigue.......
 var GestorMateriales = (function(){
 	var diccionarioMateriales = {};
+	var tiposFalla = [];
 	var diccionarioTiposFalla = {};
 	var diccionarioTiposReparacion = {};
 	
@@ -310,6 +336,37 @@ var GestorMateriales = (function(){
 		return diccionarioMateriales;
 	};
 
+	var obtenerTiposFalla = function (idFallas,arregloTipos) {
+		var tiposAPedir = [];
+		if(idFallas == undefined){
+			return tiposFalla;
+		}
+		idFallas.map(function(k,v){
+			if (tiposFalla.length==0) {
+				tiposAPedir.push(k);
+			}
+			$(tiposFalla).each(function (index) {
+				if (tiposFalla[index].id == k)
+					arregloTipos.push(tiposFalla[index]);
+				else
+					tiposAPedir.push(k);
+			});
+		});
+		if (tiposAPedir.length==0 || tiposAPedir.length==undefined) {
+			return;
+		}
+		baseUrl = $("#baseUrlBache").text();
+		$.post(baseUrl+"index.php/publico/getTiposFallasPorIDs",{"idTipos":JSON.stringify(tiposAPedir)}, function(data){
+			var datos = JSON.parse(data);
+			var tipos = JSON.parse(datos.valor);
+			$(tipos).each(function(indice,elemento){
+				var unTipoFalla = new TipoFalla(elemento);
+				tiposFalla.push(unTipoFalla);
+    			arregloTipos.push(unTipoFalla);
+    		});
+		});
+	};
+
 	var obtenerFallas = function(idFallas,arregloTipos){
 		var tiposAPedir = [];
 		if(idFallas == undefined){
@@ -321,7 +378,7 @@ var GestorMateriales = (function(){
 			else
 				tiposAPedir.push(k);
 		});
-		if (tiposAPedir.length==0) {
+		if (tiposAPedir.length==0 || tiposAPedir.length==undefined) {
 			return;
 		}
 		baseUrl = $("#baseUrlBache").text();
@@ -330,7 +387,7 @@ var GestorMateriales = (function(){
 			var tipos = JSON.parse(datos.valor);
 			$(tipos).each(function(indice,elemento){
 				var unTipoFalla = new TipoFalla(elemento);
-				diccionarioTiposFalla[elemento.id] = unTipoFalla;
+				diccionarioTiposFalla[elemento.nombre] = unTipoFalla;
     			arregloTipos.push(unTipoFalla);
     		});
 		});
@@ -342,6 +399,8 @@ var GestorMateriales = (function(){
 		materiales:diccionarioMateriales,
 		obtenerArregloMateriales:obtenerArregloMateriales,
 		obtenerFallas:obtenerFallas,
+		obtenerTiposFalla:obtenerTiposFalla,
+		tiposFalla:tiposFalla,
 		obtenerReparaciones:obtenerReparaciones
 	}
 }());
@@ -356,7 +415,7 @@ var TipoFalla = function(datos){
 		this.multimedia = null;
 		var _this = this;
 
-		console.log(datos);
+		//console.log(datos);
 		GestorMateriales.obtenerReparaciones(datos.reparaciones,_this.reparaciones);
 
 		baseUrl = $("#baseUrlBache").text();
@@ -390,7 +449,7 @@ var TipoReparacion = function(datos){
 		this.nombre = datos.nombre;
 		this.descripcion = datos.descripcion;
 		this.costo = datos.costo;
-		console.log(datos);
+		//console.log(datos);
 		var _this = this;
 		return this;
 	};
@@ -399,9 +458,13 @@ var Material = function(datos){
 		this.id = datos.id;
 		this.nombre = datos.nombre;
 		this.fallas = [];
-		console.log(datos);
+		this.tiposFallas = [];
+		//console.log(datos);
 		if (datos.codigo!=400)
+		{
 			GestorMateriales.obtenerFallas(datos.fallas,this.fallas);
+			GestorMateriales.obtenerTiposFalla(datos.fallas,this.tiposFallas);
+		}
 		return this;
 	};
 
@@ -409,15 +472,12 @@ var Bacheo = (function(){
 function obtenerMateriales() {
 		baseUrl = $("#baseUrlBache").text();
 		$.get( baseUrl+"/index.php/publico/getAlly/TipoMaterial", function(data) {
-			console.log(data);
 			var datos = JSON.parse(data);
 			if(datos.codigo ==200){
 				$(JSON.parse(datos.valor)).each(function(indice,elemento){
 	    			GestorMateriales.agregarMaterial(elemento);
 	    		});
-				console.log(datos.mensaje);
 			}else{
-				console.log("Nada que mostrar");
 				alert(datos.mensaje);
 			}
 		});

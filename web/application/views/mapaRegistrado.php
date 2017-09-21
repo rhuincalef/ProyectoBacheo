@@ -14,7 +14,7 @@
               <button id="seleccionarCalle" type='button' class="seleccionarCalle" rel="tooltip" title="Marcar calle en el Mapa" ><i class="fa fa-crosshairs"></i></button>
               <input name="altura" type="numeric" class="form-control campoDerecho" placeholder="Altura">
               <div id="contenedorSelect" class="input-group tipoFalla"></div>
-              <textarea name="descripcion" placeholder="Descripcion" maxlength="100" class="form-control campoDescripcion"></textarea>
+              <textarea name="descripcion" placeholder="Observación" maxlength="100" class="form-control campoDescripcion"></textarea>
           </form> 
           <form id="imagenesForm" action="./index.php/inicio/subirImagen/21" class="dropzone cargarImagenes">  
               <div class="dropzone-previews"></div>

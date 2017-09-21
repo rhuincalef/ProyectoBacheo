@@ -158,6 +158,8 @@ class Privado extends CI_Controller
 				foreach ($arregloIDsTiposFallas as $key => $value) {
 					array_push($tiposFalla, TipoFalla::gety($value));
 				}
+				$this->utiles->debugger('$tiposFalla');
+				$this->utiles->debugger($tiposFalla);
 				echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
 			} catch (MY_BdExcepcion $e) {
 				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
@@ -309,12 +311,18 @@ class Privado extends CI_Controller
 			$this->db->trans_begin();
 			$falla = Falla::getInstancia($datos->datos->falla->id);
 			$user = $this->ion_auth->user()->row();
+			sleep(5);
 			if ($falla->estado->validarDatos($datos))
 			{
 			$this->utiles->debugger("Válido!!!");
-				$falla->cambiarEstado($datos->datos, $usuario);
+				$falla = $falla->cambiarEstado($datos->datos, $usuario);
+				if ($falla == null) {
+					echo json_encode(array('codigo' => 500, 'mensaje' => "Error en cambiar de estado", 'valor' =>""));
+					$this->db->trans_rollback();
+				} else {
 				$this->db->trans_commit();
 				echo json_encode(array('codigo' => 200, 'mensaje' => "Pasa validación....", 'valor' =>""));
+				}
 			}
 			else
 			{

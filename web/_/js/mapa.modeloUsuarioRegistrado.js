@@ -24,10 +24,11 @@ function inicializarFormularioBache() {
 		var indice = $(this).val() - 1;
 		cargarTiposFalla(materiales[indice].fallas);
 	});
+	$opcionesMaterial.val(keysMateriales[0]);
 	$divSelect.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Tipo de Material</label>'));
 	$divSelect.append($opcionesMaterial);
 	$divSelect.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Factor Área (%)</label>'));
-	$divSelect.append('<input class="form-control campoDerecho derechoAmpliado" name="factorArea" id="factorArea" type="number" step="any" min="0"/>');
+	$divSelect.append('<input class="form-control campoDerecho derechoAmpliado" name="factorArea" id="factorArea" placeholder="0.25" type="number" step="any" min="0"/>');
 
 	$divSelect.append($('<div id="contenedorSelectFallas" class="input-group" style="width:100%;"/>'));
 	cargarTiposFalla(materiales[keysMateriales[0]].fallas);
@@ -170,12 +171,15 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades) {
 	var $unDiv = $('<div/>');
 	$unDiv.append($('<label class="label label-primary campoIzquierdo izquierdoReducido">Reparación</label>'));
 	var $opcionesReparacion = $('<select class="form-control campoDerecho derechoAmpliado" name="tipoReparacion" id="tipoReparacion"/>');
+	var opcion = new Option("No especificada",0,true,true);
+	$opcionesReparacion.append(opcion);
 	var keysReparaciones = Object.keys(reparaciones);
 	$(keysReparaciones).each(function(indice,elemento){
 	    var opcion = new Option(reparaciones[elemento].nombre,reparaciones[elemento].id,true,true);
 	    $opcionesReparacion.append(opcion);
 	  });
 	$unDiv.append($opcionesReparacion);
+	$opcionesReparacion.val(0);
 	$contenedorAtributos.append($unDiv);
 
 	var $unDiv = $('<div/>');
@@ -186,6 +190,7 @@ function cargarOpcionesFalla(atributos,reparaciones, criticidades) {
 		var opcion = new Option(elemento.nombre, elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
+	$opcionesCriticidades.val(criticidades[0].id);
 	$unDiv.append($opcionesCriticidades);
 	$contenedorAtributos.append($unDiv);
 }
@@ -210,7 +215,7 @@ function recolectarFalla() {
 		datos.observacion.comentario = $formulario["descripcion"].value;
 	}
 	datos.falla.factorArea = parseFloat(($formulario["factorArea"].value));
-	if (parseInt($formulario["tipoReparacion"].value) != 0) {
+	if (parseInt($formulario["tipoReparacion"].value) != 0 || $formulario["tipoReparacion"].value!="") {
 		datos.reparacion = {};
 		datos.reparacion.id = parseInt($formulario["tipoReparacion"].value);
 	}
@@ -353,6 +358,7 @@ $(document).ready(function(){
 	  map: $("#canvasMapa").gmap3("get"),
 	  country: 'ar',
 	  bounds:boundsTrelew,
+	  location: true,
 	  componentRestrictions:{
 	    postal_code:'9100'
 	  }

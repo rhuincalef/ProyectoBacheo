@@ -51,12 +51,16 @@ class FallaModelo extends MY_Model {
 
 	public function actualizar($falla)
 	{
+		$CI = &get_instance();
+		$CI->utiles->debugger('actualizar falla');
+		$CI->utiles->debugger($falla);
+		$this->db->where('id', $falla->id);
 		$this->db->update($this->table_name,
 						array(	'idCriticidad' => $falla->criticidad->id,
 								'idTipoMaterial' => $falla->tipoMaterial->id,
 								'idTipoFalla' => $falla->tipoFalla->id,
 								'idTipoReparacion' => $falla->tipoReparacion->id,
-								'areaAfectada' => $falla->areaAfectada,
+								'areaAfectada' => $falla->factorArea,
 								)
 						);
 	}

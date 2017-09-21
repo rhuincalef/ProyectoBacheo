@@ -46,9 +46,7 @@ $(document).ready(function(){
 		}
 		if ("Reparando"==nuevoEstado) {
 			Bache.cambiarReparado();
-			//alertar("Error!", "Falta implementación", "error");
 		}
-		//window.location.reload();
 	});
 	$("#enviarObservacion").click(function(){
 		Bache.comentar();
@@ -102,11 +100,11 @@ function estadoBache(estado, tiposEstado){
 	var indice = parseInt(inArray(estado.tipoEstado, tiposEstado));
 	if (estado.tipoEstado.nombre=="Reparado") {
 		$($(".nav.nav-tabs.tabInfo").children()[1]).hide()
-	/*
-		$("#tabEstado").hide();
-		$("#tabReparado").show();
-	*/
 		return;
+	}
+	else
+	{
+		$('#cambiarEstado').text('Cambiar estado a: '+tiposEstado[indice+1].nombre);
 	}
 	cargarFormularioTecnico(indice);
 }
@@ -124,12 +122,18 @@ function cargarMateriales () {
 	var materiales = GestorMateriales.obtenerArregloMateriales();
 	var keysMateriales = Object.keys(materiales);
 	$(keysMateriales).each(function(indice,elemento){
+		/* No se muestran aquellos tipos de materiales que no poseen tipos de falla */
+		if (materiales[elemento].fallas.length <= 0) {
+			keysMateriales.splice(indice, 1);
+			return;
+		}
 		var opcion = new Option(capitalize(materiales[elemento].nombre),materiales[elemento].id,true,true);
 		$(opcion).click(function(){
 			cargarTiposFalla(materiales[elemento].fallas);
 		});
 		$select.append(opcion);
 	});
+	$select.val(keysMateriales[0]);
 	cargarTiposFalla(materiales[keysMateriales[0]].fallas);
 }
 
@@ -175,4 +179,5 @@ function cargarOpcionesFalla (atributos,reparaciones, criticidades) {
 		var opcion = new Option(capitalize(elemento.nombre), elemento.id, true, true);
 		$opcionesCriticidades.append(opcion);
 	});
+	$opcionesCriticidades.val(criticidades[0].id);
 }

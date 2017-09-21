@@ -2,7 +2,7 @@
 <label class="control-label" for="montoEstimado"> Monto estimado</label>
 <div class="input-group">
     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-	<input id="montoEstimado" placeholder="10" class="form-control" type="number" name="montoEstimado" step="any" min="0"/>
+	<input id="montoEstimado" placeholder="$<?php echo $montoCalculado; ?>" class="form-control" type="number" name="montoEstimado" step="any" min="0"/>
 	
 </div>
 <label class="control-label" for="tipoReparacion"> Tipo de reparación seleccionado: <?php echo $tipoReparacion->nombre; ?></label>

@@ -114,6 +114,7 @@
 .tipoFalla label {
 	font-weight: 100;
 	margin-top: 4px;
+	font-size: 100%;
 }
 
 .tipoFalla > div {

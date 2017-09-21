@@ -34,8 +34,19 @@
 	</tr>
 	<tr>
 		<td> Fecha último estado </td>
-		<td id="campoFechaEstado"> <?php $estadoActual = json_decode($estado);
+		<td id="campoFechaEstado"><i class="fa fa-calendar"> <?php $estadoActual = json_decode($estado);
 		echo $estadoActual->fecha;?> </td>
 		<td></td>
 	</tr>
+	<?php
+	/* 
+	$estadoActual = json_decode($estado);
+	if ($estadoActual->tipoEstado->nombre == 'Reparado') {
+		echo "<tr>";
+		echo '<td> Fecha de reparación </td><td> <i class="fa fa-calendar"></i>';
+		echo $estadoActual->fechaFinReparacionEstimada;
+		echo "</td></tr>";
+	}
+	*/
+	?>
 </table>

@@ -687,17 +687,6 @@ class Falla implements JsonSerializable {
 		$multimediaCaptura->extension = 'csv';
 		$multimediaCaptura->falla = Falla::getInstancia($idFalla);
 		$id_nuevo_mult = $multimediaCaptura->save();
-
-/*
-		log_message('debug', 'Despues de guardar objeto MultimediaModelo ...');
-
-			log_message('debug','Guardando FallaMultimedia');
-		$obj_fallamult = new FallaMultimedia();
-		$obj_fallamult->idFalla = $idFalla;
-		$obj_fallamult->idMultimedia = $id_nuevo_mult;
-		$obj_fallamult->save();
-		log_message('debug', 'Fin de asociarCapturaAFalla ...');
-		*/
 	}
 
     public function esCalle($calle)

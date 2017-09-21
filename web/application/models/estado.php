@@ -412,6 +412,9 @@
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
 			// TODO: verificar fecha mayor a dia de hoy... Seria genial si es calculada a partir del tipo de reparacion...
 			$fechaFinReparacionEstimada = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionEstimada));
+			$CI->utiles->debugger('fechaFinReparacionEstimada');
+			$CI->utiles->debugger($datos->estado->fechaFinReparacionEstimada);
+			$CI->utiles->debugger($fechaFinReparacionEstimada);
 			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
 			//TODO: verque el tipo de reparacion exista y pertenezca al tipo de falla...
 			$arrayTipoReparacion = $falla->tipoFalla->getTiposDeReparacion();
@@ -605,6 +608,7 @@
             "estado" => get_class($this),
             'tipoFalla' => $falla->tipoFalla,
             'montoCalculado' => $falla->calcularMonto(),
+            'fechaFinReparacionEstimada' => $this->fechaFinReparacionEstimada,
             );
             return $datos;
 		}

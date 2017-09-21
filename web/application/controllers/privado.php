@@ -23,8 +23,6 @@ class Privado extends CI_Controller
 		$this->template->build_page("mapaRegistrado",$data);
 	}
 
-
-
 	// Metodo csv de descripcion
 	// public function generarDescripcion($idFalla,$carpetaFalla){
 	// 	$this->load->library('GeneradorCsv');
@@ -32,8 +30,6 @@ class Privado extends CI_Controller
 	// 	$g = new GeneradorCsv();
 	// 	echo $g->generar($idFalla,$carpetaFalla);
 	// }
-
-
 
 	// Metodo para generar el .csv a partir del csv y la imagen
 	public function obtenerDatosVisualizacion($idFalla){
@@ -311,7 +307,7 @@ class Privado extends CI_Controller
 			$this->db->trans_begin();
 			$falla = Falla::getInstancia($datos->datos->falla->id);
 			$user = $this->ion_auth->user()->row();
-			sleep(5);
+			//sleep(5);
 			if ($falla->estado->validarDatos($datos))
 			{
 			$this->utiles->debugger("Válido!!!");
@@ -320,6 +316,7 @@ class Privado extends CI_Controller
 					echo json_encode(array('codigo' => 500, 'mensaje' => "Error en cambiar de estado", 'valor' =>""));
 					$this->db->trans_rollback();
 				} else {
+				//$this->db->trans_rollback();
 				$this->db->trans_commit();
 				echo json_encode(array('codigo' => 200, 'mensaje' => "Pasa validación....", 'valor' =>""));
 				}

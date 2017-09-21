@@ -147,6 +147,7 @@ Bache = (function () {
 					window.location.reload();
 					alertar("Exito!",datos.mensaje,"success");
 				}else{
+					$(".modal").hide();
 					alertar("Error!",datos.mensaje,"error");
 				}
 		});
@@ -179,7 +180,7 @@ Bache = (function () {
 				if (datos.codigo == 200) {
 					$(".modal").hide();
 					setTimeout(3000);
-					window.location.reload();
+					//window.location.reload();
 					alertar("Exito!",datos.mensaje,"success");
 				}else{
 					$(".modal").hide();

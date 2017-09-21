@@ -4,10 +4,11 @@
     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
     <input id="montoReal" type="number" min="0" step="any" name="montoReal" placeholder="120" class="form-control"/>
 </div>
+<label class="control-label" for="fechaFinReal"><i class="fa fa-calendar"></i> Fecha de finalización reparación estimada: <?php echo "$fechaFinReparacionEstimada"; ?></label>
 <label class="control-label" for="fechaFinReal">Fecha de finalización reparación real</label>
 <div class="input-group">
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-    <input id="fechaFinReal" placeholder="<?php date("Y-m-d"); ?>" class="form-control" type="text"/>
+    <input id="fechaFinReal" placeholder="<?php date("d-m-Y"); ?>" class="form-control" type="text"/>
 </div>
 <label class="control-label" for="tipoReparacion"> Tipo de reparación seleccionado: <?php echo $tipoReparacion->nombre; ?></label>
 <!--

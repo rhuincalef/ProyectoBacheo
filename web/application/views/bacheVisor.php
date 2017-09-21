@@ -1,60 +1,44 @@
 <div class="tab-pane" id="visor">
+	<!-- Header-->
   	<h2>Captura del bache</h2>
 	<div class="row" style="text-align:center;">
 		<div class="col-lg-12 col-sm-12 col-xs-12">
 			<hr>
 		</div>
 	</div>
+
 	<!-- Contenedor para el thumnail -->
-	<div id = "containerThumnail" class="row">
-		<!-- Div para el thumbnail de la falla. -->
-		<div id = "thumnailFalla" class="col-lg-4 col-sm-4 col-xs-6">
-		  <div class="thumbnail" >
-		    <div id ="titulo" class="caption" >
-		        <div id="descripcion" >
-		        </div>
-		        <p id="contBoton"> <a id="botonVisualizador" class="btn btn-lg btn-primary" style="display:none;">Ver</a>
-		        </p>
-		    </div>
-		    <img id ="imagenThumb" class="img-responsive"></img>
-		  </div>
-		</div>
+	<div id = "containerThumbnail" class="row"></div>
+
+	<!-- Contenido con los comandos del visor de capturas -->
+	
+	<div id="ayudaVisor" class="panel panel-primary containerAyuda" >
+		<div class="panel-heading">Comandos del visor de fallas <button id="botonCerrar" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+		<div class="panel-body">
+    		<p class="parrafoPanel" > <strong>c : </strong> Cambiar entre distintos colores del panel</p>
+    		<p class="parrafoPanel"> <strong> +/- : </strong> Aumentar/disminuir el tamanio de los puntos de la captura </p>
+
+    		<p class="parrafoPanel"> <strong> ARROW Derecha / Izquierda : </strong> Rotar la imagen en sentido horario/anti-horario </p>
+    		<p class="parrafoPanel"> <strong> ARROW Adelante / Atras : </strong> Acercar/alejar la captura </p>
+
+    		<p class="parrafoPanel"> <strong> ZoomIn / ZoomOut Mouse : </strong> Acercar/alejar la captura </p>
+
+    		<p class="parrafoPanel"> <strong> Manter presionado Click : </strong> Desplazar la camara desde donde se percibe la captura </p>
+  		</div>
 	</div>
-	<!-- Imagen que se muestra cuando se carga el csv desde el servidor -->
-	<img id="cargando-gif"></img>
-
-
-	<!-- Contenedor para renderizar la nube con webGL -->
-	<div id="containerWebGL" style="display:block; width:50%; height:50%; position:relative;" >
-		<div class="row">
-			<button id="boton-info"   data-toggle="collapse"   data-target="#datos-falla" type="button" 
-			class="btn btn-primary boton-personalizado btn-lg">Info
-				<span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-			</button>
-			<!-- Boton de regreso -->
-			<button id="boton-volver"   data-toggle="collapse"   data-target="#datos-falla"   type="button" 
-			class="btn btn-primary boton-personalizado btn-lg ">Regresar </button>
-			<div id ="error-alert" style="display:none; ">Error al cargar el csv remoto</div>
-		</div>
-		<!-- Barra de progreso activada por .js -->
-		<!-- <div id="progressbar-container" class="progress progress-striped" style="position:absolute;left:10px !important; z-index:999999; width:50%; top:50%;">
-			<div id="progressbar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">3%</div>
-		</div> -->
-	</div>
-	<!-- Tabla donde se muestra la info de la falla. -->
-	<!-- <div id = "datos-falla" style="width:300px;"></div> -->
-
+	
+	
 <!-- Fin del div de tabbed panel -->
 </div> 
 
-<!-- Se carga el thumnail por javascript -->
+<!-- Se carga la coleccion de thumnails por falla -->
 <?php
 	echo "<script type='text/javascript'>";
-	echo "window.nameSpaceThumbnail.configurar_thumbnail( '".base_url("/_/img/res/generandoArchivos.svg")."' );";
-	echo "window.nameSpaceThumbnail.solicitarDatos('".$id."','".base_url()."');";
-	echo "$('#containerWebGL').hide();";
-	echo "$('#progressbar-container').hide();";
-	echo "$('#boton-info').hide();";
-	echo "$('#cargando-gif').hide();";
+
+	//imgCarga,imgError,imgFondo
+	echo "window.nameSpaceThumbnail.inicializarImgs('". base_url(URL_IMG_THUMBNAIL_CARGA) ."','". base_url(URL_IMG_THUMBNAIL_ERROR) ."','". base_url(URL_IMG_THUMBNAIL_FONDO) ."','".EXTENSION_CAPTURA ."'); ";
+
+	echo "window.nameSpaceThumbnail.solicitarCapturas(".$id.",'".base_url()."');";
+
 	echo "</script>";
 ?>

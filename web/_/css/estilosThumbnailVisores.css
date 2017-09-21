@@ -1,3 +1,7 @@
+/*
+    Estilos del thumbnail y sus elementos asociados
+*/
+
 .texto-error {
 	text-align:center !important;
 	padding-top:40% !important;
@@ -10,6 +14,59 @@
 	font-weight: bold;
 	font-size: 15px;
 }
+
+.texto-exito div > *{
+    margin-top:1%;
+}
+
+
+
+
+
+/*
+    Estilos del thumbnail principal
+*/
+
+.divContainerThumbnail {
+    width: 30%;
+}
+
+
+
+.thumbnail {
+    position:relative;
+    overflow:hidden;
+}
+
+ 
+/*
+    Contenedor del boton + titulo + descripcion.
+*/
+.caption {
+    position:absolute;
+    top:0;
+    right:0;
+    background:rgba(255, 255, 255, 0.3) none repeat scroll 0 0;
+    /*background:rgba(66, 139, 202, 0.75);*/
+    width:100%;
+    height:100%;
+    padding:2%;
+    /*padding: 10% !important;*/
+    display: none;
+    text-align:center;
+    color:#fff !important;
+    z-index:2;
+}
+
+/*.caption div > *{*/
+.caption div + *{
+    margin-top:20%;
+}
+
+/*
+    Estilos de los botones que se muestran junto con la descripcion del 
+    thumbnail.
+*/
 p#contBoton {
 	margin-top:30%;
 }
@@ -20,25 +77,10 @@ a#botonVisualizador {
 	/*margin-left: 40%;*/
 }
 
-.thumbnail {
-    position:relative;
-    overflow:hidden;
-}
- 
-.caption {
-    position:absolute;
-    top:0;
-    right:0;
-    background:rgba(255, 255, 255, 0.3) none repeat scroll 0 0;
-    /*background:rgba(66, 139, 202, 0.75);*/
-    width:100%;
-    height:100%;
-    padding:2%;
-    display: none;
-    text-align:center;
-    color:#fff !important;
-    z-index:2;
-}
+
+
+
+
 
 
 

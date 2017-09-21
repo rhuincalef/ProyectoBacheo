@@ -65,8 +65,8 @@ class Pcd_upload_model extends CI_Model
                                 $datosPeticion['nombreTipoMaterial'],
                                 $datosPeticion['nombreCriticidad'],
                                 $datosPeticion['observacion'],
-                                $datosPeticion['tipoEstado'],
-                                $datosPeticion['tipoReparacion']
+                                $datosPeticion['tipoEstado']
+                                // ,$datosPeticion['tipoReparacion']
                                                 );
 
                 //Error en inicializarFallaAnonima, se adjunta al mensaje el error a la salida final.
@@ -147,7 +147,8 @@ class Pcd_upload_model extends CI_Model
         // https://www.codeigniter.com/userguide2/libraries/file_uploading.html
         $config['upload_path'] = $PCD_UPLOAD_FOLDER."/";
         $this->crearDir($PCD_UPLOAD_FOLDER);
-        $config['allowed_types'] = 'text|txt|csv';
+        //$config['allowed_types'] = 'text|txt|csv';
+        $config['allowed_types'] = FORMATO_ARCHIVO_CAPTURA;
         $config['overwrite'] = FALSE;
         $config['max_size'] = '0';
         // Se inicializa la libreria upload con los valores de configuracion. 

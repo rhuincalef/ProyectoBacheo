@@ -34,10 +34,17 @@
 	    <!-- Se cargan las librerias para la generacion de la imagen y 
 	    la descripcion del thumnail. -->
 	   
-	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/inicializador_webGL.js"></script>
-	    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/errorThumbnail.css">
+	    <!--<script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/inicializador_webGL.js"></script>
+
+	    
+	    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/estilosThumbnailVisores.css">
+
+
+	    
 	    <script type='text/javascript' src="<?php echo $this->config->base_url(); ?>_/js/conversorJs.js" ></script>
-	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>
+	    <script type="text/javascript" src ="<?php echo $this->config->base_url(); ?>_/js/thumnailFalla.js" ></script>-->
+
+
 		<link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>_/css/noscroll.css">
 
 	    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>_/js/libs/PNotify/pnotify.custom.min.js"></script>

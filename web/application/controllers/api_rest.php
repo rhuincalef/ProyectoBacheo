@@ -168,7 +168,9 @@ class Api_rest extends REST_Controller {
     public function obtener_props_confirmadas_get(){
         require_once('CustomLogger.php');
         CustomLogger::log('En de obtener_props_confirmadas()...');
+        log_message('debug','En api_rest.obtener_props_confirmadas');
         $data = TipoFalla::getTiposAsociados();
+        log_message('debug','Despues de getTiposAsociados()...');
         echo json_encode($data);
     }
 

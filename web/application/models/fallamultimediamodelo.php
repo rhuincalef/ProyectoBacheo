@@ -10,6 +10,10 @@ class FallaMultimediaModelo extends MY_Model
 
 	public function save($falla)
 	{
+		log_message('debug', 'Estoy en save() guardando el objeto falla');
+		log_message('debug', 'La tabla tiene: ');
+		log_message('debug', $this->table_name);
+		log_message('debug', '============================================');
 		$this->db->insert($this->table_name,
 						 array( 
 						 		'idFalla' => $falla->idFalla,
@@ -18,6 +22,7 @@ class FallaMultimediaModelo extends MY_Model
 						 );
 		return $this->db->insert_id();
 	}
+
 
 	public function save2($multimedia)
 	{

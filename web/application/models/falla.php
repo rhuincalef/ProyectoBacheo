@@ -22,18 +22,55 @@ class Falla implements JsonSerializable {
 	private function inicializar($datos)
 	{
 		$CI = &get_instance();
+
 		$this->id = $datos->id;
 		$this->latitud = $datos->latitud;
 		$this->longitud = $datos->longitud;
 		$this->direccion = Direccion::getInstancia($datos->idDireccion);
+		
 		$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
+
 		$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
+
 		$this->estado = Estado::getEstadoActual($this->id);
 		// El estado de la falla conoce los demás atributos que se deben inicializar 
 		$this->estado->inicializarFalla($this, $datos);
     	//CustomLogger::log('despues de inicializarFalla()...');
 		$this->estado->falla = $this;
 	}
+
+
+	//Inicializar falla anomina exclusivo para fallas de appCliente
+	private function inicializarAnonima($datos)
+	{
+		$CI = &get_instance();
+
+		$this->id = $datos->id;
+		$this->latitud = $datos->latitud;
+		$this->longitud = $datos->longitud;
+		log_message('debug','asignadas lat y long');
+		$this->direccion = Direccion::getInstancia($datos->idDireccion);
+		log_message('debug','asignada direccion');
+		
+		$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
+		log_message('debug','asiganada tipomaterial');
+
+		$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
+		log_message('debug','asiganada tipofalla');
+
+		$this->estado = Estado::getEstadoActual($this->id);
+		// El estado de la falla conoce los demás atributos que se deben inicializar 
+		//$this->estado->inicializarFalla($this, $datos);
+		$this->estado->inicializarFallaAnonima($this, $datos);
+		log_message('debug','despues de estado->inicializarFalla()...');
+    	//CustomLogger::log('despues de inicializarFalla()...');
+		$this->estado->falla = $this;
+		log_message('debug','Fin de falla.inicializar()');
+	}
+
+
+
+
 
 	public function getId(){
 		return $this->id;
@@ -43,8 +80,31 @@ class Falla implements JsonSerializable {
 	{
 		$CI = &get_instance();
 		$falla = new Falla();
+		log_message('debug',"En falla.getInstancia()...");
 		$datos = $CI->FallaModelo->get($id);
+		
+
+		log_message('debug',"datos de la falla -->");
+		$d = print_r($datos,true);
+		log_message('debug',$d);
+
 		$falla->inicializar($datos);
+		return $falla;
+	}
+	
+	static public function getInstanciaAnonima($id)
+	{
+		$CI = &get_instance();
+		$falla = new Falla();
+		log_message('debug',"En falla.getInstancia()...");
+		$datos = $CI->FallaModelo->get($id);
+		
+		log_message('debug',"datos de la falla -->");
+		$d = print_r($datos,true);
+		log_message('debug',$d);
+
+		//$falla->inicializar($datos);
+		$falla->inicializarAnonima($datos);
 		return $falla;
 	}
 
@@ -502,7 +562,7 @@ class Falla implements JsonSerializable {
 			'msg' => 'OK falla anonima generada'
 			);
 		$idFallaNueva = FALLA_INVALIDA;
-			$rangoEstimado1 = $rangoEstimado2 =  $altura = FALLA_PHP_CALLE_NO_DISPONIBLE;
+		$rangoEstimado1 = $rangoEstimado2 =  $altura = FALLA_PHP_CALLE_NO_DISPONIBLE;
 		$calleSecundariaA = $calleSecundariaB = $calle = CALLE_NO_OBTENIDA;
 
 		log_message('debug','$rangoEstimado1 tiene:');
@@ -683,13 +743,26 @@ class Falla implements JsonSerializable {
 		log_message('debug', '--------------------------------------------- ');
 		$multimediaCaptura = new Multimedia();
 		$multimediaCaptura->nombreArchivo = $nombre_archivo;
-		$array_file_name = explode('.', $nombre_archivo);
-		$extension = end($array_file_name);
+		//$array_file_name = explode('.', $nombre_archivo);
+		//$extension = end($array_file_name);
 		
 		//$multimediaCaptura->extension = 'csv';
 		$multimediaCaptura->extension = FORMATO_ARCHIVO_CAPTURA;
-		$multimediaCaptura->falla = Falla::getInstancia($idFalla);
-		$id_nuevo_mult = $multimediaCaptura->save();
+		log_message('debug', 'Creado objeto multimedia captura... ');
+		log_message('debug', 'Buscando falla asociada con id '. $idFalla);
+		
+		//$multimediaCaptura->falla = Falla::getInstancia($idFalla);
+		$multimediaCaptura->falla = Falla::getInstanciaAnonima($idFalla);
+		log_message('debug', 'Obtenida falla asociada a Multimedia ');
+		$id_nuevo_mult = $multimediaCaptura->savePCD();
+		//$id_nuevo_mult = $multimediaCaptura->save();
+
+		log_message('debug','Guardando FallaMultimedia');
+        $obj_fallamult = new FallaMultimedia();
+        $obj_fallamult->idFalla = $idFalla;
+        $obj_fallamult->idMultimedia = $id_nuevo_mult;
+        $obj_fallamult->save();
+	 	log_message('debug', 'Fin de asociarCapturaAFalla ...');
 	}
 
     public function esCalle($calle)
@@ -758,14 +831,18 @@ class Falla implements JsonSerializable {
 
     static function getAtributos($idFalla)
     {
+    	log_message('debug','En falla.getAtributos()');
     	$CI = &get_instance();
     	$datos = $CI->FallaModelo->getAtributos($idFalla);
+    	log_message('debug','Datos atributos leidos...');
+
     	$arrayAtributos = array();
     	foreach ($datos as $datosAtributo) {
     		$atributo = $CI->TipoAtributo->getInstancia($datosAtributo->idTipoAtributo);
     		$atributo->valor = $datosAtributo->valor;
     		array_push($arrayAtributos, $atributo);
     	}
+    	log_message('debug','Fin falla.getAtributos()');
     	return $arrayAtributos;
     }
 

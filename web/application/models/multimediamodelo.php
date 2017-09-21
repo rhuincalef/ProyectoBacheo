@@ -17,6 +17,17 @@ class MultimediaModelo extends MY_Model
 		}
 		return $query->result()[0];
 	}
+	// Usado para almacenar los pcd
+	public function getAll($idFalla)
+	{
+		$query = $this->db->get_where('MultimediaModelo', array('idFalla' => $idFalla));
+		if (empty($query->result()))
+		{
+			throw new MY_BdExcepcion('Sin resultados');
+		}
+		return $query->result();
+	}
+
 
 	public function save($multimedia)
 	{
@@ -32,5 +43,7 @@ class MultimediaModelo extends MY_Model
 		$this->db->where('id', $multimedia->id);
 		$this->db->update($this->table_name, array('nombreArchivo' => $multimedia->nombreArchivo));
 	}
+
+
 
 }

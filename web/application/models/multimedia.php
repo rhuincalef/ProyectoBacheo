@@ -34,6 +34,26 @@ class Multimedia
 		return $multimedia;
 	}
 
+	static public function getAll($idFalla)
+	{
+		$CI = &get_instance();
+		$multimedias = array();
+		$datos = $CI->MultimediaModelo->getAll($idFalla);
+		$multimedias = array_map(function($obj){ return Multimedia::getInstacia($obj); },$datos);
+		return $multimedias;
+	}
+
+	// Usado para almacenar los pcd
+	public function savePCD()
+	{
+		$CI = &get_instance();
+		$this->id = $CI->MultimediaModelo->save($this);
+		$this->accion();
+		$CI->MultimediaModelo->update($this);
+		return $this->id;
+	}
+
+
 	public function save()
 	{
 		/* Do something. */

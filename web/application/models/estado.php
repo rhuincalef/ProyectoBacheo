@@ -367,15 +367,42 @@
 
 		public function inicializarFalla($falla, $datos)
 		{
+			//log_message('debug','En estado.inicializarFalla()');
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			//CustomLogger::log('idCriticidad: '.gettype($datos->idCriticidad));
+			//log_message('debug','idCriticidad: ');
+			//log_message('debug',$datos->idCriticidad);
+
 			if ($datos->idTipoReparacion!=NULL) {
-				//CustomLogger::log('idTipoReparacion: '.gettype($datos->idTipoReparacion));
+				//log_message('debug','Entre por el tipo reparacion!');
 				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			}
+			//log_message('debug','Despues del if de tipo reparacion!');
 			$falla->factorArea = $datos->areaAfectada;
 			$falla->atributos = Falla::getAtributos($falla->id);
+			
+			/*log_message('debug','factorArea: ');
+			log_message('debug',$datos->factorArea);
+			log_message('debug','Fin estado.inicializarFalla()');*/
+
 		}
+
+
+		//Metodo exclusivo para las fallas que se suben desde appCliente
+		//
+		public function inicializarFallaAnonima($falla, $datos)
+		{
+			log_message('debug','En estado.inicializarFalla()');
+			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
+			log_message('debug','idCriticidad: ');
+			log_message('debug',$datos->idCriticidad);
+			$falla->factorArea = $datos->areaAfectada;
+			//$falla->atributos = Falla::getAtributos($falla->id);
+			log_message('debug','factorArea: ');
+			log_message('debug',$datos->factorArea);
+			log_message('debug','Fin estado.inicializarFalla()');
+		}
+
+
 
 		public function to_array($falla)
 		{

@@ -367,43 +367,61 @@
 
 		public function inicializarFalla($falla, $datos)
 		{
-			//log_message('debug','En estado.inicializarFalla()');
+
+			log_message('debug','En estado.inicializarFalla()');
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			//log_message('debug','idCriticidad: ');
-			//log_message('debug',$datos->idCriticidad);
+			log_message('debug','idCriticidad: ');
+			log_message('debug',$datos->idCriticidad);
 
 			if ($datos->idTipoReparacion!=NULL) {
 				//log_message('debug','Entre por el tipo reparacion!');
 				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			}
-			//log_message('debug','Despues del if de tipo reparacion!');
+
+			log_message('debug','Despues del if de tipo reparacion!');
 			$falla->factorArea = $datos->areaAfectada;
+			CustomLogger::log('En estado->inicializarFalla()...');	
+
 			$falla->atributos = Falla::getAtributos($falla->id);
+
+			CustomLogger::log('Fin de estado->inicializarFalla()! ');	
 			
-			/*log_message('debug','factorArea: ');
-			log_message('debug',$datos->factorArea);
-			log_message('debug','Fin estado.inicializarFalla()');*/
-
-		}
-
-
-		//Metodo exclusivo para las fallas que se suben desde appCliente
-		//
-		public function inicializarFallaAnonima($falla, $datos)
-		{
-			log_message('debug','En estado.inicializarFalla()');
-			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			log_message('debug','idCriticidad: ');
-			log_message('debug',$datos->idCriticidad);
-			$falla->factorArea = $datos->areaAfectada;
-			//$falla->atributos = Falla::getAtributos($falla->id);
 			log_message('debug','factorArea: ');
 			log_message('debug',$datos->factorArea);
 			log_message('debug','Fin estado.inicializarFalla()');
+			
+
+		}
+
+		//NUEVA VERSION.
+		//Se convierten los parametros segun el tipo de falla confirmada que sea,
+		//ya sea las que se crean desde la webapp con TipoAtributos y las que se 
+		//suben desde appCliente.
+		// 
+		public function to_array($falla)
+		{
+			CustomLogger::log('En estado.to_array()');	
+			$datos = array(
+            "id" => $falla->id,
+            "latitud" => $falla->latitud,
+            "longitud" => $falla->longitud,
+            "alturaCalle" => $falla->direccion->altura,
+            "calle" => $falla->direccion->callePrincipal->nombre,
+            "criticidad" => ucfirst($falla->criticidad->nombre),
+            "imagenes"=> json_encode($falla->obtenerImagenes()),
+			'montoCalculado' => $falla->calcularMonto(),            
+            //"observaciones"=>$this->obtenerObservaciones($idBache)
+            "titulo" => ucfirst($falla->tipoFalla->nombre),
+            "estado" => get_class($this),
+            'tipoFalla' => $falla->tipoFalla,
+            'tipoReparacion' => $falla->getTipoReparacion(),
+            // "estado" => json_encode($falla->estado),
+            );
+            return $datos;
 		}
 
 
-
+		/*
 		public function to_array($falla)
 		{
 			$datos = array(
@@ -424,6 +442,8 @@
             );
             return $datos;
 		}
+		*/
+
 
 		public function cambiar($falla, $datos=array(), $usuario)
 		{

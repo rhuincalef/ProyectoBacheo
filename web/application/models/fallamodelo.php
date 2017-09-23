@@ -104,14 +104,17 @@ class FallaModelo extends MY_Model {
 	{
 		log_message('debug','En fallamodelo.getAtributos()');
 		$query = $this->db->get_where('FallaTipoAtributoModelo', array('idFalla' => $idFalla));
+		
 		log_message('debug','$query->result()');
 		$aux = print_r($query->result(),true);
 		log_message('debug',$aux);
 
 		if (empty($query->result()))
 		{
-			log_message('debug','sin atributso excepcion!');
-			throw new MY_BdExcepcion('Sin resultados');
+			//throw new MY_BdExcepcion('Sin resultados');
+			log_message('debug','Falla '.$idFalla.' sin tipoAtributos!');
+			$query = array();
+			return $query;
 		}
 		log_message('debug','Fin falla.getAtributos()');
 		return $query->result();

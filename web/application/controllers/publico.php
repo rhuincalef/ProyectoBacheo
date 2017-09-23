@@ -319,11 +319,14 @@ class Publico extends Frontend_Controller
 			$mensaje = "No hay elementos para mostrar";
 			if(count($fallas) != 0)
 			{
+				CustomLogger::log('fallas mayores a cero');
 				$codigo = 200;
 				$mensaje = "Elementos Cargados";
+
 			}
 			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($fallas)));
 		} catch (MY_BdExcepcion $e) {
+			CustomLogger::log('Excepcion ocurrida');
 			echo json_encode(array('codigo' => 400, 'mensaje' => $mensaje, 'valor' =>json_encode('')));
 			
 		}

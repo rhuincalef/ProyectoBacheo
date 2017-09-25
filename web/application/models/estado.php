@@ -1,13 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
 	class Estado
-	// class Estado implements JsonSerializable
 	{
 		var $id;
 		var $falla;
 		var $usuario;
 		var $tipoEstado;
 		var $monto;
+		var $montoReal;
 		var $fechaFinReparacionReal;
 		var $fechaFinReparacionEstimada;
 		
@@ -43,12 +43,9 @@
 		{
 			$CI = &get_instance();
 			$datos = $CI->EstadoModelo->getUltimoEstado($idFalla);
-			//$CI->utiles->debugger($datos);
 			$datosTipoEstado = $CI->TipoEstadoModelo->get($datos->idTipoEstado);
 			$nombreTipoEstado = ucfirst($datosTipoEstado->nombre);
 			$estado = $nombreTipoEstado::getInstancia($datos);
-			// date('F jS, Y h:i:s', strtotime($date));
-			// $estado->fecha = date("F d Y h:i:s", strtotime($datos->fecha));
 			$estado->fecha = date("d-m-Y h:i", strtotime($datos->fecha));
 			return $estado;
 		}
@@ -64,19 +61,14 @@
 			return $this->to_array($this->falla);
 		}
 
-		// public function jsonSerialize()
-		// {
-		// 	return;
-		// }
-
 		//AGREGADO RODRIGO
 		//Conserva la falla solamente si esta informada 
-		public function filtrar($f,$calleDecodificada)
+		public function filtrar($f, $calleDecodificada)
 		{	
 			return NULL;
 		}
 
-		public function esCalleBuscada($falla,$calleDecodificada1){
+		public function esCalleBuscada($falla, $calleDecodificada1){
 			return FALSE;
 		}
 
@@ -108,7 +100,6 @@
 		{
 			$this->id = $datos->id;
 			$this->falla = $datos->idFalla;
-			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
 		public function inicializarFalla($falla, $datos)
@@ -276,12 +267,6 @@
 		public function esCalleBuscada($falla,$calleDecodificada1){
 			$nombreCalle = strtolower($falla->direccion->getNombre());
 			$calleDecodificada = strtolower($calleDecodificada1);
-			//CustomLogger::log("nombreCalle: ".$nombreCalle);
-			//CustomLogger::log("calleDecodificada: ".$calleDecodificada);
-			//CustomLogger::log("strcmp($nombreCalle,$calleDecodificada) = ".strcmp($nombreCalle,$calleDecodificada) );
-			//CustomLogger::log("strlen(nombreCalle) = ". strlen( rtrim(ltrim($nombreCalle))));
-			//CustomLogger::log("strlen(calleDecodificada) = ". strlen($calleDecodificada));
-
 			//Se eliminan los espacios en blanco al inicio y al final de la calle enviada por parametro y la calle de la BD.
 			$cadTrimeada1 = rtrim(ltrim($nombreCalle));
 			$cadTrimeada2 = rtrim(ltrim($calleDecodificada));
@@ -367,23 +352,12 @@
 
 		public function inicializarFalla($falla, $datos)
 		{
-			//log_message('debug','En estado.inicializarFalla()');
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-			//log_message('debug','idCriticidad: ');
-			//log_message('debug',$datos->idCriticidad);
-
 			if ($datos->idTipoReparacion!=NULL) {
-				//log_message('debug','Entre por el tipo reparacion!');
 				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			}
-			//log_message('debug','Despues del if de tipo reparacion!');
 			$falla->factorArea = $datos->areaAfectada;
 			$falla->atributos = Falla::getAtributos($falla->id);
-			
-			/*log_message('debug','factorArea: ');
-			log_message('debug',$datos->factorArea);
-			log_message('debug','Fin estado.inicializarFalla()');*/
-
 		}
 
 
@@ -500,10 +474,8 @@
 		{
 			$this->id = $datos->id;
 			$this->falla = $datos->idFalla;
-			$CI = &get_instance();
 			$this->monto =$datos->montoEstimado;
 			$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
-			// $this->falla = Falla::getInstancia($datos->idFalla);;
 		}
 
 		public function saveReparando()
@@ -557,7 +529,6 @@
 			// TODO: tener en cuenta que la fecha ingresada en reparacion real sea mayor a la fecha estimada...
 			$fechaFinReparacionReal = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionReal));
 			$nuevoEstado->fechaFinReparacionReal = $fechaFinReparacionReal;
-			//$nuevoEstado->falla->tipoReparacion = TipoReparacion::getInstancia($datos->estado->idTipoReparacion);
 			$nuevoEstado->id = $nuevoEstado->saveReparado();
 			//$nuevoEstado->falla->actualizarReparacion();
 			return $nuevoEstado;
@@ -603,6 +574,10 @@
 		{
 			$this->id = $datos->id;
 			$this->falla = $datos->idFalla;
+			$this->monto =$datos->montoEstimado;
+			$this->montoReal =$datos->montoReal;
+			$this->fechaFinReparacionEstimada = $datos->fechaFinReparacionEstimada;
+			$this->fechaFinReparacionReal = $datos->fechaFinReparacionReal;
 		}
 
 		public function saveReparado()

@@ -182,7 +182,8 @@ class Pcd_upload_model extends CI_Model
             log_message('debug',  $this->upload->data()['file_type'] );
             log_message('debug', "config.file_size (Kb) tiene: ");
             log_message('debug',  $this->upload->data()['file_size'] );
-            array_push($archivosSubidos, $this->upload->data()["full_path"]);
+            //array_push($archivosSubidos, $this->upload->data()["full_path"]);
+            array_push($archivosSubidos, $this->config->item('pcd_dir').$this->upload->data()["file_name"]);
         }
         log_message('debug', "Fin de subir_archivo()... ");
         return $archivosSubidos;

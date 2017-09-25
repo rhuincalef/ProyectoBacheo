@@ -53,7 +53,6 @@ class Multimedia
 		return $this->id;
 	}
 
-
 	public function save()
 	{
 		/* Do something. */

@@ -421,7 +421,7 @@ class Publico extends Frontend_Controller
 		//$this->db->trans_begin();
 		$falla = Falla::getInstancia($idBache);
 		$imagen = new Imagen();
-		$imagen->inicializar($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_path'));
+		$imagen->inicializar($idBache, $_FILES['file']['name'], $_FILES['file']['tmp_name'], $this->config->item('upload_img_path'));
 		$array_file_name = explode('.', $_FILES['file']['name']);
 		$extension = end($array_file_name);
 		$imagen->setType($extension);

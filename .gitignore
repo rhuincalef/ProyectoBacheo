@@ -42,7 +42,7 @@ dwsync.xml
 .svn
 publish
 .idea
-web/imgSubidas/*
+web/_/Multimedias/*
 
 # build script local files
 build/buildinfo.properties

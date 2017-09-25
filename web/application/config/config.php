@@ -373,8 +373,10 @@ $config['proxy_ips'] = '';
 
 // Tener en cuenta de habilitar los permisos necesarios (recursivamente) en la subida de
 // los diferentes tipos de archivos
-// Constantes para resolver la subida de archivos de fallas
+// $config['upload_path'] Carpeta base para la subida de archivos multimedia
 $config['upload_path'] = '_/Multimedias';
+// Constantes para resolver la subida de archivos de fallas
+$config['upload_img_path'] = $config['upload_path'].'/imgMultimedia/';
 
 
 
@@ -383,7 +385,7 @@ $config['upload_path'] = '_/Multimedias';
 // Constantes para resolver la visualizacion en WebGL
 // $config['main_dir_web_app'] = "/web";
 $config['path_web'] = "/web/";
-$config['pcd_dir'] = '_/dataMultimedia/';
+$config['pcd_dir'] = $config['upload_path'].'/dataMultimedia/';
 $config['dir_csv'] = '';
 $config['subfijo_csv_pc'] = '_pc.csv' ;
 $config['subfijo_csv_info'] = '_info.csv';

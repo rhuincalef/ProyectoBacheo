@@ -27,19 +27,22 @@ class Falla implements JsonSerializable {
 		$this->latitud = $datos->latitud;
 		$this->longitud = $datos->longitud;
 		$this->direccion = Direccion::getInstancia($datos->idDireccion);
-		
+		CustomLogger::log('Obtenida instancia correctamente!');
 		$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
-
+		CustomLogger::log('Obtenido tipoMaterial');
 		$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
+		CustomLogger::log('Obtenido tipoFalla');
 
 		$this->estado = Estado::getEstadoActual($this->id);
 		// El estado de la falla conoce los demás atributos que se deben inicializar 
+		CustomLogger::log('Obtenido estado');
 		$this->estado->inicializarFalla($this, $datos);
+		CustomLogger::log('inicializado el estado');
     	//CustomLogger::log('despues de inicializarFalla()...');
 		$this->estado->falla = $this;
 	}
 
-
+	/*
 	//Inicializar falla anomina exclusivo para fallas de appCliente
 	private function inicializarAnonima($datos)
 	{
@@ -60,14 +63,14 @@ class Falla implements JsonSerializable {
 
 		$this->estado = Estado::getEstadoActual($this->id);
 		// El estado de la falla conoce los demás atributos que se deben inicializar 
-		//$this->estado->inicializarFalla($this, $datos);
-		$this->estado->inicializarFallaAnonima($this, $datos);
+		$this->estado->inicializarFalla($this, $datos);
+		//$this->estado->inicializarFallaAnonima($this, $datos);
 		log_message('debug','despues de estado->inicializarFalla()...');
     	//CustomLogger::log('despues de inicializarFalla()...');
 		$this->estado->falla = $this;
 		log_message('debug','Fin de falla.inicializar()');
 	}
-
+	*/
 
 
 
@@ -103,8 +106,8 @@ class Falla implements JsonSerializable {
 		$d = print_r($datos,true);
 		log_message('debug',$d);
 
-		//$falla->inicializar($datos);
-		$falla->inicializarAnonima($datos);
+		$falla->inicializar($datos);
+		//$falla->inicializarAnonima($datos);
 		return $falla;
 	}
 
@@ -471,11 +474,13 @@ class Falla implements JsonSerializable {
     			CustomLogger::log('------------------------ ');
 				$falla = new Falla();
 				$falla->inicializar($row);
+    			CustomLogger::log('Instanciado objeto Falla! ');
 				array_push($fallas, $falla);
 			
 			}
 		}	
 		catch (MY_BdExcepcion $e) {
+			CustomLogger::log('Excepcion al obtener las fallas ');	
 			echo 'Excepcion capturada: ',  $e->getMessage(), "\n";
 		}
 		return $fallas;
@@ -807,10 +812,15 @@ class Falla implements JsonSerializable {
 
     public function calcularMonto()
     {
+    	CustomLogger::log('En falla.calcularMonto()');
+
     	/* TODO: $this->tipoReparacion valor puede ser null hasta reparando */
-    	if (!property_exists($this, 'tipoReparacion')) {
+    	if (!property_exists($this, 'tipoReparacion') or ($this->tipoReparacion==NULL) ) {
+    		CustomLogger::log('La propiedad tipoReparacion NO existe!');
     		return 34*100;
     	}
+    	CustomLogger::log('La propiedad tipoReparacion existe!');
+
     	$costoReparacion = $this->tipoReparacion->getCosto();
     	$valorAtributos = array();
     	foreach ($this->atributos as $atributo) {
@@ -836,6 +846,9 @@ class Falla implements JsonSerializable {
     	$datos = $CI->FallaModelo->getAtributos($idFalla);
     	log_message('debug','Datos atributos leidos...');
 
+    	if (count($datos)==0)
+    		return NULL;
+
     	$arrayAtributos = array();
     	foreach ($datos as $datosAtributo) {
     		$atributo = $CI->TipoAtributo->getInstancia($datosAtributo->idTipoAtributo);
@@ -845,6 +858,8 @@ class Falla implements JsonSerializable {
     	log_message('debug','Fin falla.getAtributos()');
     	return $arrayAtributos;
     }
+
+	
 
     public function actualizarReparacion()
     {

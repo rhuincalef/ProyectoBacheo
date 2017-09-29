@@ -13,6 +13,12 @@ class Falla implements JsonSerializable {
 	var $influencia;
 	var $factorArea;
 	// var $estados;
+	/**
+	 * error message (uses lang file)
+	 *
+	 * @var string
+	 **/
+	protected $errors;
 	
 	function __construct()
 	{
@@ -27,18 +33,11 @@ class Falla implements JsonSerializable {
 		$this->latitud = $datos->latitud;
 		$this->longitud = $datos->longitud;
 		$this->direccion = Direccion::getInstancia($datos->idDireccion);
-		CustomLogger::log('Obtenida instancia correctamente!');
 		$this->tipoMaterial = tipoMaterial::getInstancia($datos->idTipoMaterial);
-		CustomLogger::log('Obtenido tipoMaterial');
 		$this->tipoFalla = TipoFalla::getInstancia($datos->idTipoFalla);
-		CustomLogger::log('Obtenido tipoFalla');
-
 		$this->estado = Estado::getEstadoActual($this->id);
 		// El estado de la falla conoce los demás atributos que se deben inicializar 
-		CustomLogger::log('Obtenido estado');
 		$this->estado->inicializarFalla($this, $datos);
-		CustomLogger::log('inicializado el estado');
-    	//CustomLogger::log('despues de inicializarFalla()...');
 		$this->estado->falla = $this;
 	}
 
@@ -173,13 +172,10 @@ class Falla implements JsonSerializable {
 		switch ($valor) {
 			case 'Falla':
 				return self::validarDatosFalla($datos);
-				// break;
 			case 'FallaAnonima':
 				return self::validarDatosFallaAnonima($datos);
-				// break;
 			default:
 				return false;
-				// break;
 		}
 	}
 	/*
@@ -528,20 +524,16 @@ class Falla implements JsonSerializable {
 	{
 		$CI = &get_instance();
 		$nuevoEstado = $this->estado->cambiar($this, $datos, $usuario);
-		$CI->utiles->debugger('Antes de comparacion x null');
 		if ($nuevoEstado == null) {
 			return null;
 		}
-		$CI->utiles->debugger('Dsps de comparacion x null');
 		$this->estado = $nuevoEstado;
-		$CI->utiles->debugger($nuevoEstado);
 		$this->asociarEstado();
 		return $this;
 	}
 
 	public function jsonSerialize() {
 		// Estado conoce los datos que debe mostrar
-        // return array('id' => $this->id, );
         return $this->estado->toJsonSerialize();
     }
 
@@ -812,22 +804,7 @@ class Falla implements JsonSerializable {
 
     public function calcularMonto()
     {
-    	CustomLogger::log('En falla.calcularMonto()');
-
-    	/* TODO: $this->tipoReparacion valor puede ser null hasta reparando */
-    	if (!property_exists($this, 'tipoReparacion') or ($this->tipoReparacion==NULL) ) {
-    		CustomLogger::log('La propiedad tipoReparacion NO existe!');
-    		return 34*100;
-    	}
-    	CustomLogger::log('La propiedad tipoReparacion existe!');
-
-    	$costoReparacion = $this->tipoReparacion->getCosto();
-    	$valorAtributos = array();
-    	foreach ($this->atributos as $atributo) {
-    		array_push($valorAtributos, ($atributo->getValor() * $costoReparacion));
-    	}
-    	$monto = array_sum($valorAtributos);
-    	return $monto;
+    	return $this->estado->calcularMonto();
     }
 
     public function getTipoReparacion()

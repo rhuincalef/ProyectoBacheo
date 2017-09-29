@@ -56,3 +56,4 @@
       </div>
 </div>
 </header>
+<?php $this->load->view('ayudaModal.php'); ?>

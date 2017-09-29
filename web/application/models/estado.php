@@ -77,6 +77,11 @@
 	    	return $this->tipoEstado->esTipoEstadoActual($tipoEstado);
 	    }
 
+	    public function calcularMonto()
+	    {
+	    	return 0;
+	    }
+
 	}
 
 	
@@ -270,18 +275,10 @@
 			//Se eliminan los espacios en blanco al inicio y al final de la calle enviada por parametro y la calle de la BD.
 			$cadTrimeada1 = rtrim(ltrim($nombreCalle));
 			$cadTrimeada2 = rtrim(ltrim($calleDecodificada));
-			CustomLogger::log("strcmp($cadTrimeada1,$cadTrimeada2) = ".strcmp($cadTrimeada1,$cadTrimeada2));
-
 			$result = FALSE;
 			if (strcmp($cadTrimeada1,$cadTrimeada2) == 0) {
 				$result = TRUE;
 			}
-			if ($result== TRUE) {
-				CustomLogger::log("retornando resultado TRUE");
-			}else{
-				CustomLogger::log("retornando resultado FALSE");
-			}
-			CustomLogger::log("-----------------------------------------");
 			return $result;
 		}
 		
@@ -353,13 +350,10 @@
 		public function inicializarFalla($falla, $datos)
 		{
 			$falla->criticidad = Criticidad::getInstancia($datos->idCriticidad);
-
 			if ($datos->idTipoReparacion!=NULL) {
 				$falla->tipoReparacion = TipoReparacion::getInstancia($datos->idTipoReparacion);
 			}
 			$falla->factorArea = $datos->areaAfectada;
-			CustomLogger::log('En estado->inicializarFalla()...');	
-
 			$falla->atributos = Falla::getAtributos($falla->id);
 		}
 
@@ -390,6 +384,20 @@
             return $datos;
 		}
 
+		public function calcularMonto()
+		{
+			if (!property_exists($this->falla, 'tipoReparacion') or ($this->falla->tipoReparacion==NULL) ) {
+				CustomLogger::log('La propiedad tipoReparacion NO existe!');
+				return 34*100;
+			}
+			$costoReparacion = $this->falla->tipoReparacion->getCosto();
+			$valorAtributos = array();
+			foreach ($this->falla->atributos as $atributo) {
+				array_push($valorAtributos, ($atributo->getValor() * $costoReparacion));
+			}
+			$monto = array_sum($valorAtributos);
+			return $monto;
+		}
 
 		/*
 		public function to_array($falla)
@@ -429,9 +437,6 @@
 			$nuevoEstado->montoEstimado = $datos->estado->montoEstimado;
 			// TODO: verificar fecha mayor a dia de hoy... Seria genial si es calculada a partir del tipo de reparacion...
 			$fechaFinReparacionEstimada = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionEstimada));
-			$CI->utiles->debugger('fechaFinReparacionEstimada');
-			$CI->utiles->debugger($datos->estado->fechaFinReparacionEstimada);
-			$CI->utiles->debugger($fechaFinReparacionEstimada);
 			$nuevoEstado->fechaFinReparacionEstimada = $fechaFinReparacionEstimada;
 			//TODO: verque el tipo de reparacion exista y pertenezca al tipo de falla...
 			$arrayTipoReparacion = $falla->tipoFalla->getTiposDeReparacion();
@@ -546,7 +551,6 @@
 			$fechaFinReparacionReal = date("d-m-Y", strtotime($datos->estado->fechaFinReparacionReal));
 			$nuevoEstado->fechaFinReparacionReal = $fechaFinReparacionReal;
 			$nuevoEstado->id = $nuevoEstado->saveReparado();
-			//$nuevoEstado->falla->actualizarReparacion();
 			return $nuevoEstado;
 		}
 
@@ -563,6 +567,17 @@
 
 			$validator = new AndExpression(array($noTerminalFalla, $noTerminalEstado), "datos");
 			return $validator->interpret($datos);
+		}
+
+		public function calcularMonto()
+		{
+			$costoReparacion = $this->falla->tipoReparacion->getCosto();
+			$valorAtributos = array();
+			foreach ($this->falla->atributos as $atributo) {
+				array_push($valorAtributos, ($atributo->getValor() * $costoReparacion));
+			}
+			$monto = array_sum($valorAtributos);
+			return $monto;
 		}
 
 	}
@@ -625,7 +640,7 @@
             "titulo" => ucfirst($falla->tipoFalla->nombre),
             "estado" => get_class($this),
             'tipoFalla' => $falla->tipoFalla,
-            'montoCalculado' => $falla->calcularMonto(),
+            'montoReal' => $this->montoReal,
             'fechaFinReparacionEstimada' => $this->fechaFinReparacionEstimada,
             );
             return $datos;

@@ -24,32 +24,16 @@ class Publico extends Frontend_Controller
 			require_once(APPPATH."controllers/invitado.php");
 		    $invitado = new Invitado();
 		    if (method_exists($invitado, $method)) {
-				//$firephp->log("Es metodo de invitado!");
 				call_user_func_array(array(&$invitado,$method),$args);
 		    }else{
 		    	require_once(APPPATH."controllers/api_rest.php");
-
-		    	//$firephp->log("Argumentos: ");
-		    	//$firephp->log($args);
-
 		    	$api_rest = new Api_rest();
-		    	$metodo_1 = $method.'_post';
-				//$firephp->log("Revisando api_rest _post...");
-				//$firephp->log("metodo llamado: ");
-				//$firephp->log($metodo_1);
-				//$firephp->log(method_exists($api_rest, $metodo_1));
-				
+		    	$metodo_1 = $method.'_post';				
 		    	if (method_exists($api_rest, $metodo_1)) {
-					//$firephp->log("Subiendo capturas al servidor ...");
 					call_user_func_array(array(&$api_rest,$metodo_1),$args);
 				}else{
 					$metodo_1 = $method.'_get';
-					//$firephp->log("Revisando api_rest _get...");
-					//$firephp->log("metodo llamado: ");
-					//$firephp->log($metodo_1);
-					//$firephp->log(method_exists($api_rest, $metodo_1));
 					if (method_exists($api_rest, $metodo_1)) {
-						//$firephp->log("Subiendo capturas al servidor ...");
 						call_user_func_array(array(&$api_rest,$metodo_1),$args);		
 					}else{
 						echo "REDIRECCIONE A INDEX<br>";
@@ -319,16 +303,13 @@ class Publico extends Frontend_Controller
 			$mensaje = "No hay elementos para mostrar";
 			if(count($fallas) != 0)
 			{
-				CustomLogger::log('fallas mayores a cero');
 				$codigo = 200;
 				$mensaje = "Elementos Cargados";
 
 			}
 			echo json_encode(array('codigo' => $codigo, 'mensaje' => $mensaje, 'valor' =>json_encode($fallas)));
 		} catch (MY_BdExcepcion $e) {
-			CustomLogger::log('Excepcion ocurrida');
 			echo json_encode(array('codigo' => 400, 'mensaje' => $mensaje, 'valor' =>json_encode('')));
-			
 		}
 	}
 

@@ -48,6 +48,10 @@
 		$CI = &get_instance();
 		echo strftime("%A, %d de %B de %Y", strtotime($estadoActual->fechaFinReparacionReal));
 		echo "</td></tr>";
+		echo "<tr>";
+		echo '<td> Monto </td><td>';
+		echo $montoReal;
+		echo "</td></tr>";
 	}
 	if ($estadoActual->tipoEstado->nombre == 'Reparando') {
 		echo "<tr>";

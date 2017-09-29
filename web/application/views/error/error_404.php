@@ -36,18 +36,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body>
+	<body style="background-image:url(<?php echo base_url().'_/img/error-background.png';?>);">
 		<div class="container-fluid" style="margin-top:10%;">
 			<!--start-content------>
 			<div class="">
+				<!-- 
 				<h2 class="text-center">La pucha... La página que ha solicitado no se encuentra.</h2>
-				<img class="img-responsive center-block" src="<?php echo base_url();?>/_/img/error-img.png" title="error" />
-				<div class="" style="margin-top:3%;">	
-				<a class="btn btn-lg btn-info center-block" href="<?php echo base_url();?>" role="button">Back To Home</a>
+				-->
+				<img class="img-responsive center-block" src="<?php echo base_url();?>_/img/error-img.png" title="error" />
+				<div class="" style="margin-top:3%;">
+				<a class="btn btn-lg center-block" style="background-color: rgb(0, 93, 179); color:#fff;" href="<?php echo base_url();?>" role="button">Back To Home</a>
 				</div>
 			</div>
 			<!--End-Cotent------>
-			
 		</div>
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery.js"></script>

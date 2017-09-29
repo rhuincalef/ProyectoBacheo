@@ -80,7 +80,6 @@ class Invitado extends CI_Controller {
 		$datos->clase = 'Falla';
 		$datos->datos = json_decode($this->input->post('datos'));
 		$class = $datos->clase;
-		$this->utiles->debugger($datos);
 		if (!Falla::{"validarDatosFallaAnonima"}($datos))
 		{
 			// Si los datos no son validos

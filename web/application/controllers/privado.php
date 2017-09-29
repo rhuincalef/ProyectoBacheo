@@ -88,6 +88,7 @@ class Privado extends CI_Controller
 		if ($data['logueado']){
 			$data['usuario'] = $this->ion_auth->user()->row()->username;
 			$data['admin'] = $this->ion_auth->is_admin();
+			$this->template->template_name = "bache";
 			$this->template->build_page("gestorFallas", $data);
 		}else{
 			// Redirecciona a index
@@ -123,7 +124,6 @@ class Privado extends CI_Controller
 			$datos->clase = func_get_args()[0];
 			$datos->datos = json_decode($this->input->post('datos'));
 			$class = $datos->clase;
-			$this->utiles->debugger($datos);
 			// $this->utiles->debugger(gettype($datos->datos->multimedia->coordenadas->x));
 			// Validando datos
 			if (!$class::{"validarDatos"}($datos))
@@ -137,8 +137,6 @@ class Privado extends CI_Controller
 			// Comienza la transaccion
 			$this->db->trans_begin();
 			$object = call_user_func(array($class, 'crear'), $datos->datos);
-			$this->utiles->debugger("return");
-			$this->utiles->debugger($object);
 			echo json_encode(array('codigo' => 200, 'mensaje' => "$class ha sido ingresada correctamente", 'valor' => json_encode($object)));
 			// Por ahora siempre deshacemos
 			// $this->db->trans_rollback();
@@ -161,14 +159,11 @@ class Privado extends CI_Controller
 		public function getTiposFallasPorIDs()
 		{
 			$arregloIDsTiposFallas = json_decode($this->input->post('idTipos'));
-			$this->utiles->debugger($arregloIDsTiposFallas);
 			$tiposFalla = array();
 			try {
 				foreach ($arregloIDsTiposFallas as $key => $value) {
 					array_push($tiposFalla, TipoFalla::gety($value));
 				}
-				$this->utiles->debugger('$tiposFalla');
-				$this->utiles->debugger($tiposFalla);
 				echo json_encode(array('codigo' => 200, 'mensaje' => '', 'valor' =>json_encode($tiposFalla)));
 			} catch (MY_BdExcepcion $e) {
 				echo json_encode(array('codigo' => 400, 'mensaje' => "No se pudo realizar la petición", 'valor' =>''));
@@ -233,6 +228,7 @@ class Privado extends CI_Controller
 			if ($data['logueado']){
 				$data['usuario'] = $this->ion_auth->user()->row()->username;
 				$data['admin'] = $this->ion_auth->is_admin();
+				$this->template->template_name = "bache";
 				$this->template->build_page("registrarUsuario", $data);
 			}else{
 				// Redirecciona a index
@@ -350,8 +346,6 @@ class Privado extends CI_Controller
 		public function getCriticidadesPorIDs()
 		{
 			$arregloIDsCriticidades = json_decode($this->input->post('arregloIDsCriticidades'));
-			$this->utiles->debugger('arregloIDsCriticidades');
-			$this->utiles->debugger($arregloIDsCriticidades);
 			$criticidades = array();
 			try {
 				foreach ($arregloIDsCriticidades as $key => $value) {

@@ -104,7 +104,7 @@
 	function logearGraficamente(usuario) {
 		$("#opcionInicioSesion").addClass("hide");
 		$("#opcionSesion").removeClass("hide");
-		$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + '</a>');
+		$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + ' </a>');
 		//$("#opcionSesion .dropdown-toggle").prepend('<a href="#">' + usuario + '</a>');
 		$("#opcionInicioSesion").find("input").each(function (i, e) {
 			$(e).val('');

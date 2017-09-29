@@ -55,6 +55,7 @@ function inicializar(){
     }
   });
   $("#seleccionarCalle").click(bindearEventoClick);
+  $("#ayuda").click(bindearAyuda);
   $("#buscarCalle").geocomplete("autocomplete").setBounds(boundsTrelew);
   $("#opcionAgregar").click(function(){
     inicializarFormularioBache();     
@@ -96,6 +97,11 @@ function inicializar(){
     }
     return false;
   });
+}
+
+function bindearAyuda(event) {
+  event.preventDefault();
+  $("#ayudaModal").modal("toggle");
 }
 
 function bindearEventoClick(e){

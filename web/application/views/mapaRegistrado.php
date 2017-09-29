@@ -115,11 +115,18 @@
 				    ?>
 				      <li><a href="<?php echo $this->config->base_url();?>"><i class="fa fa-home fa-fw fa-lg"></i>Principal</a></li>
 				      <li class="dropdown">
-				        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa cf-bache"></i> Baches<b class="caret"></b></a>
+				        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-map-marker"></i> Baches <b class="caret"></b></a>
 				        <ul class="dropdown-menu">
 				          <li id="opcionAgregar"><a href="#"><i class="fa fa-plus-circle"> </i> Agregar</a></li>
 				          <li><a id="verReparadas" href="#"><i class="fa fa-eye"> </i> Fallas reparadas</a></li>
 				        </ul>
+				      </li>
+				      <li class="dropdown">
+				      	<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa cf-bache"></i> Tipo Falla <b class="caret"></b></a>
+				      	<ul class="dropdown-menu">
+				      		<li><a target="_blank" href="<?php echo $this->config->base_url().'publico/creacionTipoFalla';?>"><i class="fa fa-plus-circle"> </i> Agregar</a>
+				      		</li>
+				      	</ul>
 				      </li>
 				    </ul>
 
@@ -157,7 +164,7 @@
 				          <?php 
 				          if ($logueado) {
 				              if ($admin) {
-				                  echo '<li><a href="'.$this->config->base_url().'index.php/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
+				                  echo '<li><a target="_blank" href="'.$this->config->base_url().'index.php/registrarUsuario"><i class="fa fa-cogs"> </i> Registrar Usuarios</a></li>';
 				              }
 				              echo '<script type="text/javascript"> logearGraficamente("'.$usuario.'");</script>';
 				          }?>
@@ -165,7 +172,7 @@
 				          <li><a id="cerrarSesion" href="#"><i class="fa fa-lock"> </i> Cerrar Sesión</a></li>
 				        </ul>
 				      </li>
-				      <li><a href="#"><i class="fa fa-question-circle"> </i> Ayuda</a></li>
+				      <li><a id="ayuda" href="#"><i class="fa fa-question-circle"> </i> Ayuda</a></li>
 				    </ul>
 				  </div>
 				  <!--/.nav-collapse -->

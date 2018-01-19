@@ -20,7 +20,7 @@
           <div class="col-sm-8 col-md-6">
             <div class="thumbnail">
               <img src="_/img/red-marker.png" alt="...">
-              <div style="text-align: center;"class="caption">
+              <div style="text-align: center;" class="caption">
                 <h3>Confirmado</h3>
                 <p>En este estado se encuentran aquellas fallas que fueron cargados por usuarios autentificados. Estas pueden haber sido cargadas desde la aplicación web "ProyectoBacheo" o desde la aplicación cliente.</p>
               </div>

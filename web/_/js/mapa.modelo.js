@@ -120,7 +120,7 @@ var Bacheo = (function(){
 				var icono = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" ;
 				break;
 			case "Confirmado":
-				var icono = "http://maps.google.com/mapfiles/ms/icons/red-dot.png" ;
+				var icono = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png" ;
 				break;
 			case "Reparando":
 				var icono = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png" ;

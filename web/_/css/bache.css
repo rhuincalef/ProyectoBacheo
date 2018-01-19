@@ -184,11 +184,12 @@
 }
 
 .color-crit-bajo {
-    color: #21C3E8;
+    color: #F2F939;
 }
 
 .color-crit-medio {
-    color: #F2F939;
+    /*color: #F2F939;*/
+    color: #FF890B;
 }
 
 .color-crit-alto {

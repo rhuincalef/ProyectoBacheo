@@ -12,7 +12,7 @@
 
 	<!-- Contenido con los comandos del visor de capturas -->
 	
-	<div id="ayudaVisor" class="panel panel-primary containerAyuda" >
+	<div id="ayudaVisor" class="panel panel-primary containerAyuda">
 		<div class="panel-heading">Comandos del visor de fallas <button id="botonCerrar" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
 		<div class="panel-body">
     		<p class="parrafoPanel" > <strong>c : </strong> Cambiar entre distintos colores del panel</p>

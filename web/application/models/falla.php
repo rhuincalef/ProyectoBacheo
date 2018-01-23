@@ -844,4 +844,23 @@ class Falla implements JsonSerializable {
     	$datos = $CI->FallaModelo->actualizarPor(array('idTipoReparacion' => $this->tipoReparacion->id));
     }
 
+    public function getDatosClusters()
+    {
+    	$CI = &get_instance();
+    	$arrayJsonFiles = array();
+    	$path = getcwd() . '/' . $CI->config->item('json_dir') . $this->getId() . '/';
+    	if(!is_dir($path)){
+    		return $arrayJsonFiles;
+		}
+    	$i = 0;
+    	foreach (new DirectoryIterator($path) as $fileInfo) {
+    	    if($fileInfo->isDot())
+    	    	continue;
+    	    $json = file_get_contents($path.$fileInfo->getFilename());
+    	    $json_data = json_decode($json,true);
+    	    $arrayJsonFiles[$i++] = $json_data;
+    	}
+    	return $arrayJsonFiles;
+    }
+
 }

@@ -364,7 +364,7 @@
 		// 
 		public function to_array($falla)
 		{
-			CustomLogger::log('En estado.to_array()');	
+			CustomLogger::log('En estado.to_array()');
 			$datos = array(
             "id" => $falla->id,
             "latitud" => $falla->latitud,
@@ -379,6 +379,8 @@
             "estado" => get_class($this),
             'tipoFalla' => $falla->tipoFalla,
             'tipoReparacion' => $falla->getTipoReparacion(),
+            'datosClusters' => json_encode($falla->getDatosClusters()),
+            //'datosClusters' => $falla->getDatosClusters(),
             // "estado" => json_encode($falla->estado),
             );
             return $datos;
@@ -531,6 +533,7 @@
             'tipoReparacion' => $falla->getTipoReparacion(),
             'montoCalculado' => $falla->calcularMonto(),
             'fechaFinReparacionEstimada' => $this->fechaFinReparacionEstimada,
+            'datosClusters' => json_encode($falla->getDatosClusters()),
             // "estado" => json_encode($falla->estado),
             );
             return $datos;
@@ -642,6 +645,7 @@
             'tipoFalla' => $falla->tipoFalla,
             'montoReal' => $this->montoReal,
             'fechaFinReparacionEstimada' => $this->fechaFinReparacionEstimada,
+            'datosClusters' => json_encode($falla->getDatosClusters()),
             );
             return $datos;
 		}

@@ -194,8 +194,8 @@ $config['log_threshold'] = 4;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
-//$config['log_path'] = 'web/_/';
+//$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
+$config['log_path'] = 'web/_/Multimedias';
 
 /*
 |--------------------------------------------------------------------------
@@ -392,7 +392,7 @@ $config['subfijo_csv_info'] = '_info.csv';
 $config['img_default'] = '_/img/res/img_default.png' ;
 // TODO: Descomentar esto si se desea emplear la imagen
 // $config['subfijo_img'] = '.png' ;
-
+$config['json_dir'] = '_/Multimedias/dataJSON/';
 
 
 

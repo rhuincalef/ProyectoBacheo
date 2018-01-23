@@ -10,6 +10,7 @@
 	<label id="estadoBache"><?php echo $estado;?></label>
 	<label id="tiposEstadoBache"><?php echo $tiposEstado;?></label>
 	<label id="logueado"><?php echo $logueado?></label>
+	<label id="json_values"><?php echo $datosClusters?></label>
 </div>
 
 <!-- Content Begin -->
@@ -35,6 +36,7 @@
 		<li><a href="#estado" role="tab" data-toggle="tab">Estado de Falla</a></li>
 		<li><a href="#social" role="tab" data-toggle="tab">Comunidad Social</a></li>
 		<li><a href='#visor' role='tab' data-toggle='tab'>Visor nube de puntos</a></li>
+		<li><a href='#visorClusters' role='tab' data-toggle='tab'>Visor clusters</a></li>
 	</ul>
 	<div class="tab-content	">
 		<div class="tab-pane active" id="especificaciones">
@@ -109,6 +111,9 @@
 		<!-- Contenedor del thumbnail -->
 		<?php
 			require_once("bacheVisor.php");
+		?>
+		<?php
+			require_once("clusterVisor.php");
 		?>
 		</div>
 	<footer style="margin-top: 2em; margin-bottom: 4em;">

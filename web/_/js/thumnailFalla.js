@@ -11,6 +11,7 @@
       nameSpaceThumbnail.EXTENSION_CAPTURA = undefined;
 
       inicializarAyuda = function(contenedorVisor){
+        $('#ayudaVisor').show();
         $("#ayudaVisor").animate({width: 'hide'});
         $("#botonCerrar").on("click",function(){
           $("#ayudaVisor").animate({width: 'hide'});
@@ -80,6 +81,7 @@
             success:function(data,status,jqhxr){
                   debug('Peticion realizada!');
                   debug(jqhxr.responseText);
+                  $('#ayudaVisor').hide();
                   var json_estado = JSON.parse(jqhxr.responseText);
                   if (json_estado.estado == 400){
                     debug("Ha ocurrido un error en el servidor -->");
@@ -101,7 +103,7 @@
                     inicializarVisoresCaptura(idFalla,json_estado,urlBase,nameSpaceThumbnail.imgThumbCarga);
                     console.debug("---> json_estado: ");
                     console.debug(json_estado); 
-                  }                  
+                  }
             },
             error: function(data,textoErr,jqhxr){
                   // a = '{"estado":402,"datos": {},"error":"Error al escribir la imagen"}';

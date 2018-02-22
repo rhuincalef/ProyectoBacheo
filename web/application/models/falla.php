@@ -856,6 +856,8 @@ class Falla implements JsonSerializable {
     	foreach (new DirectoryIterator($path) as $fileInfo) {
     	    if($fileInfo->isDot())
     	    	continue;
+    	    if ($fileInfo->getExtension() != 'json')
+    	    	continue;
     	    $json = file_get_contents($path.$fileInfo->getFilename());
     	    $json_data = json_decode($json,true);
     	    $arrayJsonFiles[$i++] = $json_data;

@@ -360,8 +360,10 @@ DROP TABLE IF EXISTS "FallaMultimediaModelo";
 
 CREATE TABLE "FallaMultimediaModelo"
 (
+  "id" serial NOT NULL,
   "idFalla" integer NOT NULL,
   "idMultimedia" integer NOT NULL,
+  CONSTRAINT pk_id PRIMARY KEY ("id"),
   CONSTRAINT fk_id_falla FOREIGN KEY ("idFalla")
       REFERENCES "FallaModelo" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,

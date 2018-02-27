@@ -566,13 +566,14 @@ class Falla implements JsonSerializable {
 		log_message('debug',$rangoEstimado1);
 		log_message('debug','$rangoEstimado2 tiene:');
 		log_message('debug',$rangoEstimado2);
-		
+		//$arrDatos = array();
+
 		Direccion::estaCalleEnCiudad($lat,$long); 	   		
-			try {
+		try {
 				//Si ocurrio un error de geocoding para la calle o la interseccion, se emplean datos invalidos.
 		    $arrDatos = Direccion::obtener_datos_direccion_v2($lat,$long);
 
-			}catch (Geocoder\Exception\NoResult $e){
+		}catch (Geocoder\Exception\NoResult $e){
 		    $msgResult = "Consulta de geocoding sin resultados";
 		    CustomLogger::log($msgResult);
 		    $estadoPeticion = array(

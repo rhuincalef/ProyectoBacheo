@@ -146,11 +146,134 @@
 	    	$resultado = FALSE;
 			$adapter = new Ivory\HttpAdapter\CurlHttpAdapter();
 			log_message('debug',"Instanciado CurlHttpAdapter");
+			
 	    	$provider = new Geocoder\Provider\GoogleMaps($adapter,null,null,API_KEY_GOOGLE_MAPS);
 			log_message('debug',"Instanciado provider\GoogleMaps !");
 
-			$addr_objects = $provider->reverse($lat, $long);
-			log_message('debug',"Obtenido addr_objects ");
+
+			$dataCalle = array();
+
+			//Se atajan excepciones de reverse geocoding en GoogleMaps->ExecuteQuery()
+			$addr_objects = array();
+			$msgEstadoConsultaGMaps = "";
+			try {
+				log_message('debug',"Por obtener la direccion ...");
+				$addr_objects = $provider->reverse($lat, $long);
+				$msgEstadoConsultaGMaps  = "Obtenido addr_objects correctamente";
+
+
+				if (count($addr_objects->all()) > 0) {
+					log_message('debug',"Dentro del if con add_obects >0");
+					$calleObj = $addr_objects->get(0);
+					//Se obtiene la primer Address que tiene los datos de la calle del objeto AddressCollection
+			    	$calleObj = $addr_objects->get(0);
+			    	$calle = $calleObj->getStreetName();
+
+			    	//Se toma el rango completo de GoogleMaps
+					$rangoEstimado1 = explode("-",$calleObj->getStreetNumber())[0];
+					$rangoEstimado2 = explode("-",$calleObj->getStreetNumber())[1];
+					
+			    	// Se obtienen las calles en la interseccion mas cercana a
+			    	// las fallas.
+			    	CustomLogger::log('Llamando a obtener_interseccion()...');
+					log_message('debug','Llamando a obtener_interseccion()...');
+			        $calleSecundariaA = $calleSecundariaB = $calle;
+			        $datos = Direccion::obtenerIntersecCercana($lat,$long);
+					log_message('debug','Despues de obtenerIntersecCercana()...');
+
+			        if ($datos['estado'] !== DIRECCION_PHP_INTERSECCION_TIMEOUT_EXCEDIDO and $datos['estado'] !== DIRECCION_PHP_PETICION_INTERSECCION_FALLIDA ) {
+
+			        	$calleSecundariaA = $datos["datos"]["calle1"];
+			        	$calleSecundariaB = $datos["datos"]["calle2"];
+			        }
+			        // Se instancia el array con todos los datos de la calle 
+			        // donde se encuentra la falla.
+			        $dataCalle = array(
+									'estado' => DIRECCION_PHP_PETICION_GEOCODING_OK,
+									'calle' =>$calle ,
+									'rangoEstimado1' =>$rangoEstimado1,
+									'rangoEstimado2' =>$rangoEstimado2,
+									'calleSecundariaA' => $calleSecundariaA,
+									'calleSecundariaB' => $calleSecundariaB
+									);
+			        log_message('debug','Retornado ok data completa de la calle...');
+
+				}
+				
+			} catch (InvalidCredentials $e) {
+				$msgEstadoConsultaGMaps = "Excepcion obtener_datos_direccion_v2(): API_KEY/ ID cliente Invalida/o -->   ". $e->getMessage();
+				$msgResult = "No se pudieron resolver los datos de la direccion asociada a las coordenadas proporcionadas"; 
+				$dataCalle = array(
+						'estado' => DIRECCION_PHP_DIRECCION_NO_RETORNADA,
+						'msg' => $msgResult );
+
+			} catch (InvalidServerResponse $e) {
+				$msgEstadoConsultaGMaps  = "Excepcion obtener_datos_direccion_v2(): Respuesta del servidor de geoposicionamiento no valida --> ". $e->getMessage();
+				$msgResult = "No se pudieron resolver los datos de la direccion asociada a las coordenadas proporcionadas"; 
+				$dataCalle = array(
+						'estado' => DIRECCION_PHP_DIRECCION_NO_RETORNADA,
+						'msg' => $msgResult );
+
+			} catch (QuotaExceeded $e) {
+				$msgEstadoConsultaGMaps  = "Excepcion obtener_datos_direccion_v2(): Direccion no valida/Cuota excedida -->   ". $e->getMessage();
+				$msgResult = "No se pudieron resolver los datos de la direccion asociada a las coordenadas proporcionadas"; 
+				$dataCalle = array(
+						'estado' => DIRECCION_PHP_DIRECCION_NO_RETORNADA,
+						'msg' => $msgResult );
+
+			} catch (Exception $e) {
+				$msgEstadoConsultaGMaps = "Ocurrio una excepcion desconocida con mensaje-->  ". $e->getMessage();
+				$msgResult = "No se pudieron resolver los datos de la direccion asociada a las coordenadas proporcionadas";
+				$dataCalle = array(
+						'estado' => DIRECCION_PHP_DIRECCION_NO_RETORNADA,
+						'msg' => $msgResult );
+
+			}finally{
+				log_message('debug',$msgEstadoConsultaGMaps);
+			}
+			
+	        log_message('debug',"En el return datacalle; con dataCalle cargado...");
+	        return $dataCalle;
+	    }
+
+		
+/*
+		//BACKUP!
+		//Obtiene la calle, rangoEstimado1-rangoEstimado2, y calleSecundariaA y calleSecundariaB y retorna un array con esa data. 
+	    public static function obtener_datos_direccion_v2($lat,$long){
+			$dataCalle = array();
+	        
+			log_message('debug',"En obtener_datos_direccion_v2()");
+	        require_once('CustomLogger.php');
+			require_once(GEOCODER_PHP_BASE_PATH.AUTO_LOAD_NAME_COMPOSER);
+			require_once(GEOCODER_PHP_BASE_PATH.MODULE_CURL_ADAPTER_HTTP);
+			require_once(GEOCODER_PHP_BASE_PATH.EXCEPCION_HTTP_ADAPTER);
+			require_once(MODELS_PATH.MODULE_EXCEPCION_LAT_LONG);
+
+			CustomLogger::log('Cargado autoload.php...');
+	    	//Tira excepcion esLatLongValida si no es un formato valido de latitud y longitud 
+			Direccion::esLatLongValida($lat,$long);
+			log_message('debug',"Cargado autoload.php");
+	    	$resultado = FALSE;
+			$adapter = new Ivory\HttpAdapter\CurlHttpAdapter();
+			log_message('debug',"Instanciado CurlHttpAdapter");
+			
+	    	$provider = new Geocoder\Provider\GoogleMaps($adapter,null,null,API_KEY_GOOGLE_MAPS);
+			log_message('debug',"Instanciado provider\GoogleMaps !");
+
+
+
+			try {
+				log_message('debug',"Por obtener la direccion ...");
+				$addr_objects = $provider->reverse($lat, $long);
+				log_message('debug',"Obtenido addr_objects");
+				
+			} catch (Exception $e) {
+				log_message('debug',"Ocurrio una excepcion al obtener la direccion!!!");
+				log_message('debug',$e->getMessage());
+			}
+
+
 
 			$calleObj = $addr_objects->get(0);
 			if (count($addr_objects->all()) > 0) {
@@ -199,9 +322,12 @@
 	        log_message('debug',"En el return datacalle; con dataCalle cargado...");
 	        return $dataCalle;
 	    }
+*/
 
-	    //AGREGADO RODRIGO
-	    // PRUEBA WEB CON --> http://mygeoposition.com/
+
+
+	//AGREGADO RODRIGO
+	// PRUEBA WEB CON --> http://mygeoposition.com/
 
 	//La peticion para Patagonia e Hipolito Irigoyen: http://api.geonames.org/findNearestIntersectionOSMJSON?formatted=true&lat=-43.2661595&lng=-65.2882451&username=demo&style=full
 	    //Tiene que dar la sig. respuesta -->

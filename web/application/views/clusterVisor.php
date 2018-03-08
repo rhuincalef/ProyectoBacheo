@@ -15,9 +15,9 @@
 		echo '<table class="table table-hover" style="margin-top:3em;">';
 		echo '<tr class="info"><td>Tipo de Falla</td><td>'.$datos->tipoMuestra.'</td></tr>';
 		echo "<tr><td>Nombre</td><td>$datos->nombre</td></tr>";
-		echo '<tr class="info"><td>Alto</td><td>'.$datos->alto.'</td></tr>';
-		echo "<tr><td>Ancho</td><td>$datos->ancho</td></tr>";
-		echo '<tr class="info"><td>Profundidad</td><td>'.$datos->profundidad.'</td></tr>';
+		echo '<tr class="info"><td>Largo</td><td>'.($datos->alto*100).' cm</td></tr>';
+		echo "<tr><td>Ancho</td><td>".($datos->ancho*100)." cm</td></tr>";
+		echo '<tr class="info"><td>Profundidad</td><td>'.($datos->profundidad*100).' cm</td></tr>';
 		echo "</table>";
 	}
 	?>

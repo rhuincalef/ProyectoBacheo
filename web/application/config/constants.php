@@ -147,7 +147,7 @@ define('URL_IMG_THUMBNAIL_FONDO', "/_/img/res/img_default_thumbnail_falla.png");
 //define('EXT_CAPTURA_DEFAULT','*.csv');
 
 //define('EXTENSION_CAPTURA','.pcd');
-define('FORMATO_ARCHIVO_CAPTURA','pcd');
+define('FORMATO_ARCHIVO_CAPTURA','*');
 define('EXTENSION_CAPTURA','.'. FORMATO_ARCHIVO_CAPTURA);
 
 

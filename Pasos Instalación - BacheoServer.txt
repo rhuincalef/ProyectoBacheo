@@ -1,0 +1,138 @@
+/********************************************************************************************************/
+Configuraciones generales de sistema
+/********************************************************************************************************/
+Pasos a seguir:
+
+Instalar Apache (enable mod_rewrite)
+	Arch-Linux:
+		sudo pacman -S apache2
+
+		-- Agregar siguiente en /etc/httpd/httpd.conf
+			- Descomentar
+			-#LoadModule rewrite_module modules/mod_rewrite.so
+			+LoadModule rewrite_module modules/mod_rewrite.so
+			
+		-- Cambiar la línea siguiente
+			<Directory /var/www/html>
+			   -AllowOverride None
+			   +AllowOverride All
+			</Directory>
+	
+	Ubuntu:
+		sudo apt-get install apache2
+
+		Habilitar reescritura de URL en apache2.conf con:
+		--a) Habilitar el modulo de reescritura de URL con: 
+			$ a2enmod rewrite enable
+		--b) Editar apache2.conf y agregar:
+
+			<Directory />
+				Options FollowSymLinks
+				AllowOverride All
+				Require all denied
+			</Directory>
+
+			<Directory /var/www/>
+				-AllowOverride None
+		 		+AllowOverride All
+				Require all granted
+			</Directory>
+
+		$ Reiniciar apache2: $ sudo service apache2 restart
+
+Instalar PostgreSQL
+	Arch-Linux:
+		sudo pacman -S postgresql
+
+	Ubuntu:
+		sudo apt-get install postgresql postgresql-contrib
+
+PHP
+	Arch-Linux:
+		sudo pacman -S php php-pgsql
+	
+	Ubuntu:
+		sudo apt-get install php5 php5-pgsql
+
+Habilitar php con Apache2
+
+	Arch-Linux:
+		sudo pacman -S php-apache-X.X.X-X
+
+	Ubuntu:
+		sudo apt-get install libapache2-mod-php
+
+ImageMagick
+	Arch-Linux:
+		sudo pacman -S imagemagick-doc
+		yaourt php-pear
+		sudo pecl install imagick
+
+		Luego, agregar:
+			extension=imagick.so
+		a /etc/php/php.ini
+		Restart apache server
+		sudo systemctl restart httpd
+
+	Ubuntu:
+		sudo apt-get install imagemagick
+		sudo apt-get install php-imagick
+
+		Luego, agregar:
+			extension=imagick.so
+		a /etc/php/php.ini
+		Restart apache server
+		sudo service apache2 restart
+
+/********************************************************************************************************/
+Configuraciones de Proyecto
+/********************************************************************************************************/
+
+Clonar el proyecto del repositorio:
+	https://github.com/rhuincalef/ProyectoBacheo
+
+1-- Instalar en el servidor.
+	Opción 1)
+		Ingresar a la carpeta ProyectoBacheo y copiar la carpeta "web" en la ruta del DocumentRoot del servidor.
+	Opción 2)
+		Si está configurado el "SymLink" (habilita los enlaces simbólico), crear enlace simbólico a la ruta del DocumentRoot del servidor.
+		ln -s "ruta_carpeta_web" "ruta_DocumentRoot"
+
+2-- Editar el archivo de configuración de PHP, php.ini, descomentar las siguientes líneas:
+
+	Línea 657 aprox...
+	post_max_size = 400M
+
+	Línea 809 aprox...
+	upload_max_filesize = 25M
+
+/********************************************************************************************************/
+Configuraciones CodeIgniter
+/********************************************************************************************************/
+
+3-- Cambiar la extensión del archivo environment_settings.php-default por environment_settings.php en la carpeta config.
+
+4-- Cambiar la extensión del archivo database.php-default por database.php y configurar el archivo database.php para establecer la conexión con su servidor de base de datos.
+
+5-- Ejecutar el script BDScripts.sql que genera las tablas necesarias en la base de datos. Ejecutar el script insert_datos_proyecto_bacheo.sql que inserta algunos datos predefinidos para la aplicación.
+
+Otra alternativa, es descomprimir el archivo ejemplos.tar.gz y leer el README.txt para configurar la aplicación con una base de datos de ejemplo.
+
+6-- Configurar en el archivo config.php (carpeta application/config) las siguientes variables utilizadas por la aplicación:
+	# Carpeta en la que se alojan los archivos multimediales.
+	$config['upload_path'] = './_/Multimedias';
+	
+	# Tener en cuenta....
+	# Si es necesario dar permisos al usuario de apache
+	#		sudo chown -R www-data:www-data web/
+	#		sudo chmod -R 777 web/
+	
+	# Instalar el siguiente paquete para el crop de imágenes en el lado servidor
+		Arch-Linux:
+			sudo pacman -S php-gd && sudo systemctl restart httpd
+
+		Ubuntu:
+			sudo apt-get install php5-gd && sudo service apache2 restart
+
+
+7-- Cambiar la extensión del archivo autoresponderlib_config.php-default por autoresponderlib_config.php en la carpeta config.

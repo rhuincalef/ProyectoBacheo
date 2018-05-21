@@ -195,7 +195,7 @@ $config['log_threshold'] = 4;
 |
 */
 //$config['log_path'] = '/home/rodrigo/logs_codeigniter/';
-$config['log_path'] = 'web/_/Multimedias';
+$config['log_path'] = '/home/manjaro-guille/log/';
 
 /*
 |--------------------------------------------------------------------------

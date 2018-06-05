@@ -282,7 +282,7 @@ var Bacheo = (function(){
 		  });
 
 		  var map = $contenedor.gmap3("get");
-		  cluster = new MarkerClusterer(map,marcadores);
+		  cluster = new MarkerClusterer(map,marcadores,{minimumClusterSize:7});
 		  arrayCluster.push(cluster);
 		  traerBaches();
 	}

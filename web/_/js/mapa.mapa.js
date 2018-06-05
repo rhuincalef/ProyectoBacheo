@@ -71,7 +71,8 @@ function inicializar(){
       Bacheo.arrayCluster.map(function(cluster, i) {
         cluster.clearMarkers();
       });
-      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"));
+      //cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"), {minimumClusterSize:7});
+      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"), [], {minimumClusterSize:7});
       Bacheo.marcadoresReparados.map(function(marcador, i) {
         console.log(i);
         marcador.agregarAMapa($("#canvasMapa").gmap3("get"));
@@ -87,7 +88,8 @@ function inicializar(){
         cluster.clearMarkers();
       });
       $("#verReparadas").append('<i class="fa fa-eye"></i> Fallas reparadas');
-      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"));
+      //cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"), {minimumClusterSize:7});
+      cluster = new MarkerClusterer($("#canvasMapa").gmap3("get"), [], {minimumClusterSize:7});
       Bacheo.marcadores.map(function(marcador, i) {
         console.log(i);
         marcador.agregarAMapa($("#canvasMapa").gmap3("get"));

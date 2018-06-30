@@ -120,6 +120,7 @@ define('DIRECCION_PHP_EXCEPCION_GENERICA',-8);
 
 define('DIRECCION_PHP_PETICION_INTERSECCION_FALLIDA',-9);
 define('DIRECCION_PHP_INTERSECCION_TIMEOUT_EXCEDIDO',-10);
+//define('FALLA_PHP_CALLE_NO_DISPONIBLE',-11);
 define('FALLA_PHP_CALLE_NO_DISPONIBLE',-11);
 define('DIRECCION_PHP_LAT_LONG_FUERA_CIUDAD',-12);
 
@@ -130,7 +131,8 @@ define('FALLA_INVALIDA',-13);
 //Constantes para el comentario por default que se inserta en la BD
 define('NOMBRE_EMPLEADO_VIAL_DEFAULT','Empleado vial');
 define('EMAIL_EMPLEADO_VIAL_DEFAULT','municipalidad.tw@gmail.com');
-define('CALLE_NO_OBTENIDA','No tenemos como obtenerlo!!!');
+//define('CALLE_NO_OBTENIDA','No tenemos como obtenerlo!!!');
+define('CALLE_NO_OBTENIDA','No es posible computarla. Error de conexion.');
 
 define('pcd_dir_subida','_/dataMultimedia/');
 

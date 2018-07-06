@@ -24,7 +24,7 @@
 	</tr>
 	<tr>
 		<td> Dirección </td>
-		<td><?php echo $calle;?> - <?php echo $alturaCalle;?></td>
+		<td><?php echo $calle;?><?php if ($alturaCalle > 0) echo "-".$alturaCalle;?></td>
 	</tr>
 	<tr>
 		<td> Estado </td>
